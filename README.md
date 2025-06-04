@@ -15,8 +15,7 @@ This repository serves as a **public journal** of my growth. I’ll be sharing:
 
 | Date | Entry |
 |------|-------|
-| 2025-06-03 | 🎉 Repo initialized – this marks the start of my journey as a developer. |
-| YYYY-MM-DD | _(Your next update here: what you learned, fixed, built, or struggled with)_ |
+| 06-03-2025 | 🎉 Repo initialized – this marks the start of my journey as a developer. |
 
 > I update this weekly or per milestone. Follow along as I learn and grow!
 
