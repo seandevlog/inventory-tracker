@@ -25,9 +25,9 @@ This repository serves as a **public journal** of my growth. I’ll be sharing:
 
 | Project | Description | Status |
 |---------|-------------|--------|
-| `first-project` | A simple CRUD app using Python/Flask (or your chosen stack) | 🟢 In Progress |
+| `first-project` | \[Short Description\] using (chosen stack) | 🟢 In Progress |
 
-_(More projects will be added as I go.)_
+> More projects will be added as I go.
 
 ---
 
