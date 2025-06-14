@@ -1,3 +1,5 @@
+What the app does
+
 1. Adds items
 2. Updates item details (descriptions, price, category, stock)
 3. Deletes inactive items
