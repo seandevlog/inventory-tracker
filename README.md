@@ -43,11 +43,6 @@ This repository serves as a **public journal** of my growth. I’ll be sharing:
 To plan the layout and user flow of my first project, I created a **low-fidelity wireframe** in Figma.  
 This single canvas includes multiple screens such as login, dashboard, and inventory views.
 
-### 🖼️ Preview (Static Image)
-
-![Wireframe Preview](./wireframes/v1-full-wireframe.png)  
-<sub>Low-fidelity wireframe covering the main screens of the app.</sub>
-
 ### 🔗 View in Figma  
 [🔗 Open Wireframe in Figma](https://www.figma.com/design/Z0tkiMeNWfYPXXa3pjQEeA/Inventory-Tracker?node-id=10-8&t=q4bf7N29OjiJG0N6-1](https://www.figma.com/design/Z0tkiMeNWfYPXXa3pjQEeA/Inventory-Tracker?node-id=0-1&t=q4bf7N29OjiJG0N6-1))
 
