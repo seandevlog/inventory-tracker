@@ -49,7 +49,7 @@ This single canvas includes multiple screens such as login, dashboard, and inven
 <sub>Low-fidelity wireframe covering the main screens of the app.</sub>
 
 ### 🔗 View in Figma  
-[🔗 Open Wireframe in Figma](https://figma.com/your-link-here](https://www.figma.com/design/Z0tkiMeNWfYPXXa3pjQEeA/Inventory-Tracker?node-id=10-8&t=q4bf7N29OjiJG0N6-1)
+[🔗 Open Wireframe in Figma]([https://figma.com/your-link-here](https://www.figma.com/design/Z0tkiMeNWfYPXXa3pjQEeA/Inventory-Tracker?node-id=10-8&t=q4bf7N29OjiJG0N6-1](https://www.figma.com/design/Z0tkiMeNWfYPXXa3pjQEeA/Inventory-Tracker?node-id=0-1&t=q4bf7N29OjiJG0N6-1))
 
 > This wireframe is still a work in progress — updates and a polished version will be added soon.
 
