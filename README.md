@@ -40,8 +40,9 @@ This repository serves as a **public journal** of my growth. I’ll be sharing:
 
 ## 🧩 Wireframes
 
-To plan the layout and user flow of my first project, I created a **low-fidelity wireframe** in Figma.  
-This single canvas includes multiple screens such as login, dashboard, and inventory views.
+To visualize the layout and flow of my project, I created a series of low-fidelity wireframes.
+
+📁 [View All Wireframes in GitHub Folder]([https://github.com/your-username/your-repo-name/tree/main/wireframes/v1](https://github.com/seandevlog/SeanDevLog/tree/main/wireframes))
 
 ### 🔗 View in Figma  
 [🔗 Open Wireframe in Figma](https://www.figma.com/design/Z0tkiMeNWfYPXXa3pjQEeA/Inventory-Tracker?node-id=10-8&t=q4bf7N29OjiJG0N6-1](https://www.figma.com/design/Z0tkiMeNWfYPXXa3pjQEeA/Inventory-Tracker?node-id=0-1&t=q4bf7N29OjiJG0N6-1))
