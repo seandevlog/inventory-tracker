@@ -34,5 +34,5 @@ This app supports:
 
 Early layout planning was done in Figma.
 
-📁 [View wireframes in GitHub](../wireframes-v1)  
+📁 [View wireframes in GitHub](wireframes-v1)  
 🔗 [Open in Figma](https://www.figma.com/design/Z0tkiMeNWfYPXXa3pjQEeA/Inventory-Tracker?node-id=0-1&t=q4bf7N29OjiJG0N6-1)
