@@ -1,4 +1,5 @@
 # Minimum Viable Product
+
 ---
 
 ## 🚀 MVP Scope
