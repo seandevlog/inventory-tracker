@@ -2,7 +2,7 @@
 
 ---
 
-## 🚀 MVP Scope
+## MVP Scope
 
 ### Roles
 - **Admin**  
