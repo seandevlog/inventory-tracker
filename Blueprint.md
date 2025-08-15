@@ -76,12 +76,3 @@
 **Suppliers:**
 - `OfficeCo`
 - `Bean Bros`
-
----
-
-## 🛠 Tech Stack
-- **Backend**: Node.js, Express.js, MongoDB, Mongoose
-- **Frontend**: React, React Router, Axios
-- **State Management**: Context API or Zustand
-- **Auth**: JWT (JSON Web Tokens)
-- **Validation**: Zod or Joi
