@@ -20,7 +20,7 @@
 - **Item**: `{ sku, name, unit, category?, reorderPoint, isActive }`
 - **Location**: `{ code, name, notes? }`
 - **Supplier**: `{ name, email?, phone?, address? }`
-- **PurchaseOrder**: `{ supplierId, status, lines: [{ itemId, qty, unitCost }] }`
+- **PurchaseOrder**: `{ orderId, supplierId, status, itemId, qty, unitCost }`
 - **InventoryTransaction**: `{ type, itemId, qty, fromLocationId?, toLocationId?, unitCost?, note, createdBy, createdAt }`
 
 ---
