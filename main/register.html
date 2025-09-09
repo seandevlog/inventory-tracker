@@ -7,25 +7,37 @@
         <title>Register</title>
     </head>
     <body>
-        <img src="./assets/image-solid-full.svg"/>
-        <div class="logo">Logo</div>
-        <h1>Welcome!</h1>
-        <h6>Please enter your details</h6>
-        <form>
-            Email Address
-            <input type="email"> 
-            Password
-            <input type="password"> 
-            First Name
-            <input type="text">
-            Last Name
-            <input type="text">
-            Contact
-            <input type="text">
-            Address
-            <input type="text">
-            <input type="submit" value="Login">
-        </form>
-        <img src="./assets/image-solid-full.svg"/>
+        <div class="register-form">
+            <div class="auth-wrapper">
+                <div class="logo">
+                    <img src="./assets/image-solid-full.svg"/>
+                    <span><strong>Logo</strong></span>
+                </div>
+                <div class="auth-form">
+                    <div class="auth-greeting">
+                        <h1>Welcome!</h1>
+                        <h6>Please enter your details</h6>
+                    </div>
+                    <form>
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email">
+                        <label for="password">Password</label> 
+                        <input type="password" id="password">  
+                        <label for="first-name">First Name</label>
+                        <input type="text" id="first-name">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name">
+                        <label for="contact">Contact</label>
+                        <input type="text" id="contact">
+                        <label for="address">Contact</label>
+                        <input type="text" id="address">
+                        <input type="submit" class="btn" value="Login">
+                    </form>
+                </div>
+            </div>
+            <div class="side-img">
+                <img src="./assets/image-solid-full.svg"/>
+            </div>
+        </div>
     </body>
 </html>

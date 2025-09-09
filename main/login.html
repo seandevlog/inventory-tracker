@@ -7,17 +7,29 @@
         <title>Login</title>
     </head>
     <body>
-        <img src="./assets/image-solid-full.svg"/>
-        <div class="logo">Logo</div>
-        <h1>Welcome back!</h1>
-        <h6>Please enter your details</h6>
-        <form>
-            Email Address
-            <input type="email" name=?> 
-            Password
-            <input type="password" name=?> 
-            <input type="submit" value="Login">
-        </form>
-        <img src="./assets/image-solid-full.svg"/>
+        <div class="login-form">
+            <div class="auth-wrapper">
+                <div class="logo">
+                    <img src="./assets/image-solid-full.svg"/>
+                    <span><strong>Logo</strong></span>
+                </div>
+                <div class="auth-form">
+                    <div class="auth-greeting">
+                        <h1>Welcome back!</h1>
+                        <h6>Please enter your details</h6>
+                    </div>
+                    <form>
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email">
+                        <label for="password">Password</label> 
+                        <input type="password" id="password">  
+                        <input type="submit" class="btn" value="Login">
+                    </form>
+                </div>
+            </div>
+            <div class="side-img">
+                <img src="./assets/image-solid-full.svg"/>
+            </div>
+        </div>
     </body>
 </html>
