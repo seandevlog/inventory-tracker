@@ -19,8 +19,7 @@ html, body {
 }
 
 .auth-container, .side-img {
-    flex: 1 1 50%;
-    min-width: 0;
+    flex: 1 0 50%;
 }
 
 .auth-wrapper {
