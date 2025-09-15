@@ -12,7 +12,7 @@ submit.addEventListener("click", (e) => {
 
     let messages = []
 
-    if(messages = validateInputs()) {
+    if((messages = validateInputs()) == true) {
         // function verified - show verified UX
 
         return // does not create error box if no error
@@ -23,23 +23,59 @@ submit.addEventListener("click", (e) => {
 
 // validates inputs
 function validateInputs() {
-    // add input logic
+    let messages = []
+
+    // email validation
+    if (email.innerText === "" || email.innerText == null) {
+        messages.push("Email is required ")
+    }
+    // password validation
+    if (password.innerText === " " || password.innerText === null) {
+        messages.push("Password is required ")
+    }
+    // first name validation
+    if (firstName.innerText === " " || firstName.innerText === null) {
+        messages.push("First name is required ")
+    }
+    // last name validation
+    if (lastName.innerText === " " || lastName.innerText === null) {
+        messages.push("Last name is required ")
+    }
+    // contact validation
+    if (contact.innerText === " " || contact.innerText === null) {
+        messages.push("Contact is required ")
+    }
+    // address validation
+    if (address.innerText === " " || address.innerText === null) {
+        messages.push("Address is required ")
+    }
+
+    return messages
 }
 
 // creates error box
 function createErrorBox(messages) {
+
     const errorBox = document.createElement('div')
+
+    errorBox.setAttribute("id", "errorBox")
+
     Object.assign(errorBox.style, {
         display : "block",
         padding : "1em",
         width : "100%",
-        background : "white"
+        background : "white",
+        "font-size": "1em" 
     })
 
     const errorBoxText = document.createElement('span')
     errorBoxText.textContent = messages
     errorBox.append(errorBoxText)
 
-    form.append(errorBox)
+    if (errorBox.parentElement == form) {
+        form.errorBox.textContent = messages
+    } else {
+        form.append(errorBox)
+    }
 }
 
