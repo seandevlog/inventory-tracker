@@ -7,6 +7,8 @@ const lastName = document.querySelector("#last-name")
 const contact = document.querySelector("#contact")
 const address = document.querySelector("#address")
 
+let currentErrorBox = null // saves the state of the current error box
+
 submit.addEventListener("click", (e) => {
     e.preventDefault()
 
@@ -26,27 +28,28 @@ function validateInputs() {
     let messages = []
 
     // email validation
-    if (email.innerText === "" || email.innerText == null) {
+    if (email.value === "" || email.value == null) {
         messages.push("Email is required ")
     }
+
     // password validation
-    if (password.innerText === " " || password.innerText === null) {
+    if (password.value === "" || password.value === null) {
         messages.push("Password is required ")
     }
     // first name validation
-    if (firstName.innerText === " " || firstName.innerText === null) {
+    if (firstName.value === "" || firstName.value === null) {
         messages.push("First name is required ")
     }
     // last name validation
-    if (lastName.innerText === " " || lastName.innerText === null) {
+    if (lastName.value === "" || lastName.value === null) {
         messages.push("Last name is required ")
     }
     // contact validation
-    if (contact.innerText === " " || contact.innerText === null) {
+    if (contact.value === "" || contact.value === null) {
         messages.push("Contact is required ")
     }
     // address validation
-    if (address.innerText === " " || address.innerText === null) {
+    if (address.value === "" || address.value === null) {
         messages.push("Address is required ")
     }
 
@@ -60,6 +63,7 @@ function createErrorBox(messages) {
 
     errorBox.setAttribute("id", "errorBox")
 
+    // set style of the error box
     Object.assign(errorBox.style, {
         display : "block",
         padding : "1em",
@@ -69,13 +73,19 @@ function createErrorBox(messages) {
     })
 
     const errorBoxText = document.createElement('span')
+    
     errorBoxText.textContent = messages
+
     errorBox.append(errorBoxText)
 
-    if (errorBox.parentElement == form) {
-        form.errorBox.textContent = messages
-    } else {
-        form.append(errorBox)
+    if (currentErrorBox != null) {
+        currentErrorBox.remove()
+    }
+
+    currentErrorBox = errorBox
+
+    if (currentErrorBox.innerText) {
+        form.append(currentErrorBox)
     }
 }
 
