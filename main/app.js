@@ -28,29 +28,39 @@ function validateInputs() {
     let messages = []
 
     // email validation
+    const emailRegex = /\w+\@\w+\.\w+/  // someone@example.com
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{12,}$/
+
     if (email.value === "" || email.value == null) {
-        messages.push("Email is required ")
+        messages.push("Email is required")
+    } else if (emailRegex.test(email.value) == false) {
+        messages.push("Email should be formatted as \"someone@example.com\"")
     }
 
     // password validation
     if (password.value === "" || password.value === null) {
-        messages.push("Password is required ")
+        messages.push("Password is required")
+    } else if (password.value.length < 12) {
+        messages.push("Create a password at least 12 characters")
+    } else if (passwordRegex.test(password.value) == false) {
+        messages.push("Password should have a combination of uppercase letters, lowercase letters, numbers, and symbols")
     }
+
     // first name validation
     if (firstName.value === "" || firstName.value === null) {
-        messages.push("First name is required ")
+        messages.push("First name is required")
     }
     // last name validation
     if (lastName.value === "" || lastName.value === null) {
-        messages.push("Last name is required ")
+        messages.push("Last name is required")
     }
     // contact validation
     if (contact.value === "" || contact.value === null) {
-        messages.push("Contact is required ")
+        messages.push("Contact is required")
     }
     // address validation
     if (address.value === "" || address.value === null) {
-        messages.push("Address is required ")
+        messages.push("Address is required")
     }
 
     return messages
