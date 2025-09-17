@@ -1,23 +1,24 @@
-const form = document.querySelector(".auth-form")
-const submit = document.querySelector(".btn")
-const email = document.querySelector("#email")
-const password = document.querySelector("#password")
-const firstName = document.querySelector("#first-name")
-const lastName = document.querySelector("#last-name")
-const contact = document.querySelector("#contact")
-const address = document.querySelector("#address")
+const form = document.getElementById("auth-form")
+const email = document.getElementById("email")
+const password = document.getElementById("password")
+const firstName = document.getElementById("first-name")
+const lastName = document.getElementById("last-name")
+const contact = document.getElementById("contact")
+const address = document.getElementById("address")
+const submitSignUp = document.getElementById("sign-up-submit")
 
 let currentErrorBox = null // saves the state of the current error box
 
-submit.addEventListener("click", (e) => {
+submitSignUp.addEventListener("click", (e) => {
     e.preventDefault()
 
     let messages = []
 
-    if((messages = validateInputs()) == true) {
+    if((messages = validateInputs()) == false) {
         // function verified - show verified UX
 
-        return // does not create error box if no error
+        localStorage.setItem("user", JSON.stringify({ email: email.value, password: password.value }))
+        window.location.href = "login.html" // goes to login page if no error
     } else {
         createErrorBox(messages)
     }
@@ -98,4 +99,3 @@ function createErrorBox(messages) {
         form.append(currentErrorBox)
     }
 }
-

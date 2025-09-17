@@ -43,7 +43,7 @@ html, body {
     max-height: 40px;
 }
 
-.auth-form {
+#auth-form {
     align-self: center;
     margin: 2em auto 0 auto;
     width: 80%;

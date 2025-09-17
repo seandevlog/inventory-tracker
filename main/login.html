@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
         <title>Login</title>
+        <script type="text/javascript" src="login.js" defer></script>
     </head>
     <body>
         <div class="login-form">
@@ -13,17 +14,17 @@
                     <img src="./assets/image-solid-full.svg"/>
                     <span><strong>Logo</strong></span>
                 </div>
-                <div class="auth-form">
+                <div id="auth-form">
                     <div class="auth-greeting">
                         <h1>Welcome back!</h1>
                         <h6>Please enter your details</h6>
                     </div>
                     <form>
                         <label for="email">Email Address</label>
-                        <input required type="email" id="email">
+                        <input type="email" id="email">
                         <label for="password">Password</label> 
-                        <input required type="password" id="password">  
-                        <input type="submit" class="btn" value="Login">
+                        <input type="password" id="password">  
+                        <input type="submit" class="btn" id="login-submit" value="Login">
                     </form>
                 </div>
             </div>
