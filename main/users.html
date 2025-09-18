@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
         <title>Users</title>
-        <script href="app.js"></script>
+        <script type="text/javascript" src="crud.js" defer></script>
     </head>
     <body>
         <div class="crud">
@@ -46,44 +46,50 @@
                         <input type="submit" class="btn" value="Filter">
                     </select>
                 </div>
-                <table>
-                    <tr>
-                        <th><span>Img</span></th>
-                        <th>
-                            <span><img src="./assets/arrow-down-arrow-up.svg">#</span>
-                        </th>
-                        <th>
-                            <span><img src="./assets/arrow-down-arrow-up.svg">Name</span>
-                        </th>
-                        <th>
-                            <span><img src="./assets/arrow-down-arrow-up.svg">Email</span>
-                        </th>
-                        <th>
-                            <span><img src="./assets/arrow-down-arrow-up.svg">Contact</span>
-                        </th>
-                        <th>
-                            <span><img src="./assets/arrow-down-arrow-up.svg">Address</span>
-                        </th>
-                        <th>
-                            <span><img src="./assets/arrow-down-arrow-up.svg">Action</span>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td><img src="./assets/image-solid-full.svg"/></td>
-                        <td>123</td>
-                        <td>Sean</td>
-                        <td>seandevlog</td>
-                        <td>123456</td>
-                        <td>Somewhere St</td>
-                        <td>
-                            <span class="action-icons">
-                                <img src="./assets/pen-solid-full.svg">
-                                <img src="./assets/trash-solid-full.svg">
-                            </span>
-                        </td>
-                    </tr>
+                <table id="crud-table">
+                    <thead>
+                        <tr>
+                            <th><span>Img</span></th>
+                            <th>
+                                <span><img src="./assets/arrow-down-arrow-up.svg">#</span>
+                            </th>
+                            <th>
+                                <span><img src="./assets/arrow-down-arrow-up.svg">Name</span>
+                            </th>
+                            <th>
+                                <span><img src="./assets/arrow-down-arrow-up.svg">Email</span>
+                            </th>
+                            <th>
+                                <span><img src="./assets/arrow-down-arrow-up.svg">Contact</span>
+                            </th>
+                            <th>
+                                <span><img src="./assets/arrow-down-arrow-up.svg">Address</span>
+                            </th>
+                            <th>
+                                <span><img src="./assets/arrow-down-arrow-up.svg">Action</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="crud-table-body">
+                        <tr>
+                            <td><img src="./assets/image-solid-full.svg"/></td>
+                            <td>123</td>
+                            <td>Sean</td>
+                            <td>seandevlog</td>
+                            <td>123456</td>
+                            <td>Somewhere St</td>
+                            <td>
+                                <span class="action-icons">
+                                    <img src="./assets/pen-solid-full.svg">
+                                    <img src="./assets/trash-solid-full.svg">
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
                 </table>
-                <input type="button" class="btn" href="#" value="Add user"></input>
+                <input type="button" id="add-user" class="btn" href="#" value="Add user"></input>
             </main>
         </div>
     </body>
