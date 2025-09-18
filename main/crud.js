@@ -11,5 +11,5 @@ addUser.addEventListener('click', (e) => {
 
     // add function to parse data from temporary stored object
     // then make a modal function to store an object
-
+    
 })

@@ -225,3 +225,26 @@ main input {
     background: gainsboro;
     cursor: pointer;
 }
+
+.modal-wrapper {
+    position: fixed;
+    inset: 0;
+    background: rgb(0,0,0,0.5);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.modal {
+    display: block;
+    background: white;
+    width: 80vw;
+    height: 80vh;
+    z-index: 2;
+}
+
+.modal img {
+    max-width: 100px;
+}
