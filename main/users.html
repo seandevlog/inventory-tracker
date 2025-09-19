@@ -11,36 +11,48 @@
         <div style="display: fixed" class="modal-wrapper">
             <div class="modal">
                 <header><h1>Add User</h1></header>
-                <img src="./assets/arrow-left-solid-full.svg">
-                <div class="photo-upload">
+                <img src="./assets/arrow-left-solid-full.svg" id="back-arrow">
+                <div id="photo-upload">
                     <h3>User Photo</h3>
-                    <img src="./assets/image-solid-full.svg">
-                    <input type="button" class="btn" value="Upload">
+                    <img src="./assets/image-solid-full.svg"></img>
+                    <input type="button" id="photo-upload-btn" class="btn" value="Upload">
                 </div>
-                <div class="form">
-                    <label for="user-id">User ID</label>
-                    <input type="text" id="user-id">
-                    <label for="password">Password</label>
-                    <input type="password" id="password">
-                    <label for="legal-name">Legal Name</label>
-                    <input type="text" id="legal-name">
-                    <label for="email">Email</label>
-                    <input type="email" id="email">
-                    <label for="contact">Contact</label>
-                    <input type="text" id="contact">
-                    <label for="address">Address</label>
-                    <input type="text" id="address">
-                    <span>
+                <div id="crud-form">
+                    <div>
+                        <label for="user-id">User ID</label>
+                        <input type="text" id="user-id">
+                    </div>
+                    <div>
+                        <label for="password">Password</label>
+                        <input type="password" id="password">
+                    </div>
+                    <div>
+                        <label for="legal-name">Legal Name</label>
+                        <input type="text" id="legal-name">
+                    </div>
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="email" id="email">
+                    </div>
+                    <div>
+                        <label for="contact">Contact</label>
+                        <input type="text" id="contact">
+                    </div>
+                    <div>
+                        <label for="address">Address</label>
+                        <input type="text" id="address">
+                    </div>
+                    <div>
                         <span>
                             Current Status
                         </span>
-                        <span id="status">
+                        <div id="status">
                             Active
-                        </span>
-                        <span id="change-btn" href="#">
+                        </div>
+                        <div id="change-btn" href="#">
                             Change
-                        </span>
-                    </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>  

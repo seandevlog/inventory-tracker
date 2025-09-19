@@ -238,13 +238,106 @@ main input {
 }
 
 .modal {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     background: white;
     width: 80vw;
     height: 80vh;
     z-index: 2;
+    position: relative;
 }
 
-.modal img {
+#back-arrow {
     max-width: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 1em;
+}
+
+#back-arrow:hover {
+    cursor: pointer;
+    background: gray;
+}
+
+.modal header {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    translate: -50%;
+
+    min-height: 7.5em;
+    display: flex;
+    align-items: center;
+}
+
+#photo-upload,
+#crud-form {
+    flex: 1;
+}
+
+#photo-upload {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+}
+
+#photo-upload img {
+    width: 300px;
+    height: 300px;
+}
+
+#photo-upload-btn {
+    width: 5em;
+    height: 2em;
+}
+
+#crud-form label,
+#crud-form input {
+    display: block;
+    margin: 0.3em 0;
+}
+
+#crud-form div {
+    margin: 0.7em 0;
+}
+
+#crud-form label {
+    font-weight: bold;
+}
+
+#crud-form input {
+    width: 50%;
+}
+
+#crud-form div span {
+    font-weight: bold;
+}
+
+#status {
+    display: inline;
+    margin: 1em 0;
+    color: green;
+    font-weight: bold;
+    padding: 0.3em;
+}
+
+#change-btn {
+    display: inline;
+    text-align: center;
+    vertical-align: middle;
+
+    margin: 1em 0;
+
+    color: gray;
+    font-size: 0.5em;
+}
+
+#change-btn:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }
