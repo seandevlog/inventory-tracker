@@ -8,8 +8,8 @@
         <script type="text/javascript" src="crud.js" defer></script>
     </head>
     <body>
-        <div style="display: fixed" class="modal-wrapper">
-            <div class="modal">
+        <div style="display: none" id="modal-wrapper">
+            <div id="modal">
                 <header><h1>Add User</h1></header>
                 <img src="./assets/arrow-left-solid-full.svg" id="back-arrow">
                 <div id="photo-upload">
@@ -128,8 +128,8 @@
                             <td>Somewhere St</td>
                             <td>
                                 <span class="action-icons">
-                                    <img src="./assets/pen-solid-full.svg">
-                                    <img src="./assets/trash-solid-full.svg">
+                                    <img class="edit-btn" src="./assets/pen-solid-full.svg">
+                                    <img class="delete-btn" src="./assets/trash-solid-full.svg">
                                 </span>
                             </td>
                         </tr>
@@ -142,8 +142,8 @@
                             <td>Somewhere St</td>
                             <td>
                                 <span class="action-icons">
-                                    <img src="./assets/pen-solid-full.svg">
-                                    <img src="./assets/trash-solid-full.svg">
+                                    <img class="edit-btn" src="./assets/pen-solid-full.svg">
+                                    <img class="delete-btn" src="./assets/trash-solid-full.svg">
                                 </span>
                             </td>
                         </tr>
@@ -156,8 +156,8 @@
                             <td>Somewhere St</td>
                             <td>
                                 <span class="action-icons">
-                                    <img src="./assets/pen-solid-full.svg">
-                                    <img src="./assets/trash-solid-full.svg">
+                                    <img class="edit-btn" src="./assets/pen-solid-full.svg">
+                                    <img class="delete-btn" src="./assets/trash-solid-full.svg">
                                 </span>
                             </td>
                         </tr>
@@ -170,8 +170,8 @@
                             <td>Somewhere St</td>
                             <td>
                                 <span class="action-icons">
-                                    <img src="./assets/pen-solid-full.svg">
-                                    <img src="./assets/trash-solid-full.svg">
+                                    <img class="edit-btn" src="./assets/pen-solid-full.svg">
+                                    <img class="delete-btn" src="./assets/trash-solid-full.svg">
                                 </span>
                             </td>
                         </tr>
@@ -184,8 +184,8 @@
                             <td>Somewhere St</td>
                             <td>
                                 <span class="action-icons">
-                                    <img src="./assets/pen-solid-full.svg">
-                                    <img src="./assets/trash-solid-full.svg">
+                                    <img class="edit-btn" src="./assets/pen-solid-full.svg">
+                                    <img class="delete-btn" src="./assets/trash-solid-full.svg">
                                 </span>
                             </td>
                         </tr>
@@ -198,8 +198,8 @@
                             <td>Somewhere St</td>
                             <td>
                                 <span class="action-icons">
-                                    <img src="./assets/pen-solid-full.svg">
-                                    <img src="./assets/trash-solid-full.svg">
+                                    <img class="edit-btn" src="./assets/pen-solid-full.svg">
+                                    <img class="delete-btn" src="./assets/trash-solid-full.svg">
                                 </span>
                             </td>
                         </tr>
@@ -212,92 +212,8 @@
                             <td>Somewhere St</td>
                             <td>
                                 <span class="action-icons">
-                                    <img src="./assets/pen-solid-full.svg">
-                                    <img src="./assets/trash-solid-full.svg">
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><img src="./assets/image-solid-full.svg"/></td>
-                            <td>123</td>
-                            <td>Sean</td>
-                            <td>seandevlog</td>
-                            <td>123456</td>
-                            <td>Somewhere St</td>
-                            <td>
-                                <span class="action-icons">
-                                    <img src="./assets/pen-solid-full.svg">
-                                    <img src="./assets/trash-solid-full.svg">
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><img src="./assets/image-solid-full.svg"/></td>
-                            <td>123</td>
-                            <td>Sean</td>
-                            <td>seandevlog</td>
-                            <td>123456</td>
-                            <td>Somewhere St</td>
-                            <td>
-                                <span class="action-icons">
-                                    <img src="./assets/pen-solid-full.svg">
-                                    <img src="./assets/trash-solid-full.svg">
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><img src="./assets/image-solid-full.svg"/></td>
-                            <td>123</td>
-                            <td>Sean</td>
-                            <td>seandevlog</td>
-                            <td>123456</td>
-                            <td>Somewhere St</td>
-                            <td>
-                                <span class="action-icons">
-                                    <img src="./assets/pen-solid-full.svg">
-                                    <img src="./assets/trash-solid-full.svg">
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><img src="./assets/image-solid-full.svg"/></td>
-                            <td>123</td>
-                            <td>Sean</td>
-                            <td>seandevlog</td>
-                            <td>123456</td>
-                            <td>Somewhere St</td>
-                            <td>
-                                <span class="action-icons">
-                                    <img src="./assets/pen-solid-full.svg">
-                                    <img src="./assets/trash-solid-full.svg">
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><img src="./assets/image-solid-full.svg"/></td>
-                            <td>123</td>
-                            <td>Sean</td>
-                            <td>seandevlog</td>
-                            <td>123456</td>
-                            <td>Somewhere St</td>
-                            <td>
-                                <span class="action-icons">
-                                    <img src="./assets/pen-solid-full.svg">
-                                    <img src="./assets/trash-solid-full.svg">
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><img src="./assets/image-solid-full.svg"/></td>
-                            <td>123</td>
-                            <td>Sean</td>
-                            <td>seandevlog</td>
-                            <td>123456</td>
-                            <td>Somewhere St</td>
-                            <td>
-                                <span class="action-icons">
-                                    <img src="./assets/pen-solid-full.svg">
-                                    <img src="./assets/trash-solid-full.svg">
+                                    <img class="edit-btn" src="./assets/pen-solid-full.svg">
+                                    <img class="delete-btn" src="./assets/trash-solid-full.svg">
                                 </span>
                             </td>
                         </tr>

@@ -222,11 +222,11 @@ main input {
 }
 
 .action-icons img:hover {
-    background: gainsboro;
+    background: rgb(206, 206, 206);
     cursor: pointer;
 }
 
-.modal-wrapper {
+#modal-wrapper {
     position: fixed;
     inset: 0;
     background: rgb(0,0,0,0.5);
@@ -237,7 +237,7 @@ main input {
     z-index: 1;
 }
 
-.modal {
+#modal {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -262,7 +262,7 @@ main input {
     background: gray;
 }
 
-.modal header {
+#modal header {
     position: absolute;
     top: 0;
     left: 50%;
