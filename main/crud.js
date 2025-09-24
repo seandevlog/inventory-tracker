@@ -7,16 +7,18 @@ const backArrow = document.getElementById("back-arrow")
 
 // modal form
 const crudForm = document.getElementById("crud-form")
-const userId = document.getElementById("user-id")
-const password = document.getElementById("password")
-const legalName = document.getElementById("legal-name")
 const email = document.getElementById("email")
+const password = document.getElementById("password")
+const firstName = document.getElementById("first-name")
+const lastName = document.getElementById("last-name")
 const contact = document.getElementById("contact")
 const address = document.getElementById("address")
 const statusWrapper = document.getElementById("status-wrapper")
 
 let saveDataBtn = null
 let userCounter = 0
+
+let currentErrorBox = null // saves the state of the current error box
 
 addUserBtn.addEventListener('click', (e) => {
     e.preventDefault()
@@ -73,22 +75,107 @@ function addUser() {
     if (saveDataBtn != null) {
         saveDataBtn.addEventListener('click', (e) => {
             e.preventDefault()
-        
-            localStorage.setItem("user" + ++userCounter,JSON.stringify({
-                userId: userId.value,
-                password: password.value,
-                legalName: legalName.value,
-                email: email.value,
-                contact: contact.value,
-                address: address.value
-            }))
-            
-            // const newRow = tableBody.insertRow()
-            // newRow.insertCell().textContent = "123"
-            // newRow.insertCell().textContent = "123"
 
-            // add function to parse data from temporary stored object
-            // then make a modal function to store an object
+            if((messages = validateInputs()) == false) {
+                // function verified - show verified UX
+
+                localStorage.setItem("user" + ++userCounter,JSON.stringify({
+                    email: email.value,
+                    password: password.value,
+                    firstName: firstName.value,
+                    lastName: lastName.value,
+                    contact: contact.value,
+                    address: address.value
+                }))
+                
+                 // const newRow = tableBody.insertRow()
+                // newRow.insertCell().textContent = "123"
+                // newRow.insertCell().textContent = "123"
+
+                // add function to parse data from temporary stored object
+                // then make a modal function to store an object
+
+                modalWrapper.style.display = "none"
+            } else {
+                createErrorBox(messages)
+            }
         })  
+    }
+}
+
+// validates inputs
+function validateInputs() {
+    let messages = []
+
+    // email validation
+    const emailRegex = /\w+\@\w+\.\w+/  // someone@example.com
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{12,}$/
+
+    if (email.value === "" || email.value == null) {
+        messages.push("Email is required")
+    } else if (emailRegex.test(email.value) == false) {
+        messages.push("Email should be formatted as \"someone@example.com\"")
+    }
+
+    // password validation
+    if (password.value === "" || password.value === null) {
+        messages.push("Password is required")
+    } else if (password.value.length < 12) {
+        messages.push("Create a password at least 12 characters")
+    } else if (passwordRegex.test(password.value) == false) {
+        messages.push("Password should have a combination of uppercase letters, lowercase letters, numbers, and symbols")
+    }
+
+    // first name validation
+    if (firstName.value === "" || firstName.value === null) {
+        messages.push("First name is required")
+    }
+    // last name validation
+    if (lastName.value === "" || lastName.value === null) {
+        messages.push("Last name is required")
+    }
+    // contact validation
+    if (contact.value === "" || contact.value === null) {
+        messages.push("Contact is required")
+    }
+    // address validation
+    if (address.value === "" || address.value === null) {
+        messages.push("Address is required")
+    }
+
+    return messages
+}
+
+// creates error box
+function createErrorBox(messages) {
+
+    const errorBox = document.createElement('div')
+
+    errorBox.setAttribute("id", "errorBox")
+
+    // set style of the error box
+    Object.assign(errorBox.style, {
+        display : "block",
+        padding : "1em",
+        width : "100%",
+        background : "white",
+        "font-size": "1em",
+        border: "1px solid black"
+    })
+
+    const errorBoxText = document.createElement('span')
+    
+    errorBoxText.textContent = messages
+
+    errorBox.append(errorBoxText)
+
+    if (currentErrorBox != null) {
+        currentErrorBox.remove()
+    }
+
+    currentErrorBox = errorBox
+
+    if (currentErrorBox.innerText) {
+        crudForm.append(currentErrorBox)
     }
 }
