@@ -17,7 +17,10 @@ submitSignUp.addEventListener("click", (e) => {
     if((messages = validateInputs()) == false) {
         // function verified - show verified UX
 
-        localStorage.setItem("user", JSON.stringify({ email: email.value, password: password.value }))
+        localStorage.setItem("user", JSON.stringify({
+            email: email.value, 
+            password: password.value 
+        }))
         window.location.href = "login.html" // goes to login page if no error
     } else {
         createErrorBox(messages)

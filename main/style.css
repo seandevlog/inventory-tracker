@@ -92,6 +92,10 @@ form input {
     color: white;
     background-color: dimgray;
     font-weight: bold;
+
+    padding: 2px 6px;
+    width: auto;
+    text-align: center;
 }
 
 .btn:hover {
@@ -177,12 +181,12 @@ main {
 }
 
 .filter {
+    display: inline-flex;
     align-self: flex-start;
 }
 
 .filter input {
-    min-width: 4em;
-    max-height: 1.4em;
+    display: inline-flex;
 }
 
 table {
@@ -212,7 +216,6 @@ th span:has(img):hover {
 
 main input {
     align-self: flex-end;
-    max-width: 5em;
     height: 2em;
     margin-top: auto;
 }
@@ -284,16 +287,16 @@ main input {
 
     align-items: center;
     justify-content: center;
+    margin-left: 5em;
+}
+
+#crud-form {
+    margin-right: 5em;
 }
 
 #photo-upload img {
     width: 300px;
     height: 300px;
-}
-
-#photo-upload-btn {
-    width: 5em;
-    height: 2em;
 }
 
 #crud-form label,
@@ -310,8 +313,12 @@ main input {
     font-weight: bold;
 }
 
-#crud-form input {
-    width: 50%;
+#crud-form input:not([type="submit"]) {
+    width: 80%;
+}
+
+#crud-form input[type="submit"] {
+    justify-self: flex-end;
 }
 
 #crud-form div span {
@@ -326,7 +333,7 @@ main input {
     padding: 0.3em;
 }
 
-#change-btn {
+#change-status-btn {
     display: inline;
     text-align: center;
     vertical-align: middle;
@@ -337,7 +344,7 @@ main input {
     font-size: 0.5em;
 }
 
-#change-btn:hover {
+#change-status-btn:hover {
     cursor: pointer;
     text-decoration: underline;
 }
