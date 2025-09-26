@@ -1,6 +1,5 @@
 const tableBody = document.getElementById("crud-table-body")
 const addUserBtn = document.getElementById("add-user")
-const editUserBtn = document.querySelectorAll(".edit-btn")
 const modalWrapper = document.getElementById("modal-wrapper")
 const modal = document.getElementById("modal")
 const backArrow = document.getElementById("back-arrow")
@@ -16,9 +15,26 @@ const address = document.getElementById("address")
 const statusWrapper = document.getElementById("status-wrapper")
 
 let saveDataBtn = null
-let userCounter = 0
 
 let currentErrorBox = null // saves the state of the current error box
+
+for (let i = 0; i < localStorage.length; i++) {
+    const newRow = tableBody.insertRow()
+    const userKey = localStorage.key(i)             // email
+    const userValue = localStorage.getItem(userKey) // string
+    const userValueObj = JSON.parse(userValue)      // obj [password, name, contact, address]
+
+    newRow.insertCell().innerHTML = '<img src="assets/image-solid-full.svg">'
+    newRow.insertCell().textContent = userKey
+
+    Object.entries(userValueObj).forEach(([key, value]) => {
+        newRow.insertCell().textContent = value
+    })
+
+    newRow.insertCell().innerHTML = '<span class="action-icons"><img class="edit-btn" src="./assets/pen-solid-full.svg"><img class="delete-btn" src="./assets/trash-solid-full.svg"></span>'
+}
+
+const editUserBtn = document.querySelectorAll(".edit-btn") // declare after new rows with edit button has been created
 
 addUserBtn.addEventListener('click', (e) => {
     e.preventDefault()
@@ -72,6 +88,7 @@ backArrow.addEventListener('click', (e) => {
 })
 
 function addUser() {
+    // check if modal is able to save a new data
     if (saveDataBtn != null) {
         saveDataBtn.addEventListener('click', (e) => {
             e.preventDefault()
@@ -79,8 +96,7 @@ function addUser() {
             if((messages = validateInputs()) == false) {
                 // function verified - show verified UX
 
-                localStorage.setItem("user" + ++userCounter,JSON.stringify({
-                    email: email.value,
+                localStorage.setItem(email.value, JSON.stringify({
                     password: password.value,
                     firstName: firstName.value,
                     lastName: lastName.value,
@@ -88,14 +104,12 @@ function addUser() {
                     address: address.value
                 }))
                 
-                 // const newRow = tableBody.insertRow()
-                // newRow.insertCell().textContent = "123"
-                // newRow.insertCell().textContent = "123"
-
                 // add function to parse data from temporary stored object
                 // then make a modal function to store an object
 
                 modalWrapper.style.display = "none"
+
+                window.location.reload()
             } else {
                 createErrorBox(messages)
             }
