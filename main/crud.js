@@ -31,7 +31,13 @@ for (let i = 0; i < localStorage.length; i++) {
         newRow.insertCell().textContent = value
     })
 
-    newRow.insertCell().innerHTML = '<span class="action-icons"><img class="edit-btn" src="./assets/pen-solid-full.svg"><img class="delete-btn" src="./assets/trash-solid-full.svg"></span>'
+    // add action buttons per row
+    // contain the userKey as an ID for each action button
+    newRow.insertCell().innerHTML = 
+        `<span class="action-icons">
+            <img class="edit-btn" id=${userKey} src="./assets/pen-solid-full.svg">
+            <img class="delete-btn" id=${userKey} src="./assets/trash-solid-full.svg">
+        </span>`
 }
 
 const editUserBtn = document.querySelectorAll(".edit-btn") // declare after new rows with edit button has been created
@@ -44,6 +50,14 @@ addUserBtn.addEventListener('click', (e) => {
     modalWrapper.style.display = "flex"
 
     modal.querySelector("header h1").innerText = "Add User"
+
+    // ensure all input placeholders are empty
+    email.placeholder = ''
+    password.placeholder = ''
+    firstName.placeholder = ''
+    lastName.placeholder = ''
+    contact.placeholder = ''
+    address.placeholder = ''
 
     saveDataBtn = document.createElement('input')
     saveDataBtn.type = "submit"
@@ -64,6 +78,18 @@ editUserBtn.forEach(btn => {
         modalWrapper.style.display = "flex"
 
         modal.querySelector("header h1").innerText = "Edit User"
+
+        // get the matching userKey for each action button id
+        for (let i = 0; i < localStorage.length; i++) {
+            const userKey = localStorage.key(i) // 
+            const userValue = localStorage.getItem(userKey) // string
+            const userValueObj = JSON.parse(userValue)      // obj [password, name, contact, address]
+
+            if (userKey === btn.id) {
+                email.placeholder = userKey
+                password.placeholder = userValueObj
+            }
+        }
     })
 })
 
