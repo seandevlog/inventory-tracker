@@ -38,14 +38,17 @@
                 </span>
             </nav>
             <main>
-                <div id="filter">
-                    <select>
-                        <option>Active</option>
-                        <option>Inactive</option>
-                        <option>No Filter</option>
-                        <input type="submit" class="btn" value="Filter">
-                    </select>
-                </div>
+                <span>
+                    <span id="filter">
+                        <select>
+                            <option>Active</option>
+                            <option>Inactive</option>
+                            <option>No Filter</option>
+                            <input type="submit" class="btn" value="Filter">
+                        </select>
+                    </span>
+                    <button id="create-user-btn" class="btn" href="#">Create User</button>
+                </span>
                 <table id="users-table">
                     <thead>
                         <tr>
@@ -79,12 +82,11 @@
                     <tbody id="users-table-body"></tbody>
                     <tfoot></tfoot>
                 </table>
-                <input type="button" id="create-user-btn" class="btn" href="#" value="Create User"></input>
             </main>
         </div>
         <div style="display: none" id="modal-wrapper">
             <div id="modal">
-                <header><h1>Add User</h1></header>
+                <header><h1></h1></header>
                 <button id="close-modal-btn">
                     <img src="./assets/arrow-left-solid-full.svg">
                 </button>
@@ -135,8 +137,10 @@
                                 Change
                             </button>
                         </div>
+                        <div style="display:none" id="error-box"></div>
                     </div>
                 </div>
+                <button style="display: none" id="save-data-btn" class="btn">Save</button>
             </div>
         </div>
     </body>
