@@ -1,0 +1,357 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+html, body {
+    height: 100vh;
+    width: 100vw;
+}
+
+/* login & register form */
+.login-form, .register-form {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%
+}
+
+.auth-container, .side-img {
+    flex: 1 0 50%;
+}
+
+.auth-wrapper {
+    height: 100%;
+    width: 100%;
+    margin: 0 0;
+    background: gray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    margin-left: 0.5em;
+}
+
+.logo img {
+    max-height: 40px;
+}
+
+#auth-form {
+    align-self: center;
+    margin: 2em auto 0 auto;
+    width: 80%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.auth-greeting {
+    font-size: 1.2em;
+    margin-bottom: 2em;
+}
+
+.auth-greeting h1 {
+    color: white;
+}
+
+.auth-greeting h6 {
+    color: darkgray;
+}
+
+form label,
+form input {
+    display: block;
+    width: 100%;;
+}
+
+form label {
+    color: white;
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+form input {
+    margin-bottom: 1em;
+    height: 2em;
+}
+
+.side-img {
+    display: flex;
+}
+
+.btn {
+    color: white;
+    background-color: dimgray;
+    font-weight: bold;
+
+    padding: 2px 6px;
+    width: auto;
+    text-align: center;
+}
+
+.btn:hover {
+    background: black;
+    cursor: pointer;
+}
+
+/* CRUDS */
+
+#users {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.primary-nav {
+    background-color: lightgray;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.primary-nav input {
+    margin: auto;
+    width: 20em;
+}
+
+.primary-nav input::placeholder {
+    color: rgb(199, 198, 198);
+    font-size: 0.8em;
+    text-indent: 0.8em;
+}
+
+.primary-nav .nav-links {
+    margin-right: 1em;
+}
+
+.primary-nav a {
+    margin: 0 0.5em;
+    color: black;
+    font-size: 1em;
+    text-decoration: none;
+}
+
+.primary-nav a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.secondary-nav {
+    background-color: gray;
+    height: 1.5em;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.secondary-nav .nav-links {
+    margin-left: 0.5em;
+}
+
+.secondary-nav a {
+    margin: 0 0.2em;
+    color: white;
+    font-size: 0.7em;
+    text-decoration: none;
+}
+
+.secondary-nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    height: 100%;
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+#filter {
+    display: inline-flex;
+    align-self: flex-start;
+}
+
+#filter input {
+    display: inline-flex;
+}
+
+table {
+    width: 100%;
+    margin-top: 1em;
+    align-self: center;
+}
+
+th, td {
+    margin: 0 1em;
+    text-align: center;
+}
+
+th img {
+    width: 0.8em;
+    margin-right: 0.2em;
+}
+
+th:has(img) {
+    padding: 0 0.2em;
+}
+
+th:has(img):hover {
+    background: gainsboro;
+    cursor: pointer;
+}
+
+main input {
+    align-self: flex-end;
+    height: 2em;
+    margin-top: auto;
+}
+
+.action-icons img {
+    width: 1.3em;
+}
+
+.action-icons img:hover {
+    background: rgb(206, 206, 206);
+    cursor: pointer;
+}
+
+#modal-wrapper {
+    position: fixed;
+    inset: 0;
+    background: rgb(0,0,0,0.5);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+#modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: white;
+    width: 80vw;
+    height: 80vh;
+    z-index: 2;
+    position: relative;
+}
+
+#close-modal-btn {
+    width: 5em;
+    max-width: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 1em;
+}
+
+#close-modal-btn:hover {
+    cursor: pointer;
+    background: gray;
+}
+
+#modal header {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    translate: -50%;
+
+    min-height: 7.5em;
+    display: flex;
+    align-items: center;
+}
+
+#user-data {
+    display: flex;
+    width: 100%;
+    margin-top: 5em;
+}
+
+#user-img,
+#user-info {
+    flex: 1;
+}
+
+#user-img {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+    margin-left: 5em;
+}
+
+#user-info {
+    margin-right: 5em;
+}
+
+#user-img img {
+    width: 300px;
+    height: 300px;
+}
+
+#user-info label,
+#user-info input {
+    display: block;
+    margin: 0.3em 0;
+}
+
+#user-info div {
+    margin: 0.7em 0;
+}
+
+#user-info label {
+    font-weight: bold;
+}
+
+#user-info input:not([type="submit"]) {
+    width: 80%;
+}
+
+#user-info input[type="submit"] {
+    justify-self: flex-end;
+}
+
+#user-info div span {
+    font-weight: bold;
+}
+
+#status {
+    display: inline;
+    margin: 1em 0;
+    color: green;
+    font-weight: bold;
+    padding: 0.3em;
+}
+
+#change-status-btn {
+    display: inline;
+    text-align: center;
+    vertical-align: middle;
+
+    margin: 1em 0;
+
+    color: gray;
+    font-size: 0.5em;
+}
+
+#change-status-btn:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
