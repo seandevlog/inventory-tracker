@@ -3,34 +3,32 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta author="Sean">
         <link rel="stylesheet" href="style.css">
-        <title>Login</title>
+        <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+        <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <script type="text/javascript" src="library.js"></script>
         <script type="text/javascript" src="login.js" defer></script>
+        <title>Login</title>
     </head>
     <body>
-        <div class="login-form">
-            <div class="auth-wrapper">
-                <div class="logo">
-                    <img src="./assets/image-solid-full.svg"/>
-                    <span><strong>Logo</strong></span>
-                </div>
-                <div id="auth-form">
-                    <div class="auth-greeting">
-                        <h1>Welcome back!</h1>
-                        <h6>Please enter your details</h6>
-                    </div>
-                    <form>
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email">
-                        <label for="password">Password</label> 
-                        <input type="password" id="password">  
-                        <input type="submit" class="btn" id="login-submit" value="Login">
-                    </form>
-                </div>
-            </div>
-            <div class="side-img">
-                <img src="./assets/image-solid-full.svg"/>
-            </div>
+        <div id="login">
+            <a id="logo" href="#">
+                <img src="./assets/image-solid-full.svg"/ alt="logo">
+                Logo
+            </a>
+            <h1>Welcome back!</h1>
+            <h6>Please enter your details</h6>
+            <form>
+                <label for="email">Email Address</label>
+                <input type="text" name="email">
+                <label for="password">Password</label> 
+                <input type="password" name="password">  
+                
+                <button type="submit" class="btn" name="button">Login</button>
+            </form>
         </div>
+        <img src="./assets/image-solid-full.svg"/>
     </body>
 </html>

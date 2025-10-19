@@ -1,50 +1,58 @@
-const form = document.getElementById("auth-form")
-const email = document.getElementById("email")
-const password = document.getElementById("password")
-const submitLogin = document.getElementById("login-submit")
+/* ==============
+    Login.js
+================= */
 
-const user = JSON.parse(localStorage.getItem("user"))
-let currentErrorBox = null
+init();
 
-submitLogin.addEventListener('click', (e) => {
-    e.preventDefault()
+function init() {
+    doLoginForm('#login>form');
+}
 
-    if (email.value === user.email && password.value === user.password) {
-        window.location.href = "users.html"
-    } else {
-        createErrorBox("Invalid email or password")
-    }
-})
-
-// creates error box
-function createErrorBox(messages) {
-
-    const errorBox = document.createElement('div')
-
-    errorBox.setAttribute("id", "errorBox")
-
-    // set style of the error box
-    Object.assign(errorBox.style, {
-        display : "block",
-        padding : "1em",
-        width : "100%",
-        background : "white",
-        "font-size": "1em" 
-    })
-
-    const errorBoxText = document.createElement('span')
+function doLoginForm(formId) {
+    const form = document.querySelector(formId);
+    const email = form.elements['email'];
+    const password = form.elements['password'];
+    const button = form.elements['button'];
+    /* const user = JSON.parse(localStorage.getItem("user")); */
     
-    errorBoxText.textContent = messages
+    button.addEventListener('click', submitLoginForm);
+    button.addEventListener('keydown', e => { if (e.key === 'Enter') return submitLoginForm});
 
-    errorBox.append(errorBoxText)
+    /* Redirects to user page if login is successful */
+    function submitLoginForm(e) {
+        e.preventDefault()
 
-    if (currentErrorBox != null) {
-        currentErrorBox.remove()
+        if (email.value && password.value) {
+            // window.location.href = "users.html";
+            console.log("Login Successful")
+        } else {
+            doErrorBox("Invalid email or password");
+        }
     }
 
-    currentErrorBox = errorBox
+    /* Creates error box */
+    function doErrorBox(errors) {
+        doErrorBox.current ??= null;
+        const errorBox = document.createElement('div');
 
-    if (currentErrorBox.innerText) {
-        form.append(currentErrorBox)
+        errorBox.setAttribute("id", "errorBox");
+        Object.assign(errorBox.style, {
+            display         : 'block',
+            padding         : '1em',
+            width           : '100%',
+            background      : 'white',
+            'font-size'     : '1em',
+            border          : '1px solid black',
+            'margin-top'    : '1.2em'
+        });
+
+        const errorBoxText = document.createElement('span');
+        errorBoxText.textContent = errors;
+        errorBox.append(errorBoxText);
+
+        if(doErrorBox.current) doErrorBox.current.remove();
+        doErrorBox.current = errorBox;
+        form.append(doErrorBox.current);
     }
 }
+
