@@ -10,8 +10,8 @@ html, body {
     width: 100vw;
 }
 */
-/* login & register form */
-/* .login-form, .register-form {
+/* auth & register form */
+/* .auth-form, .register-form {
     display: flex;
     flex-direction: row;
     height: 100%;
@@ -366,12 +366,12 @@ body {
     flex-direction  : row;
 }
 
-body > div#login, 
+body > div#auth, 
 body > img {
     flex: 1 0 50%;
 }
 
-div#login {
+div#auth {
     height          : 100%;
     width           : 100%;
     background      : gray;
@@ -381,7 +381,7 @@ div#login {
     justify-content: center;
 }
 
-div#login > a#logo {
+div#auth > a#logo {
     position        : absolute;
     top             : 0;
     left            : 0;
@@ -393,27 +393,27 @@ div#login > a#logo {
     text-decoration : none;
 }
 
-div#login > a#logo:hover {
+div#auth > a#logo:hover {
     cursor      : pointer;
     background  : hsl(0, 10%, 50%);
 }
 
-div#login > a#logo > img {
+div#auth > a#logo > img {
     max-height: 40px;
     display: block;
 }
 
-div#login > h1 {
+div#auth > h1 {
     color   : white;
     margin  : 0;
 }
 
-div#login > h6 {
+div#auth > h6 {
     color    :hsl(0, 4%, 5%);
     margin   : 1em 0;
 }
 
-div#login > form {
+div#auth > form {
     margin          : 2em auto 0;
     width           : 80%;
     height          : fit-content;
@@ -423,25 +423,25 @@ div#login > form {
     justify-content : center;
 }
 
-div#login > form > * {
+div#auth > form > * {
     display : block;
     width   : 100%;;
     
 }
 
-div#login label {
+div#auth label {
     color           : white;
     font-size       : 0.9em;
     font-weight     : bold;
     margin-bottom   : 0.5em;
 }
 
-div#login input {
+div#auth input {
     margin-bottom   : 1em;
     height          : 2em;
 }
 
-div#login button {
+div#auth button {
     height: fit-content;
     color: white;
 }
