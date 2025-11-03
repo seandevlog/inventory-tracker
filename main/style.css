@@ -12,9 +12,50 @@ body {
     flex-direction  : row;
 }
 
+/* =================================== 
+                UTILS
+===================================== */
+
+.hide {
+    display         : none !important; 
+}
+
+.logo {
+    display         : inline-flex;
+    align-items     : center;
+
+    color           : black;
+    text-decoration : none;
+}
+
+.logo > img {
+    max-height      : 40px;
+    display         : block;
+}
+
+.btn {
+    color           : white;
+    font-weight     : bold;
+
+    background-color: dimgray;
+    padding         : 2px 6px;
+    width           : fit-content;
+    height          : fit-content;
+    text-align      : center;
+}
+
+.btn:hover {
+    background      : black;
+    cursor          : pointer;
+}
+
+/* ==================================
+            Authentication
+===================================== */
+
 body > div#auth, 
 body > img {
-    flex: 1 0 50%;
+    flex            : 1 0 50%;
 }
 
 div#auth {
@@ -27,26 +68,10 @@ div#auth {
     justify-content : center;
 }
 
-div#auth > a#logo {
+div#auth > span#logo {
     position        : absolute;
     top             : 0;
     left            : 0;
-
-    display         : inline-flex;
-    align-items     : center;
-
-    color           : black;
-    text-decoration : none;
-}
-
-div#auth > a#logo:hover {
-    cursor      : pointer;
-    background  : hsl(0, 10%, 50%);
-}
-
-div#auth > a#logo > img {
-    max-height: 40px;
-    display: block;
 }
 
 div#auth > h1 {
@@ -90,223 +115,217 @@ div#auth button {
     color           : white;
 }
 
-.btn {
-    color           : white;
-    font-weight     : bold;
-
-    background-color: dimgray;
-    padding         : 2px 6px;
-    width           : fit-content;
-    height          : fit-content;
-    text-align      : center;
-}
-
-.btn:hover {
-    background      : black;
-    cursor          : pointer;
-}
-
 div#auth > span#redirect {
     text-decoration : underline;
     cursor          : pointer;
     margin-top      : 1em;
 }
 
-.hide {
-    display: none;
-}
-
 /*======================================
                 CRUDS 
 ========================================*/
 
-div#users {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
+.crud {
+    display         : flex;
+    flex-direction  : column;
+    height          : 100%;
+    width           : 100%;
 }
 
-nav {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
+.crud nav {
+    display         : flex;
+    flex-direction  : row;
+    width           : 100%;
 }
 
-#primary-nav {
+.crud nav.primary {
     background-color: lightgray;
-    justify-content: space-between;
-    align-items: center;
+    justify-content : space-between;
+    align-items     : center;
+    padding         : 0 1em;
 }
 
-.primary-nav input {
-    margin: auto;
-    width: 20em;
+.crud nav.primary input[type="search"] {
+    margin          : auto;
+    width           : 20em;
 }
 
-.primary-nav input::placeholder {
-    color: rgb(199, 198, 198);
-    font-size: 0.8em;
-    text-indent: 0.8em;
+.crud nav.primary input[type="search"]::placeholder {
+    color           : rgb(199, 198, 198);
+    font-size       : 0.8em;
+    text-indent     : 0.8em;
 }
 
-.primary-nav .nav-links {
-    margin-right: 1em;
+.crud nav.primary ul.links {
+    display         : flex;
+    flex-direction  : row;
+    padding         : 0;
 }
 
-.primary-nav a {
-    margin: 0 0.5em;
-    color: black;
-    font-size: 1em;
-    text-decoration: none;
+.crud nav.primary ul.links * {
+    list-style-type : none;
+    margin          : 0 0.3em;
+    color           : black;
+    
+    text-decoration : none;
+    font-size       : 1em;
+    font-weight     : bold;
 }
 
-.primary-nav a:hover {
-    text-decoration: underline;
-    cursor: pointer;
+.crud nav.primary ul.links *:hover {
+    text-decoration : underline;
+    cursor          : pointer;
 }
 
-.secondary-nav {
+.crud nav.secondary {
     background-color: gray;
-    height: 1.5em;
-    align-items: center;
-    justify-content: flex-start;
+    height          : 1.5em;
+    align-items     : center;
+    justify-content : flex-start;
+    padding         : 0 1em;
 }
 
-.secondary-nav .nav-links {
-    margin-left: 0.5em;
+.crud nav.secondary ul.links {
+    display         : flex;
+    flex-direction  : row;
+    list-style-type : none;
+    padding         : 0;
 }
 
-.secondary-nav a {
-    margin: 0 0.2em;
-    color: white;
-    font-size: 0.7em;
-    text-decoration: none;
+.crud nav.secondary ul.links * {
+    margin-right    : 0.5em;
+    color           : white;
+    font-size       : 0.9em;
+    font-weight     : bold;
+    text-decoration : none;
 }
 
-.secondary-nav a:hover {
-    text-decoration: underline;
+.crud nav.secondary ul.links *:hover {
+    text-decoration : underline;
 }
 
-main {
-    height: 100%;
-    margin: 1em;
-    display: flex;
-    flex-direction: column;
+.crud main {
+    height          : 100%;
+    margin          : 1em;
 }
 
-#filter {
-    display: inline-flex;
-    align-self: flex-start;
+div#users main span#filter *,
+div#users main button#create {
+    height          : 30px;
 }
 
-#create-user-btn {
-    width: 100px;
-    height: 30px;
-    float: right;
+div#users main span#filter {
+    display         : inline-flex;
+    align-self      : flex-start;
 }
 
-table {
-    width: 100%;
-    margin-top: 1em;
-    align-self: center;
+div#users main input[value="Filter"] {
+    align-self      : flex-end;
+    height          : 2em;
+    margin-top      : auto;
 }
 
-th, td {
-    margin: 0 1em;
-    text-align: center;
+div#users main button#create {
+    width           : 100px;
+    float           : right;
 }
 
-th img {
-    width: 0.8em;
-    margin-right: 0.2em;
+div#users table {
+    width           : 100%;
+    margin-top      : 1em;
+    align-self      : center;
 }
 
-th:has(img) {
-    padding: 0 0.2em;
+div#users table th, 
+div#users table td {
+    margin          : 0 1em;
+    text-align      : center;
 }
 
-th:has(img):hover {
-    background: gainsboro;
-    cursor: pointer;
+div#users table th > img {
+    width           : 0.8em;
+    margin-right    : 0.2em;
 }
 
-main input {
-    align-self: flex-end;
-    height: 2em;
-    margin-top: auto;
+div#users table th:has(img) {
+    padding         : 0 0.2em;
 }
 
-.action-icons img {
-    width: 1.3em;
+div#users table th:has(img):hover {
+    background      : gainsboro;
+    cursor          : pointer;
 }
 
-.action-icons img:hover {
-    background: rgb(206, 206, 206);
-    cursor: pointer;
+div#users table tbody td.action-icons img {
+    width           : 1.3em;
 }
 
-#modal-wrapper {
-    position: fixed;
-    inset: 0;
-    background: rgb(0,0,0,0.5);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
+div#users table tbody td.action-icons img:hover {
+    background      : rgb(206, 206, 206);
+    cursor          : pointer;
 }
 
-#modal {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+div:has(>.modal) {
+    position        : fixed;
+    inset           : 0;
+    background      : rgb(0,0,0,0.5);
 
-    background: white;
-    width: 80vw;
-    height: auto;
-    z-index: 2;
-    position: relative;
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    z-index         : 1;
 }
 
-#close-modal-btn {
-    width: 5em;
-    max-width: 100px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    margin: 1em;
+div.modal {
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+
+    background      : white;
+    width           : 80vw;
+    height          : auto;
+    z-index         : 2;
+    position        : relative;
 }
 
-#close-modal-btn:hover {
-    cursor: pointer;
-    background: gray;
+div.modal button#close {
+    width           : 5em;
+    max-width       : 100px;
+    position        : absolute;
+    left            : 0;
+    top             : 0;
+    margin          : 1em;
 }
 
-#modal header {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    translate: -50%;
-
-    min-height: 7.5em;
-    display: flex;
-    align-items: center;
+div.modal button#close:hover {
+    cursor          : pointer;
+    background      : gray;
 }
 
-#user-data {
+div.modal header {
+    position        : absolute;
+    top             : 0;
+    left            : 50%;
+    translate       : -50%;
+
+    min-height      : 7.5em;
+    display         : flex;
+    align-items     : center;
+}
+
+div#users div.modal div.data {
     display: flex;
     width: 100%;
     margin-top: 7em;
     margin-bottom: 3em;
 }
 
-#user-img,
-#user-info {
+div#users div.modal div.data div.photo,
+div#users div.modal div.data div.info {
     flex: 1;
 }
 
-#user-img {
+div#users div.modal div.data div.photo {
     display: flex;
     flex-direction: column;
 
@@ -315,50 +334,49 @@ main input {
     margin-left: 5em;
 }
 
-#user-info {
+div#users div.modal div.data div.info {
     margin-right: 5em;
 }
 
-#user-img img {
+div#users div.modal div.data div.photo > img {
     width: 300px;
     height: 300px;
 }
 
-#user-info label,
-#user-info input {
+div#users div.modal div.data div.info label,
+div#users div.modal div.data div.info input {
     display: block;
     margin: 0.3em 0;
 }
 
-#user-info div {
+div#users div.modal div.data div.info > div {
     margin: 0.7em 0;
 }
 
-#user-info label {
+div#users div.modal div.data div.info label {
     font-weight: bold;
 }
 
-#user-info input:not([type="submit"]) {
+div#users div.modal div.data div.info input:not([type="submit"]) {
     width: 80%;
 }
 
-#user-info input[type="submit"] {
+div#users div.modal div.data div.info input[type="submit"] {
     justify-self: flex-end;
 }
 
-#user-info div span {
+div#users div.modal div.data span:has(>#status) {
     font-weight: bold;
 }
 
-#status {
-    display: inline;
+div#users div.modal div.data span#status {
     margin: 1em 0;
     color: green;
     font-weight: bold;
     padding: 0.3em;
 }
 
-#change-status-btn {
+div#users div.modal div.data button#change {
     display: inline;
     text-align: center;
     vertical-align: middle;
@@ -369,12 +387,12 @@ main input {
     font-size: 0.5em;
 }
 
-#change-status-btn:hover {
+div#users div.modal div.data button#change:hover {
     cursor: pointer;
     text-decoration: underline;
 }
 
-#save-data-btn {
+div#users div.modal button#save {
     position: absolute;
     right: 0;
     bottom: 0;
