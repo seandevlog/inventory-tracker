@@ -265,7 +265,7 @@ div#users table tbody td.action-icons img:hover {
     cursor          : pointer;
 }
 
-div:has(>.modal) {
+div:has(>#modal) {
     position        : fixed;
     inset           : 0;
     background      : rgb(0,0,0,0.5);
@@ -276,7 +276,7 @@ div:has(>.modal) {
     z-index         : 1;
 }
 
-div.modal {
+div#modal {
     display         : flex;
     align-items     : center;
     justify-content : center;
@@ -288,7 +288,7 @@ div.modal {
     position        : relative;
 }
 
-div.modal button#close {
+div#modal button#close {
     width           : 5em;
     max-width       : 100px;
     position        : absolute;
@@ -297,12 +297,12 @@ div.modal button#close {
     margin          : 1em;
 }
 
-div.modal button#close:hover {
+div#modal button#close:hover {
     cursor          : pointer;
     background      : gray;
 }
 
-div.modal header {
+div#modal header {
     position        : absolute;
     top             : 0;
     left            : 50%;
@@ -313,86 +313,59 @@ div.modal header {
     align-items     : center;
 }
 
-div#users div.modal div.data {
+div#modal form#data {
     display: flex;
     width: 100%;
     margin-top: 7em;
     margin-bottom: 3em;
 }
 
-div#users div.modal div.data div.photo,
-div#users div.modal div.data div.info {
+div#modal form#data fieldset#photo,
+div#modal form#data div {
     flex: 1;
 }
 
-div#users div.modal div.data div.photo {
+div#modal form#data fieldset#photo {
     display: flex;
     flex-direction: column;
 
     align-items: center;
     justify-content: center;
     margin-left: 5em;
+    max-width: fit-content;
 }
 
-div#users div.modal div.data div.info {
+div#modal form#data div {
     margin-right: 5em;
 }
 
-div#users div.modal div.data div.photo > img {
+div#modal form#data fieldset#photo > img {
     width: 300px;
     height: 300px;
 }
 
-div#users div.modal div.data div.info label,
-div#users div.modal div.data div.info input {
+div#modal form#data fieldset#info input {
     display: block;
     margin: 0.3em 0;
 }
 
-div#users div.modal div.data div.info > div {
+div#modal form#data fieldset#info > div {
     margin: 0.7em 0;
 }
 
-div#users div.modal div.data div.info label {
+div#modal form#data fieldset#info label {
     font-weight: bold;
 }
 
-div#users div.modal div.data div.info input:not([type="submit"]) {
+div#modal form#data input:not([type="submit"]) {
     width: 80%;
 }
 
-div#users div.modal div.data div.info input[type="submit"] {
+div#modal form#data input[type="submit"] {
     justify-self: flex-end;
 }
 
-div#users div.modal div.data span:has(>#status) {
-    font-weight: bold;
-}
-
-div#users div.modal div.data span#status {
-    margin: 1em 0;
-    color: green;
-    font-weight: bold;
-    padding: 0.3em;
-}
-
-div#users div.modal div.data button#change {
-    display: inline;
-    text-align: center;
-    vertical-align: middle;
-
-    margin: 1em 0;
-
-    color: gray;
-    font-size: 0.5em;
-}
-
-div#users div.modal div.data button#change:hover {
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-div#users div.modal button#save {
+div#modal button#save {
     position: absolute;
     right: 0;
     bottom: 0;

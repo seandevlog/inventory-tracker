@@ -13,22 +13,27 @@ function init() {
 }
 
 function showModal(bool = true, title) {
-    const modalWrapper = document.querySelector('div:has(>.modal)');
+    const modalWrapper = document.querySelector('div:has(>#modal)');
 
     if (bool) { 
         modalWrapper.classList.remove('hide');
-        doModal();
-    } else {
-        modalWrapper.classList.add('hide');
+        return doModal();
     }
+    modalWrapper.classList.add('hide');
 
     function doModal() {
-        const modal = document.querySelector('div.modal');
-        const title = modal.querySelector('header');
-        const close = modal.querySelector('button#close');
+        const modal = document.querySelector('div#modal');
+        const header = modal.querySelector('header');
+        const closeButton = modal.querySelector('button#close');
 
-        close.onclick = e => showModal(false);
-        title.innerHTML = `<h1>${title}</h1>`;
+        closeButton.onclick = e => showModal(false);
+        modalWrapper.onclick = e => {
+            if (e.target === e.currentTarget) showModal(false);
+        }
+
+        header.innerHTML = `<h1>${title}</h1>`;
+
+        return modal;
     }
 }
 
@@ -40,7 +45,32 @@ function doCRUD() {
     createButton.onclick = createUser;
 
     function createUser() {
-        showModal(true, 'Create User');
+        const modal = showModal(true, 'Create User');
+
+        // TODO 2. - simulate localStorage as database
+
+        const saveButton = modal.querySelector('button#save');
+        const parentForm = modal.querySelector('form');
+        const childForm = doUserInfo;
+        childForm(parentForm);
+
+        saveButton.addEventListener('click', childForm.validate);
+        saveButton.addEventListener('keydown', e => { if (e.key === 'Enter') return childForm.validate});    
+
+        // const state = {
+        //     key: "users",
+        //     value: JSON.stringify({
+        //         "userId": "user1",
+        //         "email": user.email,
+        //         "password": user.password,
+        //         "first-name": user.firstName,
+        //         "last-name": user.lastName,
+        //         "contact": user.contact,
+        //         "address": user.address  
+        //     })
+        // };
+
+        // saveButton.onclick = e => persist(state);
     }
 }
 
