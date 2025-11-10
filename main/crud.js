@@ -46,16 +46,21 @@ function doCRUD() {
 
     function createUser() {
         const modal = showModal(true, 'Create User');
+        const saveButton = modal.querySelector('button#save');
+        const form = modal.querySelector('form');
 
         // TODO 2. - simulate localStorage as database
 
-        const saveButton = modal.querySelector('button#save');
-        const parentForm = modal.querySelector('form');
-        const childForm = doUserInfo;
-        childForm(parentForm);
+        let isValid = false;
 
-        saveButton.addEventListener('click', childForm.validate);
-        saveButton.addEventListener('keydown', e => { if (e.key === 'Enter') return childForm.validate});    
+        saveButton.onclick = e => {
+            e.preventDefault();
+            isValid = validateUserInfo(form);
+        }; 
+        saveButton.onkeydown = e => { 
+            e.preventDefault();
+            if (e.key === 'Enter') isValid = validateUserInfo(form);
+        };    
 
         // const state = {
         //     key: "users",

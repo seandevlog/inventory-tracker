@@ -94,7 +94,7 @@ div#auth > form {
     justify-content : center;
 }
 
-div#auth > form > * {
+div#auth > form * {
     width   : 100%;
 }
 
