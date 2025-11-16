@@ -1,7 +1,7 @@
 class ValidationOutput {
     constructor(outputLocation) {
         this.validators = [];
-        this.isEmpty = true;
+        this.empty = true;
         if (outputLocation) this.outputLocation = outputLocation;
     }
 
@@ -28,17 +28,17 @@ class ValidationOutput {
         for (const validator of this.validators) {
             if (validator['condition']) {
                 this.outputLocation.innerText = validator['message'];
-                this.isEmpty = false;
+                this.empty = false;
                 return;
             }    
         }
         this.outputLocation.innerText = "";
-        this.isEmpty = true;
+        this.empty = true;
         return this.outputLocation.innerText;
     }
 
     isEmpty() {
-        return this.isEmpty;
+        return this.empty;
     }
 }
 
@@ -84,11 +84,4 @@ function validateUserInfo(form) {
             lValidationOutput.isEmpty() && cValidationOutput.isEmpty() && aValidationOutput.isEmpty()) 
         return true;
     }
-}
-
-const STATE = "key1";
-
-function persist(state, object) {
-    // TODO - simulate local storage as a database
-    localStorage.setItem(state.key, state.value);
 }

@@ -52,16 +52,8 @@ function toggleAuthForm(string = 'login') {
             toggleAuthForm('login');
         }
 
-        clear();
+        clearInputs(inputs);
     };
-
-    function clear() {
-        for (const input of inputs) {
-            const validationOutput = input.previousElementSibling;
-            validationOutput.innerText = "";
-            input.value = "";
-        }
-    }
 }
 
 function doLoginForm(form) {
