@@ -49,6 +49,16 @@ body {
     cursor          : pointer;
 }
 
+.row {
+    
+}
+
+.row:hover{
+    background-color: gray;
+    border-radius   : 30px;
+    cursor          : pointer;
+}
+
 /* ==================================
             Authentication
 ===================================== */
@@ -234,12 +244,14 @@ div#users table {
     width           : 100%;
     margin-top      : 1em;
     align-self      : center;
+    border-collapse : collapse;
 }
 
 div#users table th, 
 div#users table td {
     margin          : 0 1em;
     text-align      : center;
+    padding         : 0.5em 0;
 }
 
 div#users table th > img {
@@ -253,15 +265,6 @@ div#users table th:has(img) {
 
 div#users table th:has(img):hover {
     background      : gainsboro;
-    cursor          : pointer;
-}
-
-div#users table tbody td.action-icons img {
-    width           : 1.3em;
-}
-
-div#users table tbody td.action-icons img:hover {
-    background      : rgb(206, 206, 206);
     cursor          : pointer;
 }
 
@@ -342,6 +345,16 @@ div#modal form#data div {
 div#modal form#data fieldset#photo > img {
     width: 300px;
     height: 300px;
+}
+
+div#modal form#data fieldset#info span:has(+span#user-id),
+div#modal form#data fieldset#info span#user-id {
+    display: block;
+    margin: 0.3em 0;
+}
+
+div#modal form#data fieldset#info span:has(+span#user-id) {
+    font-weight: bold;
 }
 
 div#modal form#data fieldset#info input {

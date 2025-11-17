@@ -33,6 +33,7 @@ function setModal(display = true, title, operation) {
     } else {
         header.innerHTML = `<h1>${title}</h1>`;
         modalWrapper.classList.remove('hide');
+        form.elements['password'].type = 'password';
         setModal.isShown = true;
     }
 }
