@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
-        <script type="text/javascript" src="modal.js"></script>
         <script type="text/javascript" src="database.js"></script>
         <script type="text/javascript" src="validation.js"></script>
         <script type="text/javascript" src="utils.js"></script>
@@ -46,18 +45,17 @@
                     </select>
                     <input type="submit" class="btn" value="Filter">
                 </span>
-                <button id="create" class="btn" href="#">Create User</button>
+                <button id="create" class="btn" href="#">New User</button>
                 <table>
                     <thead>
                         <tr>
                             <th>Img</th>
-                            <th><img src="./assets/arrow-down-arrow-up.svg">User ID</th>
-                            <th><img src="./assets/arrow-down-arrow-up.svg">Email</th>
-                            <th><img src="./assets/arrow-down-arrow-up.svg">Password</th>
-                            <th><img src="./assets/arrow-down-arrow-up.svg">First Name</th>
-                            <th><img src="./assets/arrow-down-arrow-up.svg">Last Name</th>
-                            <th><img src="./assets/arrow-down-arrow-up.svg">Contact</th>
-                            <th><img src="./assets/arrow-down-arrow-up.svg">Address</th>
+                            <th>User ID</th>
+                            <th><img src="./assets/arrow-down-arrow-up.svg"/>Email</th>
+                            <th><img src="./assets/arrow-down-arrow-up.svg"/>First Name</th>
+                            <th><img src="./assets/arrow-down-arrow-up.svg"/>Last Name</th>
+                            <th><img src="./assets/arrow-down-arrow-up.svg"/>Contact</th>
+                            <th><img src="./assets/arrow-down-arrow-up.svg"/>Address</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -126,7 +124,10 @@
                                 </select>
                             </fieldset>
                         </div>
-                        <button id="save" class="btn">Save</button>
+                        <div>
+                            <button id="save" class="btn">Save</button>
+                            <button id="delete" class="btn">Delete</button>
+                        </div>
                     </form>
                 </div>
             </div>

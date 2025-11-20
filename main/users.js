@@ -4,37 +4,36 @@
         Users.js
 ====================== */
 
-const STATE = "user-key";
-
 init();
 
 function init() {
-    const users = get(STATE);
-    const data = users[0];
-    const indexes = users[1];
+    const STATE = "user-key";
+    let users = get(STATE);
+    let [ data, indexes ] = users;
 
     setModal(false);
-    renderUsers(users);
     setCrudOps();
 
     function setCrudOps() {
-        const form = document.querySelector('div#modal form');
-        const idOutput = form.querySelector('span#user-id');
-        const idLabel = idOutput.previousElementSibling;
+        renderUsers(data);
+        setSort();
+
+        const form = $(document, 'div#modal form');
+        const idElement = $(form, 'span#user-id');
+        const idWrapper = idElement.parentElement;
         const emailInput = form.elements['email'];
         const passwordInput = form.elements['password'];
         const firstNameInput = form.elements['first-name'];
         const lastNameInput = form.elements['last-name'];
         const contactInput = form.elements['contact'];
         const addressInput = form.elements['address'];
+        const deleteButton = $(modal, 'div#modal button#delete');
 
         // Create
-        const createButton = document.querySelector('div#users>main>button#create');
-        createButton.onclick = createUser;
-        
-        function createUser() {
-            idOutput.classList.add('hide');
-            idLabel.classList.add('hide');
+        const createButton = $(document, 'div#users>main>button#create');
+        createButton.onclick = () => {
+            idWrapper.classList.add('hide');
+            deleteButton.classList.add('hide');
 
             setModal(true, 'Create User', () => {
                 const randomId = `U${generateRandomId(10)}`;
@@ -45,75 +44,205 @@ function init() {
                     firstName: firstNameInput.value,
                     lastName: lastNameInput.value,
                     contact: contactInput.value,
-                    address: addressInput.value
+                    address: addressInput.value,
+                    dateCreated: new Date(),
+                    dateUpdated: new Date()
                 });
-                indexes[randomId] = arrLength - 1; // [[[index], {id, email ...}], {id1: index}] 
+                indexes[randomId] = arrLength - 1; // [[[index], {id1, email1 ...}], {id1: index}] 
                 save();
             });
         }
 
-        // Update
-        const body = document.querySelector('table tbody');
-        const rows = body.querySelectorAll('tr');
+        // Read
+        function renderUsers(users) {
+            const body = $(document, 'table tbody');
+            body.innerHTML = "";
+            users.forEach(user => {
+                const newRow = body.insertRow();
+                newRow.innerHTML = `
+                <td></td>
+                <td>${user.id}</td>
+                <td>${user.email}</td>
+                <td>${user.firstName}</td>
+                <td>${user.lastName}</td>
+                <td>${user.contact}</td>
+                <td>${user.address}</td>`;
+                newRow.classList.add('row','row:hover');
 
-        for (const row of rows) {
-            row.onclick = e => {
-                e.preventDefault();
+                newRow.onclick = e => {
+                    e.preventDefault();
 
-                idOutput.classList.remove('hide');
-                idLabel.classList.remove('hide');
+                    idWrapper.classList.remove('hide');
+                    deleteButton.classList.remove('hide');
 
-                idOutput.innerText = row.children[1].innerText;
-                emailInput.value = row.children[2].innerText;
-                passwordInput.value = row.children[3].innerText;
-                firstNameInput.value = row.children[4].innerText;
-                lastNameInput.value = row.children[5].innerText;
-                contactInput.value = row.children[6].innerText;
-                addressInput.value = row.children[7].innerText;
+                    idElement.innerText = user.id;
+                    emailInput.value = user.email;
+                    passwordInput.value = user.password;
+                    firstNameInput.value = user.firstName;
+                    lastNameInput.value = user.lastName;
+                    contactInput.value = user.contact;
+                    addressInput.value = user.address;
 
-                setModal(true, 'Edit User', () => {
-                    const rowId = row.children[1].innerText;
-                    const index = indexes[rowId];
-                    const curObj = data[index];
+                    // Update & Delete
+                    setModal(true, 'Edit User', () => {
+                        const rowId = idElement.innerText;
+                        const index = indexes[rowId];
+                        const user = data[index];
 
-                    curObj.email = emailInput.value;
-                    curObj.password = passwordInput.value;
-                    curObj.firstName = firstNameInput.value;
-                    curObj.lastName = lastNameInput.value;
-                    curObj.contact = contactInput.value;
-                    curObj.address = addressInput.value;
+                        user.email = emailInput.value;
+                        user.password = passwordInput.value;
+                        user.firstName = firstNameInput.value;
+                        user.lastName = lastNameInput.value;
+                        user.contact = contactInput.value;
+                        user.address = addressInput.value;
+                        user.dateCreated = user.dateCreated;
+                        user.dateUpdated = new Date();
 
-                    save();
-                });
+                        save();
+                    }, () => {
+                        const idx = indexes[user.id];
+                        delete indexes[user.id];
+                        data.splice(idx, 1);
 
-                passwordInput.type = "text";
-            };
+                        users = [data, indexes];
+                        save();
+                    });
+
+                    passwordInput.type = "text";
+                };
+            })
         }
 
-        // TODO - Delete
+        // All data properties can only be sorted one at a time
+        // Sort image changes
+        function setSort() {
+            const [ emailBtn, firstNameBtn, lastNameBtn, contactBtn, addressBtn ] = $$(document,'table>thead th:has(img)');
+            
+            const [ emailSort, firstNameSort, lastNameSort, contactSort, addressSort ] = [ 
+                createSort('email', emailBtn), 
+                createSort('firstName', firstNameBtn),
+                createSort('lastName', lastNameBtn),
+                createSort('contact', contactBtn),
+                createSort('address', addressBtn)
+            ];
 
-        function save() {
-            persist(STATE, users);
-            location.reload();
+            emailBtn.onclick = e => {
+                e.preventDefault();
+                emailSort.reset();
+                emailSort.toggle();
+            }
+            firstNameBtn.onclick = e => {
+                e.preventDefault();
+                firstNameSort.reset();
+                firstNameSort.toggle();
+            }
+            lastNameBtn.onclick = e => {
+                e.preventDefault();
+                lastNameSort.reset();
+                lastNameSort.toggle();
+            }
+            contactBtn.onclick = e => {
+                e.preventDefault();
+                contactSort.reset();
+                contactSort.toggle();
+            }
+            addressBtn.onclick = e => {
+                e.preventDefault();
+                addressSort.reset();
+                addressSort.toggle();
+            }
+
+            function createSort(property, button) {
+                return {
+                    current: 0,
+                    img: $(button, 'img'),
+                    toggle() {
+                        // noSort
+                        if (this.current === 2) {
+                            this.current = 0;
+                            data.sort((a,b) => Date.parse(b.dateCreated) - Date.parse(a.dateCreated));
+                            this.img.src = "./assets/arrow-down-arrow-up.svg";
+                        // ascending
+                        } else if (this.current === 0) {
+                            this.current = 1;
+                            data.sort((a,b) => {
+                                if (a[`${property}`] < b[`${property}`]) return -1;
+                                if (a[`${property}`] > b[`${property}`]) return 1;
+                                return 0;
+                            });
+                            this.img.src = "./assets/arrow-up-solid-full.svg";
+                        // descending
+                        } else if (this.current === 1) {
+                            this.current = 2;
+                            data.sort((a,b) => {
+                                if (a[`${property}`] < b[`${property}`]) return 1;
+                                if (a[`${property}`] > b[`${property}`]) return -1;
+                                return 0;
+                            });
+                            this.img.src = "./assets/arrow-down-solid-full.svg";
+                        }
+
+                        renderUsers(data);
+                    },
+                    reset() {
+                        [ emailSort, firstNameSort, lastNameSort, contactSort, addressSort ].forEach(_ => {
+                            // if not self => no sort
+                            if (_ != this) {
+                                _.current = 2;
+                                _.toggle();
+                            }
+                        })
+                    }
+                };
+            } 
         }
     }
 
-    // Read
-    function renderUsers(data) {
-        const body = document.querySelector('table tbody');
-        data[0].forEach(datum => {
-            const newRow = body.insertRow();
-            newRow.innerHTML = `
-            <td></td>
-            <td>${datum.id}</td>
-            <td>${datum.email}</td>
-            <td>${datum.password}</td>
-            <td>${datum.firstName}</td>
-            <td>${datum.lastName}</td>
-            <td>${datum.contact}</td>
-            <td>${datum.address}</td>`;
-            newRow.classList.add('row','row:hover');
-        })
+    function save() {
+        persist(STATE, users);
+        location.reload();
+    }
+
+    function setModal(display = true, title, saveOps, deleteOps) {
+        const modal = $(document, 'div#modal');
+        const header = $(modal, 'header');
+        const form = $(modal, 'form');
+        const closeButton = $(modal, 'button#close');
+        const saveButton = $(modal, 'button#save');
+        const deleteButton = $(modal, 'button#delete');
+        const inputs = $$(form, 'fieldset#info input')
+        const modalWrapper = modal.parentElement;
+        let isValid = false;
+
+        closeButton.onclick = e => setModal(false);
+        modalWrapper.onclick = e => (e.target === e.currentTarget) ? setModal(false): null;
+
+        saveButton.onclick = e => {
+            e.preventDefault();
+            if (isValid = validateUserInfo(form)) saveOps();
+        }; 
+        saveButton.onkeydown = e => { 
+            e.preventDefault();
+            if (e.key === 'Enter' && (isValid = validateUserInfo(form))) saveOps();
+        };
+
+        deleteButton.onclick = e => {
+            e.preventDefault();
+            deleteOps();
+        }
+
+        if (!display) {
+            modalWrapper.classList.add('hide');
+            if (setModal.isShown) {
+                clearInputs(inputs);
+            }
+            setModal.isShown = false;
+        } else {
+            header.innerHTML = `<h1>${title}</h1>`;
+            modalWrapper.classList.remove('hide');
+            form.elements['password'].type = 'password';
+            setModal.isShown = true;
+        }
     }
 }
 

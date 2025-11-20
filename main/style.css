@@ -236,7 +236,7 @@ div#users main input[value="Filter"] {
 }
 
 div#users main button#create {
-    width           : 100px;
+    width           : 85px;
     float           : right;
 }
 
@@ -321,6 +321,7 @@ div#modal form#data {
     width: 100%;
     margin-top: 7em;
     margin-bottom: 3em;
+    padding: 0 0 2em 0;
 }
 
 div#modal form#data fieldset#photo,
@@ -378,7 +379,7 @@ div#modal form#data input[type="submit"] {
     justify-self: flex-end;
 }
 
-div#modal button#save {
+div#modal div:has(button#save+button#delete) {
     position: absolute;
     right: 0;
     bottom: 0;
