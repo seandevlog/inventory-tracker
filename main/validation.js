@@ -1,6 +1,15 @@
+/* ==========================================
+            ValidationOutput class
+    Structure:
+        <label></label>
+        <span></span>   < Validation Output
+        <input></input>
+============================================= */
+
+ // TODO - Fix ValidationOutput class so the condition parameter is received as a string and not a boolean YET
 class ValidationOutput {
     constructor(outputLocation) {
-        this.validators = [];
+        this.validators = []; // [{message, condition},...]
         this.empty = true;
         if (outputLocation) this.outputLocation = outputLocation;
     }
@@ -20,6 +29,7 @@ class ValidationOutput {
                 "message": message, 
                 "condition": condition 
             });
+            this.empty = false;
         }
         return this;
     }
@@ -27,8 +37,8 @@ class ValidationOutput {
     print() {
         for (const validator of this.validators) {
             if (validator['condition']) {
+                console.log(validator['condition'])
                 this.outputLocation.innerText = validator['message'];
-                this.empty = false;
                 return;
             }    
         }

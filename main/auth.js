@@ -2,6 +2,8 @@
     Auth.js
 ================= */
 
+const STATE = "user-key";
+
 init();
 
 function init() {
@@ -60,28 +62,45 @@ function doLoginForm(form) {
     const email = form.elements['email'];
     const password = form.elements['password'];
     const button = form.elements['button'];
+    
+    const eValidationOutput = new ValidationOutput(email.previousElementSibling);
+    const pValidationOutput = new ValidationOutput(password.previousElementSibling);
     let isValid = false;
 
     // TODO - Redirect to user page if login is successful
-    // TODO - Check database for account details
-
+    
     button.onclick = e => {
         e.preventDefault();
-        isValid = validate();
+        validate();
+        authenticate();
+        eValidationOutput.print();
+        pValidationOutput.print();
     }
     button.onkeydown = e => { 
         e.preventDefault();
-        if (e.key === 'Enter') isValid = validate();
+        if (e.key === 'Enter') {
+            validate();
+            authenticate();
+            eValidationOutput.print();
+            pValidationOutput.print();
+        }
     };
 
     function validate() {
-        const eValidationOutput = new ValidationOutput(email.previousElementSibling); 
-        eValidationOutput.add("Email is required", email.value === "" || email.value == null).print();
+        eValidationOutput.add("Email is required", email.value === "" || email.value === null);
+        pValidationOutput.add("Password is required", password.value === "" || password.value === null);
+    }
 
-        const pValidationOutput = new ValidationOutput(password.previousElementSibling);
-        pValidationOutput.add("Password is required", password.value === "" || password.value === null).print();
+    // Check database for account details
+    function authenticate() {
+        const data = get(STATE);
+        const [ users, indexes ] = data;
 
-        if (eValidationOutput.isEmpty() && pValidationOutput.isEmpty()) return true;
+        const index = email.value.search(users.value);
+        const user = users[index];
+
+        eValidationOutput.add("No matching email", index == -1);
+        pValidationOutput.add("Wrong password", user.password === password.value && index >= 0);
     }
 }
 

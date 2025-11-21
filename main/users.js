@@ -4,18 +4,19 @@
         Users.js
 ====================== */
 
+const STATE = "user-key";
+
 init();
 
 function init() {
-    const STATE = "user-key";
-    let users = get(STATE);
-    let [ data, indexes ] = users;
+    let data = get(STATE);
+    let [ users, indexes ] = data;
 
     setModal(false);
     setCrudOps();
 
     function setCrudOps() {
-        renderUsers(data);
+        renderTable(data);
         setSort();
 
         const form = $(document, 'div#modal form');
@@ -37,7 +38,7 @@ function init() {
 
             setModal(true, 'Create User', () => {
                 const randomId = `U${generateRandomId(10)}`;
-                const arrLength = data.push({
+                const arrLength = users.push({
                     id: randomId,
                     email: emailInput.value,
                     password: passwordInput.value,
@@ -54,7 +55,7 @@ function init() {
         }
 
         // Read
-        function renderUsers(users) {
+        function renderTable(users) {
             const body = $(document, 'table tbody');
             body.innerHTML = "";
             users.forEach(user => {
@@ -87,7 +88,7 @@ function init() {
                     setModal(true, 'Edit User', () => {
                         const rowId = idElement.innerText;
                         const index = indexes[rowId];
-                        const user = data[index];
+                        const user = users[index];
 
                         user.email = emailInput.value;
                         user.password = passwordInput.value;
@@ -102,9 +103,9 @@ function init() {
                     }, () => {
                         const idx = indexes[user.id];
                         delete indexes[user.id];
-                        data.splice(idx, 1);
+                        users.splice(idx, 1);
 
-                        users = [data, indexes];
+                        data = [users, indexes];
                         save();
                     });
 
@@ -113,7 +114,7 @@ function init() {
             })
         }
 
-        // All data properties can only be sorted one at a time
+        // All user properties can only be sorted one at a time
         // Sort image changes
         function setSort() {
             const [ emailBtn, firstNameBtn, lastNameBtn, contactBtn, addressBtn ] = $$(document,'table>thead th:has(img)');
@@ -160,12 +161,12 @@ function init() {
                         // noSort
                         if (this.current === 2) {
                             this.current = 0;
-                            data.sort((a,b) => Date.parse(b.dateCreated) - Date.parse(a.dateCreated));
+                            users.sort((a,b) => Date.parse(b.dateCreated) - Date.parse(a.dateCreated));
                             this.img.src = "./assets/arrow-down-arrow-up.svg";
                         // ascending
                         } else if (this.current === 0) {
                             this.current = 1;
-                            data.sort((a,b) => {
+                            users.sort((a,b) => {
                                 if (a[`${property}`] < b[`${property}`]) return -1;
                                 if (a[`${property}`] > b[`${property}`]) return 1;
                                 return 0;
@@ -174,7 +175,7 @@ function init() {
                         // descending
                         } else if (this.current === 1) {
                             this.current = 2;
-                            data.sort((a,b) => {
+                            users.sort((a,b) => {
                                 if (a[`${property}`] < b[`${property}`]) return 1;
                                 if (a[`${property}`] > b[`${property}`]) return -1;
                                 return 0;
@@ -182,7 +183,7 @@ function init() {
                             this.img.src = "./assets/arrow-down-solid-full.svg";
                         }
 
-                        renderUsers(data);
+                        renderTable(users);
                     },
                     reset() {
                         [ emailSort, firstNameSort, lastNameSort, contactSort, addressSort ].forEach(_ => {
@@ -199,7 +200,7 @@ function init() {
     }
 
     function save() {
-        persist(STATE, users);
+        persist(STATE, data);
         location.reload();
     }
 
@@ -210,7 +211,7 @@ function init() {
         const closeButton = $(modal, 'button#close');
         const saveButton = $(modal, 'button#save');
         const deleteButton = $(modal, 'button#delete');
-        const inputs = $$(form, 'fieldset#info input')
+        const inputs = $$(form, 'fieldset#info input');
         const modalWrapper = modal.parentElement;
         let isValid = false;
 
@@ -233,7 +234,7 @@ function init() {
 
         if (!display) {
             modalWrapper.classList.add('hide');
-            if (setModal.isShown) {
+            if (setModal.isShown && inputs) {
                 clearInputs(inputs);
             }
             setModal.isShown = false;
