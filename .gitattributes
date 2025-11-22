@@ -1,0 +1,7 @@
+# Ensure JSON files always use LF in repo
+*.json text eol=lf
+
+# Optional: normalize other files
+*.js text eol=lf
+*.css text eol=lf
+*.html text eol=lf
