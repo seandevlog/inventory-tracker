@@ -24,12 +24,20 @@ class ValidationOutput {
     }
     
     add(message, condition) {
-        if (message && condition) {
+        if (message != null && condition != null) {
+            for (let i = 0; i < this.validators.length; i++) {
+                if (message === this.validators[i]['message']) {
+                    this.validators.splice(i, 1, {
+                        "message": message,
+                        "condition": condition
+                    })
+                    return this;
+                }
+            }
             this.validators.push({ 
                 "message": message, 
                 "condition": condition 
             });
-            this.empty = false;
         }
         return this;
     }
@@ -37,8 +45,8 @@ class ValidationOutput {
     print() {
         for (const validator of this.validators) {
             if (validator['condition']) {
-                console.log(validator['condition'])
                 this.outputLocation.innerText = validator['message'];
+                this.empty = false;
                 return;
             }    
         }
