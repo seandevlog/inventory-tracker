@@ -37,14 +37,11 @@
                 </ul>
             </nav>
             <main>
-                <span id="filter">
-                    <select>
-                        <option>Active</option>
-                        <option>Inactive</option>
-                        <option>No Filter</option>
-                    </select>
-                    <input type="submit" class="btn" value="Filter">
-                </span>
+                <select id="filter" name="filter">
+                    <option value="active">Filter by: Active</option>
+                    <option value="inactive">Filter by: Inactive</option>
+                    <option value="no-filter" selected>No Filter</option>
+                </select>
                 <button id="create" class="btn" href="#">New User</button>
                 <table>
                     <thead>
@@ -115,12 +112,12 @@
                                     <input type="text" name="address">
                                 </div>
                             </fieldset>
-                            <fieldset id="status">
+                            <fieldset>
                                 <legend>Status</legend>
-                                <label for="current">Current Status</label>
-                                <select name="current">
-                                    <option>Active</option>
-                                    <option>Inactive</option>
+                                <label for="status">Current Status</label>
+                                <select name="status" required>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
                                 </select>
                             </fieldset>
                         </div>

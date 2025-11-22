@@ -219,20 +219,12 @@ div#auth > span#redirect {
     margin          : 1em;
 }
 
-div#users main span#filter *,
 div#users main button#create {
     height          : 30px;
 }
 
-div#users main span#filter {
-    display         : inline-flex;
-    align-self      : flex-start;
-}
-
-div#users main input[value="Filter"] {
-    align-self      : flex-end;
+div#users main select#filter {
     height          : 2em;
-    margin-top      : auto;
 }
 
 div#users main button#create {

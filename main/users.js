@@ -26,6 +26,7 @@ function init() {
     const lastNameInput = form.elements['last-name'];
     const contactInput = form.elements['contact'];
     const addressInput = form.elements['address'];
+    const selectedStatus = form.elements['status'];
     const deleteButton = $(modal, 'div#modal button#delete');
 
     // Create
@@ -45,7 +46,8 @@ function init() {
                 contact: contactInput.value,
                 address: addressInput.value,
                 dateCreated: new Date(),
-                dateUpdated: new Date()
+                dateUpdated: new Date(),
+                status: selectedStatus.value
             });
             indexes[randomId] = arrLength - 1; // [[[index], {id1, email1 ...}], {id1: index}] 
             save();
@@ -96,6 +98,7 @@ function init() {
                     user.address = addressInput.value;
                     user.dateCreated = user.dateCreated;
                     user.dateUpdated = new Date();
+                    user.status = selectedStatus.value;
 
                     save();
                 }, () => {
@@ -201,9 +204,17 @@ function init() {
         } 
     }
 
-    // TODO 
+    // Filter
     function setFilter() {
-        
+        const filter = $(document, 'main>select');
+        filter.onchange = () => {
+            if (filter.selectedOptions[0].value === 'no-filter') {
+                renderTable(users);
+                return;
+            }
+            const filteredUsers = users.filter(user => user.status === filter.selectedOptions[0].value);
+            renderTable(filteredUsers);
+        }
     } 
 
     function setModal(display = true, title, saveOps, deleteOps) {

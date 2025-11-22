@@ -107,6 +107,7 @@ function init() {
         const lastNameInput = form.elements['last-name'];
         const contactInput = form.elements['contact'];
         const addressInput = form.elements['address'];
+        const selectedStatus = form.elements['status'];
 
         let isValid = false;
         
@@ -134,7 +135,8 @@ function init() {
                     contact: contactInput.value,
                     address: addressInput.value,
                     dateCreated: new Date(),
-                    dateUpdated: new Date()
+                    dateUpdated: new Date(),
+                    status: selectedStatus.value
                 });
                 indexes[randomId] = arrLength - 1;
                 data = [users, indexes];
