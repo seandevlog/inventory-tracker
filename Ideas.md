@@ -6,3 +6,6 @@ CRUD Page
 
 Forms
 - Show verified input UX
+
+Table
+- Add drag and drop option for rows

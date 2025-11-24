@@ -1,8 +1,6 @@
-"use strict";
-
-/* =====================
-        Users.js
-====================== */
+import { get, persist } from './database.js';
+import { validateUserInfo } from './validation.js';
+import { clearInputs, generateRandomId, $, $$ } from './utils.js';
 
 const STATE = "user-key";
 
@@ -22,8 +20,8 @@ function init() {
     const idWrapper = idElement.parentElement;
     const emailInput = form.elements['email'];
     const passwordInput = form.elements['password'];
-    const firstNameInput = form.elements['first-name'];
-    const lastNameInput = form.elements['last-name'];
+    const givenNameInput = form.elements['given-name'];
+    const familyNameInput = form.elements['family-name'];
     const contactInput = form.elements['contact'];
     const addressInput = form.elements['address'];
     const selectedStatus = form.elements['status'];
@@ -41,8 +39,8 @@ function init() {
                 id: randomId,
                 email: emailInput.value,
                 password: passwordInput.value,
-                firstName: firstNameInput.value,
-                lastName: lastNameInput.value,
+                givenName: givenNameInput.value,
+                familyName: familyNameInput.value,
                 contact: contactInput.value,
                 address: addressInput.value,
                 dateCreated: new Date(),
@@ -64,8 +62,8 @@ function init() {
             <td></td>
             <td>${user.id}</td>
             <td>${user.email}</td>
-            <td>${user.firstName}</td>
-            <td>${user.lastName}</td>
+            <td>${user.givenName}</td>
+            <td>${user.familyName}</td>
             <td>${user.contact}</td>
             <td>${user.address}</td>`;
             newRow.classList.add('row','row:hover');
@@ -79,8 +77,8 @@ function init() {
                 idElement.innerText = user.id;
                 emailInput.value = user.email;
                 passwordInput.value = user.password;
-                firstNameInput.value = user.firstName;
-                lastNameInput.value = user.lastName;
+                givenNameInput.value = user.givenName;
+                familyNameInput.value = user.familyName;
                 contactInput.value = user.contact;
                 addressInput.value = user.address;
 
@@ -92,8 +90,8 @@ function init() {
 
                     user.email = emailInput.value;
                     user.password = passwordInput.value;
-                    user.firstName = firstNameInput.value;
-                    user.lastName = lastNameInput.value;
+                    user.givenName = givenNameInput.value;
+                    user.familyName = familyNameInput.value;
                     user.contact = contactInput.value;
                     user.address = addressInput.value;
                     user.dateCreated = user.dateCreated;
@@ -127,8 +125,8 @@ function init() {
         
         const [ emailSort, firstNameSort, lastNameSort, contactSort, addressSort ] = [ 
             createSort('email', emailBtn), 
-            createSort('firstName', firstNameBtn),
-            createSort('lastName', lastNameBtn),
+            createSort('givenName', firstNameBtn),
+            createSort('familyName', lastNameBtn),
             createSort('contact', contactBtn),
             createSort('address', addressBtn)
         ];

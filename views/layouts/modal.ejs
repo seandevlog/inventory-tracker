@@ -1,0 +1,67 @@
+<div class="hide">
+    <div id="modal">
+        <button id="close">
+            <img src="./assets/arrow-left-solid-full.svg">
+        </button>
+        <header></header>
+        
+        <form id="data">
+            <fieldset id="photo">
+                <legend>Photo</legend>
+                <img src="./assets/image-solid-full.svg"></img> <!-- temp image -->
+                <input type="file" name="photo">
+            </fieldset>
+            <div>
+                <fieldset id="info">
+                    <legend>Info</legend>
+                    <div>
+                        <span>User ID</span>
+                        <span id="user-id"></span>
+                    </div>
+                    <div>
+                        <label for="email">Email</label>
+                        <span></span>   <!-- Email Validation Output -->
+                        <input type="text" id="email" name="email" autocomplete="email">
+                    </div>
+                    <div>
+                        <label for="password">Password</label>
+                        <span></span>   <!-- Password Validation Output -->
+                        <input type="password" id="password" name="password" autocomplete="current-password">
+                    </div>
+                    <div>
+                        <label for="given-name">Given Name</label>
+                        <span></span>   <!-- Given Name Validation Output -->
+                        <input type="text" id="given-name" name="given-name" autocomplete="given-name">
+                    </div>
+                    <div>
+                        <label for="family-name">Family Name</label>
+                        <span></span>   <!-- Family Name Validation Output -->   
+                        <input type="text" id="family-name" name="family-name" autocomplete="family-name">
+                    </div>
+                    <div>
+                        <label for="contact">Contact</label>
+                        <span></span>   <!-- Contact Validation Output -->
+                        <input type="text" id="contact" name="contact" autocomplete="mobile">
+                    </div>
+                    <div>
+                        <label for="address">Address</label>
+                        <span></span>   <!-- Address Validation Output -->
+                        <input type="text" id="address" name="address" autocomplete="address-line1">
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Status</legend>
+                    <label for="status">Current Status</label>
+                    <select id="status" name="status" required>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </fieldset>
+            </div>
+            <div>
+                <button id="save" class="btn">Save</button>
+                <button id="delete" class="btn">Delete</button>
+            </div>
+        </form>
+    </div>
+</div>

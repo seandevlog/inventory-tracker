@@ -1,6 +1,6 @@
-/* ==============
-    Auth.js
-================= */
+import { get, persist } from './database.js';
+import { validateUserInfo, ValidationOutput } from './validation.js';
+import { clearInputs, generateRandomId, $, $$ } from './utils.js';
 
 const STATE = "user-key";   
 
@@ -103,11 +103,10 @@ function init() {
     }
 
     function doSignUpForm() {
-        const firstNameInput = form.elements['first-name'];
-        const lastNameInput = form.elements['last-name'];
+        const givenNameInput = form.elements['given-name'];
+        const familyNameInput = form.elements['family-name'];
         const contactInput = form.elements['contact'];
         const addressInput = form.elements['address'];
-        const selectedStatus = form.elements['status'];
 
         let isValid = false;
         
@@ -130,13 +129,13 @@ function init() {
                     id: randomId,
                     email: emailInput.value,
                     password: passwordInput.value,
-                    firstName: firstNameInput.value,
-                    lastName: lastNameInput.value,
+                    givenName: givenNameInput.value,
+                    familyName: familyNameInput.value,
                     contact: contactInput.value,
                     address: addressInput.value,
                     dateCreated: new Date(),
                     dateUpdated: new Date(),
-                    status: selectedStatus.value
+                    status: "active"
                 });
                 indexes[randomId] = arrLength - 1;
                 data = [users, indexes];

@@ -6,8 +6,7 @@
         <input></input>
 ============================================= */
 
- // TODO - Fix ValidationOutput class so the condition parameter is received as a string and not a boolean YET
-class ValidationOutput {
+export class ValidationOutput {
     constructor(outputLocation) {
         this.validators = []; // [{message, condition},...]
         this.empty = true;
@@ -60,11 +59,11 @@ class ValidationOutput {
     }
 }
 
-function validateUserInfo(form) {
+export function validateUserInfo(form) {
     const email = form.elements['email'];
     const password = form.elements['password'];
-    const firstName = form.elements['first-name'];
-    const lastName = form.elements['last-name'];
+    const givenName = form.elements['given-name'];
+    const familyName = form.elements['family-name'];
     const contact = form.elements['contact'];
     const address = form.elements['address'];
 
@@ -86,11 +85,11 @@ function validateUserInfo(form) {
             .add("Password should have a combination of uppercase letters, lowercase letters, numbers, and symbols", passwordRegex.test(password.value) == false)
             .print();
 
-        const fValidationOutput = new ValidationOutput(firstName.previousElementSibling);
-        fValidationOutput.add("First name is required", firstName.value === "" || firstName.value === null).print();
+        const fValidationOutput = new ValidationOutput(givenName.previousElementSibling);
+        fValidationOutput.add("First name is required", givenName.value === "" || givenName.value === null).print();
 
-        const lValidationOutput = new ValidationOutput(lastName.previousElementSibling);
-        lValidationOutput.add("Last name is required", lastName.value === "" || lastName.value === null).print();
+        const lValidationOutput = new ValidationOutput(familyName.previousElementSibling);
+        lValidationOutput.add("Last name is required", familyName.value === "" || familyName.value === null).print();
 
         const cValidationOutput = new ValidationOutput(contact.previousElementSibling);
         cValidationOutput.add("Contact is required", contact.value === "" || contact.value === null).print();

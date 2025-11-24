@@ -4,12 +4,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta author="Sean">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="../css/style.css">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-        <script type="text/javascript" src="utils.js"></script>
-        <script type="text/javascript" src="validation.js"></script>
-        <script type="text/javascript" src="database.js"></script>
-        <script type="text/javascript" src="auth.js" defer></script>
+        <script type="module" src="/scripts/auth.js" defer></script>
         <title>Login</title>
     </head>
     <body>
@@ -24,34 +21,33 @@
                 <div>
                     <label for="email">Email</label>
                     <span></span>   <!-- Email Validation Output -->
-                    <input type="text" name="email">
+                    <input type="text" id="email" name="email" autocomplete="email">
                 </div>
                 <div>
                     <label for="password">Password</label>
                     <span></span>   <!-- Password Validation Output -->
-                    <input type="password" name="password">
+                    <input type="password" id="password" name="password" autocomplete="current-password">
                 </div>
                 <div>
-                    <label for="first-name">First Name</label>
-                    <span></span>   <!-- First Name Validation Output -->
-                    <input type="text" name="first-name">
+                    <label for="given-name">Given Name</label>
+                    <span></span>   <!-- Given Name Validation Output -->
+                    <input type="text" id="given-name" name="given-name" autocomplete="given-name">
                 </div>
                 <div>
-                    <label for="last-name">Last Name</label>
-                    <span></span>   <!-- Last Name Validation Output -->   
-                    <input type="text" name="last-name">
+                    <label for="family-name">Family Name</label>
+                    <span></span>   <!-- Family Name Validation Output -->   
+                    <input type="text" id="family-name" name="family-name" autocomplete="family-name">
                 </div>
                 <div>
                     <label for="contact">Contact</label>
                     <span></span>   <!-- Contact Validation Output -->
-                    <input type="text" name="contact">
+                    <input type="text" id="contact" name="contact" autocomplete="mobile">
                 </div>
                 <div>
                     <label for="address">Address</label>
                     <span></span>   <!-- Address Validation Output -->
-                    <input type="text" name="address">
+                    <input type="text" id="address" name="address" autocomplete="address-line-1">
                 </div>
-
                 <button type="submit" class="btn" name="button"></button>`
             </form>
             <span id="redirect"></span>
