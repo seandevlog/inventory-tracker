@@ -36,3 +36,12 @@ Early layout planning was done in Figma.
 
 📁 [View wireframes in GitHub](wireframes)  
 🔗 [Open in Figma](https://www.figma.com/design/Z0tkiMeNWfYPXXa3pjQEeA/Inventory-Tracker?node-id=0-1&t=q4bf7N29OjiJG0N6-1)
+
+---
+
+## 🎥 Devlog Videos (YouTube)
+
+📺 [Inventory Tracker on YouTube](https://youtube.com/playlist?list=PL_eXQZHkE70mHCowOK_DIJHH-7c-Lg2KN&si=qcf5qfSHMtmwc609)  
+> I share my journey visually, explaining what I’m working on, how I troubleshoot, and what I’m learning. If you cannot find what you're looking for, go to my project's repo and you'll find the link there.
+
+---
