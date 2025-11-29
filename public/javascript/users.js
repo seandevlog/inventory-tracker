@@ -18,7 +18,7 @@ function init() {
     const form = $(document, 'div#modal form');
     const idElement = $(form, 'span#user-id');
     const idWrapper = idElement.parentElement;
-    const emailInput = form.elements['email'];
+    const usernameInput = form.elements['username'];
     const passwordInput = form.elements['password'];
     const givenNameInput = form.elements['given-name'];
     const familyNameInput = form.elements['family-name'];
@@ -37,7 +37,7 @@ function init() {
             const randomId = `U${generateRandomId(10)}`;
             const arrLength = users.push({
                 id: randomId,
-                email: emailInput.value,
+                username: usernameInput.value,
                 password: passwordInput.value,
                 givenName: givenNameInput.value,
                 familyName: familyNameInput.value,
@@ -47,7 +47,7 @@ function init() {
                 dateUpdated: new Date(),
                 status: selectedStatus.value
             });
-            indexes[randomId] = arrLength - 1; // [[[index], {id1, email1 ...}], {id1: index}] 
+            indexes[randomId] = arrLength - 1; // [[[index], {id1, username1 ...}], {id1: index}] 
             save();
         });
     }
@@ -61,7 +61,7 @@ function init() {
             newRow.innerHTML = `
             <td></td>
             <td>${user.id}</td>
-            <td>${user.email}</td>
+            <td>${user.username}</td>
             <td>${user.givenName}</td>
             <td>${user.familyName}</td>
             <td>${user.contact}</td>
@@ -75,7 +75,7 @@ function init() {
                 deleteButton.classList.remove('hide');
 
                 idElement.innerText = user.id;
-                emailInput.value = user.email;
+                usernameInput.value = user.username;
                 passwordInput.value = user.password;
                 givenNameInput.value = user.givenName;
                 familyNameInput.value = user.familyName;
@@ -88,7 +88,7 @@ function init() {
                     const index = indexes[rowId];
                     const user = users[index];
 
-                    user.email = emailInput.value;
+                    user.username = usernameInput.value;
                     user.password = passwordInput.value;
                     user.givenName = givenNameInput.value;
                     user.familyName = familyNameInput.value;
@@ -121,20 +121,20 @@ function init() {
     // All user properties can only be sorted one at a time
     // Sort image changes
     function setSort() {
-        const [ emailBtn, firstNameBtn, lastNameBtn, contactBtn, addressBtn ] = $$(document,'table>thead th:has(img)');
+        const [ usernameBtn, firstNameBtn, lastNameBtn, contactBtn, addressBtn ] = $$(document,'table>thead th:has(img)');
         
-        const [ emailSort, firstNameSort, lastNameSort, contactSort, addressSort ] = [ 
-            createSort('email', emailBtn), 
+        const [ usernameSort, firstNameSort, lastNameSort, contactSort, addressSort ] = [ 
+            createSort('username', usernameBtn), 
             createSort('givenName', firstNameBtn),
             createSort('familyName', lastNameBtn),
             createSort('contact', contactBtn),
             createSort('address', addressBtn)
         ];
 
-        emailBtn.onclick = e => {
+        usernameBtn.onclick = e => {
             e.preventDefault();
-            emailSort.reset();
-            emailSort.toggle();
+            usernameSort.reset();
+            usernameSort.toggle();
         }
         firstNameBtn.onclick = e => {
             e.preventDefault();
@@ -190,7 +190,7 @@ function init() {
                     renderTable(users);
                 },
                 reset() {
-                    [ emailSort, firstNameSort, lastNameSort, contactSort, addressSort ].forEach(_ => {
+                    [ usernameSort, firstNameSort, lastNameSort, contactSort, addressSort ].forEach(_ => {
                         // if not self => no sort
                         if (_ != this) {
                             _.current = 2;

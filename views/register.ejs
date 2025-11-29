@@ -2,34 +2,58 @@
 <h6>Please enter your details</h6>
 <form action="/register/user" method="POST">
     <div>
-        <label for="email">Email</label>
-        <span></span>   <!-- Email Validation Output -->
-        <input type="text" id="email" name="email" autocomplete="email">
+        <label for="username">Username</label>
+        <% if (username.error) { %>
+            <span class="validation-error">
+            <%- username.error %>
+            </span>
+        <% } %>
+        <input type="text" id="username" name="username" autocomplete="username" value="<%- username.value %>">
     </div>
     <div>
         <label for="password">Password</label>
-        <span></span>   <!-- Password Validation Output -->
-        <input type="password" id="password" name="password" autocomplete="current-password">
+        <% if (password.error) { %>
+            <span class="validation-error">
+            <%- password.error %>
+            </span>
+        <% } %>
+        <input type="password" id="password" name="password" autocomplete="current-password" value="<%- password.value %>">
     </div>
     <div>
         <label for="given-name">Given Name</label>
-        <span></span>   <!-- Given Name Validation Output -->
-        <input type="text" id="given-name" name="givenName" autocomplete="given-name">
+        <% if (givenName.error) { %>
+            <span class="validation-error">
+            <%- givenName.error %>
+            </span>
+        <% } %>
+        <input type="text" id="given-name" name="givenName" autocomplete="given-name" value="<%- givenName.value %>">
     </div>
     <div>
         <label for="family-name">Family Name</label>
-        <span></span>   <!-- Family Name Validation Output -->   
-        <input type="text" id="family-name" name="lastName" autocomplete="family-name">
+        <% if (familyName.error) { %>
+            <span class="validation-error">
+            <%- familyName.error %>
+            </span>
+        <% } %>
+        <input type="text" id="family-name" name="familyName" autocomplete="family-name" value="<%- familyName.value %>">
     </div>
     <div>
         <label for="contact">Contact</label>
-        <span></span>   <!-- Contact Validation Output -->
-        <input type="text" id="contact" name="contact" autocomplete="mobile">
+        <% if (contact.error) { %>
+            <span class="validation-error">
+            <%- contact.error %>
+            </span>
+        <% } %>
+        <input type="text" id="contact" name="contact" autocomplete="mobile" value="<%- contact.value %>">
     </div>
     <div>
         <label for="address">Address</label>
-        <span></span>   <!-- Address Validation Output -->
-        <input type="text" id="address" name="address" autocomplete="address-line-1">
+        <% if (address.error) { %>
+            <span class="validation-error">
+            <%- address.error %>
+            </span>
+        <% } %>
+        <input type="text" id="address" name="address" autocomplete="address-line-1" value="<%- address.value %>">
     </div>
     <button type="submit" class="btn" name="button">Register</button>`
 </form>

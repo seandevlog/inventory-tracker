@@ -6,10 +6,12 @@ import dotenv from 'dotenv';
 
 import { usersController } from './controllers/usersController.js';
 import { loginController } from './controllers/loginController.js';
+import { loginUserController } from './controllers/loginUserController.js'
 import { registerController } from './controllers/registerController.js';
 import { registerUserController } from './controllers/registerUserController.js';
 
 import { flashMiddleware } from './middlewares/flashMiddleware.js';
+import { validateLoginMiddleware } from './middlewares/validateLoginMiddleware.js'
 
 const app = express();
 
@@ -31,11 +33,15 @@ app.use(flashMiddleware);
 
 const port = process.env.PORT;
 
+app.get('/', (req, res) => res.send('Homepage'))
+
 app.get('/login', loginController);
 
 app.get('/register', registerController);
 
 app.get('/users', usersController);
+
+app.post('/login/user', validateLoginMiddleware, loginUserController);
 
 app.post('/register/user', registerUserController)
 

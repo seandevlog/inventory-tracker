@@ -59,6 +59,10 @@ body {
     cursor          : pointer;
 }
 
+.validation-error {
+    color           : rgb(82, 0, 12);
+}
+
 /* ==================================
             Authentication
 ===================================== */
