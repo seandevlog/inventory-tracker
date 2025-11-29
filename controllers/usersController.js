@@ -1,1 +1,5 @@
-import { userModel } from "../models/Users.js";
+import userModel from "../models/Users.js";
+
+export const usersController = (req, res) => {
+    res.render('users');
+}

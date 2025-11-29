@@ -1,13 +1,38 @@
 import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
 const userSchema = new Schema({
     // id: String (automatically generated)
-    email: String,
-    password: String,
-    givenName: String,
-    lastName: String,
-    contact: String,
-    address: String
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    givenName: {
+        type: String,
+        required: true,
+    },
+    lastName: {
+        type: String,
+        required: true,
+    },
+    contact: {
+        type: String,
+        required: true,
+    },
+    address: {
+        type: String,
+        required: true,
+    },
+    status: {
+        type: String,
+        required: true
+    }
 });
 
-export const userModel = mongoose.model('User', userSchema);
+const userModel = mongoose.model('User', userSchema);
+export default userModel;

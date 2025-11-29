@@ -1,0 +1,16 @@
+<h1>Welcome back!</h1>
+<h6>Please enter your details</h6>
+<form action="/login/user" method="POST">
+    <div>
+        <label for="email">Email</label>
+        <span></span>   <!-- Email Validation Output -->
+        <input type="text" id="email" name="email" autocomplete="email">
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <span></span>   <!-- Password Validation Output -->
+        <input type="password" id="password" name="password" autocomplete="current-password">
+    </div>
+    <button type="submit" class="btn" name="button">Login</button>`
+</form>
+<span id="redirect" data-url="/register">I don't have an account</span>

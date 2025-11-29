@@ -1,0 +1,36 @@
+<h1>Who are you?</h1>
+<h6>Please enter your details</h6>
+<form action="/register/user" method="POST">
+    <div>
+        <label for="email">Email</label>
+        <span></span>   <!-- Email Validation Output -->
+        <input type="text" id="email" name="email" autocomplete="email">
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <span></span>   <!-- Password Validation Output -->
+        <input type="password" id="password" name="password" autocomplete="current-password">
+    </div>
+    <div>
+        <label for="given-name">Given Name</label>
+        <span></span>   <!-- Given Name Validation Output -->
+        <input type="text" id="given-name" name="givenName" autocomplete="given-name">
+    </div>
+    <div>
+        <label for="family-name">Family Name</label>
+        <span></span>   <!-- Family Name Validation Output -->   
+        <input type="text" id="family-name" name="lastName" autocomplete="family-name">
+    </div>
+    <div>
+        <label for="contact">Contact</label>
+        <span></span>   <!-- Contact Validation Output -->
+        <input type="text" id="contact" name="contact" autocomplete="mobile">
+    </div>
+    <div>
+        <label for="address">Address</label>
+        <span></span>   <!-- Address Validation Output -->
+        <input type="text" id="address" name="address" autocomplete="address-line-1">
+    </div>
+    <button type="submit" class="btn" name="button">Register</button>`
+</form>
+<span id="redirect" data-url="/login">I already have an account</span>

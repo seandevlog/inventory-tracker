@@ -1,20 +1,44 @@
-import usersController from './controllers/usersController.js';
 import express from 'express';
+import mongoose from 'mongoose';
+import expressEjsLayouts from 'express-ejs-layouts';
+import session from 'express-session';
+import dotenv from 'dotenv';
+
+import { usersController } from './controllers/usersController.js';
+import { loginController } from './controllers/loginController.js';
+import { registerController } from './controllers/registerController.js';
+import { registerUserController } from './controllers/registerUserController.js';
+
+import { flashMiddleware } from './middlewares/flashMiddleware.js';
+
 const app = express();
+
+dotenv.config();
+
+mongoose.connect(process.env.MONGO_URI);
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'));
+app.use(expressEjsLayouts);
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(session({
+    secret: process.env.SESSION_KEY,
+    resave: false,
+    saveUninitialized: true
+}))
+app.use(flashMiddleware);
 
-const PORT = 5000;
+const port = process.env.PORT;
 
-app.get('/', (req, res) => {
-    res.render('auth');
-})
+app.get('/login', loginController);
 
-app.get('/users', (req, res) => {
-    res.render('users');
-})
+app.get('/register', registerController);
 
-app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`);
+app.get('/users', usersController);
+
+app.post('/register/user', registerUserController)
+
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
 })
