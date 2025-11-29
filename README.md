@@ -42,6 +42,6 @@ Early layout planning was done in Figma.
 ## 🎥 Devlog Videos (YouTube)
 
 📺 [Inventory Tracker on YouTube](https://youtube.com/playlist?list=PL_eXQZHkE70mHCowOK_DIJHH-7c-Lg2KN&si=qcf5qfSHMtmwc609)  
-> I share my journey visually, explaining what I’m working on, how I troubleshoot, and what I’m learning. If you cannot find what you're looking for, go to my project's repo and you'll find the link there.
+> I share my journey visually, explaining what I’m working on, how I troubleshoot, and what I’m learning.
 
 ---
