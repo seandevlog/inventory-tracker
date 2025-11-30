@@ -37,7 +37,7 @@ const userSchema = new Schema({
     },
     status: {
         type: String,
-        required: true
+        required: [ true, 'Status is required' ]
     }
 }, { timestamps: true });
 

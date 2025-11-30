@@ -19,11 +19,11 @@
         <% users.forEach(user => { %>
             <tr class="row row:hover">
                 <td></td>
-                <td><%- user.username %></td>
-                <td><%- user.givenName %></td>
-                <td><%- user.familyName %></td>
-                <td><%- user.contact %></td>
-                <td><%- user.address %></td>
+                <td><%= user.username %></td>
+                <td><%= user.givenName %></td>
+                <td><%= user.familyName %></td>
+                <td><%= user.contact %></td>
+                <td><%= user.address %></td>
             </tr>            
         <% }) %>
     </tbody>
@@ -55,12 +55,12 @@
                     <div>
                         <label for="given-name">Given Name</label>
                         <span></span>   <!-- Given Name Validation Output -->
-                        <input type="text" id="given-name" name="given-name" autocomplete="given-name">
+                        <input type="text" id="given-name" name="givenName" autocomplete="given-name">
                     </div>
                     <div>
                         <label for="family-name">Family Name</label>
                         <span></span>   <!-- Family Name Validation Output -->   
-                        <input type="text" id="family-name" name="family-name" autocomplete="family-name">
+                        <input type="text" id="family-name" name="familyName" autocomplete="family-name">
                     </div>
                     <div>
                         <label for="contact">Contact</label>

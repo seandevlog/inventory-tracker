@@ -1,7 +1,7 @@
 // import { get, persist } from './database.js';
-import { validateUserInfo } from './validation.js';
+// import { validateUserInfo } from './validation.js';
 import { clearInputs, generateRandomId, $, $$ } from './utils.js';
-import { setModal } from './modal.js';
+import { showModal } from './modal.js';
 
 // const STATE = "user-key";
 
@@ -20,23 +20,46 @@ function init() {
     const form = $(document, 'div#modal form');
     // const idElement = $(form, 'span#user-id');
     // const idWrapper = idElement.parentElement;
-    const usernameInput = form.elements['username'];
-    const passwordInput = form.elements['password'];
-    const givenNameInput = form.elements['given-name'];
-    const familyNameInput = form.elements['family-name'];
-    const contactInput = form.elements['contact'];
-    const addressInput = form.elements['address'];
-    const selectedStatus = form.elements['status'];
+    // const usernameInput = form.elements['username'];
+    // const passwordInput = form.elements['password'];
+    // const givenNameInput = form.elements['given-name'];
+    // const familyNameInput = form.elements['family-name'];
+    // const contactInput = form.elements['contact'];
+    // const addressInput = form.elements['address'];
+    // const selectedStatus = form.elements['status'];
     const deleteButton = $(modal, 'div#modal button#delete');
 
     // Create
     const createButton = $(document, 'div#users>main>button#create');
+    // TODO - open modal with create function
     createButton.onclick = () => {
         // idWrapper.classList.add('hide');
         deleteButton.classList.add('hide');
 
-        showModal(true, 'Create User')
-        setModal(true, 'Create User', async () => {
+        showModal(true, 'Create User', async (e) => {
+            e.preventDefault();
+
+            const res = await fetch('/users/store', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: form.elements['username'].value,
+                    password: form.elements['password'].value,
+                    givenName: form.elements['givenName'].value,
+                    familyName: form.elements['familyName'].value,
+                    contact: form.elements['contact'].value,
+                    address: form.elements['address'].value,
+                    status: form.elements['status'].value 
+                })
+            });
+            
+            const data = await res.json();
+
+            // Have finished receiving data and errors after submitting form and successfully stores user documents
+            // TODO - handle errors
+            console.log(data)
+        });
+        // setModal(true, 'Create User', async () => {
             // const randomId = `U${generateRandomId(10)}`;
             // const arrLength = users.push({
                 // id: randomId,
@@ -52,16 +75,16 @@ function init() {
             // });
             // indexes[randomId] = arrLength - 1; // [[[index], {id1, username1 ...}], {id1: index}] 
             // save();
-            const res = await fetch('/users/store', {
-                username: usernameInput.value,
+            // const res = await fetch('/users/store', {
+            //     username: usernameInput.value,
             //     password: passwordInput.value,
             //     givenName: givenNameInput.value,
             //     familyName: familyNameInput.value,
             //     contact: contactInput.value,
             //     address: addressInput.value,
-            });
+            // });
 
-        });
+        // });
     }
 
     // Read
@@ -71,7 +94,7 @@ function init() {
     //     users.forEach(user => fillRow(row))
     // }
 
-    const rows = $(document, 'table tbody tr');
+    const rows = $$(document, 'table tbody tr');
     setAllRows(rows);
 
     function setAllRows(rows) {
@@ -87,7 +110,7 @@ function init() {
             // <td>${user.address}</td>`;
             // newRow.classList.add('row','row:hover');
 
-            newRow.onclick = e => {
+            user.onclick = e => {
                 e.preventDefault();
 
                 // idWrapper.classList.remove('hide');

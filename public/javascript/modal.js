@@ -1,9 +1,31 @@
 import { $, $$ } from './utils.js';
 
-export const showModal = async (display, title) => {
+export const showModal = (display, title, saveOps) => {
     const modal = $(document, 'div#modal');
-    const res = await fetch('/user/create');
-    
+    const modalWrapper = modal.parentElement;
+    const header = $(modal, 'header');
+    const closeButton = $(modal, 'button#close');
+    const saveButton = $(modal, 'button#save');
+
+    // Save
+    saveButton.onclick = e => saveOps(e);
+    // saveButton.onkeydown = e => { 
+    //     e.preventDefault();
+    //     if (e.key === 'Enter')
+    //         //  && (isValid = validateUserInfo(form))) 
+    //     saveOps();
+    // };
+
+    // Close modal
+    closeButton.onclick = e => showModal(false);
+    modalWrapper.onclick = e => { if (e.target === e.currentTarget) showModal(false) };
+
+    if (display) {
+        modalWrapper.classList.remove('hide');
+        header.textContent = title;
+    } else {
+        modalWrapper.classList.add('hide');
+    }
 }
 
 export const setModal = (display = true, title, saveOps, deleteOps) => {

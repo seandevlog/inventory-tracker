@@ -12,8 +12,7 @@ import { usersController } from './controllers/usersController.js';
 import { storeUserController } from './controllers/storeUserController.js';
 
 import { flashMiddleware } from './middlewares/flashMiddleware.js';
-import { validateLoginMiddleware } from './middlewares/validateLoginMiddleware.js'
-import { newUserMiddleware } from './middlewares/newUserMiddleware.js'
+import { validateLoginMiddleware } from './middlewares/validateLoginMiddleware.js';
 
 const app = express();
 
@@ -43,11 +42,11 @@ app.get('/register', registerController);
 
 app.post('/login/user', validateLoginMiddleware, loginUserController);
 
-app.post('/register/user', newUserMiddleware, registerUserController)
+app.post('/register/user', registerUserController)
 
 app.get('/users', usersController);
 
-app.post('/users/store', newUserMiddleware, storeUserController);
+app.post('/users/store', storeUserController);
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
