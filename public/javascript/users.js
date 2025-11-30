@@ -11,7 +11,8 @@ function init() {
     // let data = get(STATE);
     // let [ users, indexes ] = data;
 
-    setModal(false);
+    // setModal(false);
+    showModal(false);
     // renderTable(users);
     // setSort();
     // setFilter();
@@ -34,6 +35,7 @@ function init() {
         // idWrapper.classList.add('hide');
         deleteButton.classList.add('hide');
 
+        showModal(true, 'Create User')
         setModal(true, 'Create User', async () => {
             // const randomId = `U${generateRandomId(10)}`;
             // const arrLength = users.push({
@@ -50,7 +52,14 @@ function init() {
             // });
             // indexes[randomId] = arrLength - 1; // [[[index], {id1, username1 ...}], {id1: index}] 
             // save();
-            const res = await fetch('/users/store', {});
+            const res = await fetch('/users/store', {
+                username: usernameInput.value,
+            //     password: passwordInput.value,
+            //     givenName: givenNameInput.value,
+            //     familyName: familyNameInput.value,
+            //     contact: contactInput.value,
+            //     address: addressInput.value,
+            });
 
         });
     }

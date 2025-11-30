@@ -1,5 +1,11 @@
 import { $, $$ } from './utils.js';
 
+export const showModal = async (display, title) => {
+    const modal = $(document, 'div#modal');
+    const res = await fetch('/user/create');
+    
+}
+
 export const setModal = (display = true, title, saveOps, deleteOps) => {
     const modal = $(document, 'div#modal');
     const header = $(modal, 'header');
@@ -16,11 +22,14 @@ export const setModal = (display = true, title, saveOps, deleteOps) => {
 
     saveButton.onclick = e => {
         e.preventDefault();
-        if (isValid = validateUserInfo(form)) saveOps();
+        // if (isValid = validateUserInfo(form)) 
+        saveOps();
     }; 
     saveButton.onkeydown = e => { 
         e.preventDefault();
-        if (e.key === 'Enter' && (isValid = validateUserInfo(form))) saveOps();
+        if (e.key === 'Enter')
+            //  && (isValid = validateUserInfo(form))) 
+        saveOps();
     };
 
     deleteButton.onclick = e => {
@@ -31,7 +40,7 @@ export const setModal = (display = true, title, saveOps, deleteOps) => {
     if (!display) {
         modalWrapper.classList.add('hide');
         if (setModal.isShown && inputs) {
-            clearInputs(inputs);
+            // clearInputs(inputs);
         }
         setModal.isShown = false;
     } else {
