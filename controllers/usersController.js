@@ -1,5 +1,11 @@
-import userModel from "../models/Users.js";
+import User from "../models/Users.js";
 
-export const usersController = (req, res) => {
-    res.render('users');
+export const usersController = async (req, res) => {
+    const users = await User.find({});
+
+    res.render('users', {
+        title: 'Users',
+        users: users,
+        layout: 'layouts/manage'
+    });
 }

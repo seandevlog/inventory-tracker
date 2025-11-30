@@ -1,11 +1,39 @@
-<div class="hide">
-    <div id="modal">
-        <button id="close">
-            <img src="./assets/arrow-left-solid-full.svg">
-        </button>
+<select id="filter" name="filter">
+    <option value="active">Filter by: Active</option>
+    <option value="inactive">Filter by: Inactive</option>
+    <option value="no-filter" selected>No Filter</option>
+</select>
+<button id="create" class="btn" href="#">New User</button>
+<table>
+    <thead>
+        <tr>
+            <th>Img</th>
+            <th><img src="./assets/arrow-down-arrow-up.svg"/>Username</th>
+            <th><img src="./assets/arrow-down-arrow-up.svg"/>Given Name</th>
+            <th><img src="./assets/arrow-down-arrow-up.svg"/>Family Name</th>
+            <th><img src="./assets/arrow-down-arrow-up.svg"/>Contact</th>
+            <th><img src="./assets/arrow-down-arrow-up.svg"/>Address</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% users.forEach(user => { %>
+            <tr class="row row:hover">
+                <td></td>
+                <td><%- user.username %></td>
+                <td><%- user.givenName %></td>
+                <td><%- user.familyName %></td>
+                <td><%- user.contact %></td>
+                <td><%- user.address %></td>
+            </tr>            
+        <% }) %>
+    </tbody>
+    <tfoot></tfoot>
+</table>
+<%- include('./partials/manage/modal', {
+    form: `
         <header></header>
         
-        <form id="data">
+        <form action='/users/store' method='POST' id="data">
             <fieldset id="photo">
                 <legend>Photo</legend>
                 <img src="./assets/image-solid-full.svg"></img> <!-- temp image -->
@@ -14,10 +42,6 @@
             <div>
                 <fieldset id="info">
                     <legend>Info</legend>
-                    <div>
-                        <span>User ID</span>
-                        <span id="user-id"></span>
-                    </div>
                     <div>
                         <label for="username">Username</label>
                         <span></span>   <!-- Username Validation Output -->
@@ -59,9 +83,9 @@
                 </fieldset>
             </div>
             <div>
-                <button id="save" class="btn">Save</button>
+                <button type="submit" id="save" class="btn">Save</button>
                 <button id="delete" class="btn">Delete</button>
             </div>
         </form>
-    </div>
-</div>
+    `
+}) %>

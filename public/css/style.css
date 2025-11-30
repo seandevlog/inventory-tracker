@@ -152,31 +152,31 @@ div#auth > span#redirect {
     width           : 100%;
 }
 
-.crud nav.primary {
+.crud nav.top {
     background-color: lightgray;
     justify-content : space-between;
     align-items     : center;
     padding         : 0 1em;
 }
 
-.crud nav.primary input[type="search"] {
+.crud nav.top input[type="search"] {
     margin          : auto;
     width           : 20em;
 }
 
-.crud nav.primary input[type="search"]::placeholder {
+.crud nav.top input[type="search"]::placeholder {
     color           : rgb(199, 198, 198);
     font-size       : 0.8em;
     text-indent     : 0.8em;
 }
 
-.crud nav.primary ul.links {
+.crud nav.top ul.links {
     display         : flex;
     flex-direction  : row;
     padding         : 0;
 }
 
-.crud nav.primary ul.links * {
+.crud nav.top ul.links * {
     list-style-type : none;
     margin          : 0 0.3em;
     color           : black;
@@ -186,12 +186,12 @@ div#auth > span#redirect {
     font-weight     : bold;
 }
 
-.crud nav.primary ul.links *:hover {
+.crud nav.top ul.links *:hover {
     text-decoration : underline;
     cursor          : pointer;
 }
 
-.crud nav.secondary {
+.crud nav.sub {
     background-color: gray;
     height          : 1.5em;
     align-items     : center;
@@ -199,14 +199,14 @@ div#auth > span#redirect {
     padding         : 0 1em;
 }
 
-.crud nav.secondary ul.links {
+.crud nav.sub ul.links {
     display         : flex;
     flex-direction  : row;
     list-style-type : none;
     padding         : 0;
 }
 
-.crud nav.secondary ul.links * {
+.crud nav.sub ul.links * {
     margin-right    : 0.5em;
     color           : white;
     font-size       : 0.9em;
@@ -214,7 +214,7 @@ div#auth > span#redirect {
     text-decoration : none;
 }
 
-.crud nav.secondary ul.links *:hover {
+.crud nav.sub ul.links *:hover {
     text-decoration : underline;
 }
 
@@ -342,16 +342,6 @@ div#modal form#data div {
 div#modal form#data fieldset#photo > img {
     width: 300px;
     height: 300px;
-}
-
-div#modal form#data fieldset#info span:has(+span#user-id),
-div#modal form#data fieldset#info span#user-id {
-    display: block;
-    margin: 0.3em 0;
-}
-
-div#modal form#data fieldset#info span:has(+span#user-id) {
-    font-weight: bold;
 }
 
 div#modal form#data fieldset#info input {

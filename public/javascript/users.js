@@ -1,23 +1,24 @@
-import { get, persist } from './database.js';
+// import { get, persist } from './database.js';
 import { validateUserInfo } from './validation.js';
 import { clearInputs, generateRandomId, $, $$ } from './utils.js';
+import { setModal } from './modal.js';
 
-const STATE = "user-key";
+// const STATE = "user-key";
 
 init();
 
 function init() {
-    let data = get(STATE);
-    let [ users, indexes ] = data;
+    // let data = get(STATE);
+    // let [ users, indexes ] = data;
 
     setModal(false);
-    renderTable(users);
-    setSort();
-    setFilter();
+    // renderTable(users);
+    // setSort();
+    // setFilter();
 
     const form = $(document, 'div#modal form');
-    const idElement = $(form, 'span#user-id');
-    const idWrapper = idElement.parentElement;
+    // const idElement = $(form, 'span#user-id');
+    // const idWrapper = idElement.parentElement;
     const usernameInput = form.elements['username'];
     const passwordInput = form.elements['password'];
     const givenNameInput = form.elements['given-name'];
@@ -30,51 +31,59 @@ function init() {
     // Create
     const createButton = $(document, 'div#users>main>button#create');
     createButton.onclick = () => {
-        idWrapper.classList.add('hide');
+        // idWrapper.classList.add('hide');
         deleteButton.classList.add('hide');
 
-        setModal(true, 'Create User', () => {
-            const randomId = `U${generateRandomId(10)}`;
-            const arrLength = users.push({
-                id: randomId,
-                username: usernameInput.value,
-                password: passwordInput.value,
-                givenName: givenNameInput.value,
-                familyName: familyNameInput.value,
-                contact: contactInput.value,
-                address: addressInput.value,
-                dateCreated: new Date(),
-                dateUpdated: new Date(),
-                status: selectedStatus.value
-            });
-            indexes[randomId] = arrLength - 1; // [[[index], {id1, username1 ...}], {id1: index}] 
-            save();
+        setModal(true, 'Create User', async () => {
+            // const randomId = `U${generateRandomId(10)}`;
+            // const arrLength = users.push({
+                // id: randomId,
+            //     username: usernameInput.value,
+            //     password: passwordInput.value,
+            //     givenName: givenNameInput.value,
+            //     familyName: familyNameInput.value,
+            //     contact: contactInput.value,
+            //     address: addressInput.value,
+            //     dateCreated: new Date(),
+            //     dateUpdated: new Date(),
+            //     status: selectedStatus.value
+            // });
+            // indexes[randomId] = arrLength - 1; // [[[index], {id1, username1 ...}], {id1: index}] 
+            // save();
+            const res = await fetch('/users/store', {});
+
         });
     }
 
     // Read
-    function renderTable(users) {
-        const body = $(document, 'table tbody');
-        body.innerHTML = "";
-        users.forEach(user => {
-            const newRow = body.insertRow();
-            newRow.innerHTML = `
-            <td></td>
-            <td>${user.id}</td>
-            <td>${user.username}</td>
-            <td>${user.givenName}</td>
-            <td>${user.familyName}</td>
-            <td>${user.contact}</td>
-            <td>${user.address}</td>`;
-            newRow.classList.add('row','row:hover');
+    // function renderTable(users) {
+    //     
+    //     body.innerHTML = "";
+    //     users.forEach(user => fillRow(row))
+    // }
+
+    const rows = $(document, 'table tbody tr');
+    setAllRows(rows);
+
+    function setAllRows(rows) {
+        rows.forEach(user => {
+            // const newRow = body.insertRow();
+            // newRow.innerHTML = `
+            // <td></td>
+            // <td>${user.id}</td>
+            // <td>${user.username}</td>
+            // <td>${user.givenName}</td>
+            // <td>${user.familyName}</td>
+            // <td>${user.contact}</td>
+            // <td>${user.address}</td>`;
+            // newRow.classList.add('row','row:hover');
 
             newRow.onclick = e => {
                 e.preventDefault();
 
-                idWrapper.classList.remove('hide');
+                // idWrapper.classList.remove('hide');
                 deleteButton.classList.remove('hide');
 
-                idElement.innerText = user.id;
                 usernameInput.value = user.username;
                 passwordInput.value = user.password;
                 givenNameInput.value = user.givenName;
@@ -110,8 +119,8 @@ function init() {
 
                 passwordInput.type = "text";
             };
-        })
-    }
+        }
+    )}
 
     function save() {
         persist(STATE, data);
@@ -215,46 +224,46 @@ function init() {
         }
     } 
 
-    function setModal(display = true, title, saveOps, deleteOps) {
-        const modal = $(document, 'div#modal');
-        const header = $(modal, 'header');
-        const form = $(modal, 'form');
-        const closeButton = $(modal, 'button#close');
-        const saveButton = $(modal, 'button#save');
-        const deleteButton = $(modal, 'button#delete');
-        const inputs = $$(form, 'fieldset#info input');
-        const modalWrapper = modal.parentElement;
-        let isValid = false;
+    // function setModal(display = true, title, saveOps, deleteOps) {
+    //     const modal = $(document, 'div#modal');
+    //     const header = $(modal, 'header');
+    //     const form = $(modal, 'form');
+    //     const closeButton = $(modal, 'button#close');
+    //     const saveButton = $(modal, 'button#save');
+    //     const deleteButton = $(modal, 'button#delete');
+    //     const inputs = $$(form, 'fieldset#info input');
+    //     const modalWrapper = modal.parentElement;
+    //     let isValid = false;
 
-        closeButton.onclick = e => setModal(false);
-        modalWrapper.onclick = e => (e.target === e.currentTarget) ? setModal(false): null;
+    //     closeButton.onclick = e => setModal(false);
+    //     modalWrapper.onclick = e => (e.target === e.currentTarget) ? setModal(false): null;
 
-        saveButton.onclick = e => {
-            e.preventDefault();
-            if (isValid = validateUserInfo(form)) saveOps();
-        }; 
-        saveButton.onkeydown = e => { 
-            e.preventDefault();
-            if (e.key === 'Enter' && (isValid = validateUserInfo(form))) saveOps();
-        };
+    //     saveButton.onclick = e => {
+    //         e.preventDefault();
+    //         if (isValid = validateUserInfo(form)) saveOps();
+    //     }; 
+    //     saveButton.onkeydown = e => { 
+    //         e.preventDefault();
+    //         if (e.key === 'Enter' && (isValid = validateUserInfo(form))) saveOps();
+    //     };
 
-        deleteButton.onclick = e => {
-            e.preventDefault();
-            deleteOps();
-        }
+    //     deleteButton.onclick = e => {
+    //         e.preventDefault();
+    //         deleteOps();
+    //     }
 
-        if (!display) {
-            modalWrapper.classList.add('hide');
-            if (setModal.isShown && inputs) {
-                clearInputs(inputs);
-            }
-            setModal.isShown = false;
-        } else {
-            header.innerHTML = `<h1>${title}</h1>`;
-            modalWrapper.classList.remove('hide');
-            form.elements['password'].type = 'password';
-            setModal.isShown = true;
-        }
-    }
+    //     if (!display) {
+    //         modalWrapper.classList.add('hide');
+    //         if (setModal.isShown && inputs) {
+    //             clearInputs(inputs);
+    //         }
+    //         setModal.isShown = false;
+    //     } else {
+    //         header.innerHTML = `<h1>${title}</h1>`;
+    //         modalWrapper.classList.remove('hide');
+    //         form.elements['password'].type = 'password';
+    //         setModal.isShown = true;
+    //     }
+    // }
 }
 
