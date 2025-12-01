@@ -10,3 +10,6 @@ Forms
 
 Table
 - Add drag and drop option for rows
+
+All
+- Integrate accessibility features
