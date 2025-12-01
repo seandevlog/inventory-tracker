@@ -1,21 +1,24 @@
-import { $, $$ } from './utils.js';
+import { $, $$, clearForm } from './utils.js';
 
-export const showModal = (display, title, saveOps) => {
+export const showModal = (display = true, title, saveOps) => {
     const modal = $(document, 'div#modal');
     const modalWrapper = modal.parentElement;
     const header = $(modal, 'header');
     const closeButton = $(modal, 'button#close');
     const saveButton = $(modal, 'button#save');
+    const form = $(modal, 'form');
 
     // Save
     saveButton.onclick = e => saveOps(e);
+    saveButton.onkeydown = e => { if (e.key === 'Enter') saveOps(e) };
     // saveButton.onkeydown = e => { 
     //     e.preventDefault();
     //     if (e.key === 'Enter')
-    //         //  && (isValid = validateUserInfo(form))) 
+            //  && (isValid = validateUserInfo(form))) 
     //     saveOps();
     // };
 
+    // When user closes modal, inputs and errors should be cleared
     // Close modal
     closeButton.onclick = e => showModal(false);
     modalWrapper.onclick = e => { if (e.target === e.currentTarget) showModal(false) };
@@ -25,9 +28,11 @@ export const showModal = (display, title, saveOps) => {
         header.textContent = title;
     } else {
         modalWrapper.classList.add('hide');
+        clearForm(form);
     }
 }
 
+// !DO NOT DELETE until all user crud ops are done
 export const setModal = (display = true, title, saveOps, deleteOps) => {
     const modal = $(document, 'div#modal');
     const header = $(modal, 'header');

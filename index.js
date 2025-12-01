@@ -10,6 +10,7 @@ import { registerController } from './controllers/registerController.js';
 import { registerUserController } from './controllers/registerUserController.js';
 import { usersController } from './controllers/usersController.js';
 import { storeUserController } from './controllers/storeUserController.js';
+import { getUserController } from './controllers/getUserController.js';
 
 import { flashMiddleware } from './middlewares/flashMiddleware.js';
 import { validateLoginMiddleware } from './middlewares/validateLoginMiddleware.js';
@@ -45,6 +46,10 @@ app.post('/login/user', validateLoginMiddleware, loginUserController);
 app.post('/register/user', registerUserController)
 
 app.get('/users', usersController);
+
+app.get('/users/:username', getUserController);
+
+app.patch('/users/:username', updateUserController);
 
 app.post('/users/store', storeUserController);
 

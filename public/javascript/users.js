@@ -1,6 +1,6 @@
 // import { get, persist } from './database.js';
 // import { validateUserInfo } from './validation.js';
-import { clearInputs, generateRandomId, $, $$ } from './utils.js';
+import { $, $$ } from './utils.js';
 import { showModal } from './modal.js';
 
 // const STATE = "user-key";
@@ -31,7 +31,7 @@ function init() {
 
     // Create
     const createButton = $(document, 'div#users>main>button#create');
-    // TODO - open modal with create function
+    // open modal with create function
     createButton.onclick = () => {
         // idWrapper.classList.add('hide');
         deleteButton.classList.add('hide');
@@ -53,11 +53,13 @@ function init() {
                 })
             });
             
-            const data = await res.json();
+            handleErrors(res);
 
-            // Have finished receiving data and errors after submitting form and successfully stores user documents
-            // TODO - handle errors
-            console.log(data)
+            // const userInputs = data.body;
+            // const inputs = $$(form, 'fieldset#info inputs')
+            // for (const input of inputs) {
+            //     input.value = userInputs[`${userInputs.dataset.id}`];
+            // }
         });
         // setModal(true, 'Create User', async () => {
             // const randomId = `U${generateRandomId(10)}`;
@@ -87,6 +89,19 @@ function init() {
         // });
     }
 
+    async function handleErrors(response) {
+        const data = await response.json();
+
+        // Handle errors
+        const errors = data.errors;
+        const validationMessages = $$(form, 'span')
+        for (const validationMessage of validationMessages) {
+            // e.g. validationMessage.dataset.id = username
+            // then, errors[validationMessage.dataset.id] = errors['username']
+            validationMessage.textContent = errors[`${validationMessage.dataset.id}`];
+        } 
+    }
+
     // Read
     // function renderTable(users) {
     //     
@@ -94,11 +109,11 @@ function init() {
     //     users.forEach(user => fillRow(row))
     // }
 
-    const rows = $$(document, 'table tbody tr');
-    setAllRows(rows);
+    const rows = $$(document, 'table>tbody tr');
+    setAllRowsOnclick(rows);
 
-    function setAllRows(rows) {
-        rows.forEach(user => {
+    function setAllRowsOnclick(rows) {
+        rows.forEach(row => {
             // const newRow = body.insertRow();
             // newRow.innerHTML = `
             // <td></td>
@@ -110,49 +125,84 @@ function init() {
             // <td>${user.address}</td>`;
             // newRow.classList.add('row','row:hover');
 
-            user.onclick = e => {
-                e.preventDefault();
-
-                // idWrapper.classList.remove('hide');
-                deleteButton.classList.remove('hide');
-
-                usernameInput.value = user.username;
-                passwordInput.value = user.password;
-                givenNameInput.value = user.givenName;
-                familyNameInput.value = user.familyName;
-                contactInput.value = user.contact;
-                addressInput.value = user.address;
-
-                // Update & Delete
-                setModal(true, 'Edit User', () => {
-                    const rowId = idElement.innerText;
-                    const index = indexes[rowId];
-                    const user = users[index];
-
-                    user.username = usernameInput.value;
-                    user.password = passwordInput.value;
-                    user.givenName = givenNameInput.value;
-                    user.familyName = familyNameInput.value;
-                    user.contact = contactInput.value;
-                    user.address = addressInput.value;
-                    user.dateCreated = user.dateCreated;
-                    user.dateUpdated = new Date();
-                    user.status = selectedStatus.value;
-
-                    save();
-                }, () => {
-                    const idx = indexes[user.id];
-                    delete indexes[user.id];
-                    users.splice(idx, 1);
-
-                    data = [users, indexes];
-                    save();
-                });
-
-                passwordInput.type = "text";
-            };
+            row.onclick = () => setRowOnclick(row);
         }
     )}
+
+    async function setRowOnclick(row) {
+        // idWrapper.classList.remove('hide');
+        deleteButton.classList.remove('hide');
+
+        // usernameInput.value = row.username;
+        // passwordInput.value = row.password;
+        // givenNameInput.value = row.givenName;
+        // familyNameInput.value = row.familyName;
+        // contactInput.value = row.contact;
+        // addressInput.value = row.address;
+
+        // get specific user's data from database and display the values when modal opens
+        const username = $(row, 'td[data-id="username"]').textContent;
+        const res = await fetch(`/users/${username}`);
+
+        const data = await res.json();
+
+        // ! do not move this inside modal
+        form.elements['username'].value = data.currentUser['username'];
+        form.elements['password'].value = data.currentUser['password'];
+        form.elements['givenName'].value = data.currentUser['givenName'];
+        form.elements['familyName'].value = data.currentUser['familyName'];
+        form.elements['contact'].value = data.currentUser['contact'];
+        form.elements['address'].value = data.currentUser['address'];
+        form.elements['status'].value = data.currentUser['status'];
+
+        showModal(true, 'Edit User', () => updateUser(data.currentUser['username']));
+
+        // Update & Delete
+        // setModal(true, 'Edit User', {} , () => {
+        //     const idx = indexes[user.id];
+        //     delete indexes[user.id];
+        //     users.splice(idx, 1);
+
+        //     data = [users, indexes];
+        //     save();
+        // });
+
+        // passwordInput.type = "text";
+    }
+
+    async function updateUser(username) {
+        // TODO - get username inside userInput.value, and update it directly using patch method and findOneAndUpdate
+        const res = await fetch(`/users/${username}`, {
+            method: 'PATCH',
+            body: JSON.stringify({
+                username: form.elements['username'].value,
+                password: form.elements['password'].value,
+                givenName: form.elements['givenName'].value,
+                familyName: form.elements['familyName'].value,
+                contact: form.elements['contact'].value,
+                address: form.elements['address'].value,
+                status: form.elements['status'].value 
+            })
+        })
+
+        handleErrors(res);
+
+        // const rowId = idElement.innerText;
+        // const index = indexes[rowId];
+        // const user = users[index];
+
+        // user.username = usernameInput.value;
+        // user.password = passwordInput.value;
+        // user.givenName = givenNameInput.value;
+        // user.familyName = familyNameInput.value;
+        // user.contact = contactInput.value;
+        // user.address = addressInput.value;
+        // user.dateCreated = user.dateCreated;
+        // user.dateUpdated = new Date();
+        // user.status = selectedStatus.value;
+
+        // save();
+    }
 
     function save() {
         persist(STATE, data);

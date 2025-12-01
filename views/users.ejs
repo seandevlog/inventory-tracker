@@ -19,11 +19,11 @@
         <% users.forEach(user => { %>
             <tr class="row row:hover">
                 <td></td>
-                <td><%= user.username %></td>
-                <td><%= user.givenName %></td>
-                <td><%= user.familyName %></td>
-                <td><%= user.contact %></td>
-                <td><%= user.address %></td>
+                <td data-id="username"><%= user.username %></td>
+                <td data-id="givenName"><%= user.givenName %></td>
+                <td data-id="familyName"><%= user.familyName %></td>
+                <td data-id="contact"><%= user.contact %></td>
+                <td data-id="address"><%= user.address %></td>
             </tr>            
         <% }) %>
     </tbody>
@@ -44,40 +44,40 @@
                     <legend>Info</legend>
                     <div>
                         <label for="username">Username</label>
-                        <span></span>   <!-- Username Validation Output -->
-                        <input type="text" id="username" name="username" autocomplete="username">
+                        <span class="validation-error" data-id="username"></span>   <!-- Username Validation Output -->
+                        <input type="text" id="username" name="username" autocomplete="username" data-id="username" data-type="info">
                     </div>
                     <div>
                         <label for="password">Password</label>
-                        <span></span>   <!-- Password Validation Output -->
-                        <input type="password" id="password" name="password" autocomplete="current-password">
+                        <span class="validation-error" data-id="password"></span>   <!-- Password Validation Output -->
+                        <input type="password" id="password" name="password" autocomplete="current-password" data-id="password" data-type="info">
                     </div>
                     <div>
                         <label for="given-name">Given Name</label>
-                        <span></span>   <!-- Given Name Validation Output -->
-                        <input type="text" id="given-name" name="givenName" autocomplete="given-name">
+                        <span class="validation-error" data-id="givenName"></span>   <!-- Given Name Validation Output -->
+                        <input type="text" id="given-name" name="givenName" autocomplete="given-name" data-id="givenName" data-type="info">
                     </div>
                     <div>
                         <label for="family-name">Family Name</label>
-                        <span></span>   <!-- Family Name Validation Output -->   
-                        <input type="text" id="family-name" name="familyName" autocomplete="family-name">
+                        <span class="validation-error" data-id="familyName"></span>   <!-- Family Name Validation Output -->   
+                        <input type="text" id="family-name" name="familyName" autocomplete="family-name" data-id="familyName" data-type="info">
                     </div>
                     <div>
                         <label for="contact">Contact</label>
-                        <span></span>   <!-- Contact Validation Output -->
-                        <input type="text" id="contact" name="contact" autocomplete="mobile">
+                        <span class="validation-error" data-id="contact"></span>   <!-- Contact Validation Output -->
+                        <input type="text" id="contact" name="contact" autocomplete="mobile" data-id="contact" data-type="info">
                     </div>
                     <div>
                         <label for="address">Address</label>
-                        <span></span>   <!-- Address Validation Output -->
-                        <input type="text" id="address" name="address" autocomplete="address-line1">
+                        <span class="validation-error" data-id="address"></span>   <!-- Address Validation Output -->
+                        <input type="text" id="address" name="address" autocomplete="address-line1" data-id="address" data-type="info">
                     </div>
                 </fieldset>
                 <fieldset>
                     <legend>Status</legend>
                     <label for="status">Current Status</label>
-                    <select id="status" name="status" required>
-                        <option value="active">Active</option>
+                    <select id="status" name="status" data-selected="active" required>
+                        <option value="active" selected>Active</option>
                         <option value="inactive">Inactive</option>
                     </select>
                 </fieldset>

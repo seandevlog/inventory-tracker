@@ -3,15 +3,16 @@ import User from "../models/Users.js";
 export const storeUserController = async (req, res) => {
     try {
         await User.create({
-            ...req.body,
-        })
+            ...req.body
+         })
         res.redirect('/users')
-    } catch (error) {
+    } catch (err) {
+        const errors = {}
+        Object.keys(err.errors).map(key => errors[err.errors[key].path] = err.errors[key].message);
         res.send({
             body: req.body,
-            errors: Object.keys(error.errors).map(key => error.errors[key].message)
+            errors: errors
         });
-        // console.log(Object.keys(error.errors).map(key => error.errors[key].message))
         
         // if (error.errors) {
         //     if (error.errors.username && error.errors.username.message) req.flash('usernameRegisterValidationError', error.errors.username.message);
