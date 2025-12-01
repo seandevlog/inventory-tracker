@@ -1,25 +1,33 @@
 import { $, $$, clearForm } from './utils.js';
 
-export const showModal = (display = true, title, saveOps) => {
+export const showModal = (display = true, title, saveOps, deleteOps) => {
     const modal = $(document, 'div#modal');
     const modalWrapper = modal.parentElement;
     const header = $(modal, 'header');
     const closeButton = $(modal, 'button#close');
     const saveButton = $(modal, 'button#save');
+    const deleteButton = $(modal, 'button#delete');
     const form = $(modal, 'form');
 
     // Save
-    saveButton.onclick = e => saveOps(e);
-    saveButton.onkeydown = e => { if (e.key === 'Enter') saveOps(e) };
-    // saveButton.onkeydown = e => { 
-    //     e.preventDefault();
-    //     if (e.key === 'Enter')
-            //  && (isValid = validateUserInfo(form))) 
-    //     saveOps();
-    // };
+    saveButton.onclick = e => {
+        e.preventDefault();
+        saveOps();
+    }
+    saveButton.onkeydown = e => { 
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            saveOps(); 
+        }
+    };
 
-    // When user closes modal, inputs and errors should be cleared
-    // Close modal
+    // Delete
+    deleteButton.onclick = e => {
+        e.preventDefault();
+        deleteOps();
+    }
+
+    // When user closes modal, inputs and errors are cleared
     closeButton.onclick = e => showModal(false);
     modalWrapper.onclick = e => { if (e.target === e.currentTarget) showModal(false) };
 

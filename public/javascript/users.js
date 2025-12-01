@@ -1,146 +1,70 @@
-// import { get, persist } from './database.js';
-// import { validateUserInfo } from './validation.js';
 import { $, $$ } from './utils.js';
 import { showModal } from './modal.js';
-
-// const STATE = "user-key";
 
 init();
 
 function init() {
-    // let data = get(STATE);
-    // let [ users, indexes ] = data;
-
-    // setModal(false);
     showModal(false);
-    // renderTable(users);
     // setSort();
     // setFilter();
 
     const form = $(document, 'div#modal form');
-    // const idElement = $(form, 'span#user-id');
-    // const idWrapper = idElement.parentElement;
-    // const usernameInput = form.elements['username'];
-    // const passwordInput = form.elements['password'];
-    // const givenNameInput = form.elements['given-name'];
-    // const familyNameInput = form.elements['family-name'];
-    // const contactInput = form.elements['contact'];
-    // const addressInput = form.elements['address'];
-    // const selectedStatus = form.elements['status'];
     const deleteButton = $(modal, 'div#modal button#delete');
 
     // Create
     const createButton = $(document, 'div#users>main>button#create');
-    // open modal with create function
     createButton.onclick = () => {
-        // idWrapper.classList.add('hide');
         deleteButton.classList.add('hide');
 
-        showModal(true, 'Create User', async (e) => {
-            e.preventDefault();
-
-            const res = await fetch('/users/store', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    username: form.elements['username'].value,
-                    password: form.elements['password'].value,
-                    givenName: form.elements['givenName'].value,
-                    familyName: form.elements['familyName'].value,
-                    contact: form.elements['contact'].value,
-                    address: form.elements['address'].value,
-                    status: form.elements['status'].value 
-                })
-            });
-            
-            handleErrors(res);
-
-            // const userInputs = data.body;
-            // const inputs = $$(form, 'fieldset#info inputs')
-            // for (const input of inputs) {
-            //     input.value = userInputs[`${userInputs.dataset.id}`];
-            // }
-        });
-        // setModal(true, 'Create User', async () => {
-            // const randomId = `U${generateRandomId(10)}`;
-            // const arrLength = users.push({
-                // id: randomId,
-            //     username: usernameInput.value,
-            //     password: passwordInput.value,
-            //     givenName: givenNameInput.value,
-            //     familyName: familyNameInput.value,
-            //     contact: contactInput.value,
-            //     address: addressInput.value,
-            //     dateCreated: new Date(),
-            //     dateUpdated: new Date(),
-            //     status: selectedStatus.value
-            // });
-            // indexes[randomId] = arrLength - 1; // [[[index], {id1, username1 ...}], {id1: index}] 
-            // save();
-            // const res = await fetch('/users/store', {
-            //     username: usernameInput.value,
-            //     password: passwordInput.value,
-            //     givenName: givenNameInput.value,
-            //     familyName: familyNameInput.value,
-            //     contact: contactInput.value,
-            //     address: addressInput.value,
-            // });
-
-        // });
+        showModal(true, 'Create User', () => createUser());
     }
 
-    async function handleErrors(response) {
-        const data = await response.json();
+    async function createUser() {
+        const res = await fetch('/users/store', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: form.elements['username'].value,
+                password: form.elements['password'].value,
+                givenName: form.elements['givenName'].value,
+                familyName: form.elements['familyName'].value,
+                contact: form.elements['contact'].value,
+                address: form.elements['address'].value,
+                status: form.elements['status'].value 
+            })
+        });
+        
+        const data = await res.json();
+        const errors = handleInputErrors(data);
+        if (errors == null) window.location.href = data.redirect;
+    } 
 
-        // Handle errors
+    function handleInputErrors(data) {
+        console.log(data.errors);
+        if (typeof data.errors == 'undefined') return null;
+
         const errors = data.errors;
         const validationMessages = $$(form, 'span')
         for (const validationMessage of validationMessages) {
             // e.g. validationMessage.dataset.id = username
             // then, errors[validationMessage.dataset.id] = errors['username']
             validationMessage.textContent = errors[`${validationMessage.dataset.id}`];
-        } 
+        }
+        return errors;
     }
 
-    // Read
-    // function renderTable(users) {
-    //     
-    //     body.innerHTML = "";
-    //     users.forEach(user => fillRow(row))
-    // }
-
+    // Sets all user row's event listeners
     const rows = $$(document, 'table>tbody tr');
     setAllRowsOnclick(rows);
 
     function setAllRowsOnclick(rows) {
         rows.forEach(row => {
-            // const newRow = body.insertRow();
-            // newRow.innerHTML = `
-            // <td></td>
-            // <td>${user.id}</td>
-            // <td>${user.username}</td>
-            // <td>${user.givenName}</td>
-            // <td>${user.familyName}</td>
-            // <td>${user.contact}</td>
-            // <td>${user.address}</td>`;
-            // newRow.classList.add('row','row:hover');
-
             row.onclick = () => setRowOnclick(row);
         }
     )}
 
+    // get particular user's data from database using row values as reference and display those when modal opens
     async function setRowOnclick(row) {
-        // idWrapper.classList.remove('hide');
-        deleteButton.classList.remove('hide');
-
-        // usernameInput.value = row.username;
-        // passwordInput.value = row.password;
-        // givenNameInput.value = row.givenName;
-        // familyNameInput.value = row.familyName;
-        // contactInput.value = row.contact;
-        // addressInput.value = row.address;
-
-        // get specific user's data from database and display the values when modal opens
         const username = $(row, 'td[data-id="username"]').textContent;
         const res = await fetch(`/users/${username}`);
 
@@ -155,25 +79,24 @@ function init() {
         form.elements['address'].value = data.currentUser['address'];
         form.elements['status'].value = data.currentUser['status'];
 
-        showModal(true, 'Edit User', () => updateUser(data.currentUser['username']));
-
-        // Update & Delete
-        // setModal(true, 'Edit User', {} , () => {
-        //     const idx = indexes[user.id];
-        //     delete indexes[user.id];
-        //     users.splice(idx, 1);
-
-        //     data = [users, indexes];
-        //     save();
-        // });
-
-        // passwordInput.type = "text";
+        deleteButton.classList.remove('hide');
+        showModal(true, 'Edit User', () => updateUser(data.currentUser['username']), () => deleteUser(data.currentUser['username']));
     }
 
+    async function deleteUser(username) {
+        const res = await fetch(`/users/${username}`, {
+            method: 'DELETE'
+        });
+
+        const data = await res.json();
+        window.location.href = data.redirect;
+    }
+
+    // Gets username inside userInput.value, and update it directly using patch method and findOneAndUpdate
     async function updateUser(username) {
-        // TODO - get username inside userInput.value, and update it directly using patch method and findOneAndUpdate
         const res = await fetch(`/users/${username}`, {
             method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 username: form.elements['username'].value,
                 password: form.elements['password'].value,
@@ -183,30 +106,12 @@ function init() {
                 address: form.elements['address'].value,
                 status: form.elements['status'].value 
             })
-        })
+        });
 
-        handleErrors(res);
+        const data = await res.json();
+        const errors = handleInputErrors(data);
 
-        // const rowId = idElement.innerText;
-        // const index = indexes[rowId];
-        // const user = users[index];
-
-        // user.username = usernameInput.value;
-        // user.password = passwordInput.value;
-        // user.givenName = givenNameInput.value;
-        // user.familyName = familyNameInput.value;
-        // user.contact = contactInput.value;
-        // user.address = addressInput.value;
-        // user.dateCreated = user.dateCreated;
-        // user.dateUpdated = new Date();
-        // user.status = selectedStatus.value;
-
-        // save();
-    }
-
-    function save() {
-        persist(STATE, data);
-        location.reload();
+        if (errors == null) window.location.href = data.redirect;
     }
 
     // All user properties can only be sorted one at a time

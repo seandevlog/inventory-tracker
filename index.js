@@ -11,6 +11,8 @@ import { registerUserController } from './controllers/registerUserController.js'
 import { usersController } from './controllers/usersController.js';
 import { storeUserController } from './controllers/storeUserController.js';
 import { getUserController } from './controllers/getUserController.js';
+import { updateUserController } from './controllers/updateUserController.js';
+import { deleteUserController } from './controllers/deleteUserController.js';
 
 import { flashMiddleware } from './middlewares/flashMiddleware.js';
 import { validateLoginMiddleware } from './middlewares/validateLoginMiddleware.js';
@@ -50,6 +52,8 @@ app.get('/users', usersController);
 app.get('/users/:username', getUserController);
 
 app.patch('/users/:username', updateUserController);
+
+app.delete('/users/:username', deleteUserController);
 
 app.post('/users/store', storeUserController);
 
