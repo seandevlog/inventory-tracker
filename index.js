@@ -49,13 +49,13 @@ app.post('/register/user', registerUserController)
 
 app.get('/users', usersController);
 
+app.post('/users/store', storeUserController);
+
 app.get('/users/:username', getUserController);
 
 app.patch('/users/:username', updateUserController);
 
 app.delete('/users/:username', deleteUserController);
-
-app.post('/users/store', storeUserController);
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);

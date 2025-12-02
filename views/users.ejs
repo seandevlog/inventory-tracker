@@ -17,7 +17,7 @@
     </thead>
     <tbody>
         <% users.forEach(user => { %>
-            <tr class="row row:hover">
+            <tr class="row row:hover" data-created="<%- user.createdAt %>" data-updated="<%- user.updatedAt %>" data-status="<%- user.status %>">
                 <td></td>
                 <td data-id="username"><%= user.username %></td>
                 <td data-id="givenName"><%= user.givenName %></td>

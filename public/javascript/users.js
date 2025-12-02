@@ -5,8 +5,24 @@ init();
 
 function init() {
     showModal(false);
-    // setSort();
-    // setFilter();
+
+    const rows = $$(document, 'table>tbody tr');
+    const users = getUsersFromRows(rows);
+    handleFiltering(users);
+    handleSorting(users);
+
+    function getUsersFromRows(rows) {
+        const users = [];
+        for (const row of rows) {
+            const info = {};
+            for (const data of row.children) {
+                if (data.dataset.id) info[data.dataset.id] = data.textContent;
+            }
+            Object.keys(row.dataset).map(key => info[key] = row.dataset[key])
+            users.push(info)
+        };
+        return users;
+    }
 
     const form = $(document, 'div#modal form');
     const deleteButton = $(modal, 'div#modal button#delete');
@@ -15,7 +31,6 @@ function init() {
     const createButton = $(document, 'div#users>main>button#create');
     createButton.onclick = () => {
         deleteButton.classList.add('hide');
-
         showModal(true, 'Create User', () => createUser());
     }
 
@@ -54,17 +69,15 @@ function init() {
     }
 
     // Sets all user row's event listeners
-    const rows = $$(document, 'table>tbody tr');
-    setAllRowsOnclick(rows);
-
-    function setAllRowsOnclick(rows) {
+    handleRowsOnclick(rows);
+    function handleRowsOnclick(rows) {
         rows.forEach(row => {
-            row.onclick = () => setRowOnclick(row);
+            row.onclick = () => handleRowOnclick(row);
         }
     )}
 
     // get particular user's data from database using row values as reference and display those when modal opens
-    async function setRowOnclick(row) {
+    async function handleRowOnclick(row) {
         const username = $(row, 'td[data-id="username"]').textContent;
         const res = await fetch(`/users/${username}`);
 
@@ -115,91 +128,109 @@ function init() {
     }
 
     // All user properties can only be sorted one at a time
-    // Sort image changes
-    function setSort() {
-        const [ usernameBtn, firstNameBtn, lastNameBtn, contactBtn, addressBtn ] = $$(document,'table>thead th:has(img)');
+    // Sort can change sort image
+    function handleSorting(users) {
+        const [ usernameBtn, givenNameBtn, familyNameBtn, contactBtn, addressBtn ] = $$(document,'table>thead th:has(img)');
         
-        const [ usernameSort, firstNameSort, lastNameSort, contactSort, addressSort ] = [ 
-            createSort('username', usernameBtn), 
-            createSort('givenName', firstNameBtn),
-            createSort('familyName', lastNameBtn),
-            createSort('contact', contactBtn),
-            createSort('address', addressBtn)
+        const [ usernameSort, givenNameSort, familyNameSort, contactSort, addressSort ] = [ 
+            createSort('username', usernameBtn, users), 
+            createSort('givenName', givenNameBtn, users),
+            createSort('familyName', familyNameBtn, users),
+            createSort('contact', contactBtn, users),
+            createSort('address', addressBtn, users)
         ];
+        const siblingSorts = [ usernameSort, givenNameSort, familyNameSort, contactSort, addressSort ];
 
-        usernameBtn.onclick = e => {
-            e.preventDefault();
-            usernameSort.reset();
+        usernameBtn.onclick = () => {
+            usernameSort.reset(siblingSorts);
             usernameSort.toggle();
         }
-        firstNameBtn.onclick = e => {
-            e.preventDefault();
-            firstNameSort.reset();
-            firstNameSort.toggle();
+        givenNameBtn.onclick = () => {
+            givenNameSort.reset(siblingSorts);
+            givenNameSort.toggle();
         }
-        lastNameBtn.onclick = e => {
-            e.preventDefault();
-            lastNameSort.reset();
-            lastNameSort.toggle();
+        familyNameBtn.onclick = () => {
+            familyNameSort.reset(siblingSorts);
+            familyNameSort.toggle();
         }
-        contactBtn.onclick = e => {
-            e.preventDefault();
-            contactSort.reset();
+        contactBtn.onclick = () => {
+            contactSort.reset(siblingSorts);
             contactSort.toggle();
         }
-        addressBtn.onclick = e => {
-            e.preventDefault();
-            addressSort.reset();
+        addressBtn.onclick = () => {
+            addressSort.reset(siblingSorts);
             addressSort.toggle();
         }
+    }
 
-        function createSort(property, button) {
-            return {
-                current: 0,
-                img: $(button, 'img'),
-                toggle() {
-                    // noSort
-                    if (this.current === 2) {
-                        this.current = 0;
-                        users.sort((a,b) => Date.parse(b.dateCreated) - Date.parse(a.dateCreated));
-                        this.img.src = "./assets/arrow-down-arrow-up.svg";
-                    // ascending
-                    } else if (this.current === 0) {
-                        this.current = 1;
-                        users.sort((a,b) => {
-                            if (a[`${property}`] < b[`${property}`]) return -1;
-                            if (a[`${property}`] > b[`${property}`]) return 1;
-                            return 0;
-                        });
-                        this.img.src = "./assets/arrow-up-solid-full.svg";
-                    // descending
-                    } else if (this.current === 1) {
-                        this.current = 2;
-                        users.sort((a,b) => {
-                            if (a[`${property}`] < b[`${property}`]) return 1;
-                            if (a[`${property}`] > b[`${property}`]) return -1;
-                            return 0;
-                        });
-                        this.img.src = "./assets/arrow-down-solid-full.svg";
-                    }
-
-                    renderTable(users);
-                },
-                reset() {
-                    [ usernameSort, firstNameSort, lastNameSort, contactSort, addressSort ].forEach(_ => {
-                        // if not self => no sort
-                        if (_ != this) {
-                            _.current = 2;
-                            _.toggle();
-                        }
-                    })
+    function createSort(property, button, users) {
+        return {
+            current: 0,
+            img: $(button, 'img'),
+            toggle() {
+                // noSort
+                if (this.current === 2) {
+                    this.current = 0;
+                    users.sort((a,b) => Date.parse(b.created) - Date.parse(a.created));
+                    this.img.src = "./assets/arrow-down-arrow-up.svg";
+                // ascending
+                } else if (this.current === 0) {
+                    this.current = 1;
+                    users.sort((a,b) => {
+                        if (a[`${property}`] < b[`${property}`]) return -1;
+                        if (a[`${property}`] > b[`${property}`]) return 1;
+                        return 0;
+                    });
+                    this.img.src = "./assets/arrow-up-solid-full.svg";
+                // descending
+                } else if (this.current === 1) {
+                    this.current = 2;
+                    users.sort((a,b) => {
+                        if (a[`${property}`] < b[`${property}`]) return 1;
+                        if (a[`${property}`] > b[`${property}`]) return -1;
+                        return 0;
+                    });
+                    this.img.src = "./assets/arrow-down-solid-full.svg";
                 }
-            };
-        } 
+
+                renderTable(users);
+            },
+            reset(siblingSorts) {
+                siblingSorts.forEach(_ => {
+                    // e.g. if "this" is referencing username, then all others except username will be set back to no sort
+                    if (_ != this) {
+                        _.current = 2;
+                        _.toggle();
+                    };
+                });
+            }
+        };
+    } 
+
+    // Read
+    function renderTable(users) {
+        const body = $(document, 'table tbody');
+        body.innerHTML = "";
+
+        users.forEach(user => {
+            const newRow = body.insertRow();
+            newRow.setAttribute('data-created', `${user.created}`); 
+            newRow.setAttribute('data-updated', `${user.created}`);
+            newRow.classList.add('row', 'row:hover');
+            newRow.innerHTML = `
+                <td></td>
+                <td data-id='username'>${user.username}</td>
+                <td data-id='givenName'>${user.givenName}</td>
+                <td data-id='familyName'>${user.familyName}</td>
+                <td data-id='contact'>${user.contact}</td>
+                <td data-id='address'>${user.address}</td>
+            `;
+        })
+        handleRowsOnclick(rows);
     }
 
     // Filter
-    function setFilter() {
+    function handleFiltering(users) {
         const filter = $(document, 'main>select');
         filter.onchange = () => {
             if (filter.selectedOptions[0].value === 'no-filter') {
@@ -209,48 +240,6 @@ function init() {
             const filteredUsers = users.filter(user => user.status === filter.selectedOptions[0].value);
             renderTable(filteredUsers);
         }
-    } 
-
-    // function setModal(display = true, title, saveOps, deleteOps) {
-    //     const modal = $(document, 'div#modal');
-    //     const header = $(modal, 'header');
-    //     const form = $(modal, 'form');
-    //     const closeButton = $(modal, 'button#close');
-    //     const saveButton = $(modal, 'button#save');
-    //     const deleteButton = $(modal, 'button#delete');
-    //     const inputs = $$(form, 'fieldset#info input');
-    //     const modalWrapper = modal.parentElement;
-    //     let isValid = false;
-
-    //     closeButton.onclick = e => setModal(false);
-    //     modalWrapper.onclick = e => (e.target === e.currentTarget) ? setModal(false): null;
-
-    //     saveButton.onclick = e => {
-    //         e.preventDefault();
-    //         if (isValid = validateUserInfo(form)) saveOps();
-    //     }; 
-    //     saveButton.onkeydown = e => { 
-    //         e.preventDefault();
-    //         if (e.key === 'Enter' && (isValid = validateUserInfo(form))) saveOps();
-    //     };
-
-    //     deleteButton.onclick = e => {
-    //         e.preventDefault();
-    //         deleteOps();
-    //     }
-
-    //     if (!display) {
-    //         modalWrapper.classList.add('hide');
-    //         if (setModal.isShown && inputs) {
-    //             clearInputs(inputs);
-    //         }
-    //         setModal.isShown = false;
-    //     } else {
-    //         header.innerHTML = `<h1>${title}</h1>`;
-    //         modalWrapper.classList.remove('hide');
-    //         form.elements['password'].type = 'password';
-    //         setModal.isShown = true;
-    //     }
-    // }
+    }
 }
 
