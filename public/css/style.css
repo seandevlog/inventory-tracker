@@ -264,6 +264,10 @@ div#users table th:has(img):hover {
     cursor          : pointer;
 }
 
+div#users table > tbody img {
+    width           : 3em
+}
+
 div:has(>#modal) {
     position        : fixed;
     inset           : 0;
@@ -320,12 +324,12 @@ div#modal form#data {
     padding: 0 0 2em 0;
 }
 
-div#modal form#data fieldset#photo,
+div#modal form#data fieldset#file,
 div#modal form#data div {
     flex: 1;
 }
 
-div#modal form#data fieldset#photo {
+div#modal form#data fieldset#file {
     display: flex;
     flex-direction: column;
 
@@ -339,7 +343,7 @@ div#modal form#data div {
     margin-right: 5em;
 }
 
-div#modal form#data fieldset#photo > img {
+div#modal form#data fieldset#file img {
     width: 300px;
     height: 300px;
 }

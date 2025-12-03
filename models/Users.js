@@ -38,6 +38,9 @@ const userSchema = new Schema({
     status: {
         type: String,
         required: [ true, 'Status is required' ]
+    },
+    imageUrl: {
+        type: String
     }
 }, { timestamps: true });
 

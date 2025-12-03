@@ -16,7 +16,7 @@ function init() {
         for (const row of rows) {
             const info = {};
             for (const data of row.children) {
-                if (data.dataset.id) info[data.dataset.id] = data.textContent;
+                if (data.dataset.id) info[data.dataset.id] = data.dataset.value;
             }
             Object.keys(row.dataset).map(key => info[key] = row.dataset[key])
             users.push(info)
@@ -29,24 +29,20 @@ function init() {
 
     // Create
     const createButton = $(document, 'div#users>main>button#create');
-    createButton.onclick = () => {
+    createButton.onclick = (e) => {
+        e.preventDefault();
         deleteButton.classList.add('hide');
         showModal(true, 'Create User', () => createUser());
     }
 
     async function createUser() {
+        const imageData = await uploadFileCloudinary(form.elements['profile'].files[0]);
+        const formData = new FormData(form);
+        formData.append('imageUrl', imageData.secure_url);
+
         const res = await fetch('/users/store', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                username: form.elements['username'].value,
-                password: form.elements['password'].value,
-                givenName: form.elements['givenName'].value,
-                familyName: form.elements['familyName'].value,
-                contact: form.elements['contact'].value,
-                address: form.elements['address'].value,
-                status: form.elements['status'].value 
-            })
+            body: formData
         });
         
         const data = await res.json();
@@ -54,8 +50,37 @@ function init() {
         if (errors == null) window.location.href = data.redirect;
     } 
 
+    async function getCloudData() {
+        const res = await fetch('/api/cloud');
+        const data = await res.json();
+
+        const cloudName = data.cloudName;
+        const uploadPreset = data.uploadPreset;
+
+        return { cloudName, uploadPreset };
+    }
+
+    // TODO - Think about fetching cloudname and uploadpreset from server
+    async function uploadFileCloudinary(file) {
+        const { cloudName, uploadPreset } = getCloudData();
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', uploadPreset);
+
+        // TODO - check image uploading
+
+        const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+        const res = await fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+
+        const data = await res.json();
+        return data;
+    }
+
     function handleInputErrors(data) {
-        console.log(data.errors);
         if (typeof data.errors == 'undefined') return null;
 
         const errors = data.errors;
@@ -77,23 +102,27 @@ function init() {
     )}
 
     // get particular user's data from database using row values as reference and display those when modal opens
+    // TODO - Find a way to move some of this function's content inside the modal function directly
     async function handleRowOnclick(row) {
+        let data = $$(row, 'td');
+        const img = $(modal, 'fieldset#file img');
+
+        for (const datum of data) {
+            if (datum.dataset.id !== 'imageUrl') {
+                form.elements[datum.dataset.id].value = datum.dataset.value;
+            } else {
+                img.src = datum.dataset.value;
+            }
+        }
+
         const username = $(row, 'td[data-id="username"]').textContent;
         const res = await fetch(`/users/${username}`);
+        data = await res.json();
 
-        const data = await res.json();
-
-        // ! do not move this inside modal
-        form.elements['username'].value = data.currentUser['username'];
-        form.elements['password'].value = data.currentUser['password'];
-        form.elements['givenName'].value = data.currentUser['givenName'];
-        form.elements['familyName'].value = data.currentUser['familyName'];
-        form.elements['contact'].value = data.currentUser['contact'];
-        form.elements['address'].value = data.currentUser['address'];
-        form.elements['status'].value = data.currentUser['status'];
+        form.elements['password'].value = data.user['password'];
 
         deleteButton.classList.remove('hide');
-        showModal(true, 'Edit User', () => updateUser(data.currentUser['username']), () => deleteUser(data.currentUser['username']));
+        showModal(true, 'Edit User', () => updateUser(data.user['username']), () => deleteUser(data.user['username']));
     }
 
     async function deleteUser(username) {
@@ -107,18 +136,11 @@ function init() {
 
     // Gets username inside userInput.value, and update it directly using patch method and findOneAndUpdate
     async function updateUser(username) {
+        const formData = new FormData(form);
+
         const res = await fetch(`/users/${username}`, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                username: form.elements['username'].value,
-                password: form.elements['password'].value,
-                givenName: form.elements['givenName'].value,
-                familyName: form.elements['familyName'].value,
-                contact: form.elements['contact'].value,
-                address: form.elements['address'].value,
-                status: form.elements['status'].value 
-            })
+            body: formData
         });
 
         const data = await res.json();
@@ -207,28 +229,6 @@ function init() {
         };
     } 
 
-    // Read
-    function renderTable(users) {
-        const body = $(document, 'table tbody');
-        body.innerHTML = "";
-
-        users.forEach(user => {
-            const newRow = body.insertRow();
-            newRow.setAttribute('data-created', `${user.created}`); 
-            newRow.setAttribute('data-updated', `${user.created}`);
-            newRow.classList.add('row', 'row:hover');
-            newRow.innerHTML = `
-                <td></td>
-                <td data-id='username'>${user.username}</td>
-                <td data-id='givenName'>${user.givenName}</td>
-                <td data-id='familyName'>${user.familyName}</td>
-                <td data-id='contact'>${user.contact}</td>
-                <td data-id='address'>${user.address}</td>
-            `;
-        })
-        handleRowsOnclick(rows);
-    }
-
     // Filter
     function handleFiltering(users) {
         const filter = $(document, 'main>select');
@@ -240,6 +240,28 @@ function init() {
             const filteredUsers = users.filter(user => user.status === filter.selectedOptions[0].value);
             renderTable(filteredUsers);
         }
+    }
+
+    // Read
+    function renderTable(users) {
+        const body = $(document, 'table tbody');
+        body.innerHTML = "";
+
+        users.forEach(user => {
+            const newRow = body.insertRow();
+            newRow.setAttribute('data-created', `${user.created}`); 
+            newRow.setAttribute('data-updated', `${user.created}`);
+            newRow.classList.add('row', 'row:hover');
+            newRow.innerHTML = `
+                <td data-id="image"><img src='${user.imageUrl}' alt=''></td>
+                <td data-id='username'>${user.username}</td>
+                <td data-id='givenName'>${user.givenName}</td>
+                <td data-id='familyName'>${user.familyName}</td>
+                <td data-id='contact'>${user.contact}</td>
+                <td data-id='address'>${user.address}</td>
+            `;
+        })
+        handleRowsOnclick(rows);
     }
 }
 

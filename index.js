@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import expressEjsLayouts from 'express-ejs-layouts';
 import session from 'express-session';
 import dotenv from 'dotenv';
+import {v2 as cloudinary} from 'cloudinary';
+import multer from 'multer';
 
 import { loginController } from './controllers/loginController.js';
 import { loginUserController } from './controllers/loginUserController.js'
@@ -22,8 +24,14 @@ const app = express();
 dotenv.config();
 
 mongoose.connect(process.env.MONGO_URI);
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+});
+const upload = multer({ dest: 'uploads/' }); // temp folder
 
-app.set('view engine', 'ejs')
+app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(expressEjsLayouts);
 app.use(express.urlencoded({ extended: true }));
@@ -47,15 +55,24 @@ app.post('/login/user', validateLoginMiddleware, loginUserController);
 
 app.post('/register/user', registerUserController)
 
+// TODO - add authorization
+// TODO - divide into mini-apps
 app.get('/users', usersController);
 
-app.post('/users/store', storeUserController);
+app.post('/users/store', upload.single('profile'), storeUserController);
 
 app.get('/users/:username', getUserController);
 
-app.patch('/users/:username', updateUserController);
+app.patch('/users/:username', upload.single('profile'), updateUserController);
 
 app.delete('/users/:username', deleteUserController);
+
+app.get('/api/cloud', (req, res) => { 
+    res.send({
+        cloudName: process.env.CLOUD_NAME,
+        uploadPreset: process.env.UPLOAD_PRESET
+    }) 
+})
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);

@@ -1,10 +1,14 @@
 import User from "../models/Users.js";
+import fs from 'fs';
 
 export const storeUserController = async (req, res) => {
     try {
         await User.create({
             ...req.body
-         })
+        })
+
+        fs.unlinkSync(req.file.path); // delete local temp file
+
         // I did not use res.redirect since redirecting directly to /users would return a json response that has html 
         // since we render html in /users, and the client needs to get the response data to receive the errors
         res.send({ redirect: '/users' });
@@ -15,15 +19,5 @@ export const storeUserController = async (req, res) => {
             body: req.body,
             errors: errors
         });
-        
-        // if (error.errors) {
-        //     if (error.errors.username && error.errors.username.message) req.flash('usernameRegisterValidationError', error.errors.username.message);
-        //     if (error.errors.password && error.errors.password.message) req.flash('passwordRegisterValidationError', error.errors.password.message)
-        //     if (error.errors.givenName && error.errors.givenName.message) req.flash('givenNameRegisterValidationError', error.errors.givenName.message)
-        //     if (error.errors.familyName && error.errors.familyName.message) req.flash('familyNameRegisterValidationError', error.errors.familyName.message)
-        //     if (error.errors.contact && error.errors.contact.message) req.flash('contactRegisterValidationError', error.errors.contact.message)
-        //     if (error.errors.address && error.errors.address.message) req.flash('addressRegisterValidationError', error.errors.address.message)
-        // }
-        // req.flash('registerValidationData', req.body);
     }
 }

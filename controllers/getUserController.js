@@ -8,7 +8,7 @@ export const getUserController = async (req, res) => {
         errors = Object.keys(err.errors).map(key => errors[err.errors[key].path] = err.errors[key].message); 
     }
     res.send({
-        currentUser: user,
+        user: user,
         errors: errors
     });
 }
