@@ -3,9 +3,13 @@ import fs from 'fs';
 
 export const storeUserController = async (req, res) => {
     try {
-        await User.create({
-            ...req.body
-        })
+        try {
+            await User.create({
+                ...req.body
+            })
+        } catch (err) {
+            return res.status(500).json({ error: 'Failed to create user' });
+        }
 
         fs.unlinkSync(req.file.path); // delete local temp file
 

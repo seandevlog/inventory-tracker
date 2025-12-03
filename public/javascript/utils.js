@@ -11,5 +11,19 @@ export function clearForm(obj) {
     }
 }
 
+export function handleInputErrors(data) {
+    const form = $(document, 'div#modal form');
+    if (typeof data.errors == 'undefined') return null;
+
+    const errors = data.errors;
+    const validationMessages = $$(form, 'span')
+    for (const validationMessage of validationMessages) {
+        // e.g. validationMessage.dataset.id = username
+        // then, errors[validationMessage.dataset.id] = errors['username']
+        validationMessage.textContent = errors[`${validationMessage.dataset.id}`];
+    }
+    return errors;
+}
+
 export function $ (scope, object) { return scope.querySelector(object); }
 export function $$ (scope, objects) { return scope.querySelectorAll(objects); }

@@ -1,5 +1,6 @@
-import { $, $$ } from './utils.js';
+import { $, $$, handleInputErrors } from './utils.js';
 import { showModal } from './modal.js';
+import { uploadImageSigned, replaceImageSigned } from './cloud.js';
 
 init();
 
@@ -36,61 +37,50 @@ function init() {
     }
 
     async function createUser() {
-        const imageData = await uploadFileCloudinary(form.elements['profile'].files[0]);
+        const image = form.elements['profile'].files[0];
+        const imageData = await uploadImageSigned(image);
         const formData = new FormData(form);
         formData.append('imageUrl', imageData.secure_url);
+        formData.append('imagePublicId', imageData.public_id);
 
         const res = await fetch('/users/store', {
             method: 'POST',
             body: formData
         });
+
+        if (!res.ok) throw new Error('Failed to store user data');
         
         const data = await res.json();
         const errors = handleInputErrors(data);
         if (errors == null) window.location.href = data.redirect;
     } 
 
-    async function getCloudData() {
-        const res = await fetch('/api/cloud');
-        const data = await res.json();
+    // Gets username inside userInput.value, and update it directly using patch method and findOneAndUpdate
+    async function updateUser(username) {
+        const image = form.elements['profile'].files[0];
+        // TODO - extract publicId from database OR html dataset
+        const publicId;
+        const imageData = await replaceImageSigned(image, publicId);
+        const formData = new FormData(form);
 
-        const cloudName = data.cloudName;
-        const uploadPreset = data.uploadPreset;
-
-        return { cloudName, uploadPreset };
-    }
-
-    // TODO - Think about fetching cloudname and uploadpreset from server
-    async function uploadFileCloudinary(file) {
-        const { cloudName, uploadPreset } = getCloudData();
-
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', uploadPreset);
-
-        // TODO - check image uploading
-
-        const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
-        const res = await fetch(url, {
-            method: 'POST',
+        const res = await fetch(`/users/${username}`, {
+            method: 'PATCH',
             body: formData
-        })
+        });
 
         const data = await res.json();
-        return data;
+        const errors = handleInputErrors(data);
+
+        if (errors == null) window.location.href = data.redirect;
     }
 
-    function handleInputErrors(data) {
-        if (typeof data.errors == 'undefined') return null;
+    async function deleteUser(username) {
+        const res = await fetch(`/users/${username}`, {
+            method: 'DELETE'
+        });
 
-        const errors = data.errors;
-        const validationMessages = $$(form, 'span')
-        for (const validationMessage of validationMessages) {
-            // e.g. validationMessage.dataset.id = username
-            // then, errors[validationMessage.dataset.id] = errors['username']
-            validationMessage.textContent = errors[`${validationMessage.dataset.id}`];
-        }
-        return errors;
+        const data = await res.json();
+        window.location.href = data.redirect;
     }
 
     // Sets all user row's event listeners
@@ -123,30 +113,6 @@ function init() {
 
         deleteButton.classList.remove('hide');
         showModal(true, 'Edit User', () => updateUser(data.user['username']), () => deleteUser(data.user['username']));
-    }
-
-    async function deleteUser(username) {
-        const res = await fetch(`/users/${username}`, {
-            method: 'DELETE'
-        });
-
-        const data = await res.json();
-        window.location.href = data.redirect;
-    }
-
-    // Gets username inside userInput.value, and update it directly using patch method and findOneAndUpdate
-    async function updateUser(username) {
-        const formData = new FormData(form);
-
-        const res = await fetch(`/users/${username}`, {
-            method: 'PATCH',
-            body: formData
-        });
-
-        const data = await res.json();
-        const errors = handleInputErrors(data);
-
-        if (errors == null) window.location.href = data.redirect;
     }
 
     // All user properties can only be sorted one at a time
