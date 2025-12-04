@@ -29,7 +29,7 @@ cloudinary.config({
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
-const upload = multer({ dest: 'temp/' }); // temp folder
+const upload = multer();
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -59,13 +59,13 @@ app.post('/register/user', registerUserController)
 // TODO - divide into mini-apps
 app.get('/users', usersController);
 
-app.post('/users/store', upload.single('profile'), storeUserController);
+app.post('/users/store', upload.any(), storeUserController);
 
 app.get('/users/:username', getUserController);
 
-app.patch('/users/:username', upload.single('profile'), updateUserController);
+app.patch('/users/:username', upload.any(), updateUserController);
 
-app.delete('/users/:username', deleteUserController);
+app.delete('/users/:username', upload.any(), deleteUserController);
 
 app.get('/api/cloudinary/upload-signature', (req, res) => { 
     try {
@@ -96,7 +96,7 @@ app.get('/api/cloudinary/upload-signature', (req, res) => {
     }
 });
 
-app.get('/app/cloudinary/upload-signature/replace', (req, res) => {
+app.get('/api/cloudinary/upload-signature/replace', (req, res) => {
     try {
         const { publicId } = req.query;
         if (!publicId) return res.status(400).json({ error: 'publicId is required' });

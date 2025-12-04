@@ -31,10 +31,7 @@ export const showModal = (display = true, title, saveOps, deleteOps) => {
     };
 
     // Delete
-    deleteButton.onclick = e => {
-        e.preventDefault();
-        deleteOps();
-    }
+    deleteButton.onclick = () => deleteOps();
 
     // When user closes modal, inputs and errors are cleared
     closeButton.onclick = e => showModal(false);

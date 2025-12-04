@@ -8,7 +8,6 @@ export const registerUserController = async (req, res) => {
         })
         res.redirect('/login');
     } catch (error) {
-        console.log(error.errors);
         if (error.errors) {
             if (error.errors.username && error.errors.username.message) req.flash('usernameRegisterValidationError', error.errors.username.message);
             if (error.errors.password && error.errors.password.message) req.flash('passwordRegisterValidationError', error.errors.password.message)

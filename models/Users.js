@@ -1,6 +1,16 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
+const profileSchema = new Schema({
+    url: {
+        type: String
+    },
+    public_id: {
+        type: String
+    },
+    _id: false
+});
+
 const userSchema = new Schema({
     // id: String (automatically generated)
     username: {
@@ -39,9 +49,7 @@ const userSchema = new Schema({
         type: String,
         required: [ true, 'Status is required' ]
     },
-    imageUrl: {
-        type: String
-    }
+    profile: profileSchema
 }, { timestamps: true });
 
 const userModel = mongoose.model('User', userSchema);

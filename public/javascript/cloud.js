@@ -35,7 +35,8 @@ export async function uploadImageSigned(file) {
 }
 
 async function getReplaceSignature(publicId) {
-    const res = fetch(`/api/cloudinary/upload-signature/replace?publicId=${encodeURIComponent(publicId)}`)    
+    console.log(publicId, encodeURIComponent(publicId))
+    const res = await fetch(`/api/cloudinary/upload-signature/replace?publicId=${encodeURIComponent(publicId)}`);  
     if (!res.ok) throw new Error('Failed to get replace signature');
     return res.json();
 } 
@@ -47,7 +48,7 @@ export async function replaceImageSigned(file, publicId) {
         cloudName,
         apiKey,
         uploadPreset,
-        publicId,
+        publicId: signedPublicId,
         overwrite,
         invalidate
     } = await getReplaceSignature(publicId);
@@ -58,7 +59,7 @@ export async function replaceImageSigned(file, publicId) {
     formData.append('timestamp', timestamp);
     formData.append('signature', signature);
     formData.append('upload_preset', uploadPreset);
-    formData.append('public_id', publicId);
+    formData.append('public_id', signedPublicId);
     formData.append('overwrite', overwrite);
     formData.append('invalidate', invalidate);
 

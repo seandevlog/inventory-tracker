@@ -37,17 +37,17 @@ function init() {
     }
 
     async function createUser() {
-        const image = form.elements['profile'].files[0];
-        const imageData = await uploadImageSigned(image);
+        const profile = form.elements['profile'].files[0];
+        const profileData = await uploadImageSigned(profile);
         const formData = new FormData(form);
-        formData.append('imageUrl', imageData.secure_url);
-        formData.append('imagePublicId', imageData.public_id);
+        formData.append('profile[url]', profileData.secure_url);
+        formData.append('profile[public_id]', profileData.public_id);
 
         const res = await fetch('/users/store', {
             method: 'POST',
             body: formData
         });
-
+        
         if (!res.ok) throw new Error('Failed to store user data');
         
         const data = await res.json();
@@ -56,21 +56,22 @@ function init() {
     } 
 
     // Gets username inside userInput.value, and update it directly using patch method and findOneAndUpdate
-    async function updateUser(username) {
-        const image = form.elements['profile'].files[0];
-        // TODO - extract publicId from database OR html dataset
-        const publicId;
-        const imageData = await replaceImageSigned(image, publicId);
+    async function updateUser(username, publicId) {
+        const profile = form.elements['profile'].files[0];
+        const profileData = await replaceImageSigned(profile, publicId);
         const formData = new FormData(form);
+        formData.append('profile[url]', profileData.secure_url);
+        formData.append('profile[public_id]', profileData.public_id);
 
         const res = await fetch(`/users/${username}`, {
             method: 'PATCH',
             body: formData
         });
 
+        if (!res.ok) throw new Error('Failed to updated user data');
+
         const data = await res.json();
         const errors = handleInputErrors(data);
-
         if (errors == null) window.location.href = data.redirect;
     }
 
@@ -94,29 +95,29 @@ function init() {
     // get particular user's data from database using row values as reference and display those when modal opens
     // TODO - Find a way to move some of this function's content inside the modal function directly
     async function handleRowOnclick(row) {
-        let data = $$(row, 'td');
+        const rowData = $$(row, 'td');
         const img = $(modal, 'fieldset#file img');
 
-        for (const datum of data) {
-            if (datum.dataset.id !== 'imageUrl') {
-                form.elements[datum.dataset.id].value = datum.dataset.value;
+        for (const data of rowData) {
+            if (data.dataset.id !== 'profile') {
+                form.elements[data.dataset.id].value = data.dataset.value;
             } else {
-                img.src = datum.dataset.value;
+                img.src = data.dataset.value;
             }
         }
 
         const username = $(row, 'td[data-id="username"]').textContent;
         const res = await fetch(`/users/${username}`);
-        data = await res.json();
+        const data = await res.json();
 
         form.elements['password'].value = data.user['password'];
 
         deleteButton.classList.remove('hide');
-        showModal(true, 'Edit User', () => updateUser(data.user['username']), () => deleteUser(data.user['username']));
+        showModal(true, 'Edit User', () => updateUser(data.user['username'], data.user.profile.public_id), () => deleteUser(data.user['username']));
     }
 
     // All user properties can only be sorted one at a time
-    // Sort can change sort image
+    // Sort can change sort profile
     function handleSorting(users) {
         const [ usernameBtn, givenNameBtn, familyNameBtn, contactBtn, addressBtn ] = $$(document,'table>thead th:has(img)');
         
@@ -219,7 +220,7 @@ function init() {
             newRow.setAttribute('data-updated', `${user.created}`);
             newRow.classList.add('row', 'row:hover');
             newRow.innerHTML = `
-                <td data-id="image"><img src='${user.imageUrl}' alt=''></td>
+                <td data-id="profile"><img src='${user.profile}' alt=''></td>
                 <td data-id='username'>${user.username}</td>
                 <td data-id='givenName'>${user.givenName}</td>
                 <td data-id='familyName'>${user.familyName}</td>

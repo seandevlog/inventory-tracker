@@ -18,7 +18,7 @@
     <tbody>
         <% users.forEach(user => { %>
             <tr class="row row:hover" data-created="<%- user.createdAt %>" data-updated="<%- user.updatedAt %>" data-status="<%- user.status %>">
-                <td data-id="imageUrl" data-value="<%= user.imageUrl %>" data-imagePublicId="<%= user.imagePublicId %>"><img src="<%= user.imageUrl %>" alt=""></td>
+                <td data-id="profile" data-value="<%= user.profile.url %>?t=<%= user.updatedAt.getTime() %>"><img src="<%= user.profile.url %>?t=<%= user.updatedAt.getTime() %>" alt="Avatar"></td>
                 <td data-id="username" data-value="<%= user.username %>"><%= user.username %></td>
                 <td data-id="givenName" data-value="<%= user.givenName %>"><%= user.givenName %></td>
                 <td data-id="familyName" data-value="<%= user.familyName %>"><%= user.familyName %></td>
@@ -36,7 +36,7 @@
         <form action='/users/store' method='POST' id="data" enctype="multipart/form-data">
             <fieldset id="file">
                 <legend>Profile</legend>
-                <img src="./assets/image-solid-full.svg"></img> <!-- temp image -->
+                <img src="./assets/image-solid-full.svg" alt="Avatar"></img> <!-- temp image -->
                 <input type="file" id="profile" name="profile">
             </fieldset>
             <div>
