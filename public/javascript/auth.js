@@ -13,7 +13,7 @@ function init() {
                 window.location.href = redirect.dataset.url;
             } else if (string === 'signup') {
                 toggleAuthForm('login');
-                window.location.href = redirect.dataset.url
+                window.location.href = redirect.dataset.url;
             }
         };
     }

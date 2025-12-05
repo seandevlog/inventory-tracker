@@ -35,7 +35,6 @@ export async function uploadImageSigned(file) {
 }
 
 async function getReplaceSignature(publicId) {
-    console.log(publicId, encodeURIComponent(publicId))
     const res = await fetch(`/api/cloudinary/upload-signature/replace?publicId=${encodeURIComponent(publicId)}`);  
     if (!res.ok) throw new Error('Failed to get replace signature');
     return res.json();

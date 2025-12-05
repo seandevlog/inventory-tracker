@@ -8,9 +8,20 @@ function init() {
     showModal(false);
 
     const rows = $$(document, 'table>tbody tr');
+    const form = $(document, 'div#modal form');
+    const deleteButton = $(modal, 'div#modal button#delete');
+    const createButton = $(document, 'div#users>main>button#create');
     const users = getUsersFromRows(rows);
     handleFiltering(users);
     handleSorting(users);
+    handleRowsOnclick(rows);
+
+    // Create
+    createButton.onclick = (e) => {
+        e.preventDefault();
+        deleteButton.classList.add('hide');
+        showModal(true, 'Create User', () => createUser());
+    }
 
     function getUsersFromRows(rows) {
         const users = [];
@@ -25,23 +36,14 @@ function init() {
         return users;
     }
 
-    const form = $(document, 'div#modal form');
-    const deleteButton = $(modal, 'div#modal button#delete');
-
-    // Create
-    const createButton = $(document, 'div#users>main>button#create');
-    createButton.onclick = (e) => {
-        e.preventDefault();
-        deleteButton.classList.add('hide');
-        showModal(true, 'Create User', () => createUser());
-    }
-
     async function createUser() {
-        const profile = form.elements['profile'].files[0];
-        const profileData = await uploadImageSigned(profile);
         const formData = new FormData(form);
-        formData.append('profile[url]', profileData.secure_url);
-        formData.append('profile[public_id]', profileData.public_id);
+        if (form.elements['profile'].files[0]) {
+            const profile = form.elements['profile'].files[0];
+            const profileData = await uploadImageSigned(profile);
+            formData.append('profile[url]', profileData.secure_url);
+            formData.append('profile[public_id]', profileData.public_id);
+        }
 
         const res = await fetch('/users/store', {
             method: 'POST',
@@ -51,17 +53,21 @@ function init() {
         if (!res.ok) throw new Error('Failed to store user data');
         
         const data = await res.json();
+        console.log(data.error);
         const errors = handleInputErrors(data);
-        if (errors == null) window.location.href = data.redirect;
+        if (errors == null) {
+            window.location.href = data.redirect;
+            init();
+        }
     } 
 
     // Gets username inside userInput.value, and update it directly using patch method and findOneAndUpdate
-    async function updateUser(username, publicId) {
-        const profile = form.elements['profile'].files[0];
-        const profileData = await replaceImageSigned(profile, publicId);
+    async function updateUser(username) {
+        const image = form.elements['profile'].files[0];
+        // TODO - extract publicId from database OR html dataset
+        const publicId;
+        const imageData = await replaceImageSigned(image, publicId);
         const formData = new FormData(form);
-        formData.append('profile[url]', profileData.secure_url);
-        formData.append('profile[public_id]', profileData.public_id);
 
         const res = await fetch(`/users/${username}`, {
             method: 'PATCH',
@@ -71,7 +77,9 @@ function init() {
         if (!res.ok) throw new Error('Failed to updated user data');
 
         const data = await res.json();
+        console.log(data.error);
         const errors = handleInputErrors(data);
+
         if (errors == null) window.location.href = data.redirect;
     }
 
@@ -81,11 +89,11 @@ function init() {
         });
 
         const data = await res.json();
+        console.log(data.error)
         window.location.href = data.redirect;
+        init();
     }
 
-    // Sets all user row's event listeners
-    handleRowsOnclick(rows);
     function handleRowsOnclick(rows) {
         rows.forEach(row => {
             row.onclick = () => handleRowOnclick(row);
