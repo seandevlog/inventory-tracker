@@ -1,8 +1,8 @@
-import Users from "./user.model.js";
 import {v2 as cloudinary} from 'cloudinary';
+import * as service from './user.services.js';
 
 export const renderUsers = async (req, res) => {
-    const users = await Users.find({});
+    const users = service.getAllUser();
 
     res.render('users', {
         title: 'Users',
@@ -13,11 +13,8 @@ export const renderUsers = async (req, res) => {
 
 export const storeUser = async (req, res) => {
     try {
-        const user = await Users.create({ ...req.body });
-        if (!user) throw new Error('Failed to create user');
+        const user = service.storeUser({ ...req.body });
 
-        // I did not use res.redirect since redirecting directly to /users would return a json response that has html 
-        // since we render html in /users, and the client needs to get the response data to receive the errors
         res.send({ redirect: '/users' });
     } catch (err) {
         if (err.message === 'Failed to create user') return res.status(500).json({ error: err.message });
@@ -34,7 +31,7 @@ export const storeUser = async (req, res) => {
 export const getUser = async (req, res) => {
     let user, errors;
     try {
-        user = await Users.findOne({ username: req.params.username })
+        user = await service.getUser({ username: req.params.username });
     } catch (err) {
         errors = Object.keys(err.errors).map(key => errors[err.errors[key].path] = err.errors[key].message); 
     }
@@ -47,7 +44,7 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
     try {
         try {
-            await Users.findOneAndUpdate({ username: req.params.username }, {
+            await service.updateUser({ username: req.params.username }, {
                 ...req.body
             });
         } catch (err) {
@@ -67,7 +64,7 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
     try {
-        const user = await Users.findOneAndDelete({ username: req.params.username });
+        const user = await service.deleteUser({ username: req.params.username });
         if (!user) throw new Error(`Failed to find and delete ${req.params.username}`);
 
         if (user?.profile.public_id) {

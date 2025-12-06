@@ -1,4 +1,4 @@
-import User from '../features/users/user.model.js';
+import User from '../../features/users/user.model.js';
 
 // Didn't use try/catch since findOne doesn't throw an error
 export const validateLoginMiddleware = async (req, res, next) => {

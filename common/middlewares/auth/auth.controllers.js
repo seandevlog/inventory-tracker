@@ -1,4 +1,4 @@
-import User from "../users/user.model.js";
+import User from '../../../features/users/user.model.js';
 // TODO - compile login and register routes into one if possible
 export const login = (req, res) => {
     let username, password;

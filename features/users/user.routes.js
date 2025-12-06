@@ -12,10 +12,10 @@ router.get('/users', controller.renderUsers);
 
 router.post('/users/store', upload.any(), controller.storeUser);
 
-router.get('/users/:username', controller.getUser);
+router.get('/users/:id', controller.getUser);
 
-router.patch('/users/:username', upload.any(), controller.updateUser);
+router.patch('/users/:id', upload.any(), controller.updateUser);
 
-router.delete('/users/:username', controller.deleteUser);
+router.delete('/users/:id', controller.deleteUser);
 
 export default router;

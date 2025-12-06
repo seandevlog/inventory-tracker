@@ -17,13 +17,13 @@
     </thead>
     <tbody>
         <% users.forEach(user => { %>
-            <tr class="row row:hover" data-created="<%- user.createdAt %>" data-updated="<%- user.updatedAt %>" data-status="<%- user.status %>">
-                <td data-id="profile" data-value="<%= user.profile.url %>?t=<%= user.updatedAt.getTime() %>"><img src="<%= user.profile.url %>?t=<%= user.updatedAt.getTime() %>" alt="Avatar"></td>
-                <td data-id="username" data-value="<%= user.username %>"><%= user.username %></td>
-                <td data-id="givenName" data-value="<%= user.givenName %>"><%= user.givenName %></td>
-                <td data-id="familyName" data-value="<%= user.familyName %>"><%= user.familyName %></td>
-                <td data-id="contact" data-value="<%= user.contact %>"><%= user.contact %></td>
-                <td data-id="address" data-value="<%= user.address %>"><%= user.address %></td>
+            <tr class="row row:hover" data-created="<%- user.createdAt %>" data-updated="<%- user.updatedAt %>" data-status="<%- user.status %>" data-id="<%- user._id %>">
+                <td data-name="profile" data-value="<%= user.profile.url %>?t=<%= user.updatedAt.getTime() %>" data-public_id="<%= user.profile.public_id %>"><img src="<%= user.profile.url %>?t=<%= user.updatedAt.getTime() %>" alt="Avatar"></td>
+                <td data-name="username" data-value="<%= user.username %>"><%= user.username %></td>
+                <td data-name="givenName" data-value="<%= user.givenName %>"><%= user.givenName %></td>
+                <td data-name="familyName" data-value="<%= user.familyName %>"><%= user.familyName %></td>
+                <td data-name="contact" data-value="<%= user.contact %>"><%= user.contact %></td>
+                <td data-name="address" data-value="<%= user.address %>"><%= user.address %></td>
             </tr>            
         <% }) %>
     </tbody>
