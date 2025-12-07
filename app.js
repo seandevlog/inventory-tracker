@@ -8,8 +8,6 @@ import auth from './common/middlewares/auth/auth.routes.js';
 import users from './features/users/user.routes.js';
 import cloudinaryApi from './common/utils/cloudinary.api.js';
 
-import { flashMiddleware } from './common/middlewares/flashMiddleware.js';
-
 export const app = express();
 
 mongoose.connect(config.database);
@@ -20,7 +18,6 @@ app.use(express.static('public'));
 app.use(expressEjsLayouts);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(flashMiddleware);
 
 app.get('/', (req, res) => res.send('Homepage'))
 

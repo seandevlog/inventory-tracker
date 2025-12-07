@@ -8,14 +8,14 @@ const upload = multer();
 
 // TODO - add authorization
 
-router.get('/users', controller.renderUsers);
+router.get('/', controller.renderUsers);
 
-router.post('/users/store', upload.any(), controller.storeUser);
+router.post('/store', upload.any(), controller.storeUser);
 
-router.get('/users/:id', controller.getUser);
+router.get('/:id', controller.getUser);
 
-router.patch('/users/:id', upload.any(), controller.updateUser);
+router.patch('/:id', upload.any(), controller.updateUser);
 
-router.delete('/users/:id', controller.deleteUser);
+router.delete('/:id', controller.deleteUser);
 
 export default router;

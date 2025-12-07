@@ -2,7 +2,7 @@ import {v2 as cloudinary} from 'cloudinary';
 import * as service from './user.services.js';
 
 export const renderUsers = async (req, res) => {
-    const users = service.getAllUser();
+    const users = await service.getAllUser();
 
     res.render('users', {
         title: 'Users',
@@ -33,6 +33,7 @@ export const getUser = async (req, res) => {
     try {
         user = await service.getUser({ username: req.params.username });
     } catch (err) {
+        if (err.errors)
         errors = Object.keys(err.errors).map(key => errors[err.errors[key].path] = err.errors[key].message); 
     }
     res.send({

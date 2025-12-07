@@ -12,9 +12,9 @@ function init() {
     const deleteButton = $(modal, 'div#modal button#delete');
     const createButton = $(document, 'div#users>main>button#create');
     const users = getUsersFromRows(rows); // [[],{}]
-    // users[0]; // [{ id, created, updated, info: { username: { name: username, value: 'username',... }, ...}},...]
+    // users[0]; // [{ id, info: [{ name: username, value: 'username',... }, ...]},...]
     // users[1]; // { id: index,... }
-    handleFiltering(users);
+    handleFilteringUsersStatus(users);
     handleSorting(users);
     handleRowsOnclick(rows);
 
@@ -26,19 +26,21 @@ function init() {
     }
 
     function getUsersFromRows(rows) {
-        const users = []; // [[],{}] length = 0
+        const users = [[]]; // [[],{}]
         const indexes = {};
         for (const row of rows) {
-            const user = {}; // {}
-            indexes[row.dataset.id] = users.length // { id: index }
-            user = { ...row.dataset }; // { id: id,... }
-            user['info'] = {}; // { id: id, info: {}}
+            indexes[row.dataset.id] = users[0].length - 1; // { id: index }
+            const user = { ...row.dataset }; // { id: id,... }
+            user['info'] = []; // { id: id, info: []}
             let idx = 0;
-            for (const data of row.children) {
-                if (data.dataset) Object.keys(data.dataset).map(key => user['info'][data.dataset.name] = { ...data.dataset, columnIdx: idx++ });
-            } // { id, info: { username: { name: username, value: 'username', columnIdx... }, ...}}
+            for (const cell of row.children) {
+                if (cell.dataset) {
+                    user['info'].push({ ...cell.dataset });
+                }
+            } // { id, info: [{ name: username, value: 'username',... }, ...]}
             users[0].push(user);
-        } // [[{ id, info: { username: { name: username, value: 'username',... }, ...}},...], { id: index, ...}]
+        } 
+        users.push(indexes); // [[{ id, info: [{ name: username, value: 'username',... }, ...]},...], { id: index, ...}]
         return users;
     }
 
@@ -68,12 +70,15 @@ function init() {
 
     // Gets id inside userInput.value, and update it directly using patch method and findOneAndUpdate
     async function updateUser(id) {
-        const [ usersInfo, usersIndexes ] = users;
+        const [ usersData, usersIndexes ] = users;
         const formData = new FormData(form);
         if (form.elements['profile'].files[0]); {
             const image = form.elements['profile'].files[0];
             const index = usersIndexes[id];
-            const publicId = usersInfo[index].info.profile.public_id;
+            let publicId = '';
+            usersData[index].info.forEach(objElement => {
+                if (objElement.name === 'public_id') publicId = objElement.value;
+            })
             const imageData = await replaceImageSigned(image, publicId);
             formData.append('profile[url]', imageData.secure_url);
             formData.append('profile[public_id]', imageData.public_id);
@@ -118,8 +123,9 @@ function init() {
         const id = row.dataset.id;
         const res = await fetch(`/users/${id}`);
         const data = await res.json();
-
-        form.elements['password'].value = data.user['password'];
+        
+        // ! debug why password is undefined
+        form.elements['password'].value = data.user['password']; // nowhere in the row
 
         deleteButton.classList.remove('hide');
         showModal(true, 'Edit User', () => updateUser(data.user['_id'], data.user.profile.public_id), () => deleteUser(data.user['_id']));
@@ -168,6 +174,10 @@ function init() {
             img: $(button, 'img'),
             toggle() {
                 let sortedArr;
+                let propIdx = -1;
+                for (let i = 0; i < arr[0].info.length || propIdx <= 0; i++) {
+                    if (arr[0].info[i].name === property) propIdx = i;
+                }
                 // noSort
                 if (this.current === 2) {
                     this.current = 0;
@@ -176,9 +186,10 @@ function init() {
                 // ascending
                 } else if (this.current === 0) {
                     this.current = 1;
+                    // [{ id, info: [{ name: username, value: 'username',... }, ...]},...]
                     sortedArr = arr.sort((a,b) => {
-                        if (a[`info[${property}][value]`] < b[`info[${property}][value]`]) return -1;
-                        if (a[`info[${property}][value]`] > b[`info[${property}][value]`]) return 1;
+                        if (a.info[`${propIdx}`].value < b.info[`${propIdx}`].value) return -1;
+                        if (a.info[`${propIdx}`].value > b.info[`${propIdx}`].value) return 1;
                         return 0;
                     });
                     this.img.src = "./assets/arrow-up-solid-full.svg";
@@ -186,18 +197,17 @@ function init() {
                 } else if (this.current === 1) {
                     this.current = 2;
                     sortedArr = arr.sort((a,b) => {
-                        if (a[`info[${property}][value]`] < b[`info[${property}][value]`]) return 1;
-                        if (a[`info[${property}][value]`] > b[`info[${property}][value]`]) return -1;
+                        if (a.info[`${propIdx}`].value < b.info[`${propIdx}`].value) return 1;
+                        if (a.info[`${propIdx}`].value > b.info[`${propIdx}`].value) return -1;
                         return 0;
                     });
                     this.img.src = "./assets/arrow-down-solid-full.svg";
                 }
                 for (let i = 0; i < sortedArr.length; i++) {
-                    indexes = {};
                     indexes[sortedArr[i].id] = i;
                 }
 
-                renderTable(arr);
+                renderTable(sortedArr);
             },
             reset(siblingSorts) {
                 siblingSorts.forEach(_ => {
@@ -211,8 +221,10 @@ function init() {
         };
     } 
 
+    // TODO - refactor this to allow filtering through all info elements
     // Filter
-    function handleFiltering(arr) {
+    // users[0]; // [{ id, info: [{ name: username, value: 'username',... }, ...]},...]
+    function handleFilteringUsersStatus(arr) {
         const [ arrInfo, arrIndexes ] = arr;
         const filter = $(document, 'main>select');
         filter.onchange = () => {
@@ -220,35 +232,36 @@ function init() {
                 renderTable(arrInfo);
                 return;
             }
-            const filteredArr = users.filter(user => user.status === filter.selectedOptions[0].value);
+            const filteredArr = arrInfo.filter(objElement => objElement.status === filter.selectedOptions[0].value);
             renderTable(filteredArr);
         }
     }
 
     // Read
-    // users[0]; // [{ id, created, updated, info: { username: { name: username, value: 'username', columnIdx... }, ...}},...]
     function renderTable(arr) {
         const body = $(document, 'table tbody');
         body.innerHTML = "";
 
-        arr.forEach(objElement => {
+        // { id, info: [{ name: username, value: 'username',... }, ...]}
+        arr.forEach(objElement => { 
             const newRow = body.insertRow();
             Object.keys(objElement).map(key => {
                 if (key !== 'info') newRow.setAttribute(`data-${key}`, objElement[key]);
             });
 
+            // [{ name: username, value: 'username',... }, ...]
             // TODO - make the info object value an array 
-            Object.keys(objElement.info).map(key => {
-                newRow.insertCell().setAttribute(``)
+            objElement.info.forEach(objEl => {
+                const newCell = newRow.insertCell();
+                Object.keys(objEl).map(key => newCell.setAttribute(`data-${key}`, objEl[key]));
+                if (objEl.type === 'image') {
+                    const img = document.createElement('img');
+                    newCell.append(img);
+                    img.src = objEl.value;
+                } else {
+                    newCell.textContent = objEl.value;
+                }
             })
-            newRow.innerHTML = `
-                <td data-id="profile"><img src='${user.profile}' alt=''></td>
-                <td data-id='username'>${user.username}</td>
-                <td data-id='givenName'>${user.givenName}</td>
-                <td data-id='familyName'>${user.familyName}</td>
-                <td data-id='contact'>${user.contact}</td>
-                <td data-id='address'>${user.address}</td>
-            `;
             newRow.classList.add('row', 'row:hover');
         })
         handleRowsOnclick(rows);
