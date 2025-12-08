@@ -1,4 +1,5 @@
-import { $, clearForm } from './utils.js';
+import { $, $$ } from './dom.js';
+import { clearForm } from './handlers.js';
 
 export const setModal = {
     title: '',

@@ -4,7 +4,7 @@ import expressEjsLayouts from 'express-ejs-layouts';
 import {v2 as cloudinary} from 'cloudinary';
 
 import config from './config/index.js';
-import auth from './common/middlewares/auth/auth.routes.js';
+import auth from './features/auth/auth.routes.js';
 import users from './features/users/user.routes.js';
 import cloudinaryApi from './common/utils/cloudinary.api.js';
 
@@ -21,7 +21,7 @@ app.use(express.json());
 
 app.get('/', (req, res) => res.send('Homepage'))
 
-app.use('/auth', auth);
+app.use('/', auth);
 
 app.use('/users', users);
 

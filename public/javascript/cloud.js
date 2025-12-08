@@ -74,3 +74,8 @@ export async function replaceImageSigned(file, publicId) {
 
     return data;
 }
+
+export default {
+    uploadImageSigned,
+    replaceImageSigned
+}

@@ -1,30 +1,29 @@
-import User from '../../../features/users/user.model.js';
+import User from '../users/user.model.js';
+import services from './auth.services.js';
 // TODO - compile login and register routes into one if possible
-export const login = (req, res) => {
-    let username, password;
-    const data = req.flash('loginValidationData');
-
-    if (typeof data != 'undefined') {
-        username = data.username;
-        password = data.password;
-    }
-
+// TODO - differentiate server-side validation and authentication, and authorization
+// ! Do not return server-side validation to the user
+export const login =  async (req, res) => {
     res.render('login', {
         title: 'Login',
         layout: 'layouts/auth',
         username: {
-            value: username,
-            error: req.flash('usernameLoginValidationError')
+            value: "",
         },
         password: {
-            value: password,
-            error: req.flash('passwordLoginValidationError')
-        }
+            value: "",
+        },
+        redirect: '/'
     });
 }
 
-export const loginUser = (req, res) => {
-    res.redirect('/')
+export const loginSubmit = async (req, res) => {
+    try {
+        var res = await services.login({ ...req.body });
+    } catch (err) {
+        var error = err.message;
+        res.status(500).json({ error: err.message });
+    }
 }
 
 export const register = (req, res) => {
@@ -70,7 +69,7 @@ export const register = (req, res) => {
     });
 }
 
-export const registerUser = async (req, res) => {
+export const registerSubmit = async (req, res) => {
     try {
         await User.create({
             ...req.body,
@@ -89,4 +88,11 @@ export const registerUser = async (req, res) => {
         req.flash('registerValidationData', req.body);
         res.redirect('/register');
     } 
+}
+
+export default {
+    login,
+    loginSubmit,
+    register,
+    registerSubmit
 }
