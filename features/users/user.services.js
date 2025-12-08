@@ -20,10 +20,10 @@ export const storeUser = async (data) => {
 }
 
 export const updateUser = async (filter, update) => {
-    const user = await findOneAndUpdate(filter, update);
+    const user = await Users.findOneAndUpdate(filter, update);
     if (!user) throw new Error('Failed to find user');
 
-    return oldUser;
+    return user;
 }
 
 export const deleteUser = async (filter) => {

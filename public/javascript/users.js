@@ -1,28 +1,31 @@
 import { $, $$, handleInputErrors } from './utils.js';
-import { showModal } from './modal.js';
+import modal from './modal.js';
 import { uploadImageSigned, replaceImageSigned } from './cloud.js';
 
 init();
 
 function init() {
-    showModal(false);
+    modal.show(false);
 
     const rows = $$(document, 'table>tbody tr');
     const form = $(document, 'div#modal form');
-    const deleteButton = $(modal, 'div#modal button#delete');
     const createButton = $(document, 'div#users>main>button#create');
     const users = getUsersFromRows(rows); // [[],{}]
     // users[0]; // [{ id, info: [{ name: username, value: 'username',... }, ...]},...]
     // users[1]; // { id: index,... }
     handleFilteringUsersStatus(users);
-    handleSorting(users);
-    handleRowsOnclick(rows);
+    handleUsersSorting(users);
+    handleAllUserRowsOnclick(rows);
 
     // Create
     createButton.onclick = (e) => {
         e.preventDefault();
-        deleteButton.classList.add('hide');
-        showModal(true, 'Create User', () => createUser());
+    
+        modal.delete.visibility = false;
+        modal.title = 'Create User';
+        modal.save.callback = () => createUser(); 
+        modal.set();
+        modal.show();
     }
 
     function getUsersFromRows(rows) {
@@ -72,7 +75,7 @@ function init() {
     async function updateUser(id) {
         const [ usersData, usersIndexes ] = users;
         const formData = new FormData(form);
-        if (form.elements['profile'].files[0]); {
+        if (form.elements['profile'].files[0]) {
             const image = form.elements['profile'].files[0];
             const index = usersIndexes[id];
             let publicId = '';
@@ -82,6 +85,8 @@ function init() {
             const imageData = await replaceImageSigned(image, publicId);
             formData.append('profile[url]', imageData.secure_url);
             formData.append('profile[public_id]', imageData.public_id);
+        } else {
+            formData.delete('profile');
         }
 
         const res = await fetch(`/users/${id}`, {
@@ -111,31 +116,42 @@ function init() {
         init();
     }
 
-    function handleRowsOnclick(rows) {
+    function handleAllUserRowsOnclick(rows) {
         rows.forEach(row => {
-            row.onclick = () => handleRowOnclick(row);
+            row.onclick = () => handleUserRowOnclick(row);
         }
     )}
 
     // get particular user's data from database using row values as reference and display those when modal opens
-    // TODO - Find a way to move some of this function's content inside the modal function directly
-    async function handleRowOnclick(row) {
+    async function handleUserRowOnclick(row) {
         const id = row.dataset.id;
+
+        // fetched password from DB since its nowhere in the row
         const res = await fetch(`/users/${id}`);
         const data = await res.json();
-        
-        // ! debug why password is undefined
-        form.elements['password'].value = data.user['password']; // nowhere in the row
 
-        deleteButton.classList.remove('hide');
-        showModal(true, 'Edit User', () => updateUser(data.user['_id'], data.user.profile.public_id), () => deleteUser(data.user['_id']));
+        modal.delete.visibility = true;
+        modal.title = 'Edit User';
+        modal.save.callback = () => updateUser(data.user['_id'], data.user.profile.public_id);
+        modal.delete.callback = () => deleteUser(data.user['_id']);
+        modal.data = data.user;
+        modal.set();
+        modal.show();
     }
 
+    // TODO - Refactor this to allow handleSorting function to be used for other APIs
     // All user properties can only be sorted one at a time
     // Sort can change sort profile
-    function handleSorting(arr) {
+    function handleUsersSorting(arr) {
         const [ usersInfo, usersIndexes ] = arr;
-        const [ usernameBtn, givenNameBtn, familyNameBtn, contactBtn, addressBtn ] = $$(document,'table>thead th:has(img)');
+        const buttons = $$(document,'table>thead th:has(img)');
+
+        // reset buttons
+        for (const button of buttons) {
+            button.children[0].src = '/assets/arrow-down-arrow-up.svg';
+        }
+
+        const [ usernameBtn, givenNameBtn, familyNameBtn, contactBtn, addressBtn ] = buttons;
         
         const [ usernameSort, givenNameSort, familyNameSort, contactSort, addressSort ] = [ 
             createSortObject('username', usernameBtn, usersInfo, usersIndexes), 
@@ -147,23 +163,23 @@ function init() {
         const siblingSorts = [ usernameSort, givenNameSort, familyNameSort, contactSort, addressSort ];
 
         usernameBtn.onclick = () => {
-            usernameSort.reset(siblingSorts);
+            usernameSort.resetSiblings(siblingSorts);
             usernameSort.toggle();
         }
         givenNameBtn.onclick = () => {
-            givenNameSort.reset(siblingSorts);
+            givenNameSort.resetSiblings(siblingSorts);
             givenNameSort.toggle();
         }
         familyNameBtn.onclick = () => {
-            familyNameSort.reset(siblingSorts);
+            familyNameSort.resetSiblings(siblingSorts);
             familyNameSort.toggle();
         }
         contactBtn.onclick = () => {
-            contactSort.reset(siblingSorts);
+            contactSort.resetSiblings(siblingSorts);
             contactSort.toggle();
         }
         addressBtn.onclick = () => {
-            addressSort.reset(siblingSorts);
+            addressSort.resetSiblings(siblingSorts);
             addressSort.toggle();
         }
     }
@@ -173,27 +189,30 @@ function init() {
             current: 0,
             img: $(button, 'img'),
             toggle() {
+                if (typeof arr[0] === 'undefined') return;
+
+                // init
                 let sortedArr;
                 let propIdx = -1;
+
                 for (let i = 0; i < arr[0].info.length || propIdx <= 0; i++) {
                     if (arr[0].info[i].name === property) propIdx = i;
                 }
-                // noSort
+                // to noSort
                 if (this.current === 2) {
                     this.current = 0;
                     sortedArr = arr.sort((a,b) => Date.parse(b.created) - Date.parse(a.created));
                     this.img.src = "./assets/arrow-down-arrow-up.svg";
-                // ascending
+                // to ascending
                 } else if (this.current === 0) {
                     this.current = 1;
-                    // [{ id, info: [{ name: username, value: 'username',... }, ...]},...]
                     sortedArr = arr.sort((a,b) => {
                         if (a.info[`${propIdx}`].value < b.info[`${propIdx}`].value) return -1;
                         if (a.info[`${propIdx}`].value > b.info[`${propIdx}`].value) return 1;
                         return 0;
                     });
                     this.img.src = "./assets/arrow-up-solid-full.svg";
-                // descending
+                // to descending
                 } else if (this.current === 1) {
                     this.current = 2;
                     sortedArr = arr.sort((a,b) => {
@@ -209,7 +228,7 @@ function init() {
 
                 renderTable(sortedArr);
             },
-            reset(siblingSorts) {
+            resetSiblings(siblingSorts) {
                 siblingSorts.forEach(_ => {
                     // e.g. if "this" is referencing username, then all others except username will be set back to no sort
                     if (_ != this) {
@@ -222,6 +241,7 @@ function init() {
     } 
 
     // TODO - refactor this to allow filtering through all info elements
+    // TODO - refactor this to allow handleFiltering function to be used for other APIs
     // Filter
     // users[0]; // [{ id, info: [{ name: username, value: 'username',... }, ...]},...]
     function handleFilteringUsersStatus(arr) {
@@ -230,10 +250,12 @@ function init() {
         filter.onchange = () => {
             if (filter.selectedOptions[0].value === 'no-filter') {
                 renderTable(arrInfo);
+                handleUsersSorting([arrInfo, arrIndexes]);
                 return;
             }
-            const filteredArr = arrInfo.filter(objElement => objElement.status === filter.selectedOptions[0].value);
-            renderTable(filteredArr);
+            const filteredArrInfo = arrInfo.filter(objElement => objElement.status === filter.selectedOptions[0].value);
+            renderTable(filteredArrInfo);
+            handleUsersSorting([filteredArrInfo, arrIndexes]); 
         }
     }
 
@@ -264,7 +286,9 @@ function init() {
             })
             newRow.classList.add('row', 'row:hover');
         })
-        handleRowsOnclick(rows);
+        const rows = $$(body, 'tr');
+        handleAllUserRowsOnclick(rows);
     }
 }
+
 

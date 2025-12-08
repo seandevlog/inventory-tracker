@@ -31,7 +31,7 @@ export const storeUser = async (req, res) => {
 export const getUser = async (req, res) => {
     let user, errors;
     try {
-        user = await service.getUser({ username: req.params.username });
+        user = await service.getUser({ _id: req.params.id });
     } catch (err) {
         if (err.errors)
         errors = Object.keys(err.errors).map(key => errors[err.errors[key].path] = err.errors[key].message); 
@@ -45,9 +45,7 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
     try {
         try {
-            await service.updateUser({ username: req.params.username }, {
-                ...req.body
-            });
+            await service.updateUser({ _id: req.params.id }, { ...req.body });
         } catch (err) {
             return res.status(500).json({ error: 'Failed to find and update user' });
         }
@@ -65,8 +63,8 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
     try {
-        const user = await service.deleteUser({ username: req.params.username });
-        if (!user) throw new Error(`Failed to find and delete ${req.params.username}`);
+        const user = await service.deleteUser({ _id: req.params.id });
+        if (!user) throw new Error(`Failed to find and delete ${ req.params.id }`);
 
         if (user?.profile.public_id) {
             const cloudinaryRes = await cloudinary.uploader.destroy( 
