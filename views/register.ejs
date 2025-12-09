@@ -3,58 +3,35 @@
 <form action="/auth/register/user" method="POST">
     <div>
         <label for="username">Username</label>
-        <% if (username.error) { %>
-            <span class="validation-error">
-            <%- username.error %>
-            </span>
-        <% } %>
-        <input type="text" id="username" name="username" autocomplete="username" value="<%- username.value %>">
+        <span id="validation-error" class="validation-error"></span>
+        <input type="text" id="username" name="username" autocomplete="username" data-id="Username" value="">
     </div>
     <div>
         <label for="password">Password</label>
-        <% if (password.error) { %>
-            <span class="validation-error">
-            <%- password.error %>
-            </span>
-        <% } %>
-        <input type="password" id="password" name="password" autocomplete="current-password" value="<%- password.value %>">
+        <span id="validation-error" class="validation-error"></span>
+        <input type="password" id="password" name="password" autocomplete="current-password" data-id="Password" value="">
     </div>
     <div>
-        <label for="given-name">Given Name</label>
-        <% if (givenName.error) { %>
-            <span class="validation-error">
-            <%- givenName.error %>
-            </span>
-        <% } %>
-        <input type="text" id="given-name" name="givenName" autocomplete="given-name" value="<%- givenName.value %>">
+        <label for="givenName">Given Name</label>
+        <span id="validation-error" class="validation-error"></span>
+        <input type="text" id="givenName" name="givenName" autocomplete="given-name" data-id="Given name" value="">
     </div>
     <div>
-        <label for="family-name">Family Name</label>
-        <% if (familyName.error) { %>
-            <span class="validation-error">
-            <%- familyName.error %>
-            </span>
-        <% } %>
-        <input type="text" id="family-name" name="familyName" autocomplete="family-name" value="<%- familyName.value %>">
+        <label for="familyName">Family Name</label>
+        <span id="validation-error" class="validation-error"></span>
+        <input type="text" id="familyName" name="familyName" autocomplete="family-name" data-id="Family name" value="">
     </div>
     <div>
         <label for="contact">Contact</label>
-        <% if (contact.error) { %>
-            <span class="validation-error">
-            <%- contact.error %>
-            </span>
-        <% } %>
-        <input type="text" id="contact" name="contact" autocomplete="mobile" value="<%- contact.value %>">
+        <span id="validation-error" class="validation-error"></span>
+        <input type="text" id="contact" name="contact" autocomplete="mobile" data-id="Contact" value="">
     </div>
     <div>
         <label for="address">Address</label>
-        <% if (address.error) { %>
-            <span class="validation-error">
-            <%- address.error %>
-            </span>
-        <% } %>
-        <input type="text" id="address" name="address" autocomplete="address-line-1" value="<%- address.value %>">
+        <span id="validation-error" class="validation-error"></span>
+        <input type="text" id="address" name="address" autocomplete="address-line1" data-id="Address" value="">
     </div>
     <button type="submit" class="btn" name="button">Register</button>`
+    <div class="error-box" id="error-box"></div>
 </form>
 <span id="redirect" data-url="/login">I already have an account</span>

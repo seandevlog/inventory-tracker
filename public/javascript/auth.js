@@ -1,80 +1,136 @@
-import { $ } from './dom.js';
+import { $, $$ } from './dom.js';
 
 init();
 
 function init() {
-    toggleAuthForm();
+    toggleAuthForm(window.location.pathname);
 
-    // TODO - try running and complete auth page with client-side validation then server-side validation
+    // TODO - try running and complete auth path with client-side validation then server-side validation
 
-    async function toggleAuthForm(page = 'login') {
+    async function toggleAuthForm(path) {
         const redirect = $(document, 'span#redirect');
-        const form = $(document, 'form');
+        const formEl = $(document, 'form');
         
         let data = {};
         
-        if (page === 'login') {
-            data = await loginHandler(form);
+        if (path === '/login') {
+            await authHandler(formEl, validateLogin, 
+                async (formData) => await fetch('/auth/login', {
+                    method: 'POST',
+                    body: formData
+                })
+            );
         } else {
-            data = await registerHandler(form);
+            await authHandler(formEl, validateRegister,
+                async (formData) => await fetch('/auth/register', {
+                    method: 'POST',
+                    body: formData
+                })
+            );
         }
 
         redirect.onclick = async (e) => {
-            if (page === 'login') {
-                toggleAuthForm('signup');
+            if (path === '/login') {
                 window.location.href = redirect.dataset.url;
-            } else if (page === 'signup') {
-                registerHandler(form);
-                toggleAuthForm('login');
+            } else if (path === '/register') {
                 window.location.href = redirect.dataset.url;
             }
         };
     }
 
-    async function loginHandler(form) {
-        const submitButton = $(form, 'button');
-        const formData = new FormData(form);
+    async function authHandler(formEl, validateCallback, fetchCallback) {
+        const submitButton = $(formEl, 'button');
         let data = {};
 
         submitButton.onclick = async (e) => {
             e.preventDefault();
 
-            const errors = isValidated(formData);
-            if (!errors) {
-                const res = await fetch('/auth/login')
+            const formData = new FormData(formEl);
+            const errors = validateCallback(formEl);
+            if (Object.values(errors).some(value => !value)) {
+                const res = await fetchCallback(formData);
                 data = await res.json();
+
+                if (data.error) return showErrorBoxMessage(true, formEl, data.error);
+                if (data.redirect) window.location.href = data.redirect;
             } else {
-                showValidation(form, errors);
+                showValidation(true, formEl, errors);
             }
         }
 
         return data;
     }
 
-    async function registerHandler() {
-        return data;
-    }
-
-    function isValidated(formData) {
-        // TODO - add logic
+    function validateLogin(formEl) {
         const errors = {};
-        formData.keys().forEach(key => errors[key] = '');
+        const inputs = $$(formEl, 'input');
 
-        for(const entry of formData.entries()) {
-            if (!entry[1]) errors[`${entry[0]}`] = `${entry[0].substring(0,1).toUpperCase()}${entry[0].substring(1)} is required`; 
+        for (const input of inputs) {
+            errors[`${input.id}`] = !input.value ? `${input.dataset.id} is required`: '';
         }
 
-        return errors; // or errors object
+        return errors;
     }
 
-    function showValidation(form, errors) {
-        for (const [key, value] of Object.entries(errors)) {
-            const span = document.createElement('span');
-            const inputEl = $(form, `input#${key}`) 
-            inputEl.insertAdjacentElement('beforebegin', span);
+    // TODO - after refactoring with React, make a unified client-server-side validation
+    function validateRegister(formEl) {
+        const errors = {};
+        const inputs = $$(formEl, 'input');
 
+        for (const input of inputs) {
+            errors[`${input.id}`] = !input.value ? `${input.dataset.id} is required`: '';
+        }
+
+        try {
+            const passwordInput = $(formEl, 'input#password');
+            if (!errors['password'] && passwordInput.value.length < 12) {
+                errors['password'] = 'Password should have 12 or more characters';
+                throw errors;
+            }
+
+            if (!errors['password'] && !passwordInput.value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{12,}$/)) {
+                errors['password'] = 'Password should have a combination of uppercase letters, lowercase letters, numbers, and symbols';
+                throw errors;
+            }
+        } catch (e) {
+            return e;
+        }
+        
+        return errors;
+    }
+
+    function showValidation(display = true, formEl, errors) {
+        if (!formEl || !errors || !display) {
+            const spans = $$(document, 'form span#validation-error')
+            for (const span of spans) {
+                span.classList.add('hide');
+            }
+            return;
+        }
+        for (const [key, value] of Object.entries(errors)) {
+            const inputEl = $(formEl, `input#${key}`)
+            let span;
+            for (const child of inputEl.parentElement.children) {
+                if (child.tagName === 'SPAN') { 
+                    span = child;  
+                }
+            } 
+            span.classList.remove('hide'); 
             span.textContent = value;
         }
+        showErrorBoxMessage(false);
+    }
+
+    function showErrorBoxMessage(display = true, formEl, error) {
+        if (!formEl || !error || !display) {
+            const div = $(document, 'form>div#error-box')
+            div.classList.add('hide');
+            return;
+        }
+        const div = $(formEl, 'div#error-box');
+        div.textContent = error;
+        div.classList.remove('hide');
+        showValidation(false);
     }
 }
 

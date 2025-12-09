@@ -3,22 +3,15 @@
 <form action="/auth/login/user" method="POST">
     <div>
         <label for="username">Username</label>
-        <% if (username.error) { %>
-            <span class="validation-error">
-            <%- username.error %>
-            </span>
-        <% } %>
-        <input type="text" id="username" name="username" autocomplete="username" value="<%- username.value %>">
+        <span id="validation-error" class="validation-error"></span>
+        <input type="text" id="username" name="username" autocomplete="username" data-id="Username" value=""> 
     </div>
     <div>
         <label for="password">Password</label>
-        <% if (password.error) { %>
-            <span class="validation-error">
-            <%- password.error %>
-            </span>
-        <% } %>
-        <input type="password" id="password" name="password" autocomplete="current-password" value="<%- password.value %>">
+        <span id="validation-error" class="validation-error"></span>
+        <input type="password" id="password" name="password" autocomplete="current-password" data-id="Password" value="">
     </div>
     <button type="submit" class="btn" name="button">Login</button>`
+    <div class="error-box" id="error-box"></div>
 </form>
 <span id="redirect" data-url="/register">I don't have an account</span>

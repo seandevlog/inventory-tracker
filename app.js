@@ -19,7 +19,10 @@ app.use(expressEjsLayouts);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.get('/', (req, res) => res.send('Homepage'))
+app.get('/', (req, res) => 
+    res.render('home', {
+        layout: 'layouts/home'
+    }))
 
 app.use('/', auth);
 

@@ -9,16 +9,25 @@ export const login = async (data) => {
     if (!user) throw new Error('User not found'); 
     
     if (user.password !== password) throw new Error('Password is incorrect');
-    // if (usernameError) req.flash('usernameLoginValidationError', usernameError.message);
-    // if (passwordError) req.flash('passwordLoginValidationError', passwordError.message);
+} 
+
+export const register = async (data) => {
+    const { 
+        username, 
+        password, 
+        givenName, 
+        familyName, 
+        contact, 
+        address 
+    } = data;
+
+    if (!username || !password || !givenName || !familyName || !contact || !address ) throw new Error('Missing credentials');
     
-    // if (usernameError || passwordError) {
-        // req.flash('loginValidationData', req.body)
-        // return res.redirect('/login');
-    //     throw new Error('Username or password is incorrect');
-    // }
+    const user = await Users.create({ ...data, status: 'active' });
+    if (!user) throw new Error('Failed to create user');
 } 
 
 export default {
-    login
+    login,
+    register
 }
