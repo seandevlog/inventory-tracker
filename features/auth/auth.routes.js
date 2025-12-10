@@ -1,5 +1,5 @@
 import express from 'express';
-import multer from 'multer';
+import multer from 'multer';;
 
 import * as controller from './auth.controllers.js';
 

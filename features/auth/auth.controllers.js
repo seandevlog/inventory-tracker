@@ -12,7 +12,9 @@ export const login =  async (req, res) => {
 
 export const loginSubmit = async (req, res) => {
     try {
-        await services.login({ ...req.body });
+        const { _id } = await services.login({ ...req.body });
+        const { accessToken, refreshToken } = await services.generateTokens(_id);
+        // TODO - res to client with AT and RT as an httpOnly cookie
         res.status(200).json({ redirect: '/' });
     } catch (err) {;
         return res.status(500).json({ error: err.message });
