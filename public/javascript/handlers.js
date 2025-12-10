@@ -1,7 +1,27 @@
 import { $, $$ } from './dom.js';
-import modal from './modal.js'
+import modal from './modal.js';
 
-export function clearForm(form) {
+function getDataFromRows() {
+    const rows = $$(document, 'table>tbody tr');
+    const data = [[]]; // [[],{}]
+    const indexes = {};
+    for (const row of rows) {
+        indexes[row.dataset.id] = data[0].length; // { id: index }
+        const datum = { ...row.dataset }; // { id: id,... }
+        datum['info'] = []; // { id: id, info: []}
+        let idx = 0;
+        for (const cell of row.children) {
+            if (cell.dataset) {
+                datum['info'].push({ ...cell.dataset });
+            }
+        } // { id, info: [{ name: username, value: 'username',... }, ...]}
+        data[0].push(datum);
+    } 
+    data.push(indexes); // [[{ id, info: [{ name: username, value: 'username',... }, ...]},...], { id: index, ...}]
+    return data;
+}
+
+export function resetFields(form) {
     const inputs = $$(form,'input[data-type="info"');
     const selects = $$(form,'select'); 
     for (const input of inputs) {
@@ -14,7 +34,7 @@ export function clearForm(form) {
     }
 }
 
-export function inputErrors(data, form) {
+function displayInputErrors(data, form) {
     if (typeof data.errors == 'undefined') return null;
 
     const errors = data.errors;
@@ -38,7 +58,8 @@ export function inputErrors(data, form) {
         All columns can only be sorted one at a time
         Sort can change state of all sort buttons
 =============================================================== */
-export function sorting(arr, buttons) {
+function sorting(arr) {
+    const buttons = $$(document,'table>thead th:has(img)');
     const [ info, indexes ] = arr;
     if (buttons) sorting.buttons = buttons;
 
@@ -130,44 +151,63 @@ export function sorting(arr, buttons) {
     Features:
         Filters row based on status dataset
 =============================================================== */
-export function statusFiltering(arr, selectEl) {
+function statusFiltering(arr) {
+    const filterElement = $(document, 'main>select');
     const [ info, indexes ] = arr;
-    selectEl.onchange = () => {
-        if (selectEl.selectedOptions[0].value === 'no-filter') {
+    filterElement.onchange = () => {
+        if (filterElement.selectedOptions[0].value === 'no-filter') {
             renderTable(info);
             sorting([info, indexes]);
             return;
         }
-        const filteredInfo = info.filter(objElement => objElement.status === selectEl.selectedOptions[0].value);
+        const filteredInfo = info.filter(objElement => objElement.status === filterElement.selectedOptions[0].value);
         renderTable(filteredInfo);
         sorting([filteredInfo, indexes]); 
     }
 }
 
-export async function allRowsOnclick(rows, options) {
-    if (options) Object.keys(options).map(key => allRowsOnclick[`${key}`] = options[key]); 
+function allRowsOnclick(callbacks) {
+    const rows = $$(document, 'table>tbody tr');
+    const { modalCallback, getDataCallback } = callbacks;
+    rows.forEach(row => {
+        row.onclick = async () => {
+            modal.reset();
+            const id = row.dataset.id;
+            modal.data = await getDataCallback(id, row)
 
-    await rows.forEach(row => {
-        row.onclick = async () => await rowOnclick(row, allRowsOnclick);
+            let profile; 
+            for (const child of row.children) {
+                if (child.dataset.name === 'profile') {
+                    profile = child;
+                    break;
+                }
+            }
+            modal.imgUrl = profile ? profile.dataset.value : null;
+
+            modalCallback(row);
+
+            modal.delete.visibility = true;
+            modal.set();
+            modal.show();
+        }
     }
 )}
 
-async function rowOnclick(row, options) {
-    const {
-        saveCallback, 
-        deleteCallback, 
-        data, 
-        editTitle
-    } = options;
-    const id = row.dataset.id; 
+function creation(modalCallback) {
+    const createButton = $(document, 'button#create');
+    createButton.onclick = (e) => {
+        e.preventDefault();
 
-    modal.delete.visibility = true;
-    modal.title = editTitle;
-    modal.save.callback = saveCallback;
-    modal.delete.callback = deleteCallback;
-    modal.data = await data(id, row);
-    modal.set();
-    modal.show();
+        modal.reset();
+        modal.delete.visibility = false;
+        modal.delete.callback = () => {};
+        modal.showInputElements = ['password']
+        
+        modalCallback();
+
+        modal.set();
+        modal.show();
+    }
 }
 
 function renderTable(arr) {
@@ -198,10 +238,12 @@ function renderTable(arr) {
 }
 
 export default {
-    clearForm,
-    inputErrors,
+    resetFields,
+    displayInputErrors,
     sorting,
     statusFiltering,
     allRowsOnclick,
-    renderTable
+    renderTable,
+    creation,
+    getDataFromRows
 };

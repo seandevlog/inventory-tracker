@@ -1,4 +1,5 @@
 import Users from '../users/user.model.js';
+import bcrypt from '../../common/utils/bcrypt.api.js';
 
 export const login = async (data) => {
     const { username, password } = data;
@@ -8,22 +9,15 @@ export const login = async (data) => {
     
     if (!user) throw new Error('User not found'); 
     
-    if (user.password !== password) throw new Error('Password is incorrect');
+    const result = await bcrypt.compare(password, user.password);
+    if (!result) throw new Error('Password incorrect');
 } 
 
 export const register = async (data) => {
-    const { 
-        username, 
-        password, 
-        givenName, 
-        familyName, 
-        contact, 
-        address 
-    } = data;
+    let { password } = data; 
+    password = await bcrypt.hashPassword(password);
 
-    if (!username || !password || !givenName || !familyName || !contact || !address ) throw new Error('Missing credentials');
-    
-    const user = await Users.create({ ...data, status: 'active' });
+    const user = await Users.create({ ...data, password, status: 'active' });
     if (!user) throw new Error('Failed to create user');
 } 
 

@@ -6,7 +6,7 @@ import {v2 as cloudinary} from 'cloudinary';
 import config from './config/index.js';
 import auth from './features/auth/auth.routes.js';
 import users from './features/users/user.routes.js';
-import cloudinaryApi from './common/utils/cloudinary.api.js';
+import cloudinaryApi from './common/middlewares/cloudinary.api.js';
 
 export const app = express();
 

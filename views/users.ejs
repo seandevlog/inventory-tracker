@@ -18,7 +18,19 @@
     <tbody>
         <% users.forEach(user => { %>
             <tr class="row row:hover" data-created="<%- user.createdAt %>" data-updated="<%- user.updatedAt %>" data-status="<%- user.status %>" data-id="<%- user._id %>">
-                <td data-name="profile" data-value="<%= user.profile.url %>?t=<%= user.updatedAt.getTime() %>" data-public_id="<%= user.profile.public_id %>" data-type="image"><img src="<%= user.profile.url %>?t=<%= user.updatedAt.getTime() %>" alt="Avatar"></td>
+                <td data-name="profile" data-value=
+                    <% if (user.profile) { %> 
+                        <%= user.profile?.url %>?t=<%= user.updatedAt.getTime() %>
+                    <% } else { %> 
+                        '/assets/abstract-user-flat-4.png'
+                    <% } %> 
+                    data-public_id="<%= user.profile?.public_id %>" data-type="image"><img src=
+                    <% if (user.profile) { %> 
+                        <%= user.profile?.url %>?t=<%= user.updatedAt.getTime() %>
+                    <% } else { %> 
+                        '/assets/abstract-user-flat-4.png'
+                    <% } %>
+                alt="Avatar"></td>
                 <td data-name="username" data-value="<%= user.username %>" data-type="text"><%= user.username %></td>
                 <td data-name="givenName" data-value="<%= user.givenName %>" data-type="text"><%= user.givenName %></td>
                 <td data-name="familyName" data-value="<%= user.familyName %>" data-type="text"><%= user.familyName %></td>
@@ -36,7 +48,7 @@
         <form action='/users/store' method='POST' id="data" enctype="multipart/form-data">
             <fieldset id="file">
                 <legend>Profile</legend>
-                <img src="./assets/image-solid-full.svg" alt="Avatar"></img> <!-- temp image -->
+                <img src="./assets/abstract-user-flat-4.png" alt="Avatar"></img> <!-- temp image -->
                 <input type="file" id="profile" name="profile">
             </fieldset>
             <div>

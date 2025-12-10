@@ -1,5 +1,6 @@
 import { $, $$ } from './dom.js';
-import { clearForm } from './handlers.js';
+import { resetFields } from './handlers.js';
+import globals from './globals.js';
 
 export const setModal = {
     title: '',
@@ -11,13 +12,34 @@ export const setModal = {
         callback: () => {},
         visibility: true
     },
+    hideInputElements: [],
+    showInputElements: [],
     data: {},
+    imgUrl: '',
     set: function () {
         const modal = $(document, 'div#modal');
         const saveButton = $(modal, 'button#save');
         const deleteButton = $(modal, 'button#delete');
         const form = $(modal, 'form');
-        const header = $(modal, 'header')
+        const header = $(modal, 'header');
+        const img = $(modal, 'fieldset#file>img');
+        
+        this.hideInputElements?.forEach(elementId => {
+            const input = $(modal, `fieldset#info div:has(input#${elementId})`);
+            input.classList.add('hide');
+        })
+
+        this.showInputElements?.forEach(elementId => {
+            const input = $(modal, `fieldset#info div:has(input#${elementId})`);
+            input.classList.remove('hide');
+        })
+
+        if (!this.imgUrl) {
+            img.src = globals.defaultProfileUrl;
+        } else {
+            img.src = this.imgUrl;
+        }
+
 
         header.textContent = this.title;
         writeInputElementValues(form, this.data);
@@ -52,7 +74,15 @@ export const setModal = {
             this.delete.callback();
         }
     },
-    show: (display) => showModal(display)
+    show: (display) => showModal(display),
+    reset: function () {
+        // default
+        this.data = {};
+        this.title = '';
+        this.hideInputElements = [];
+        this.showInputElements = [];
+        this.imgUrl = '';
+    }
 }
 
 const writeInputElementValues = (form, data) => {
@@ -73,7 +103,7 @@ const showModal = (display = true) => {
 
     if (!display) {
         modalWrapper.classList.add('hide');
-        clearForm(form);
+        resetFields(form);
         return;
     }
 

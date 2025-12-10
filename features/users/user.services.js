@@ -1,7 +1,9 @@
 import Users from './user.model.js';
+import bcrypt from '../../common/utils/bcrypt.api.js';
 
 export const getUser = async (filter) => {
     const user = await Users.findOne(filter)
+
     if (!user) throw new Error('Failed to find user');
     return user;
 }
@@ -14,13 +16,19 @@ export const getAllUser = async () => {
 }
 
 export const storeUser = async (data) => {
-    const user = await Users.create(data);
+    let { password } = data;
+    password = await bcrypt.hashPassword(password);
+
+    const user = await Users.create({...data, password});
     if (!user) throw new Error('Failed to create user');
     return user;
 }
 
-export const updateUser = async (filter, update) => {
-    const user = await Users.findOneAndUpdate(filter, update);
+export const updateUser = async (filter, data) => {
+    let { password } = data;
+    password = await bcrypt.hashPassword(password);
+
+    const user = await Users.findOneAndUpdate(filter, {...data, password});
     if (!user) throw new Error('Failed to find user');
 
     return user;

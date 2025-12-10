@@ -13,18 +13,11 @@ export const renderUsers = async (req, res) => {
 
 export const storeUser = async (req, res) => {
     try {
-        const user = service.storeUser({ ...req.body });
+        await service.storeUser({ ...req.body });
 
         res.send({ redirect: '/users' });
     } catch (err) {
-        if (err.message === 'Failed to create user') return res.status(500).json({ error: err.message });
-
-        const errors = {}
-        Object.keys(err.errors).map(key => errors[err.errors[key].path] = err.errors[key].message);
-        res.json({
-            body: req.body,
-            errors: errors
-        });
+        return res.status(500).json({ error: err.message });
     }
 }
 
@@ -44,20 +37,13 @@ export const getUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
     try {
-        try {
-            await service.updateUser({ _id: req.params.id }, { ...req.body });
-        } catch (err) {
-            return res.status(500).json({ error: 'Failed to find and update user' });
-        }
+        const user = await service.updateUser({ _id: req.params.id }, { ...req.body });
+        if (!user) throw new Error ('Failed to find and update user');
         
         // did not use res.redirect since it's not commonly used with patch request and doesn't work
         res.send({ redirect: '/users' });
     } catch (err) {
-        const errors = {}
-        Object.keys(err.errors).map(key => errors[err.errors[key].path] = err.errors[key].message);
-        res.send({
-            errors: errors
-        })
+        res.status(500).send({ errors: errors })
     }
 }
 
@@ -66,7 +52,7 @@ export const deleteUser = async (req, res) => {
         const user = await service.deleteUser({ _id: req.params.id });
         if (!user) throw new Error(`Failed to find and delete ${ req.params.id }`);
 
-        if (user?.profile.public_id) {
+        if (user.profile?.public_id) {
             const cloudinaryRes = await cloudinary.uploader.destroy( 
                 user.profile.public_id
             );
