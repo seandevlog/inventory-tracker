@@ -14,4 +14,8 @@ router.get('/register', controller.register);
 
 router.post('/auth/register', upload.any(), controller.registerSubmit);
 
+router.post('/auth/refresh', controller.refresh);
+
+// router.post('/auth/logout', controller.logout);
+
 export default router;

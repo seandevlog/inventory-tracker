@@ -1,5 +1,5 @@
 import Users from './user.model.js';
-import bcrypt from '../../common/utils/bcrypt.api.js';
+import bcrypt from '../auth/services/password.services.js';
 
 export const getUser = async (filter) => {
     const user = await Users.findOne(filter)

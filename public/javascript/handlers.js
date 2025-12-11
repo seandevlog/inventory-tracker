@@ -37,7 +37,7 @@ export function resetFields(form) {
 function displayInputErrors(data, form) {
     if (typeof data.errors == 'undefined') return null;
 
-    const errors = data.errors;
+    const { errors } = data;
     const validationMessages = $(form,'span')
     for (const validationMessage of validationMessages) {
         // e.g. validationMessage.dataset.id = username

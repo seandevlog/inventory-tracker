@@ -7,7 +7,7 @@ const sessionSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         rel: 'User'
     },
-    expiresAt: Date
+    expiresIn: Date
 })
 
 const sessionModel = mongoose.model('Session', sessionSchema);

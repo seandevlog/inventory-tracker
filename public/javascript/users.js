@@ -2,6 +2,7 @@ import { $, $$ } from './dom.js';
 import handlers from './handlers.js';
 import modal from './modal.js';
 import cloud from './cloud.js';
+import Token from './token.js';
 
 init();
 
@@ -34,8 +35,17 @@ function init() {
 
     async function getUser(id, row) {
         if (typeof row.dataset.password === 'undefined') {
-            const res = await fetch(`/users/${id}`);
+            const res = await fetch(`/users/${id}`, {
+                headers: {
+                    authorization: `Bearer ${Token.accessToken}`
+                } 
+            });
             const data = await res.json();
+
+            if (data.err.name === 'TokenExpiredError') {
+                Token.accessToken = Token.refresh();
+                getUser(id, row);
+            }
 
             return data.user;
         } else {
@@ -54,17 +64,27 @@ function init() {
 
         const res = await fetch('/users/store', {
             method: 'POST',
+            headers: {
+                authorization: `Bearer ${Token.accessToken}`
+            },
             body: formData
         });
         
         if (!res.ok) throw new Error('Failed to store user data');
-        
+
         const data = await res.json();
-        const errors = handlers.displayInputErrors(data, form);
-        if (errors == null) {
+
+        if (data.err.name === 'TokenExpiredError') {
+            Token.accessToken = Token.refresh();
+            createUser();
+        }
+
+        // TODO - replace with display input errors from client side validation
+        // const errors = handlers.displayInputErrors(data, form);
+        // if (errors == null) {
             window.location.href = data.redirect;
             init();
-        }
+        // }
     } 
 
     // Gets id inside userInput.value, and update it directly using patch method and findOneAndUpdate
@@ -88,35 +108,53 @@ function init() {
 
         const res = await fetch(`/users/${id}`, {
             method: 'PATCH',
+            headers: {
+                authorization: `Bearer ${Token.accessToken}`
+            },
             body: formData
         });
 
         if (!res.ok) throw new Error('Failed to update user data');
 
         const data = await res.json();
-        const errors = handlers.displayInputErrors(data, form);
 
-        if (errors == null) {
+        if (data.err.name === 'TokenExpiredError') {
+            Token.accessToken = Token.refresh();
+            updateUser(row);
+        }
+
+        // const errors = handlers.displayInputErrors(data, form);
+
+        // if (errors == null) {
             window.location.href = data.redirect;
             init();
-        }
+        // }
     }
 
     async function deleteUser(row) {
         const { id } = row.dataset; 
         const res = await fetch(`/users/${id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                authorization: `Bearers ${Token.accessToken}`
+            }
         });
 
         if (!res.ok) throw new Error('Failed to delete user data');
         
         const data = await res.json();
-        const { errors } = data;
+
+        if (data.err.name === 'TokenExpiredError') {
+            Token.accessToken = Token.refresh();
+            deleteUser(row);
+        }
+
+        // const { errors } = data;
         
-        if (errors == null) {
+        // if (errors == null) {
             window.location.href = data.redirect;
             init();
-        }
+        // }
     }
 }
 

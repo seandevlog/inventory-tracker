@@ -1,4 +1,5 @@
 import { $, $$ } from './dom.js';
+import Token from './token.js';
 
 init();
 
@@ -11,21 +12,42 @@ function init() {
         const redirect = $(document, 'span#redirect');
         const formEl = $(document, 'form');
         
-        let data = {};
-        
         if (path === '/login') {
             await authHandler(formEl, validateLogin, 
-                async (formData) => await fetch('/auth/login', {
-                    method: 'POST',
-                    body: formData
-                })
+                async (formData) => { 
+                    const res = await fetch('/auth/login', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    const data = await res.json();
+                    
+                    Token.accessToken = data.accessToken || null;
+
+                    if (data.error) return showErrorBoxMessage(true, formEl, data.error);
+
+                    if (data.redirect) {
+                        await fetch(data.redirect, {
+                            method: 'POST',
+                            headers: {
+                                authorization: `Bearer ${Token.accessToken}`
+                            }
+                        });
+
+                        // window.location.href = data.redirect;
+                    }
+                }
             );
         } else {
             await authHandler(formEl, validateRegister,
-                async (formData) => await fetch('/auth/register', {
-                    method: 'POST',
-                    body: formData
-                })
+                async (formData) => {
+                    const res = await fetchCallback(formData);
+                    data = await res.json();
+
+                    Token.accessToken = data.accessToken || null;
+
+                    if (data.error) return showErrorBoxMessage(true, formEl, data.error);
+                    if (data.redirect) window.location.href = data.redirect;
+                }
             );
         }
 
@@ -48,11 +70,7 @@ function init() {
             const formData = new FormData(formEl);
             const errors = validateCallback(formEl);
             if (Object.values(errors).some(value => !value)) {
-                const res = await fetchCallback(formData);
-                data = await res.json();
-
-                if (data.error) return showErrorBoxMessage(true, formEl, data.error);
-                if (data.redirect) window.location.href = data.redirect;
+                fetchCallback(formData);
             } else {
                 showValidation(true, formEl, errors);
             }
