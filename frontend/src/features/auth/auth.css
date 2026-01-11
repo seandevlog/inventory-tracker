@@ -1,0 +1,85 @@
+div#root {
+  height          : 100vh;
+  width           : 100vw;
+
+  display         : flex;
+  flex-direction  : row;
+}
+
+.auth-form, 
+.auth-background-image {
+  flex            : 1 0 50%;
+}
+
+.auth-form {
+  height          : 100%;
+  width           : 100%;
+  background      : gray;
+  display         : flex;
+  flex-direction  : column;
+  align-items     : center;
+  justify-content : center;
+}
+
+.auth-form > span#logo {
+  position        : absolute;
+  top             : 0;
+  left            : 0;
+}
+
+.auth-form > h1 {
+  color   : white;
+  margin  : 0;
+}
+
+.auth-form > h6 {
+  color    :hsl(0, 4%, 5%);
+  margin   : 1em 0;
+}
+
+.auth-form > form {
+  margin          : 2em auto 0;
+  width           : 80%;
+  height          : fit-content;
+
+  display         : flex;
+  flex-direction  : column;
+  justify-content : center;
+}
+
+.auth-form > form * {
+  width   : 100%;
+}
+
+.auth-form label {
+  color           : white;
+  font-size       : 0.9em;
+  font-weight     : bold;
+  margin-bottom   : 0.5em;
+}
+
+.auth-form input {
+  margin-bottom   : 1em;
+  height          : 2em;
+}
+
+.auth-form button {
+  height          : fit-content;
+  color           : white;
+}
+
+.auth-form > span#redirect {
+  text-decoration : underline;
+  cursor          : pointer;
+  margin-top      : 1em;
+}
+
+.auth-background-image > svg {
+  height: 100%;
+  width: 100%;
+  display         : block;
+}
+
+.logo-text {
+  margin          : 0 0.5em;
+}
