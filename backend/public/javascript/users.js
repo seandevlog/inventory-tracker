@@ -42,7 +42,7 @@ function init() {
             });
             const data = await res.json();
 
-            if (data.err.name === 'TokenExpiredError') {
+            if (data.err?.name === 'TokenExpiredError') {
                 Token.accessToken = Token.refresh();
                 getUser(id, row);
             }
