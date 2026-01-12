@@ -68,18 +68,23 @@ div#root {
   color           : white;
 }
 
-.auth-form > span#redirect {
+.redirect {
   text-decoration : underline;
   cursor          : pointer;
   margin-top      : 1em;
 }
 
-.auth-background-image > svg {
-  height: 100%;
-  width: 100%;
+.logo-background {
+  height          : 100%;
+  width           : 100%;
   display         : block;
 }
 
 .logo-text {
   margin          : 0 0.5em;
+}
+
+.logo-image {
+height            : 40px;
+width             : 40px;
 }
