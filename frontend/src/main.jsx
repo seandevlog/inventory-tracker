@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import Root from './Root';
 import Auth from './features/auth/auth';
-import Login from './features/auth/login';
+import Login, {action as loginAction} from './features/auth/login';
 import Register from './features/auth/register'
 import Users from './features/manage/users/users';
 import Manage from './features/manage/manage'
@@ -18,11 +18,12 @@ const router = createBrowserRouter([
         element: <Auth />,
         children: [
           {
-            path: '/login',
-            element: <Login />
+            path: 'login',
+            element: <Login />,
+            action: loginAction
           },
           {
-            path: '/register',
+            path: 'register',
             element: <Register />
           }
         ]

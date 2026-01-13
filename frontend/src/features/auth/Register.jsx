@@ -1,12 +1,15 @@
-import { Form, Input, Redirect } from './auth.components';
+import { Input, Redirect } from './auth.components';
+import { Form } from 'react-router-dom';
 
 const Register = () => {
   return (
     <>
       <h1>Who are you?</h1>
       <h6>Please enter your details</h6>
-      <Form action="/auth/register" buttonText="Register">
+      <Form action="/auth/register">
         <RegisterInputs/>
+        <button type="submit" className="btn">Sign Up</button>
+        <div className="error-box" id="error-box"></div>
       </Form>
       <Redirect url="/login">I already have an account</Redirect>
     </>

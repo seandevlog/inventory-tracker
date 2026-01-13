@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import expressEjsLayouts from 'express-ejs-layouts';
 import {v2 as cloudinary} from 'cloudinary';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 import config from './config/index.js';
 import auth from './features/auth/auth.routes.js';
@@ -16,6 +17,7 @@ mongoose.connect(config.database);
 cloudinary.config(config.cloud);
 
 app.set('view engine', 'ejs');
+app.use(cors());
 app.use(express.static('public'));
 app.use(expressEjsLayouts);
 app.use(express.urlencoded({ extended: true }));
