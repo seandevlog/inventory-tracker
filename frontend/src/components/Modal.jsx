@@ -1,57 +1,4 @@
-import Logo from "../../logo"
-import { RegisterInputs } from "../auth/Register"
-
-export const NavTop = () => (
-  <nav className="top">
-    <span className="logo">
-        <Logo />
-    </span>
-    <form>
-        <input type="search" placeholder="What are you looking for?"/>
-    </form>
-    <ul className="links">
-        <li><a href="#">FAQ</a></li>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register">Sign Up</a></li>
-    </ul>
-  </nav>
-)
-
-export const NavSub = () => (
-  <nav className="sub">
-    <ul className="links">
-      <li><a href="./users">Users</a></li>
-      <li><a href="#">Items</a></li>
-      <li><a href="#">Locations</a></li>   
-      <li><a href="#">Suppliers</a></li>
-      <li><a href="#">Orders</a></li>
-      <li><a href="#">Transactions</a></li>
-    </ul>
-  </nav>
-)
-
-export const Filter = () => (
-  <select id="filter" name="filter">
-    <option value="active">Filter by: Active</option>
-    <option value="inactive">Filter by: Inactive</option>
-    <option value="no-filter" selected>No Filter</option>
-  </select>
-)
-
-export const Create = ({ children }) => (
-  <button id="create" className="btn" href="#">{children}</button>
-)
-
-export const SortHeader = ({ children }) => (
-  <th>
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-up" viewBox="0 0 16 16">
-      <path fillRule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5m-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5"/>
-    </svg>
-    {children}
-  </th>
-)
-
-export const Modal = ({ children, action }) => (
+const Modal = ({ children, action }) => (
   <>
     <div class="hide">
     <div id="modal">
@@ -104,3 +51,5 @@ const BackArrowIcon = () => (
     <path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1" />
   </svg>
 )
+
+export default Modal;

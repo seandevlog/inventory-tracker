@@ -3,11 +3,12 @@ import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import Root from './Root';
-import Auth from './features/auth/auth';
+import Error from './pages/Error';
+import Auth from './pages/Auth';
 import Login, {action as loginAction} from './features/auth/login';
 import Register from './features/auth/register'
-import Users from './features/manage/users/users';
-import Manage from './features/manage/manage'
+import Users from './features/users/users';
+import Manage from './pages/Manage'
 
 const router = createBrowserRouter([
   {
@@ -15,29 +16,33 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       {
-        element: <Auth />,
+        errorElement: <Error />,
         children: [
           {
-            path: 'login',
-            element: <Login />,
-            action: loginAction
+            element: <Auth />,
+            children: [
+              {
+                path: 'login',
+                element: <Login />,
+                action: loginAction
+              },
+              {
+                path: 'register',
+                element: <Register />
+              }
+            ]
           },
           {
-            path: 'register',
-            element: <Register />
-          }
-        ]
-      },
-      {
-        element: <Manage />,
-        children: [
-          {
-            path: '/users',
-            element: <Users />
+            element: <Manage />,
+            children: [
+              {
+                path: '/users',
+                element: <Users />
+              }
+            ]
           }
         ]
       }
-      
     ]
   }
 ]);

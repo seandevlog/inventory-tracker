@@ -1,6 +1,7 @@
-import './manage.css';
+import './Manage.module.css';
 import { Outlet } from "react-router-dom";
-import { NavTop, NavSub } from './manage.components'
+import NavTop from '../components/navTop';
+import NavSub from '../components/navSub';
 
 const Manage = () => (
   <div id="users" className="crud">

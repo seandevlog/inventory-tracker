@@ -1,5 +1,7 @@
-import { Input, Redirect } from './auth.components';
 import { Form } from 'react-router-dom';
+
+import RedirectLink from '../../components/RedirectLink/RedirectLink';
+import ValidatedInput from '../../components/ValidatedInput';
 
 const Register = () => {
   return (
@@ -11,55 +13,55 @@ const Register = () => {
         <button type="submit" className="btn">Sign Up</button>
         <div className="error-box" id="error-box"></div>
       </Form>
-      <Redirect url="/login">I already have an account</Redirect>
+      <RedirectLink url="/login">I already have an account</RedirectLink>
     </>
   )
 }
 
 export const RegisterInputs = () => (
   <>
-    <Input 
+    <ValidatedInput 
       id="username"  
       type="text"
       autoComplete="username"
     >
       Username
-    </Input>
-    <Input 
+    </ValidatedInput>
+    <ValidatedInput 
       id="password" 
       type="password"
       autoComplete="new-password"
     >
       Password
-    </Input>
-    <Input 
+    </ValidatedInput>
+    <ValidatedInput 
       id="givenName" 
       type="text"
       autoComplete="given-name"
     >
       Given Name
-    </Input>
-    <Input 
+    </ValidatedInput>
+    <ValidatedInput 
       id="familyName" 
       type="text"
       autoComplete="family-name"
     >
       Family Name
-    </Input>
-    <Input 
+    </ValidatedInput>
+    <ValidatedInput 
       id="contact" 
       type="text"
       autoComplete="mobile"
     >
       Contact
-    </Input>
-    <Input 
+    </ValidatedInput>
+    <ValidatedInput 
       id="address" 
       type="text"
       autoComplete="address-line1"
     >
       Address
-    </Input>
+    </ValidatedInput>
   </>
 )
 

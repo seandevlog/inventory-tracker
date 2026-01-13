@@ -1,6 +1,5 @@
 import Users from '../../users/user.model.js';
 import Passwords from './password.services.js';
-import Sessions from './session.services.js';
 
 export const login = async (data) => {
     const { username, password } = data;
@@ -9,8 +8,8 @@ export const login = async (data) => {
     const user = await Users.findOne({ username: username });
     if (!user) throw new Error('User not found'); 
     
-    // const result = await Passwords.compare(password, user.password);
-    // if (!result) throw new Error('Password incorrect');
+    const result = await Passwords.compare(password, user.password);
+    if (!result) throw new Error('Password incorrect');
 
     return user;
 } 
