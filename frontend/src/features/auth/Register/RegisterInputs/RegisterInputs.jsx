@@ -1,27 +1,10 @@
-import { Form } from 'react-router-dom';
+import ValidatedInput from "../../../../components/ValidatedInput/ValidatedInput";
 
-import RedirectLink from '../../components/RedirectLink/RedirectLink';
-import ValidatedInput from '../../components/ValidatedInput';
-
-const Register = () => {
-  return (
-    <>
-      <h1>Who are you?</h1>
-      <h6>Please enter your details</h6>
-      <Form action="/auth/register">
-        <RegisterInputs/>
-        <button type="submit" className="btn">Sign Up</button>
-        <div className="error-box" id="error-box"></div>
-      </Form>
-      <RedirectLink url="/login">I already have an account</RedirectLink>
-    </>
-  )
-}
-
-export const RegisterInputs = () => (
+const RegisterInputs = ({ className }) => (
   <>
-    <ValidatedInput 
-      id="username"  
+    <ValidatedInput
+      id="username"
+      className={className}  
       type="text"
       autoComplete="username"
     >
@@ -29,6 +12,7 @@ export const RegisterInputs = () => (
     </ValidatedInput>
     <ValidatedInput 
       id="password" 
+      className={className}
       type="password"
       autoComplete="new-password"
     >
@@ -36,6 +20,7 @@ export const RegisterInputs = () => (
     </ValidatedInput>
     <ValidatedInput 
       id="givenName" 
+      className={className}
       type="text"
       autoComplete="given-name"
     >
@@ -43,6 +28,7 @@ export const RegisterInputs = () => (
     </ValidatedInput>
     <ValidatedInput 
       id="familyName" 
+      className={className}
       type="text"
       autoComplete="family-name"
     >
@@ -50,6 +36,7 @@ export const RegisterInputs = () => (
     </ValidatedInput>
     <ValidatedInput 
       id="contact" 
+      className={className}
       type="text"
       autoComplete="mobile"
     >
@@ -57,6 +44,7 @@ export const RegisterInputs = () => (
     </ValidatedInput>
     <ValidatedInput 
       id="address" 
+      className={className}
       type="text"
       autoComplete="address-line1"
     >
@@ -65,4 +53,4 @@ export const RegisterInputs = () => (
   </>
 )
 
-export default Register;
+export default RegisterInputs;

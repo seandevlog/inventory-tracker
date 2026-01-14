@@ -1,28 +1,26 @@
-import Modal from '../../components/Modal';
-import Filter from '../../components/Filter';
-import CreateButton from '../../components/CreateButton';
-import HeaderSort from '../../components/HeaderSort';
+import Modal from '../../components/Modal/Modal';
+import Filter from '../../components/FilterSelect/FilterSelect';
+import CreateButton from '../../components/CreateButton/CreateButton';
+import TableHeaderSort from '../../components/Table/TableHeaderSort/TableHeaderSort';
+import Table from '../../components/Table/Table';
 
 const Users = () => {
   return (
     <>
       <Filter/>
       <CreateButton>New User</CreateButton>
-      <table>
-        <thead>
-          <tr>
+      <Table 
+        headers={(
+          <>
             <th>Img</th>
-            <HeaderSort>Username</HeaderSort>
-            <HeaderSort>Given Name</HeaderSort>
-            <HeaderSort>Family Name</HeaderSort>
-            <HeaderSort>Contact</HeaderSort>
-            <HeaderSort>Address</HeaderSort>
-          </tr>
-        </thead>
-        <tbody>
-
-        </tbody>
-      </table>
+            <TableHeaderSort>Username</TableHeaderSort>
+            <TableHeaderSort>Given Name</TableHeaderSort>
+            <TableHeaderSort>Family Name</TableHeaderSort>
+            <TableHeaderSort>Contact</TableHeaderSort>
+            <TableHeaderSort>Address</TableHeaderSort>
+          </>
+        )}
+      />
       <Modal
         action="/users/store"
       >

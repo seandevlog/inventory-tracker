@@ -1,10 +1,10 @@
-import './Manage.module.css';
+import style from './Manage.module.css';
 import { Outlet } from "react-router-dom";
-import NavTop from '../components/navTop';
-import NavSub from '../components/navSub';
+import NavTop from '../components/NavTop/NavTop';
+import NavSub from '../components/NavSub/NavSub';
 
 const Manage = () => (
-  <div id="users" className="crud">
+  <div className={style.manage}>
     <NavTop />
     <NavSub />
     <main>

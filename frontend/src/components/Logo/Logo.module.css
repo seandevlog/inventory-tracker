@@ -1,24 +1,24 @@
 .authLogo {
-  display         : inline-flex;
-  align-items     : center;
-
-  color           : black;
-  text-decoration : none;
-
   position        : absolute;
   top             : 0;
   left            : 0;
 }
 
 .authLogo > svg {
-    max-height      : 40px;
-    display         : block;
+  max-height      : 40px;
+  display         : block;
 }
 
-.authLogo > span {
+.authLogo > span,
+.navLogo > span {
   margin          : 0 0.5em;
 }
 
+.authLogo,
 .navLogo {
-  
+  display         : inline-flex;
+  align-items     : center;
+
+  color           : black;
+  text-decoration : none;
 }

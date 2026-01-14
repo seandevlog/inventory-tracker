@@ -6,7 +6,7 @@ import Root from './Root';
 import Error from './pages/Error';
 import Auth from './pages/Auth';
 import Login, {action as loginAction} from './features/auth/login';
-import Register from './features/auth/register'
+import Register from './features/auth/Register/Register'
 import Users from './features/users/users';
 import Manage from './pages/Manage'
 

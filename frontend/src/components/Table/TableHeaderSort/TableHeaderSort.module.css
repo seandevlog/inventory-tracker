@@ -1,0 +1,13 @@
+.tableHeaderSort > svg {
+    width           : 0.8em;
+    margin-right    : 0.2em;
+}
+
+.tableHeaderSort {
+    padding         : 0 0.2em;
+}
+
+.tableHeaderSort:hover {
+    background      : gainsboro;
+    cursor          : pointer;
+}

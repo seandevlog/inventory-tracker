@@ -2,7 +2,7 @@ import { Form, redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import config from '../../config';
-import ValidatedInput from '../../components/ValidatedInput';
+import ValidatedInput from '../../components/ValidatedInput/ValidatedInput';
 import RedirectLink from '../../components/RedirectLink/RedirectLink';
 import ErrorBox from '../../components/ErrorBox';
 
@@ -36,7 +36,7 @@ const Login = () => {
         <button type="submit" className="btn">Login</button>
         <ErrorBox />
       </Form>
-      <RedirectLink className="redirect" url="/register">I don't have an account</RedirectLink>
+      <RedirectLink className="authRedirect" url="/register">I don't have an account</RedirectLink>
     </>
   )
 }

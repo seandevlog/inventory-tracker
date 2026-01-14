@@ -22,14 +22,6 @@ div#root {
     display         : none !important; 
 }
 
-/* .logo {
-    display         : inline-flex;
-    align-items     : center;
-
-    color           : black;
-    text-decoration : none;
-} */
-
 .btn {
     color           : white;
     font-weight     : bold;
@@ -55,7 +47,3 @@ div#root {
     border-radius   : 30px;
     cursor          : pointer;
 }
-
-.validation-error {
-    color           : rgb(82, 0, 12);
-} */

@@ -2,7 +2,7 @@ import styles from './Redirect.module.css';
 
 const RedirectLink = ({ url, children, className }) => {
   return (
-    <span className={styles[`${className}`]} data-url={url}>{children}</span>
+    <a href={url} className={styles[`${className}`]}>{children}</a>
   )
 }
 

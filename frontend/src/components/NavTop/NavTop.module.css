@@ -1,0 +1,33 @@
+.navTop {
+  background-color: lightgray;
+  justify-content : space-between;
+  align-items     : center;
+  padding         : 0 1em;
+}
+
+.navTop input[type="search"] {
+    margin          : auto;
+    width           : 20em;
+}
+
+.navTop input[type="search"]::placeholder {
+    color           : rgb(199, 198, 198);
+    font-size       : 0.8em;
+    text-indent     : 0.8em;
+}
+
+.links {
+    display         : flex;
+    flex-direction  : row;
+    padding         : 0;
+}
+
+.links li {
+    list-style-type : none;
+    margin          : 0 0.3em;
+}
+
+/* .navTop ul.links *:hover {
+    text-decoration : underline;
+    cursor          : pointer;
+} */

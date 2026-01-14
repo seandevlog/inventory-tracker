@@ -9,12 +9,6 @@
   justify-content : center;
 }
 
-/* .auth > span#logo {
-  position        : absolute;
-  top             : 0;
-  left            : 0;
-} */
-
 .auth > h1 {
   color   : white;
   margin  : 0;
@@ -56,17 +50,9 @@
   color           : white;
 }
 
-/* .logo-background {
-  height          : 100%;
-  width           : 100%;
-  display         : block;
-} */
-
-/* .logo-text {
-  margin          : 0 0.5em;
-} */
-
-/* .logo-image {
-height            : 40px;
-width             : 40px;
-} */
+.authRedirect {
+  text-decoration : underline;
+  cursor          : pointer;
+  margin-top      : 1em;
+  color           :black;
+}
