@@ -1,0 +1,5 @@
+.row:hover{
+    background-color: gray;
+    border-radius   : 30px;
+    cursor          : pointer;
+}

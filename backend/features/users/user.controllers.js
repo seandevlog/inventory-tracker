@@ -1,14 +1,34 @@
 import {v2 as cloudinary} from 'cloudinary';
 import * as service from './user.services.js';
 
-export const renderUsers = async (req, res) => {
-    const users = await service.getAllUser();
+export const getAllUser = async (req, res) => {
+    try {
+        const users = await service.getAllUser();
 
-    res.render('users', {
-        title: 'Users',
-        users: users,
-        layout: 'layouts/manage'
-    });
+        return res.status(200).json({ users });
+    } catch (err) {
+        return res.status(404).json({ err });
+    }
+}
+
+// export const renderUsers = async (req, res) => {
+//     const users = await service.getAllUser();
+
+//     res.render('users', {
+//         title: 'Users',
+//         users: users,
+//         layout: 'layouts/manage'
+//     });
+// }
+
+export const getUser = async (req, res) => {
+    try {
+        const user = await service.getUser({ _id: req.params.id });
+
+        return res.status(200).json({ user });
+    } catch (err) {
+        return res.status(404).json({ err });
+    }
 }
 
 export const storeUser = async (req, res) => {
@@ -19,20 +39,6 @@ export const storeUser = async (req, res) => {
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }
-}
-
-export const getUser = async (req, res) => {
-    let user, errors;
-    try {
-        user = await service.getUser({ _id: req.params.id });
-    } catch (err) {
-        if (err.errors)
-        errors = Object.keys(err.errors).map(key => errors[err.errors[key].path] = err.errors[key].message); 
-    }
-    res.send({
-        user: user,
-        errors: errors
-    });
 }
 
 export const updateUser = async (req, res) => {

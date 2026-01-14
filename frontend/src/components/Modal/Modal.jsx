@@ -3,25 +3,34 @@ import RegisterInputs from "../../features/auth/Register/RegisterInputs/Register
 import BackButton from './ModalBackButton/BackButton';
 import ModalUserIcon from './ModalUserIcon/ModalUserIcon';
 
-const Modal = ({ children, action, state }) => {
+const Modal = ({ children, action, onWrapperClose, onButtonClose, showDeleteButton, onDelete, formData }) => {
   return (
-    <div className="hide">
+    <div
+      onClick={onWrapperClose}
+    >
       <div className={styles.modal}>
-        <BackButton className="modalClose"/>
+        <BackButton 
+          className="modalClose"
+          onClose={onButtonClose}
+        />
         <header>{children}</header>
             
         <form action={action} className={styles.form} encType="multipart/form-data">
           <fieldset className={styles.formFile}>
             <legend>Profile</legend>
-            <ModalUserIcon className="modalUserIcon"/> {/* temp image */}
+            {formData.profile?.url || <ModalUserIcon className="modalUserIcon"/>}
             <input type="file" id="profile" name="profile"/>
           </fieldset>
           <div className={styles.formDiv}>
             <fieldset className={styles.formInfo}>
               <legend>Info</legend>
-              <RegisterInputs className="modalFormInfo"/>
+              <RegisterInputs 
+                className="modalFormInfo"
+              >
+                {formData}
+              </RegisterInputs>
             </fieldset>
-            <fieldset>
+            <fieldset className={styles.status}>
               <legend>Status</legend>
               <label htmlFor="status">Current Status</label>
               <select id="status" name="status" data-selected="active" required>
@@ -31,8 +40,17 @@ const Modal = ({ children, action, state }) => {
             </fieldset>
           </div>
           <div className={styles.modalButtons}>
-            <button type="submit" id="save" className="btn">Save</button>
-            <button type="button" id="delete" className="btn">Delete</button>
+            <button 
+              type="submit" 
+              className="btn"
+            >Save</button>
+            {showDeleteButton && <button 
+              type="button" 
+              className="btn"
+              onClick={onDelete}
+            >
+              Delete
+            </button>}
           </div>
         </form>
       </div>
@@ -40,4 +58,5 @@ const Modal = ({ children, action, state }) => {
   )
 }
 
+export { BackButton, ModalUserIcon };
 export default Modal;

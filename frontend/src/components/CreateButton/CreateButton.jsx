@@ -1,7 +1,12 @@
 import styles from './CreateButton.module.css';
 
-const CreateButton = ({ children }) => (
-  <button id="create" className={`${styles.create} btn`} href="#">{children}</button>
+const CreateButton = ({ children, onClick }) => (
+  <button 
+    className={`${styles.create} btn`} 
+    onClick={onClick}
+  >
+    {children}
+  </button>
 )
 
 export default CreateButton;

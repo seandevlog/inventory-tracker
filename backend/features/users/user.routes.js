@@ -8,7 +8,7 @@ const upload = multer();
 
 // TODO - add authorization
 
-router.get('/', controller.renderUsers);
+router.get('/', controller.getAllUser);
 
 router.post('/store', upload.any(), controller.storeUser);
 

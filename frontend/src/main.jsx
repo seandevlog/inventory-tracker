@@ -5,9 +5,9 @@ import './index.css';
 import Root from './Root';
 import Error from './pages/Error';
 import Auth from './pages/Auth';
-import Login, {action as loginAction} from './features/auth/login';
+import Login, {action as loginAction} from './features/auth/Login';
 import Register from './features/auth/Register/Register'
-import Users from './features/users/users';
+import Users, { loader as usersLoader } from './features/users/Users';
 import Manage from './pages/Manage'
 
 const router = createBrowserRouter([
@@ -37,7 +37,8 @@ const router = createBrowserRouter([
             children: [
               {
                 path: '/users',
-                element: <Users />
+                element: <Users />,
+                loader: usersLoader 
               }
             ]
           }

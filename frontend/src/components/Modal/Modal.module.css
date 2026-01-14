@@ -63,9 +63,21 @@ div:has(>.modal) {
   height: 300px;
 }
 
+.formFile input {
+  display: inline-block;
+}
+
+.status label {
+  margin: 0 0.3em 0 0;
+}
+
 .modalButtons {
   position: absolute;
   right: 0;
   bottom: 0;
   margin: 2em;
+}
+
+.modalButtons button {
+  margin: 0 0 0 0.5em;
 }

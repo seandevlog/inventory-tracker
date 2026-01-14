@@ -13,4 +13,5 @@ const Logo = ({ className }) => {
   )
 }
 
+export { LogoImage };
 export default Logo;
