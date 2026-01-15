@@ -4,7 +4,7 @@ const TableRow = ({ id, children, onClick }) => (
   <tr
     id={id}
     className={styles.row}
-    onClick={(id) => onClick(id)}
+    onClick={() => onClick(id)}
   >
     {children}
   </tr>

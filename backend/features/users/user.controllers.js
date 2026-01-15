@@ -7,7 +7,7 @@ export const getAllUser = async (req, res) => {
 
         return res.status(200).json({ users });
     } catch (err) {
-        return res.status(404).json({ err });
+        return res.status(404).json({ err: error.message });
     }
 }
 
@@ -27,7 +27,7 @@ export const getUser = async (req, res) => {
 
         return res.status(200).json({ user });
     } catch (err) {
-        return res.status(404).json({ err });
+        return res.status(404).json({ error: err.message });
     }
 }
 
@@ -35,39 +35,39 @@ export const storeUser = async (req, res) => {
     try {
         await service.storeUser({ ...req.body });
 
-        res.send({ redirect: '/users' });
+        res.status(200).json({ success: true });
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }
 }
 
-export const updateUser = async (req, res) => {
-    try {
-        const user = await service.updateUser({ _id: req.params.id }, { ...req.body });
-        if (!user) throw new Error ('Failed to find and update user');
+// export const updateUser = async (req, res) => {
+//     try {
+//         const user = await service.updateUser({ _id: req.params.id }, { ...req.body });
+//         if (!user) throw new Error ('Failed to find and update user');
         
-        // did not use res.redirect since it's not commonly used with patch request and doesn't work
-        res.send({ redirect: '/users' });
-    } catch (err) {
-        res.status(500).send({ errors: errors })
-    }
-}
+//         // did not use res.redirect since it's not commonly used with patch request and doesn't work
+//         res.send({ redirect: '/users' });
+//     } catch (err) {
+//         res.status(500).send({ errors: errors })
+//     }
+// }
 
-export const deleteUser = async (req, res) => {
-    try {
-        const user = await service.deleteUser({ _id: req.params.id });
-        if (!user) throw new Error(`Failed to find and delete ${ req.params.id }`);
+// export const deleteUser = async (req, res) => {
+//     try {
+//         const user = await service.deleteUser({ _id: req.params.id });
+//         if (!user) throw new Error(`Failed to find and delete ${ req.params.id }`);
 
-        if (user.profile?.public_id) {
-            const cloudinaryRes = await cloudinary.uploader.destroy( 
-                user.profile.public_id
-            );
-            if (cloudinaryRes.result !== 'ok') throw new Error(`Cloudinary Error: Failed to destroy ${user.profile.public_id} from cloud`);
-        }
+//         if (user.profile?.public_id) {
+//             const cloudinaryRes = await cloudinary.uploader.destroy( 
+//                 user.profile.public_id
+//             );
+//             if (cloudinaryRes.result !== 'ok') throw new Error(`Cloudinary Error: Failed to destroy ${user.profile.public_id} from cloud`);
+//         }
         
-        // did not use res.redirect since it's not commonly used with delete request and doesn't work
-        res.json({ redirect: '/users' });
-    } catch (err) {
-        return res.status(500).json({ error: err.message });
-    }
-}
+//         // did not use res.redirect since it's not commonly used with delete request and doesn't work
+//         res.json({ redirect: '/users' });
+//     } catch (err) {
+//         return res.status(500).json({ error: err.message });
+//     }
+// }

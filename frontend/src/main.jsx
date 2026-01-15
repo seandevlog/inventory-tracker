@@ -7,7 +7,16 @@ import Error from './pages/Error';
 import Auth from './pages/Auth';
 import Login, {action as loginAction} from './features/auth/Login';
 import Register from './features/auth/Register/Register'
-import Users, { loader as usersLoader } from './features/users/Users';
+import Users from './features/users/Users';
+import CreateUser from './features/users/CreateUser';
+import ViewUser from './features/users/ViewUser';
+import { 
+  getAll as getAllUserLoader,
+  get as getUserLoader
+} from './features/users/users.loaders';
+import {
+  create as createUserAction
+} from './features/users/users.actions';
 import Manage from './pages/Manage'
 
 const router = createBrowserRouter([
@@ -36,9 +45,21 @@ const router = createBrowserRouter([
             element: <Manage />,
             children: [
               {
-                path: '/users',
+                path: 'users/',
                 element: <Users />,
-                loader: usersLoader 
+                loader: getAllUserLoader,
+                children: [
+                  {
+                    path: 'create/',
+                    element: <CreateUser />,
+                    action: createUserAction
+                  },
+                  {
+                    path: ':userId/',
+                    element: <ViewUser />,
+                    loader: getUserLoader,
+                  }
+                ] 
               }
             ]
           }

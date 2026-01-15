@@ -1,5 +1,5 @@
 import Users from './user.model.js';
-import bcrypt from '../auth/services/password.services.js';
+import Passwords from '../auth/services/password.services.js';
 
 export const getUser = async (filter) => {
     const user = await Users.findOne(filter)
@@ -17,26 +17,26 @@ export const getAllUser = async () => {
 
 export const storeUser = async (data) => {
     let { password } = data;
-    password = await bcrypt.hashPassword(password);
-
+    password = await Passwords.hash(password);
+    
     const user = await Users.create({...data, password});
     if (!user) throw new Error('Failed to create user');
     return user;
 }
 
-export const updateUser = async (filter, data) => {
-    let { password } = data;
-    password = await bcrypt.hashPassword(password);
+// export const updateUser = async (filter, data) => {
+//     let { password } = data;
+//     password = await Passwords.hash(password);
 
-    const user = await Users.findOneAndUpdate(filter, {...data, password});
-    if (!user) throw new Error('Failed to find user');
+//     const user = await Users.findOneAndUpdate(filter, {...data, password});
+//     if (!user) throw new Error('Failed to find user');
 
-    return user;
-}
+//     return user;
+// }
 
-export const deleteUser = async (filter) => {
-    const oldUser = await Users.findOneAndDelete(filter);
-    if (!oldUser) throw new Error('Failed to find user');
-    return oldUser;
-}
+// export const deleteUser = async (filter) => {
+//     const oldUser = await Users.findOneAndDelete(filter);
+//     if (!oldUser) throw new Error('Failed to find user');
+//     return oldUser;
+// }
 

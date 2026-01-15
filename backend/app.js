@@ -16,18 +16,18 @@ export const app = express();
 mongoose.connect(config.database);
 cloudinary.config(config.cloud);
 
-app.set('view engine', 'ejs');
+// app.set('view engine', 'ejs');
 app.use(cors());
-app.use(express.static('public'));
-app.use(expressEjsLayouts);
+// app.use(express.static('public'));
+// app.use(expressEjsLayouts);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.get('/', (req, res) => 
-    res.render('home', {
-        layout: 'layouts/home'
-    }))
+// app.get('/', (req, res) => 
+//     res.render('home', {
+//         layout: 'layouts/home'
+//     }))
 
 app.use('/', auth);
 

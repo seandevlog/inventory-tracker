@@ -14,8 +14,8 @@ router.post('/store', upload.any(), controller.storeUser);
 
 router.get('/:id', controller.getUser);
 
-router.patch('/:id', upload.any(), controller.updateUser);
+// router.patch('/:id', upload.any(), controller.updateUser);
 
-router.delete('/:id', controller.deleteUser);
+// router.delete('/:id', controller.deleteUser);
 
 export default router;
