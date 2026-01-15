@@ -19,6 +19,10 @@ export const create = async ( formData ) => {
   await axios.post(`${server}store`, formData);
 }
 
-export const edit = async ( formData ) => {
-  const { data } = await axios.post()
+export const edit = async ({ formData, id }) => {
+  await axios.patch(`${server}${id}`, formData);
+}
+
+export const destroy = async ({ id }) => {
+  await axios.delete(`${server}${id}`);
 }

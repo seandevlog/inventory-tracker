@@ -4,6 +4,7 @@ import styles from './Modal.module.css';
 import RegisterInputs from "../../features/auth/Register/RegisterInputs/RegisterInputs";
 import BackButton from './ModalBackButton/BackButton';
 import ModalUserIcon from './ModalUserIcon/ModalUserIcon';
+import modes from './Modal.modes';
 
 const modalActions = {
   CREATE: 'create',
@@ -11,9 +12,33 @@ const modalActions = {
   CLOSE: 'close'
 }
 
-const Modal = ({ children, showDeleteButton, data, disabled }) => {
+const Modal = ({ children, data, mode }) => {
   const navigate = useNavigate();
 
+  const config = 
+    mode === modes.VIEW
+    ? {
+        hideDeleteButton: true,
+        hideSaveButton: true,
+        hideEditButton: false,
+        disableInputs: true
+      }
+    : mode === modes.CREATE
+    ? {
+        hideDeleteButton: true,
+        hideSaveButton: false,
+        hideEditButton: true,
+        disableInputs: false
+      }
+    : mode === modes.EDIT
+    ? {
+        hideDeleteButton: false,
+        hideSaveButton: false,
+        hideEditButton: true,
+        disableInputs: false
+      }
+    : {}
+  
   const reducer = (state, action) => {
     switch (action.type) {
       case modalActions.CREATE: {
@@ -81,14 +106,14 @@ const Modal = ({ children, showDeleteButton, data, disabled }) => {
           <fieldset className={styles.formFile}>
             <legend>Profile</legend>
             {data?.profile?.url || <ModalUserIcon className="modalUserIcon"/>}
-            <input type="file" name="profile" disabled={disabled}/>
+            <input type="file" name="profile" disabled={config.disableInputs}/>
           </fieldset>
           <div className={styles.formDiv}>
             <fieldset className={styles.formInfo}>
               <legend>Info</legend>
               <RegisterInputs 
                 className="modalFormInfo"
-                disabled={disabled}
+                disabled={config.disableInputs}
               >
                 {data || null}
               </RegisterInputs>
@@ -96,25 +121,37 @@ const Modal = ({ children, showDeleteButton, data, disabled }) => {
             <fieldset className={styles.status}>
               <legend>Status</legend>
               <label htmlFor="status">Current Status</label>
-              <select id="status" name="status" data-selected="active" required disabled={disabled}>
+              <select id="status" name="status" data-selected="active" required disabled={config.disableInputs}>
                 <option value="active" selected>Active</option>
                 <option value="inactive">Inactive</option>
               </select>
             </fieldset>
           </div>
           <div className={styles.modalButtons}>
-            <button 
-              type="submit" 
+            {config.hideSaveButton || <button 
+              type="submit"
+              name="intent"
+              value="save"
               className="btn"
-              disabled={disabled}
+              disabled={config.hideSaveButton}
             >
               Save
-            </button>
-            {showDeleteButton && <button 
-              type="button" 
+            </button>}
+            {config.hideEditButton || <button 
+              type="submit"
+              name="intent"
+              value="edit"
               className="btn"
-              // onClick =
-              disabled={disabled}
+              disabled={config.hideEditButton}
+            >
+              Edit
+            </button>}
+            {config.hideDeleteButton || <button 
+              type="submit" 
+              name="intent"
+              value="delete"
+              className="btn"
+              disabled={config.hideDeleteButton}
             >
               Delete
             </button>}

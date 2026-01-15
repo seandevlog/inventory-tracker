@@ -8,14 +8,15 @@ import Auth from './pages/Auth';
 import Login, {action as loginAction} from './features/auth/Login';
 import Register from './features/auth/Register/Register'
 import Users from './features/users/Users';
-import CreateUser from './features/users/CreateUser';
-import ViewUser from './features/users/ViewUser';
+import UsersModal from './features/users/UsersModal';
 import { 
   getAll as getAllUserLoader,
   get as getUserLoader
 } from './features/users/users.loaders';
 import {
-  create as createUserAction
+  create as createUserAction,
+  view as viewUserAction,
+  edit as editUserAction
 } from './features/users/users.actions';
 import Manage from './pages/Manage'
 
@@ -51,13 +52,20 @@ const router = createBrowserRouter([
                 children: [
                   {
                     path: 'create/',
-                    element: <CreateUser />,
+                    element: <UsersModal mode='create'/>,
                     action: createUserAction
                   },
                   {
                     path: ':userId/',
-                    element: <ViewUser />,
+                    element: <UsersModal mode='view'/>,
                     loader: getUserLoader,
+                    action: viewUserAction
+                  },
+                  {
+                    path: ':userId/edit/',
+                    element: <UsersModal mode='edit'/>,
+                    loader: getUserLoader,
+                    action: editUserAction
                   }
                 ] 
               }

@@ -24,19 +24,19 @@ export const storeUser = async (data) => {
     return user;
 }
 
-// export const updateUser = async (filter, data) => {
-//     let { password } = data;
-//     password = await Passwords.hash(password);
+export const updateUser = async (filter, data) => {
+    let { password } = data;
+    password &&= await Passwords.hash(password);
 
-//     const user = await Users.findOneAndUpdate(filter, {...data, password});
-//     if (!user) throw new Error('Failed to find user');
+    const user = await Users.findOneAndUpdate(filter, {...data, password});
+    if (!user) throw new Error('Failed to find user');
 
-//     return user;
-// }
+    return user;
+}
 
-// export const deleteUser = async (filter) => {
-//     const oldUser = await Users.findOneAndDelete(filter);
-//     if (!oldUser) throw new Error('Failed to find user');
-//     return oldUser;
-// }
+export const deleteUser = async (filter) => {
+    const oldUser = await Users.findOneAndDelete(filter);
+    if (!oldUser) throw new Error('Failed to find user');
+    return oldUser;
+}
 

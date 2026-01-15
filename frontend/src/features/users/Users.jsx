@@ -4,7 +4,7 @@ import {
   CreateButton, 
   TableHeaderSort, 
   Table,
-  TableRow 
+  TableRow  
 } from '../../components/index'
 import DefaultProfile from './DefaultProfile/DefaultProfile';
 
