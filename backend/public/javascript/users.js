@@ -62,28 +62,28 @@ function init() {
             formData.append('profile[public_id]', profileData.public_id);
         }
 
-        const res = await fetch('/users/store', {
-            method: 'POST',
-            headers: {
-                authorization: `Bearer ${Token.accessToken}`
-            },
-            body: formData
-        });
+        // const res = await fetch('/users/store', {
+        //     method: 'POST',
+        //     headers: {
+        //         authorization: `Bearer ${Token.accessToken}`
+        //     },
+        //     body: formData
+        // });
         
-        if (!res.ok) throw new Error('Failed to store user data');
+        // if (!res.ok) throw new Error('Failed to store user data');
 
-        const data = await res.json();
+        // const data = await res.json();
 
-        if (data.err.name === 'TokenExpiredError') {
-            Token.accessToken = Token.refresh();
-            createUser();
-        }
+        // if (data.err.name === 'TokenExpiredError') {
+        //     Token.accessToken = Token.refresh();
+        //     createUser();
+        // }
 
         // TODO - replace with display input errors from client side validation
         // const errors = handlers.displayInputErrors(data, form);
         // if (errors == null) {
-            window.location.href = data.redirect;
-            init();
+            // window.location.href = data.redirect;
+            // init();
         // }
     } 
 

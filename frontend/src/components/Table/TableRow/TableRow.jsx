@@ -1,10 +1,10 @@
 import styles from './TableRow.module.css';
 
-const TableRow = ({ id, children, onClick }) => (
+const TableRow = ({ id, className, children, onClick }) => (
   <tr
     id={id}
-    className={styles.row}
-    onClick={() => onClick(id)}
+    className={styles[className]}
+    onClick={onClick ? () => onClick(id) : null}
   >
     {children}
   </tr>

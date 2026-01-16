@@ -32,14 +32,19 @@ const Users = () => {
           </>
         )}
       >
-        {users 
+        {users.length > 0 
           ? users.map(user => (
             <TableRow 
               key={user._id}
               id={user._id}
+              className="filled"
               onClick={() => navigate(`${user._id}`)}
             >
-              <td>{user.profile?.url || <DefaultProfile />}</td>
+              <td>
+                {user.profile?.url
+                ? <img src={user.profile.url}></img>
+                : <DefaultProfile />}
+              </td>
               <td>{user.username}</td>
               <td>{user.givenName}</td>
               <td>{user.familyName}</td>
@@ -47,7 +52,7 @@ const Users = () => {
               <td>{user.address}</td>
             </TableRow>
           ))
-          : 'No User Data Found'
+          : <TableRow className="emptyRow"><td colSpan={6}>No User Data Found</td></TableRow>
         }
       </Table>
       <Outlet />

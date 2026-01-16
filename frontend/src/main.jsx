@@ -24,51 +24,47 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
+    errorElement: <Error />,
     children: [
       {
-        errorElement: <Error />,
+        element: <Auth />,
         children: [
           {
-            element: <Auth />,
-            children: [
-              {
-                path: 'login',
-                element: <Login />,
-                action: loginAction
-              },
-              {
-                path: 'register',
-                element: <Register />
-              }
-            ]
+            path: 'login',
+            element: <Login />,
+            action: loginAction
           },
           {
-            element: <Manage />,
+            path: 'register',
+            element: <Register />
+          }
+        ]
+      },
+      {
+        element: <Manage />,
+        children: [
+          {
+            path: 'users/',
+            element: <Users />,
+            loader: getAllUserLoader,
             children: [
               {
-                path: 'users/',
-                element: <Users />,
-                loader: getAllUserLoader,
-                children: [
-                  {
-                    path: 'create/',
-                    element: <UsersModal mode='create'/>,
-                    action: createUserAction
-                  },
-                  {
-                    path: ':userId/',
-                    element: <UsersModal mode='view'/>,
-                    loader: getUserLoader,
-                    action: viewUserAction
-                  },
-                  {
-                    path: ':userId/edit/',
-                    element: <UsersModal mode='edit'/>,
-                    loader: getUserLoader,
-                    action: editUserAction
-                  }
-                ] 
-              }
+                path: 'create/',
+                element: <UsersModal mode='create'/>,
+                action: createUserAction
+              },
+              {
+                path: ':userId/',
+                element: <UsersModal mode='view'/>,
+                loader: getUserLoader,
+                action: viewUserAction
+              },
+              {
+                path: ':userId/edit/',
+                element: <UsersModal mode='edit'/>,
+                loader: getUserLoader,
+                action: editUserAction
+              }  
             ]
           }
         ]

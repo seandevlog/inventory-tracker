@@ -11,16 +11,6 @@ export const getAllUser = async (req, res) => {
     }
 }
 
-// export const renderUsers = async (req, res) => {
-//     const users = await service.getAllUser();
-
-//     res.render('users', {
-//         title: 'Users',
-//         users: users,
-//         layout: 'layouts/manage'
-//     });
-// }
-
 export const getUser = async (req, res) => {
     try {
         const user = await service.getUser({ _id: req.params.id });
@@ -57,12 +47,12 @@ export const deleteUser = async (req, res) => {
         const user = await service.deleteUser({ _id: req.params.id });
         if (!user) throw new Error(`Failed to find and delete ${ req.params.id }`);
 
-        // if (user.profile?.public_id) {
-        //     const cloudinaryRes = await cloudinary.uploader.destroy( 
-        //         user.profile.public_id
-        //     );
-        //     if (cloudinaryRes.result !== 'ok') throw new Error(`Cloudinary Error: Failed to destroy ${user.profile.public_id} from cloud`);
-        // }
+        if (user.profile?.public_id) {
+            const cloudinaryRes = await cloudinary.uploader.destroy( 
+                user.profile.public_id
+            );
+            if (cloudinaryRes.result !== 'ok') throw new Error(`Cloudinary Error: Failed to destroy ${user.profile.public_id} from cloud`);
+        }
         
         res.status(200).json({ success: true });
     } catch (err) {

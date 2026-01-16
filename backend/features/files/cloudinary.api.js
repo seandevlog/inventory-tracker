@@ -18,7 +18,7 @@ router.get('/upload-signature', (req, res) => {
             process.env.CLOUDINARY_API_SECRET
         );
         
-        res.json({
+        res.status(200).json({
             timestamp,
             signature,
             cloudName: process.env.CLOUD_NAME,

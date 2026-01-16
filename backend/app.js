@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
 import config from './config/index.js';
-import auth from './features/auth/auth.routes.js';
+// import auth from './features/auth/auth.routes.js';
 import users from './features/users/user.routes.js';
 import cloudinaryApi from './features/files/cloudinary.api.js';
 import { isAuthenticated } from './common/middlewares/isAuthenticated.js';
@@ -29,7 +29,7 @@ app.use(cookieParser());
 //         layout: 'layouts/home'
 //     }))
 
-app.use('/', auth);
+// app.use('/', auth);
 
 // TODO - add isAuthenticated after React integration unless try to store AT in httpOnly cookie
 

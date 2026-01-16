@@ -1,19 +1,19 @@
-import Auth from './services/auth.services.js';
+// import Auth from './services/auth.services.js';
 import Tokens from './services/token.services.js';
 import Sessions from './services/session.services.js';
 import Config from '../../config/index.js';
 // TODO - differentiate server-side validation and authentication, and authorization
 // ! Do not return server-side validation to the user
-export const login =  async (req, res) => {
-    res.render('login', {
-        title: 'Login',
-        layout: 'layouts/auth',
-    });
-}
+// export const login =  async (req, res) => {
+//     res.render('login', {
+//         title: 'Login',
+//         layout: 'layouts/auth',
+//     });
+// }
 
 export const loginSubmit = async (req, res) => {
     try {
-        const { _id: userId } = await Auth.login({ ...req.body });
+        // const { _id: userId } = await Auth.login({ ...req.body });
         // const { accessToken, refreshToken, hashedToken } = Tokens.generate(userId);
         // const session = Sessions.create({ userId, hashedToken });
         // if (!session) throw new Error('Failed to create session');
@@ -35,16 +35,16 @@ export const loginSubmit = async (req, res) => {
     }
 }
 
-export const register = (req, res) => {
-    res.render('register', {
-        title: 'Register',
-        layout: 'layouts/auth',
-    });
-}
+// export const register = (req, res) => {
+//     res.render('register', {
+//         title: 'Register',
+//         layout: 'layouts/auth',
+//     });
+// }
 
 export const registerSubmit = async (req, res) => {
     try {
-        await Auth.register({ ...req.body });
+        // await Auth.register({ ...req.body });
         res.status(200).json({ redirect: '/login' });
     } catch (err) {;
         return res.status(500).json({ error: err.message });
