@@ -1,12 +1,9 @@
 import { Outlet, useLoaderData, useNavigate } from 'react-router-dom';
 import { 
   FilterSelect, 
-  CreateButton, 
-  TableHeaderSort, 
+  CreateButton,
   Table,
-  TableRow  
 } from '../../components/index'
-import DefaultProfile from './DefaultProfile/DefaultProfile';
 
 const Users = () => {
   const users = useLoaderData();
@@ -21,39 +18,23 @@ const Users = () => {
         New User
       </CreateButton>
       <Table 
-        headers={(
-          <>
-            <th>Img</th>
-            <TableHeaderSort>Username</TableHeaderSort>
-            <TableHeaderSort>Given Name</TableHeaderSort>
-            <TableHeaderSort>Family Name</TableHeaderSort>
-            <TableHeaderSort>Contact</TableHeaderSort>
-            <TableHeaderSort>Address</TableHeaderSort>
-          </>
-        )}
+        headers={[
+          { value: 'Profile', sort: false},
+          { value: 'Username', sort: true, attribute: 'username'},
+          { value: 'Given Name', sort: true, attribute: 'givenName'},
+          { value: 'Family Name', sort: true, attribute: 'familyName'},
+          { value: 'Contact', sort: true, attribute: 'contact'},
+          { value: 'Address', sort: true, attribute: 'address'},
+        ]}
       >
-        {users.length > 0 
-          ? users.map(user => (
-            <TableRow 
-              key={user._id}
-              id={user._id}
-              className="filled"
-              onClick={() => navigate(`${user._id}`)}
-            >
-              <td>
-                {user.profile?.url
-                ? <img src={user.profile.url}></img>
-                : <DefaultProfile />}
-              </td>
-              <td>{user.username}</td>
-              <td>{user.givenName}</td>
-              <td>{user.familyName}</td>
-              <td>{user.contact}</td>
-              <td>{user.address}</td>
-            </TableRow>
-          ))
-          : <TableRow className="emptyRow"><td colSpan={6}>No User Data Found</td></TableRow>
-        }
+        {users.length > 0 && users.map(user => {
+          for (const [key, value] of Object.entries(user)) {
+            if (key !== 'password') {
+              return 
+            }
+          }
+          
+        })}
       </Table>
       <Outlet />
     </>
