@@ -1,30 +1,52 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { sortBy } from 'lodash';
+import { sortBy, orderBy } from 'lodash';
 import styles from './Table.module.css';
 import TableHeaderSort from './TableHeaderSort/TableHeaderSort';
 import TableRow from './TableRow/TableRow';
-import DefaultProfile from '../../features/users/DefaultProfile/DefaultProfile'
+import sortOptions from './TableHeaderSort/TableHeaderSort.config';
 
-const Table = ({ headers, children: rows }) => {
+const Table = ({ headers, children }) => {
   const navigate = useNavigate();
 
-  const [sort, setSort] = React.useState('');
+  const [sortAttr, setSortAttr] = React.useState('');
+
+  const [sortState, setSortState] = React.useState(sortOptions.NOSORT);
 
   const handleSort = (attribute) => {
-    setSort(attribute);
-  }
+    if (attribute !== sortAttr) {
+      setSortAttr(attribute);
+      setSortState(sortOptions.ASCENDING);
+      return;
+    }
 
-  console.log(sort);
+    if (sortState === sortOptions.NOSORT) {
+      setSortState(sortOptions.ASCENDING);
+    } else if (sortState === sortOptions.ASCENDING) {
+      setSortState(sortOptions.DESCENDING);
+    } else {
+      setSortState(sortOptions.NOSORT);
+    }
+  };
+
+  const sortedHeaderObjectsArray = sortBy(headers, ['index']);
+  const sortedHeaderAttributes = sortedHeaderObjectsArray.map(sortedHeader => (sortedHeader.attribute));
+  const rows = 
+    sortAttr && sortState === sortOptions.ASCENDING
+    ? sortBy(children, sortAttr) 
+    : sortAttr && sortState === sortOptions.DESCENDING
+    ? orderBy(children, sortAttr, ['desc'])
+    : children; 
   
   return (
     <table className={styles.table}>
       <thead>
         <tr>
-          {headers.map(header => header.sort 
+          {sortedHeaderObjectsArray.map(header => header.sort 
             ? (<TableHeaderSort
                 key={header.attribute}
                 onSort={() => handleSort(header.attribute)}
+                sortState={sortAttr === header.attribute && sortState}
               >
                 {header.value}
               </TableHeaderSort>)
@@ -34,34 +56,22 @@ const Table = ({ headers, children: rows }) => {
       </thead>
       <tbody>
         {rows
-          ? sort 
-            ? sortBy(rows, sort).map(row => (
-              <TableRow 
-                key={row._id}
-                id={row._id}
-                className="filled"
-                onClick={() => navigate(`${row._id}`)}
-              >
-                <td>
-                  {row.profile?.url
-                  ? <img src={user.profile.url}></img>
-                  : <DefaultProfile />}
-                  {/* TODO - find a way to make default profile work for all other feature */}
-                </td>
-                <td>{user.username}</td>
-                <td>{user.givenName}</td>
-                <td>{user.familyName}</td>
-                <td>{user.contact}</td>
-                <td>{user.address}</td>
-              </TableRow>
-            ))
-            : 
-          : <TableRow className="emptyRow"><td colSpan={6}>No User Data Found</td></TableRow>
+          ? rows.map(row => (
+            <TableRow 
+              key={row._id}
+              id={row._id}
+              className="filled"
+              onClick={() => navigate(`${row._id}`)}
+              sort={sortedHeaderAttributes}
+              data={row}
+            />
+          ))
+          : <tr><td colSpan={6}>No User Data Found</td></tr>
         }
       </tbody>
     </table>
   )
-}
+} 
 
 export { TableHeaderSort, TableRow };
 export default Table;

@@ -1,10 +1,14 @@
 import styles from './FilterSelect.module.css';
 
-const FilterSelect = () => (
-  <select className={styles.filterSelect} name="filter">
+const FilterSelect = ({ onFilter }) => (
+  <select 
+    className={styles.filterSelect} 
+    name="filter"
+    onChange={onFilter}
+  >
     <option value="active">Filter by: Active</option>
     <option value="inactive">Filter by: Inactive</option>
-    <option value="no-filter" selected>No Filter</option>
+    <option value="noFilter" selected>No Filter</option>
   </select>
 )
 

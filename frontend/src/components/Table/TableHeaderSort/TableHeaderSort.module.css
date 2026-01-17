@@ -1,6 +1,7 @@
 .tableHeaderSort > svg {
     width           : 0.8em;
     margin-right    : 0.2em;
+    padding: 0.25em 0.15em 0 0;
 }
 
 .tableHeaderSort {
