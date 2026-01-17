@@ -5,9 +5,14 @@ import { create as createUser } from './auth.services';
 
 export const loginSubmit = async ({ request }) => {
   const formData = await request.formData();
-  await axios.post(`${config.server}/auth/login`, formData);
+  const { data } = await axios.post(`${config.server}/auth/login`, formData);
 
-  return redirect('/users');
+  const { accessToken } = data ?? {};
+
+  return {
+    redirect: '/users',
+    accessToken
+  };
 } 
 
 export const registerSubmit = async ({ request }) => {

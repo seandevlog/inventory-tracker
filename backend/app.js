@@ -9,7 +9,7 @@ import config from './config/index.js';
 import auth from './features/auth/auth.routes.js';
 import users from './features/users/user.routes.js';
 import cloudinaryApi from './features/files/cloudinary.api.js';
-import { isAuthenticated } from './common/middlewares/isAuthenticated.js';
+import hasAccessToken from './common/middlewares/hasAccessToken.js';
 
 export const app = express();
 
@@ -33,6 +33,6 @@ app.use('/auth', auth);
 
 // TODO - add isAuthenticated after React integration unless try to store AT in httpOnly cookie
 
-app.use('/users', users);
+app.use('/users', hasAccessToken, users);
 
-app.use('/api/cloudinary', cloudinaryApi);
+app.use('/api/cloudinary', hasAccessToken, cloudinaryApi);

@@ -17,6 +17,7 @@ const Error = () => {
       <div className={styles.error}>
         <p>Oops! Something went wrong.</p>
         <p>Error: unknown</p>
+        <p>{error.data}</p>
       </div>
     )
   }

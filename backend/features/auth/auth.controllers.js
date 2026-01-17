@@ -8,22 +8,21 @@ import Config from '../../config/index.js';
 export const loginSubmit = async (req, res) => {
     try {
         const { _id: userId } = await Auth.login({ ...req.body });
-        // const { accessToken, refreshToken, hashedToken } = Tokens.generate(userId);
-        // const session = Sessions.create({ userId, hashedToken });
-        // if (!session) throw new Error('Failed to create session');
+        const { accessToken, refreshToken, hashedToken } = Tokens.generate(userId);
+        const session = Sessions.create({ userId, hashedToken });
+        if (!session) throw new Error('Failed to create session');
 
-        // res.cookie('refreshToken', refreshToken, {
-        //     expires: new Date(session.expiresIn).getTime(),
-        //     httpOnly: true,
-        //     secure: Config.nodeEnv === 'production',
-        //     sameSite: 'strict'
-        // })
+        res.cookie('refreshToken', refreshToken, {
+            expires: new Date(session.expiresIn).getTime(),
+            httpOnly: true,
+            secure: Config.nodeEnv === 'production',
+            sameSite: 'none'
+        })
 
-        // res.status(200).json({ 
-        //     redirect: '/users',
-        //     accessToken
-        // });
-        res.status(200).json({ success: true })
+        res.status(200).json({ 
+            success: true,
+            accessToken
+        })
     } catch (err) {;
         return res.status(500).json({ error: err.message });
     }

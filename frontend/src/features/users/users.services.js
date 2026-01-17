@@ -1,11 +1,16 @@
 import axios from 'axios';
 import config from '../../config';
 import cloud from '../../services/signatureServices.js';
+import { useAuth } from '../../context/AuthContext.jsx'
 
 const server = `${config.server}/users/`;
 
 export const getAll = async () => {
-  const { data } = await axios.get(server);
+  const { data } = await axios.get(server, {
+    headers: {
+      authorization: `Bearer ${useAuth}`
+    }
+  });
 
   return data.users;
 }
