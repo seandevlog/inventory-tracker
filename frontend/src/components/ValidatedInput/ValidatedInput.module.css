@@ -9,9 +9,17 @@
 }
 
 .modalFormInfo label {
-  font-weight: bold;
+  font-size   : 15px;
+  font-weight : bold;
 }
 
 .validationError {
-  color      : rgb(82, 0, 12);
+  padding     : 0 0 0 0.3em;
+  color       : rgba(0, 0, 0, 0.699);
+}
+
+.validationError > p {
+  display     : inline;
+  font-size   : 15px;
+  font-weight : bolder;
 }

@@ -1,4 +1,5 @@
-import ValidatedInput from "../../../../components/ValidatedInput/ValidatedInput";
+import { ValidatedInput } from "@components";
+import { userSchema } from '@shared/validators';
 
 const RegisterInputs = ({ className, children, disabled }) => (
   <>
@@ -9,6 +10,7 @@ const RegisterInputs = ({ className, children, disabled }) => (
       autoComplete="username"
       value={children?.username || ''}
       disabled={disabled}
+      schema={userSchema}
     >
       Username
     </ValidatedInput>
@@ -19,6 +21,7 @@ const RegisterInputs = ({ className, children, disabled }) => (
       autoComplete="new-password"
       value={children?.password || ''}
       disabled={disabled}
+      schema={userSchema}
     >
       Password
     </ValidatedInput>
@@ -29,6 +32,7 @@ const RegisterInputs = ({ className, children, disabled }) => (
       autoComplete="given-name"
       value={children?.givenName || ''}
       disabled={disabled}
+      schema={userSchema}
     >
       Given Name
     </ValidatedInput>
@@ -39,6 +43,7 @@ const RegisterInputs = ({ className, children, disabled }) => (
       autoComplete="family-name"
       value={children?.familyName || ''}
       disabled={disabled}
+      schema={userSchema}
     >
       Family Name
     </ValidatedInput>
@@ -49,6 +54,7 @@ const RegisterInputs = ({ className, children, disabled }) => (
       autoComplete="mobile"
       value={children?.contact || ''}
       disabled={disabled}
+      schema={userSchema}
     >
       Contact
     </ValidatedInput>
@@ -59,6 +65,7 @@ const RegisterInputs = ({ className, children, disabled }) => (
       autoComplete="address-line1"
       value={children?.address || ''}
       disabled={disabled}
+      schema={userSchema}
     >
       Address
     </ValidatedInput>

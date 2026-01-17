@@ -6,15 +6,11 @@ import * as controller from './auth.controllers.js';
 const router = express.Router();
 const upload = multer();
 
-router.get('/login', controller.login);
+router.post('/login', upload.any(), controller.loginSubmit);
 
-router.post('/auth/login', upload.any(), controller.loginSubmit);
+router.post('/register', upload.any(), controller.registerSubmit);
 
-router.get('/register', controller.register);
-
-router.post('/auth/register', upload.any(), controller.registerSubmit);
-
-router.post('/auth/refresh', controller.refresh);
+// router.post('/refresh', controller.refresh);
 
 // router.post('/auth/logout', controller.logout);
 

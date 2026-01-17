@@ -1,19 +1,15 @@
-import { Form, redirect } from 'react-router-dom';
-import axios from 'axios';
-
-import config from '../../config';
-import ValidatedInput from '../../components/ValidatedInput/ValidatedInput';
-import RedirectLink from '../../components/RedirectLink/RedirectLink';
-import ErrorBox from '../../components/ErrorBox';
-
-export const action = async ({ request }) => {
-  const formData = await request.formData();
-  await axios.post(`${config.server}/auth/login`, formData);
-
-  return redirect('/users');
-} 
+import { Form } from 'react-router-dom';
+import Joi from 'joi';
+import { ValidatedInput, RedirectLink, ErrorBox } from '../../components';
+import { userSchema } from '@shared/validators';
 
 const Login = () => {
+  const loginSchema = userSchema.fork(['password'], () => 
+    Joi.string().required().messages({
+      "string.empty": "Password is required"
+    })
+  );
+
   return (
     <>
       <h1>Welcome back!</h1>
@@ -23,6 +19,7 @@ const Login = () => {
           id="username"  
           type="text"
           autoComplete="username"
+          schema={loginSchema}
         >
           Username
         </ValidatedInput>
@@ -30,6 +27,7 @@ const Login = () => {
           id="password" 
           type="password"
           autoComplete="current-password"
+          schema={loginSchema}
         >
           Password
         </ValidatedInput>

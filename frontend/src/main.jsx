@@ -5,7 +5,11 @@ import './index.css';
 import Root from './Root';
 import Error from './pages/Error';
 import Auth from './pages/Auth';
-import Login, {action as loginAction} from './features/auth/Login';
+import Login from './features/auth/Login';
+import {
+  loginSubmit as loginAction,
+  registerSubmit as registerAction
+} from './features/auth/auth.actions';
 import Register from './features/auth/Register/Register'
 import Users from './features/users/Users';
 import UsersModal from './features/users/UsersModal';
@@ -36,7 +40,8 @@ const router = createBrowserRouter([
           },
           {
             path: 'register',
-            element: <Register />
+            element: <Register />,
+            action: registerAction
           }
         ]
       },
