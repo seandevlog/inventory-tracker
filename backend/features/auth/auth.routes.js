@@ -10,7 +10,7 @@ router.post('/login', upload.any(), controller.loginSubmit);
 
 router.post('/register', upload.any(), controller.registerSubmit);
 
-// router.post('/refresh', controller.refresh);
+router.get('/refresh', controller.refresh);
 
 // router.post('/auth/logout', controller.logout);
 

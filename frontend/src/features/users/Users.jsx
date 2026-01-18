@@ -37,7 +37,7 @@ const Users = () => {
           { value: 'Address', sort: true, attribute: 'address', index: 5},
         ]}
       >
-        {filteredUsers.length > 0 && filteredUsers.map(user => {
+        {filteredUsers && filteredUsers.length > 0 && filteredUsers.map(user => {
           delete user.password;
           return user;
         })}

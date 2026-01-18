@@ -16,7 +16,7 @@ const generateAccess = ( userId ) => {
 }
 
 const generateRefresh = () => {
-    return crypto.randomBytes(40).toString();
+    return crypto.randomBytes(40).toString('hex');
 }
 
 const hash = (token) => {

@@ -13,17 +13,16 @@ export const loginSubmit = async (req, res) => {
         if (!session) throw new Error('Failed to create session');
 
         res.cookie('refreshToken', refreshToken, {
-            expires: new Date(session.expiresIn).getTime(),
+            expires: session.expiresIn,
             httpOnly: true,
             secure: Config.nodeEnv === 'production',
-            sameSite: 'none'
+            sameSite: Config.nodeEnv === 'production' ? 'none': 'lax'
         })
         res.status(200).json({ 
             success: true,
             accessToken
         })
     } catch (err) {
-        console.log(err)
         return res.status(500).json({ error: err.message });
     }
 }
@@ -37,34 +36,42 @@ export const registerSubmit = async (req, res) => {
     }
 }
 
-// export const refresh = async (req, res) => {
-//     const hashedToken = Tokens.hash(req.cookies.refreshToken);
-//     const session = await Sessions.findWithHashedToken(hashedToken);
-    
-//     if (!session) return res.status(401).json({ error: 'Invalid Token' });
+export const refresh = async (req, res) => {
+    try {
+        const hashedToken = req.cookies?.refreshToken && Tokens.hash(req.cookies.refreshToken);
+        const session = hashedToken && await Sessions.findWithHashedToken(hashedToken);
+        
+        if (!session) return res.status(401).json({ error: 'Invalid Token' });
 
-//     if (session.expiresIn.getTime() < Date.now()) return res.status(403).json({ redirect: '/login'});
+        if (session.expiresIn.getTime() < Date.now()) return res.status(403).json({ error: 'Token Expired' });
 
-//     await Sessions.destroy({ hashedToken });
+        await Sessions.destroy({ hashedToken });
 
-//     const { userId } = session;
-//     const { 
-//         accessToken, 
-//         refreshToken, 
-//         hashedToken: newHashedToken 
-//     } = Tokens.generate(userId);
+        const { userId } = session;
+        const { 
+            accessToken, 
+            refreshToken, 
+            hashedToken: newHashedToken 
+        } = Tokens.generate(userId);
 
-//     const newSession = await Sessions.create({ userId, hashedToken: newHashedToken });
+        const newSession = await Sessions.create({ userId, hashedToken: newHashedToken });
 
-//     res.cookie('refreshToken', refreshToken, {
-//         expires: newSession.expiresIn.getTime(),
-//         httpOnly: true,
-//         secure: Config.nodeEnv === 'production',
-//         sameSite: 'strict'
-//     })
+        res.cookie('refreshToken', refreshToken, {
+            expires: newSession.expiresIn,
+            httpOnly: true,
+            secure: Config.nodeEnv === 'production',
+            sameSite: Config.nodeEnv === 'production' ? 'none': 'lax'
+        })
 
-//     res.status(200).json({ accessToken });
-// }
+        res.status(200).json({ 
+            success: true,    
+            accessToken 
+        });
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ error: err.message });
+    }
+}
 
 // TODO - finish logout function and EJS generation
 // const logout = async (req, res) => {
@@ -83,6 +90,6 @@ export const registerSubmit = async (req, res) => {
 export default {
     loginSubmit,
     registerSubmit,
-    // refresh,
+    refresh,
     // logout
 }
