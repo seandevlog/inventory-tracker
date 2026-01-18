@@ -17,7 +17,11 @@ export const getAllUser = async () => {
 
 export const storeUser = async (data) => {
     let { password } = data;
-    password = await Passwords.hash(password);
+    if (password) {
+      password = await Passwords.hash(password);
+    } else {
+      throw new Error('User Services Errored: Password is required');  
+    }
     
     const user = await Users.create({...data, password});
     if (!user) throw new Error('Failed to create user');

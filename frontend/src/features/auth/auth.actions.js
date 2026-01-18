@@ -1,18 +1,17 @@
 import { redirect } from 'react-router-dom';
-import axios from 'axios';
-import config from '../../config';
-import { create as createUser } from './auth.services';
+import { 
+  login as loginUser,
+  create as createUser
+} from './auth.services';
+import { setToken } from './auth.token';
 
 export const loginSubmit = async ({ request }) => {
   const formData = await request.formData();
-  const { data } = await axios.post(`${config.server}/auth/login`, formData);
+  const data = await loginUser(formData);
+  const { accessToken } = data;
+  setToken(accessToken);
 
-  const { accessToken } = data ?? {};
-
-  return {
-    redirect: '/users',
-    accessToken
-  };
+  return redirect('/users');
 } 
 
 export const registerSubmit = async ({ request }) => {

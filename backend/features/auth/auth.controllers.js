@@ -18,12 +18,12 @@ export const loginSubmit = async (req, res) => {
             secure: Config.nodeEnv === 'production',
             sameSite: 'none'
         })
-
         res.status(200).json({ 
             success: true,
             accessToken
         })
-    } catch (err) {;
+    } catch (err) {
+        console.log(err)
         return res.status(500).json({ error: err.message });
     }
 }

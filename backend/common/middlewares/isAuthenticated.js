@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import config from '../../config/index.js';
 
-const hasAccessToken = (req, res, next) => {
+const isAuthenticated = (req, res, next) => {
   const auth = req.headers.authorization ?? null;
   if (!auth?.startsWith('Bearer ')) {
     throw new Error('No Bearer Token found');
@@ -18,4 +18,4 @@ const hasAccessToken = (req, res, next) => {
   }
 }
 
-export default hasAccessToken;
+export default isAuthenticated;
