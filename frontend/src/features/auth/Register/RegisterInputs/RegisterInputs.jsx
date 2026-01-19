@@ -1,5 +1,5 @@
 import { ValidatedInput } from "@components";
-import { userSchema } from '@shared/validators';
+import { userSchema } from "@shared/validators";
 
 const RegisterInputs = ({ className, children, disabled }) => (
   <>

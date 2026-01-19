@@ -73,23 +73,34 @@ export const refresh = async (req, res) => {
     }
 }
 
-// TODO - finish logout function and EJS generation
-// const logout = async (req, res) => {
-//     const hashedToken = Tokens.hash(req.cookies.refreshToken);
-//     const session = await Sessions.findWithHashedToken(hashedToken);
-    
-//     if (!session) return res.status(401).json({ error: 'Invalid Token' });
+export const logout = async (req, res) => {
+    try {
+        const hashedToken = req.cookies?.refreshToken && Tokens.hash(req.cookies.refreshToken);
+        const session = hashedToken && await Sessions.findWithHashedToken(hashedToken);
+        
+        if (!session) return res.status(401).json({ error: 'Invalid Token' });
 
-//     if (session.expiresIn.getTime() < Date.now()) return res.status(403).json({ redirect: '/login'});
+        if (session.expiresIn.getTime() < Date.now()) return res.status(403).json({ error: 'Token Expired' });
 
-//     await Sessions.destroy({ hashedToken });
+        await Sessions.destroy({ hashedToken });
 
-//     await Sessions.destroy();
-// }
+        res.cookie('refreshToken', {
+            maxAge: 0,
+            httpOnly: true,
+            secure: Config.nodeEnv === 'production',
+            sameSite: Config.nodeEnv === 'production' ? 'none': 'lax'
+        })
+
+        res.status(200).json({ success: true });
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ error: err.message });
+    }
+}
 
 export default {
     loginSubmit,
     registerSubmit,
     refresh,
-    // logout
+    logout
 }

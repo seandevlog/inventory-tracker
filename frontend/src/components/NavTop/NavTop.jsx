@@ -12,8 +12,7 @@ const NavTop = () => (
     </form>
     <ul className={styles.links}>
         <li><RedirectLink url="#" className="navTopRedirect">FAQ</RedirectLink></li>
-        <li><RedirectLink url="/login" className="navTopRedirect">Login</RedirectLink></li>
-        <li><RedirectLink url="/register" className="navTopRedirect">Register</RedirectLink></li>
+        <li><RedirectLink url="/logout" className="navTopRedirect">Logout</RedirectLink></li>
     </ul>
   </nav>
 )

@@ -7,10 +7,11 @@ import NavTop from './NavTop/NavTop';
 import RedirectLink from "./RedirectLink/RedirectLink";
 import Table, { TableHeaderSort, TableRow } from "./Table/Table";
 import ValidatedInput from "./ValidatedInput/ValidatedInput";
-import ErrorBox from './ErrorBox';
+import ErrorBox from './ErrorBox/ErrorBox';
 
 export {
   CreateButton,
+  ErrorBox,
   FilterSelect,
   Logo,
   LogoImage,
@@ -24,5 +25,4 @@ export {
   TableHeaderSort,
   TableRow,
   ValidatedInput,
-  ErrorBox
 }

@@ -1,10 +1,13 @@
 import { createPortal } from "react-dom";
-import { useLoaderData} from "react-router-dom";
+import { useRouteLoaderData, useParams } from "react-router-dom";
+import { filter } from 'lodash';
 import { Modal } from "../../components";
 import modalModes from "../../components/Modal/Modal.modes";
 
 const UserModal = ({ mode }) => {
-  const user = useLoaderData();
+  const users = useRouteLoaderData('users');
+  const params = useParams();
+  const [ user ] = filter(users, { '_id': params.userId })
 
   const config = 
     mode === 'edit'

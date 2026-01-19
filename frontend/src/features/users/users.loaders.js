@@ -6,7 +6,9 @@ import {
 
 export const getAll = async () => {
   const data = await getAllUsers();
-  const { error, users, accessToken } = data;
+
+  const { error, users } = data;
+  
   if (error) return redirect('/login');
 
   return users;
@@ -17,7 +19,7 @@ export const get = async ({ params }) => {
 
   const { error, user } = data;
   
-  if (error) return redirect('/login');
+  if (error) return redirect('/');
 
   return user;
 }

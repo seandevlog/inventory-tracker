@@ -1,5 +1,6 @@
 import express from 'express';
-import multer from 'multer';;
+import multer from 'multer';
+import isAuthenticated from '../../common/middlewares/isAuthenticated.js';
 
 import * as controller from './auth.controllers.js';
 
@@ -12,6 +13,6 @@ router.post('/register', upload.any(), controller.registerSubmit);
 
 router.get('/refresh', controller.refresh);
 
-// router.post('/auth/logout', controller.logout);
+router.delete('/logout', controller.logout);
 
 export default router;

@@ -1,6 +1,5 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import expressEjsLayouts from 'express-ejs-layouts';
 import {v2 as cloudinary} from 'cloudinary';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -16,26 +15,28 @@ export const app = express();
 mongoose.connect(config.database);
 cloudinary.config(config.cloud);
 
-// app.set('view engine', 'ejs');
+const whitelistOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:5175'
+]
+
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: (origin, callback) => {
+    if (!origin || whitelistOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
-// app.use(express.static('public'));
-// app.use(expressEjsLayouts);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// app.get('/', (req, res) => 
-//     res.render('home', {
-//         layout: 'layouts/home'
-//     }))
-
 app.use('/auth', auth);
-
-// TODO - add isAuthenticated after React integration unless try to store AT in httpOnly cookie
 
 app.use('/users', isAuthenticated, users);
 
-app.use('/api/cloudinary', isAuthenticated, cloudinaryApi);
+app.use('/api/cloudinary', cloudinaryApi);

@@ -6,8 +6,6 @@ import * as controller from './user.controllers.js';
 const router = express.Router();
 const upload = multer();
 
-// TODO - add authorization
-
 router.get('/', controller.getAllUser);
 
 router.post('/store', upload.any(), controller.storeUser);

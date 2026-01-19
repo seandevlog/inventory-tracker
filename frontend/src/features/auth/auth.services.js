@@ -4,16 +4,34 @@ import config from '../../config';
 const server = `${config.server}/auth/`;
 
 export const login = async ( formData ) => {
-  const { data } = await axios.post(`${config.server}/auth/login`, formData, {
+  const { data } = await axios.post(`${server}login`, formData, {
     withCredentials: true
   });
 
-  if (data.error) throw new Error(data.error);
   return data;
 }
 
-export const create = async ( formData ) => {
+export const register = async ( formData ) => {
   const { data } = await axios.post(`${server}register`, formData);
 
-  if (data.error) throw new Error(data.error);
+  return data;
+}
+
+export const refresh = async () => {
+  try {
+    const { data } = await axios.get(`${server}refresh`, {
+      withCredentials: true
+    });
+    return data;
+  } catch (err) {
+    ; // Do nothing
+  }
+} 
+
+export const logout = async () => {
+  const { data } = await axios.delete(`${server}logout`, {
+    withCredentials: true
+  });
+
+  return data;
 }

@@ -1,7 +1,7 @@
 let accessToken = '';
 
 export const setToken = (token) => {
-  accessToken = token
+  accessToken = token;
 } 
 
 export const getToken = () => {

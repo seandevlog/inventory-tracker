@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import profileSchema from './profile.schema';
+import profileSchema from './profile.schema.js';
 
 const schema = Joi.object({
   username: Joi.string()

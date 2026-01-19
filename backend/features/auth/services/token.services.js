@@ -12,7 +12,7 @@ const generate = ( userId ) => {
 }
 
 const generateAccess = ( userId ) => {
-    return jwt.sign({ userId }, config.access.key, { expiresIn: config.access.expiresIn });
+    return userId && jwt.sign({ userId }, config.access.key, { expiresIn: config.access.expiresIn });
 }
 
 const generateRefresh = () => {
@@ -20,7 +20,7 @@ const generateRefresh = () => {
 }
 
 const hash = (token) => {
-    return crypto.createHash('sha256').update(token).digest('hex');
+    return token && crypto.createHash('sha256').update(token).digest('hex');
 }
 
 export default {

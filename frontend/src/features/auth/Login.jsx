@@ -1,9 +1,12 @@
-import { Form } from 'react-router-dom';
+import { Form, useActionData } from 'react-router-dom';
 import Joi from 'joi';
-import { ValidatedInput, RedirectLink, ErrorBox } from '../../components';
+import { ValidatedInput, RedirectLink, ErrorBox } from '@components';
 import { userSchema } from '@shared/validators';
 
 const Login = () => {
+  const actionData = useActionData();
+  const { message } = actionData || '';
+
   const loginSchema = userSchema.fork(['password'], () => 
     Joi.string().required().messages({
       "string.empty": "Password is required"
@@ -32,8 +35,8 @@ const Login = () => {
           Password
         </ValidatedInput>
         <button type="submit" className="btn">Login</button>
-        <ErrorBox />
       </Form>
+      <ErrorBox className='login'>{message || ''}</ErrorBox>
       <RedirectLink className="authRedirect" url="/register">I don't have an account</RedirectLink>
     </>
   )
