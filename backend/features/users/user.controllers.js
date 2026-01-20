@@ -1,5 +1,6 @@
 import {v2 as cloudinary} from 'cloudinary';
 import * as service from './user.services.js';
+import Sessions from '../auth/services/session.services.js';
 
 export const getAllUser = async (req, res) => {
     try {
@@ -34,6 +35,13 @@ export const storeUser = async (req, res) => {
 export const updateUser = async (req, res) => {
     try {
         const user = await service.updateUser({ _id: req.params.id }, { ...req.body });
+        
+        const isActive = req.body.isActive ?? true;
+        
+        if (isActive === 'false') {
+            await Sessions.destroyAll({ userId: req.params.id });
+        }
+
         if (!user) throw new Error ('Failed to find and update user');
         
         res.status(200).json({ success: true })

@@ -13,3 +13,6 @@ Table
 
 All
 - Integrate accessibility features
+
+Nav
+- Add indication who is currently logged in

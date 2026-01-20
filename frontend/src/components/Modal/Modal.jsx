@@ -5,7 +5,7 @@ import RegisterInputs from "../../features/auth/Register/RegisterInputs/Register
 import BackButton from './ModalBackButton/BackButton';
 import ModalUserIcon from './ModalUserIcon/ModalUserIcon';
 import modes from './Modal.modes';
-import ModalStatusSelect from './ModalSelect/ModalSelect';
+import ModalStatusSelect from './ModalStatusSelect/ModalStatusSelect';
 
 const modalActions = {
   CREATE: 'create',
@@ -111,7 +111,7 @@ const Modal = ({ children, data, mode }) => {
               : <ModalUserIcon className="modalUserIcon"/>
             }
             <input type="file" name="profile" disabled={config.disableInputs}/>
-            <input type="hidden" name="public_id" value={data?.profile?.public_id} />
+            <input type="hidden" name="public_id" value={data?.profile?.public_id} disabled={!data?.profile?.public_id}/>
           </fieldset>
           <div className={styles.formDiv}>
             <fieldset className={styles.formInfo}>
@@ -125,11 +125,10 @@ const Modal = ({ children, data, mode }) => {
             </fieldset>
             <fieldset className={styles.status}>
               <legend>Status</legend>
-              <label htmlFor="status">Current Status</label>
               <ModalStatusSelect 
                 disabled={config.disableInputs}
               >
-                {data?.status}
+                {data?.isActive}
               </ModalStatusSelect>
             </fieldset>
           </div>

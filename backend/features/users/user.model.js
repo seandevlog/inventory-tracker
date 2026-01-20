@@ -51,9 +51,10 @@ const userSchema = new Schema({
         type: String,
         required: [ true, 'Address is required' ]
     },
-    status: {
-        type: String,
-        required: [ true, 'Status is required' ]
+    isActive: {
+        type: Boolean,
+        required: [ true, 'Status is required' ],
+        default: false
     },
     profile: profileSchema,
     roles: rolesSchema

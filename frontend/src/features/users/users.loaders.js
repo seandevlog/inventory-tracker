@@ -9,7 +9,7 @@ export const getAll = async () => {
 
   const { error, users } = data;
   
-  if (error) return redirect('/login');
+  if (error) return redirect('/');
 
   return users;
 }

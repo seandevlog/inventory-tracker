@@ -4,11 +4,16 @@ import config from '../../config';
 const server = `${config.server}/auth/`;
 
 export const login = async ( formData ) => {
-  const { data } = await axios.post(`${server}login`, formData, {
-    withCredentials: true
-  });
-
-  return data;
+  try {
+    const { data } = await axios.post(`${server}login`, formData, {
+      withCredentials: true
+    });
+    return data;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      return { error: err.response?.data?.error }
+    }
+  }
 }
 
 export const register = async ( formData ) => {
@@ -22,6 +27,10 @@ export const refresh = async () => {
     const { data } = await axios.get(`${server}refresh`, {
       withCredentials: true
     });
+
+    const { error } = data;
+    if (error) throw new Error(error); 
+
     return data;
   } catch (err) {
     ; // Do nothing

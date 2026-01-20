@@ -2,12 +2,16 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const sessionSchema = new Schema({
-    hashedToken: String,
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        rel: 'User'
-    },
-    expiresIn: Date
+  hashedToken: {
+    type: String,
+    required: true
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    rel: 'User',
+    reuired: true
+  },
+  expiresIn: Date
 })
 
 const sessionModel = mongoose.model('Session', sessionSchema);

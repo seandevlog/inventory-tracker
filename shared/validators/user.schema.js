@@ -45,11 +45,15 @@ const schema = Joi.object({
           "string.empty": "Address is required"
         }),
 
-  status: Joi.string()
+  isActive: Joi.boolean()
         .required()
-        .default('active'),
+        .default(false),
 
-  profile: profileSchema
+  profile: profileSchema,
+
+  // Ignore
+  public_id: Joi.any().strip(),
+  intent: Joi.any().strip()
 })
 
 export default schema;

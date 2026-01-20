@@ -7,10 +7,13 @@ import Config from '../../config/index.js';
 
 export const loginSubmit = async (req, res) => {
     try {
-        const { _id: userId } = await Auth.login({ ...req.body });
+        const { _id: userId, isActive } = await Auth.login({ ...req.body });
+
+        if (!isActive) return res.status(500).json({ error: 'Account is disabled' });
+
         const { accessToken, refreshToken, hashedToken } = Tokens.generate(userId);
         const session = Sessions.create({ userId, hashedToken });
-        if (!session) throw new Error('Failed to create session');
+        if (!session) throw new Error('Failed to create session. Notify admin.');
 
         res.cookie('refreshToken', refreshToken, {
             expires: session.expiresIn,
@@ -41,7 +44,7 @@ export const refresh = async (req, res) => {
         const hashedToken = req.cookies?.refreshToken && Tokens.hash(req.cookies.refreshToken);
         const session = hashedToken && await Sessions.findWithHashedToken(hashedToken);
         
-        if (!session) return res.status(401).json({ error: 'Invalid Token' });
+        if (!session) return res.status(403).json({ error: 'Invalid Token' });
 
         if (session.expiresIn.getTime() < Date.now()) return res.status(403).json({ error: 'Token Expired' });
 

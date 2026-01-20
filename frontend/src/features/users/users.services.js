@@ -35,6 +35,7 @@ export const getAll = async () => {
     if (!axios.isAxiosError(err)) {
       throw new Error('Failed to update user data');
     }
+    if (err.response.status === 403) return { error: err.response.data };
     throw new Error(`Axios error: ${err.response?.data}`)
   }
 }
@@ -129,7 +130,7 @@ export const edit = async ({ formData, id }) => {
       const profileData = public_id 
         ? await cloud.replaceImageSigned(profile, public_id) 
         : await cloud.uploadImageSigned(profile);
-
+      
       if (profileData) {
         formData.delete('profile');
 

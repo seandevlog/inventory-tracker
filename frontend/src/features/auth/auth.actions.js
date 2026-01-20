@@ -8,15 +8,16 @@ import { userSchema } from '@shared/validators';
 
 export const loginSubmit = async ({ request }) => {
   const formData = await request.formData();
-  try {
-    const { accessToken } = await loginClient(formData);
-    setToken(accessToken);
+  
+  const { accessToken, error } = await loginClient(formData);
+  setToken(accessToken);
 
-    if (accessToken) {
-      return redirect('/users');
-    }
-  } catch (err) {
-    return { message: 'Invalid Credentials' };
+  if (accessToken) {
+    return redirect('/users');
+  }
+
+  if (error) {
+    return { message: error };
   }
 } 
 

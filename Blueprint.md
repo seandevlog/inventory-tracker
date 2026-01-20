@@ -9,6 +9,10 @@
   - Full access to all features  
   - Can manage Users (CRUD) and master data  
   - Can perform all stock transactions (including negative adjustments)
+- **Manager**
+  - Can view Users under their own department
+  - Can approve/reject requests
+  - Can perform changes to master data
 - **Staff**  
   - Can perform stock transactions, create POs, view reports  
   - Read-only access to master data (Items, Locations, Suppliers)
@@ -16,7 +20,7 @@
 ---
 
 ### Core Entities
-- **User**: `{ name, email, passwordHash, role: 'admin'|'staff', isActive }`
+- **User**: `{ username, password, givenName, familyName, contact, address, passwordHash, role: 'admin'| 'manager ' | 'staff', isActive }`
 - **Item**: `{ sku, name, unit, category?, reorderPoint, isActive }`
 - **Location**: `{ code, name, notes? }`
 - **Supplier**: `{ name, email?, phone?, address? }`
@@ -27,7 +31,8 @@
 
 ### Must-Have Flows
 1. **Authentication**: Login with JWT, role-based permissions
-2. **Users CRUD** (admin-only)
+2. **Authorization**: Login should only allow active users
+2. **Users CRUD**: Managers can only view their department's data
 3. **Items CRUD**
 4. **Locations CRUD**
 5. **Suppliers CRUD**

@@ -8,9 +8,10 @@ import {
 
 export const create = async ({ request }) => {
   const formData = await request.formData();
-  
+
   const { error: validationError } = userSchema.validate(Object.fromEntries(formData));
   if (validationError) {
+    console.log(validationError)
     return { validationError }; 
   }
 
@@ -33,6 +34,7 @@ export const edit = async ({ request, params }) => {
   if (intent === 'save') { 
     const { error: validationError } = userSchema.validate(Object.fromEntries(formData));
     if (validationError) {
+      console.log(validationError)
       return { validationError }; 
     }
     
