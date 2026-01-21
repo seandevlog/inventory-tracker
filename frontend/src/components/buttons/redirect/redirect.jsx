@@ -1,4 +1,4 @@
-import styles from './Redirect.module.css';
+import styles from './redirect.module.css';
 
 const RedirectLink = ({ url, children, className }) => {
   return (

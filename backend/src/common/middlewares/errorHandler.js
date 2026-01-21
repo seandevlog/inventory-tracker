@@ -1,4 +1,7 @@
 const errorHandler = (err, req, res, next) => {
+  const stack = err.stack || "";
+  console.log(stack);
+
   const status = err.status ?? 500;
   const message = err.message || 'Unknown Server Error';
   res.status(status).json({ error: message });

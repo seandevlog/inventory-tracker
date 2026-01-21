@@ -1,5 +1,5 @@
-import styles from './NavSub.module.css';
-import RedirectLink from '../RedirectLink/RedirectLink';
+import styles from './navSub.module.css';
+import RedirectLink from '@components/buttons/redirect/redirect';
 
 const NavSub = () => (
   <nav className={styles.navSub}>

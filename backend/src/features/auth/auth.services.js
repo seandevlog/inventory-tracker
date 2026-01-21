@@ -11,8 +11,7 @@ import {
 } from '#errors/index.js';
 
 const login = async ({ data }) => {
-    const { 
-        _id: userId, 
+    const {  
         username, 
         password, 
         isActive 
@@ -26,13 +25,14 @@ const login = async ({ data }) => {
     const result = await Passwords.compare(password, user.password);
     if (!result) throw new LoginConflictError('Password incorrect');
 
-    if (!isActive) throw new LoginConflictError('Account is disabled');
+    if (!!isActive) throw new LoginConflictError('Account is disabled');
 
+    const { _id: userId } = user;
     const { accessToken, refreshToken, hashedToken } = Tokens.generate(userId);
 
-    await Sessions.create({ userId, hashedToken });
+    const session = await Sessions.create({ userId, hashedToken });
 
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken, session };
 } 
 
 const register = async ({ data }) => {

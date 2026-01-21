@@ -8,7 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@components": path.resolve(__dirname, "src/components"),
-      "@my-org/shared/validators": path.resolve(__dirname, "../shared/src/validators/index.js"),
+      "@my-org/shared/validators": path.resolve(__dirname, "../shared/src/validators"),
       "@features": path.resolve(__dirname, "src/features")
     }
   },

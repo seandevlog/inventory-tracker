@@ -1,7 +1,7 @@
-import styles from './TableRow.module.css';
-import DefaultProfile from './DefaultProfile/DefaultProfile';
+import styles from './row.module.css';
+import FeatureImage from '@components/featureImage/featureImage';
 
-const TableRow = ({ id, className, onClick, sort, data: row }) => (
+const Row = ({ id, className, onClick, sort, data: row }) => (
   <tr
     id={id}
     className={styles[className]}
@@ -13,7 +13,7 @@ const TableRow = ({ id, className, onClick, sort, data: row }) => (
           <td key={attr}>
             {row.profile?.url
             ? <img src={row.profile.url}></img>
-            : <DefaultProfile />}
+            : <FeatureImage />}
             {/* TODO - find a way to make default profile work for all other feature */}
           </td>
         )
@@ -24,4 +24,4 @@ const TableRow = ({ id, className, onClick, sort, data: row }) => (
   </tr>
 )
 
-export default TableRow;
+export default Row;

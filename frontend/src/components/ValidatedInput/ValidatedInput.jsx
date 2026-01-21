@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useActionData } from 'react-router-dom';
-import styles from './ValidatedInput.module.css';
+import styles from './validatedInput.module.css';
 
 const ValidatedInput = ({ id, children, type, autoComplete, className, value, disabled, schema: Schema }) => {
   const actionData = useActionData(); 

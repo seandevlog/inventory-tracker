@@ -3,7 +3,7 @@ import {
   login as loginClient,
   register as registerClient
 } from './auth.services';
-import { setToken } from './auth.token';
+import { setToken } from '../../stores/token';
 import { userSchema } from '@my-org/shared/validators';
 
 export const loginSubmit = async ({ request }) => {
@@ -16,8 +16,8 @@ export const loginSubmit = async ({ request }) => {
     return redirect('/users');
   }
 
-  if (error.status === 409 && error.code === 'login') {
-    return { message: error };
+  if (error.status === 409) {
+    return { message: error.response?.data?.error }
   }
 } 
 

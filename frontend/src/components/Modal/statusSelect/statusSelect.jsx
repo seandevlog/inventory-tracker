@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles from './ModalStatusSelect.module.css';
+import styles from './statusSelect.module.css';
 
 const ModalStatusSelect = ({ disabled, children }) => {
   const [select, setSelect] = React.useState(children);

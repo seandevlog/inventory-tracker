@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sortBy, orderBy } from 'lodash';
-import styles from './Table.module.css';
-import TableHeaderSort from './TableHeaderSort/TableHeaderSort';
-import TableRow from './TableRow/TableRow';
-import sortOptions from './TableHeaderSort/TableHeaderSort.config';
+import styles from './table.module.css';
+import HeaderSort from './headerSort/headerSort';
+import Row from './row/row';
+import sortOptions from './headerSort/headerSort.config';
 
 const Table = ({ headers, children }) => {
   const navigate = useNavigate();
@@ -43,13 +43,13 @@ const Table = ({ headers, children }) => {
       <thead>
         <tr>
           {sortedHeaderObjectsArray.map(header => header.sort 
-            ? (<TableHeaderSort
+            ? (<HeaderSort
                 key={header.attribute}
                 onSort={() => handleSort(header.attribute)}
                 sortState={sortAttr === header.attribute && sortState}
               >
                 {header.value}
-              </TableHeaderSort>)
+              </HeaderSort>)
             : <th key={header.attribute}>{header.value}</th>
           )}
         </tr>
@@ -57,7 +57,7 @@ const Table = ({ headers, children }) => {
       <tbody>
         {rows
           ? rows.map(row => (
-            <TableRow 
+            <Row 
               key={row._id}
               id={row._id}
               className="filled"
@@ -73,5 +73,4 @@ const Table = ({ headers, children }) => {
   )
 } 
 
-export { TableHeaderSort, TableRow };
 export default Table;

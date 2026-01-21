@@ -1,7 +1,9 @@
 import { Form, useActionData } from 'react-router-dom';
 import Joi from 'joi';
-import { ValidatedInput, RedirectLink, ErrorBox } from '@components';
-import { userSchema } from '@shared/validators';
+import ValidatedInput from '@components/validatedInput/validatedInput';
+import RedirectLink from '@components/buttons/redirect/redirect';
+import ErrorBox from '@components/errorBox/errorBox';
+import { userSchema } from '@my-org/shared/validators';
 
 const Login = () => {
   const actionData = useActionData();

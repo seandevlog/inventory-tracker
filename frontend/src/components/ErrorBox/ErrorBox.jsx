@@ -1,4 +1,4 @@
-import styles from './ErrorBox.module.css';
+import styles from './errorBox.module.css';
 
 const ErrorBox = ({ className, children }) => {
   return children && (

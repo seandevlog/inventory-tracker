@@ -1,4 +1,4 @@
-import styles from './LogoImage.module.css';
+import styles from './image.module.css';
 
 const LogoImage = ({ className }) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className={styles[`${className}`]} viewBox="0 0 16 16">

@@ -1,0 +1,57 @@
+.form {
+  display: flex;
+  width: 100%;
+  margin-top: 7em;
+  margin-bottom: 3em;
+  padding: 0 0 2em 0;
+}
+
+.formFile, .formDiv {
+  flex: 1;
+}
+
+.formFile {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+  margin-left: 5em;
+  max-width: fit-content;
+}
+
+.formDiv {
+  margin-right: 5em;
+}
+
+.formFile svg {
+  width: 300px;
+  height: 300px;
+  padding: 2em;
+}
+
+.formFile input {
+  display: inline-block;
+}
+
+.formInfo input {
+  display: block;
+  margin: 0.3em 0;
+  width: 80%;
+}
+
+.formInfo label {
+  font-size   : 15px;
+  font-weight : bold;
+}
+
+.modalButtons {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: 2em;
+}
+
+.modalButtons button {
+  margin: 0 0 0 0.5em;
+}

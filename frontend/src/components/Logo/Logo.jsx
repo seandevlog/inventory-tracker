@@ -1,5 +1,5 @@
-import LogoImage from "./image/LogoImage";
-import styles from './Logo.module.css';
+import LogoImage from "./image/image";
+import styles from './logo.module.css';
 
 const Logo = ({ className }) => {
   return (

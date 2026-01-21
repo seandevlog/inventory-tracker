@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from '../../config';
-import cloud from '../../services/signatureServices.js';
-import { getToken, setToken } from '../../features/auth/auth.token.js';
+import cloud from '../../lib/cloud.js';
+import { getToken, setToken } from '../../stores/token.js';
 
 const server = `${config.server}/users/`;
 

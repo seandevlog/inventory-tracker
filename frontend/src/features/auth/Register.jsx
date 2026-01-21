@@ -1,6 +1,6 @@
 import { Form } from 'react-router-dom';
-import { RedirectLink } from '@components';
-import UserInputs from './RegisterInputs/RegisterInputs';
+import RedirectLink from '@components/buttons/redirect/redirect';
+import UserInputs from '../users/userInputs';
 
 const Register = () => {
   return (

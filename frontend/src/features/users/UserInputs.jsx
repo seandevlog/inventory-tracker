@@ -1,4 +1,4 @@
-import { ValidatedInput } from "@components";
+import ValidatedInput from "@components/validatedInput/validatedInput";
 import { userSchema } from '@my-org/shared/validators';
 
 const UserInputs = ({ disabled, data }) => (

@@ -9,7 +9,7 @@ const sessionSchema = new Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     rel: 'User',
-    reuired: true
+    required: true
   },
   expiresIn: Date
 })

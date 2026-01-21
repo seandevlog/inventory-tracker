@@ -1,4 +1,4 @@
-import styles from './BackButton.module.css'
+import styles from './backButton.module.css'
 
 const BackButton = ({ className, onClose }) => (
   <button 

@@ -1,6 +1,5 @@
-import * as React from 'react';
-import styles from './TableHeaderSort.module.css';
-import sortOptions from './TableHeaderSort.config';
+import styles from './headerSort.module.css';
+import sortOptions from './headerSort.config';
 
 const TableHeaderSort = ({ children, onSort, sortState}) => (
   <th className={styles.tableHeaderSort} onClick={onSort}>

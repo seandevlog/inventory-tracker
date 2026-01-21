@@ -1,4 +1,4 @@
-import styles from './FilterSelect.module.css';
+import styles from './filterSelect.module.css';
 
 const FilterSelect = ({ onFilter }) => (
   <select 

@@ -1,6 +1,6 @@
-import styles from './NavTop.module.css';
-import Logo from '../Logo/Logo';
-import RedirectLink from '../RedirectLink/RedirectLink';
+import styles from './navTop.module.css';
+import Logo from '@components/logo/logo';
+import RedirectLink from '@components/buttons/redirect/redirect';
 
 const NavTop = () => (
   <nav className={styles.navTop}>

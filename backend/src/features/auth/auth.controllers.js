@@ -2,7 +2,7 @@ import service from './auth.services.js';
 import Config from '#config';
 
 export const loginSubmit = async (req, res) => {
-    const { accessToken, refreshToken } = await service.login({ data: req.body });
+    const { accessToken, refreshToken, session } = await service.login({ data: req.body });
 
     res.cookie('refreshToken', refreshToken, {
         expires: session.expiresIn,

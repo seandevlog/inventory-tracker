@@ -11,7 +11,7 @@ export const login = async ( formData ) => {
     return data;
   } catch (err) {
     if (axios.isAxiosError(err)) {
-      return { error: err.response }
+      return { error: err }
     }
   }
 }
