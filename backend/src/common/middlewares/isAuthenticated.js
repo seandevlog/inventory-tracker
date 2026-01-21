@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import config from '../../config/index.js';
+import config from '../../config.js';
 
 const isAuthenticated = (req, res, next) => {
   const auth = req.headers.authorization ?? null;

@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config({ path: './config/.env' });
+dotenv.config({ path: '.env' });
 
 const config = {
     port: process.env.PORT,
@@ -14,7 +14,12 @@ const config = {
         key: process.env.ACCESS_SECURE_KEY,
         expiresIn: process.env.ACCESS_EXPIRES_IN
     },
-    sessionTimeoutMs: Number(process.env.SESSION_TIMEOUT_MS)
+    sessionTimeoutMs: Number(process.env.SESSION_TIMEOUT_MS),
+    whitelistOrigins: [
+        'http://localhost:5173',
+        'http://localhost:5174',
+        'http://localhost:5175'
+    ]
 };
 
 export default config;

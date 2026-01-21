@@ -1,8 +1,10 @@
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken'
-import config from '../../../config/index.js';
+import config from '#config';
 
-const generate = ( userId ) => { 
+const generate = (userId) => { 
+    if (!userId) throw new Error('Missing userId');
+
     const accessToken = generateAccess(userId);
     const refreshToken = generateRefresh();
     const hashedToken = hash(refreshToken);
@@ -11,7 +13,9 @@ const generate = ( userId ) => {
     return { accessToken, refreshToken, hashedToken };
 }
 
-const generateAccess = ( userId ) => {
+const generateAccess = (userId) => {
+    if (!userId) throw new Error('Missing userId');
+
     return userId && jwt.sign({ userId }, config.access.key, { expiresIn: config.access.expiresIn });
 }
 
@@ -20,6 +24,8 @@ const generateRefresh = () => {
 }
 
 const hash = (token) => {
+    if (!token) throw new Error('Missing token');
+    
     return token && crypto.createHash('sha256').update(token).digest('hex');
 }
 
