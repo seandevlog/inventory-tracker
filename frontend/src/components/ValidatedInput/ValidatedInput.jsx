@@ -39,7 +39,7 @@ const ValidatedInput = ({ id, children, type, autoComplete, className, value, di
       </span>
       <input 
         id={id}
-        name={id}
+        name={isFirstInputDone ? id : ''}
         type={type}
         onChange={handleInput}
         autoComplete={autoComplete} 

@@ -8,10 +8,11 @@ export default defineConfig({
   resolve: {
     alias: {
       "@components": path.resolve(__dirname, "src/components"),
-      "@shared": path.resolve(__dirname, "../shared")
+      "@my-org/shared/validators": path.resolve(__dirname, "../shared/src/validators/index.js"),
+      "@features": path.resolve(__dirname, "src/features")
     }
   },
   optimizeDeps: {
-    include: ["@shared"]
+    include: ["@my-org/shared"]
   }
 })

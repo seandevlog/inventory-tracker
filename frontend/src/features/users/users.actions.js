@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom";
-import { userSchema } from "@shared/validators";
+import { userSchema } from "@my-org/shared/validators";
 import { 
   create as createUser,
   edit as editUser,

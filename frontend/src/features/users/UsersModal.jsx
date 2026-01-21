@@ -1,8 +1,11 @@
+import * as React from 'react';
 import { createPortal } from "react-dom";
 import { useRouteLoaderData, useParams } from "react-router-dom";
 import { filter } from 'lodash';
 import { Modal } from "../../components";
 import modalModes from "../../components/Modal/Modal.modes";
+import { userSchema } from '@my-org/shared/validators';
+import UserInputs from "./UserInputs";
 
 const UserModal = ({ mode }) => {
   const users = useRouteLoaderData('users');
@@ -35,6 +38,8 @@ const UserModal = ({ mode }) => {
         <Modal
           data={config.user}
           mode={config.mode}
+          schema={userSchema}
+          Info={(<UserInputs schema={userSchema}/>)} 
         >
           {config.title} User
         </Modal>,

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Form, useNavigate } from 'react-router-dom';
 import styles from './Modal.module.css';
-import RegisterInputs from "../../features/auth/Register/RegisterInputs/RegisterInputs";
+import UserInputs from "@features/auth/Register/UserInputs/UserInputs";
 import BackButton from './ModalBackButton/BackButton';
 import ModalUserIcon from './ModalUserIcon/ModalUserIcon';
 import modes from './Modal.modes';
@@ -13,7 +13,7 @@ const modalActions = {
   CLOSE: 'close'
 }
 
-const Modal = ({ children, data, mode }) => {
+const Modal = ({ children, data, mode, Info }) => {
   const navigate = useNavigate();
 
   const config = 
@@ -116,12 +116,9 @@ const Modal = ({ children, data, mode }) => {
           <div className={styles.formDiv}>
             <fieldset className={styles.formInfo}>
               <legend>Info</legend>
-              <RegisterInputs 
-                className="modalFormInfo"
-                disabled={config.disableInputs}
-              >
+              <Info className='modalFormInfo' disabled={config.disableInputs}>
                 {data || null}
-              </RegisterInputs>
+              </Info>
             </fieldset>
             <fieldset className={styles.status}>
               <legend>Status</legend>

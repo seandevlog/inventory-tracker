@@ -1,5 +1,5 @@
 {
-  "name": "@shared",
+  "name": "@my-org/shared",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,6 +10,9 @@
   "author": "",
   "license": "ISC",
   "type": "module",
+  "exports": {
+    "./validators": "./src/validators/index.js"
+  },
   "dependencies": {
     "joi": "^18.0.2"
   }

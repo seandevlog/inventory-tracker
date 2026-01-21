@@ -1,69 +1,63 @@
 import { ValidatedInput } from "@components";
-import { userSchema } from "@shared/validators";
+import { userSchema } from '@my-org/shared/validators';
 
-const RegisterInputs = ({ className, children, disabled }) => (
+const UserInputs = ({ disabled, data }) => (
   <>
     <ValidatedInput
       id="username"
-      className={className}  
       type="text"
       autoComplete="username"
-      value={children?.username || ''}
+      value={data?.username || ''}
       disabled={disabled}
       schema={userSchema}
     >
       Username
     </ValidatedInput>
     <ValidatedInput 
-      id="password" 
-      className={className}
+      id="password"
       type="password"
       autoComplete="new-password"
-      value={children?.password || ''}
+      value={data?.password || ''}
       disabled={disabled}
       schema={userSchema}
     >
       Password
     </ValidatedInput>
     <ValidatedInput 
-      id="givenName" 
-      className={className}
+      id="givenName"
       type="text"
       autoComplete="given-name"
-      value={children?.givenName || ''}
+      value={data?.givenName || ''}
       disabled={disabled}
       schema={userSchema}
     >
       Given Name
     </ValidatedInput>
     <ValidatedInput 
-      id="familyName" 
-      className={className}
+      id="familyName"
       type="text"
       autoComplete="family-name"
-      value={children?.familyName || ''}
+      value={data?.familyName || ''}
       disabled={disabled}
       schema={userSchema}
     >
       Family Name
     </ValidatedInput>
     <ValidatedInput 
-      id="contact" 
-      className={className}
+      id="contact"
       type="text"
       autoComplete="mobile"
-      value={children?.contact || ''}
+      value={data?.contact || ''}
       disabled={disabled}
       schema={userSchema}
     >
       Contact
     </ValidatedInput>
     <ValidatedInput 
-      id="address" 
-      className={className}
+      id="address"
       type="text"
       autoComplete="address-line1"
-      value={children?.address || ''}
+      value={data?.address || ''}
       disabled={disabled}
       schema={userSchema}
     >
@@ -72,4 +66,4 @@ const RegisterInputs = ({ className, children, disabled }) => (
   </>
 )
 
-export default RegisterInputs;
+export default UserInputs;

@@ -88,6 +88,7 @@ export const create = async ( formData ) => {
 
       formData.append('profile[url]', profileData.secure_url);
       formData.append('profile[public_id]', profileData.public_id);
+      formData.append('profile[path]', 'users/profile_pics')
     }
 
     // For page refreshes

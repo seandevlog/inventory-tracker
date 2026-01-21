@@ -4,7 +4,7 @@ import {
   register as registerClient
 } from './auth.services';
 import { setToken } from './auth.token';
-import { userSchema } from '@shared/validators';
+import { userSchema } from '@my-org/shared/validators';
 
 export const loginSubmit = async ({ request }) => {
   const formData = await request.formData();
@@ -16,7 +16,7 @@ export const loginSubmit = async ({ request }) => {
     return redirect('/users');
   }
 
-  if (error) {
+  if (error.status === 409 && error.code === 'login') {
     return { message: error };
   }
 } 
@@ -24,6 +24,8 @@ export const loginSubmit = async ({ request }) => {
 export const registerSubmit = async ({ request }) => {
   const formData = await request.formData();
 
+  formData.append('isActive', true);
+  
   const { error: validationError } = userSchema.validate(Object.fromEntries(formData));
   if (validationError) {
     return { validationError }; 
