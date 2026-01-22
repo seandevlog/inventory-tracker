@@ -1,5 +1,6 @@
 import { Form, useActionData } from 'react-router-dom';
 import Joi from 'joi';
+
 import ValidatedInput from '@components/validatedInput/validatedInput';
 import RedirectLink from '@components/buttons/redirect/redirect';
 import ErrorBox from '@components/errorBox/errorBox';
@@ -21,25 +22,33 @@ const Login = () => {
       <h6>Please enter your details</h6>
       <Form method="post">
         <ValidatedInput 
-          id="username"  
-          type="text"
-          autoComplete="username"
+          id='username'  
+          label='Username'
+          type='text'
+          autoComplete='username'
           schema={loginSchema}
-        >
-          Username
-        </ValidatedInput>
+        />  
         <ValidatedInput 
-          id="password" 
-          type="password"
-          autoComplete="current-password"
+          id='password' 
+          label='Password'
+          type='password'
+          autoComplete='current-password'
           schema={loginSchema}
+        />
+        <button 
+          type="submit" 
+          className="btn"
         >
-          Password
-        </ValidatedInput>
-        <button type="submit" className="btn">Login</button>
+          Login
+        </button>
       </Form>
       <ErrorBox className='login'>{message || ''}</ErrorBox>
-      <RedirectLink className="authRedirect" url="/register">I don't have an account</RedirectLink>
+      <RedirectLink 
+        className="authRedirect" 
+        url="/register"
+      >
+        I don't have an account
+      </RedirectLink>
     </>
   )
 }

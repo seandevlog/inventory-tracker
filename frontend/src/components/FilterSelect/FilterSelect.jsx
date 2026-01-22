@@ -6,9 +6,9 @@ const FilterSelect = ({ onFilter }) => (
     name="filter"
     onChange={onFilter}
   >
-    <option value="active">Filter by: Active</option>
-    <option value="inactive">Filter by: Inactive</option>
-    <option value="noFilter" selected>No Filter</option>
+    <option value='true'>Filter by: Active</option>
+    <option value='false'>Filter by: Inactive</option>
+    <option value='' selected>No Filter</option>
   </select>
 )
 

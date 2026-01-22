@@ -25,7 +25,7 @@ const Modal = ({ mode, title }) => {
   } = useOutletContext();
 
   const [ data ] = filter(groupData, { '_id': params[`${paramId}`] })
-  
+
   const [state, dispatch] = React.useReducer(reducer, {
     show: true,
     data: {}

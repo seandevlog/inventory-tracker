@@ -21,9 +21,9 @@ export const auth = async () => {
 }
 
 export const logout = async () => {
-  const { error } = await logoutClient();
+  const { success, error } = await logoutClient();
 
-  if (!error) {
+  if (success) {
     setToken('');
     return redirect('/');
   }

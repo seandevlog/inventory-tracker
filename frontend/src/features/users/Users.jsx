@@ -21,13 +21,15 @@ const Users = () => {
   const users = useLoaderData();
   const navigate = useNavigate();
 
-  const [filterAttr, setFilterAttr] = React.useState('');
+  const [isActive, setIsActive] = React.useState('');
 
   const handleFilter = (event) => {
-    setFilterAttr(event.target.value);
+    setIsActive(event.target.value);
   } 
 
-  const filteredUsers = filterAttr && (filterAttr !== 'noFilter') ? filter(users, {'status': filterAttr}) : users;
+  const filteredUsers = isActive ? filter(users, function (u) { 
+    return u.isActive.toString() == isActive
+  }) : users;
 
   return (
     <>

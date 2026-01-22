@@ -1,5 +1,6 @@
 import styles from './row.module.css';
-import FeatureImage from '@components/featureImage/featureImage';
+import PlaceholderImage from '@components/placeholderImage/placeholderImage';
+import PlaceholderImageConfig from '@components/placeholderImage/placeholderImage.config';
 
 const Row = ({ id, className, onClick, sort, data: row }) => (
   <tr
@@ -13,7 +14,7 @@ const Row = ({ id, className, onClick, sort, data: row }) => (
           <td key={attr}>
             {row.profile?.url
             ? <img src={row.profile.url}></img>
-            : <FeatureImage />}
+            : <PlaceholderImage config={PlaceholderImageConfig.PORTRAIT}/>}
             {/* TODO - find a way to make default profile work for all other feature */}
           </td>
         )

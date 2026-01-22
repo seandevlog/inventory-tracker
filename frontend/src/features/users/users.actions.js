@@ -11,7 +11,6 @@ export const create = async ({ request }) => {
 
   const { error: validationError } = userSchema.validate(Object.fromEntries(formData));
   if (validationError) {
-    console.log(validationError)
     return { validationError }; 
   }
 
@@ -34,7 +33,6 @@ export const edit = async ({ request, params }) => {
   if (intent === 'save') { 
     const { error: validationError } = userSchema.validate(Object.fromEntries(formData));
     if (validationError) {
-      console.log(validationError)
       return { validationError }; 
     }
     
@@ -46,7 +44,7 @@ export const edit = async ({ request, params }) => {
   } else if (intent === 'delete') {
     const data = await deleteUser({ id: params.userId })
     const { error } = data;
-  
+
     if (error) return redirect('/');
     return redirect('/users');
   }

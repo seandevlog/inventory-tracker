@@ -44,7 +44,7 @@ export const refresh = async (req, res) => {
 export const logout = async (req, res) => {
     await service.logout({ refreshToken: req.cookies?.refreshToken ?? '' })
 
-    res.cookie('refreshToken', {
+    res.cookie('refreshToken', '', {
         maxAge: 0,
         httpOnly: true,
         secure: Config.nodeEnv === 'production',

@@ -76,13 +76,11 @@ const logout = async ({ refreshToken }) => {
     const hashedToken = refreshToken && Tokens.hash(refreshToken);
 
     try {
-        if (hashedToken) await Sessions.findWithHashedToken(hashedToken);
+        if (hashedToken) await Sessions.destroy({ hashedToken });
     } catch (err) {
         // Client is still logged out even without refresh token
         throw new SuccessError('Invalid Token'); 
     }
-    
-    await Sessions.destroy({ hashedToken });
 }
 
 export default {

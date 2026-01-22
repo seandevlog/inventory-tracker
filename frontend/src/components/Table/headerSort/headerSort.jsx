@@ -1,7 +1,7 @@
 import styles from './headerSort.module.css';
 import sortOptions from './headerSort.config';
 
-const TableHeaderSort = ({ children, onSort, sortState}) => (
+const HeaderSort = ({ children, onSort, sortState}) => (
   <th className={styles.tableHeaderSort} onClick={onSort}>
     {sortState === sortOptions.ASCENDING
     ? <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up" viewBox="0 0 16 16">
@@ -19,4 +19,4 @@ const TableHeaderSort = ({ children, onSort, sortState}) => (
   </th>
 )
 
-export default TableHeaderSort;
+export default HeaderSort;

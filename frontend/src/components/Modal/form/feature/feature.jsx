@@ -1,13 +1,19 @@
 import styles from './feature.module.css';
-import FeatureImage from '@components/featureImage/featureImage';
+import PlaceholderImage from '@components/placeholderImage/placeholderImage';
+import PlaceholderImageConfig from '@components/placeholderImage/placeholderImage.config';
 
 const Feature = ({ data, disabled }) => {
   return (
     <fieldset className={styles.feature}>
       <legend>Feature</legend>
       {data?.profile?.url
-        ? <img src={data.profile.url}></img>
-        : <FeatureImage className="FeatureImage"/>
+        ? <img 
+            src={data.profile.url}
+          />
+        : <PlaceholderImage
+            className="FeatureImage"
+            config={PlaceholderImageConfig.PORTRAIT}
+          />
       }
       <div className={styles.input}>
         <input type="file" name="profile" disabled={disabled}/>

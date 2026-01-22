@@ -1,3 +1,7 @@
+.status {
+  border: 0px;
+}
+
 .isActive label {
   padding-right: 0.3em
 }

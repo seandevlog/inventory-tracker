@@ -1,10 +1,13 @@
 import services from "./cloudinary.api.services.js";
 
 const uploadSignature = (req, res) => { 
+  const { path } = req.query;
+
   const {
     timestamp,
-    signature
-  } = services.uploadSignature({ path: req.body.path });
+    signature,
+    folder
+  } = services.uploadSignature({ path });
 
   res.status(200).json({
     timestamp,

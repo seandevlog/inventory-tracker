@@ -5,7 +5,9 @@ const server = `${config.server}`;
 
 async function getCloudSignature() {
     try {
-        const { data } = await axios.get(`${server}/api/cloudinary/upload-signature`);
+        const url = new URL(`${server}/api/cloudinary/upload-signature`);
+        url.searchParams.set('path', 'users/profile_pics')
+        const { data } = await axios.get(url);
         return data;
     } catch (err) {
         if (!axios.isAxiosError(err)) {

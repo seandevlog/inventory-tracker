@@ -2,7 +2,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import { BadGatewayError } from '#errors/index.js';
 
 const uploadSignature = ({ path }) => {
-  if (!path) throw new BadRequestError('Folder path is required')
+  if (!path) throw new BadRequestError('Folder path is required');
 
   const timestamp = Math.round(Date.now() / 1000);
   const folder = path;
@@ -20,7 +20,7 @@ const uploadSignature = ({ path }) => {
 
   if (!signature) throw new BadGatewayError('Signature Request Failed');
   
-  return { timestamp, signature };
+  return { timestamp, signature, folder };
 }
 
 const replaceUploadSignature = ({ publicId }) => {

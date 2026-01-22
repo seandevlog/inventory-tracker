@@ -38,9 +38,13 @@ export const refresh = async () => {
 } 
 
 export const logout = async () => {
-  const { data } = await axios.delete(`${server}logout`, {
+  const res = await axios.delete(`${server}logout`, {
     withCredentials: true
   });
 
-  return data;
+  if (res.status < 400) {
+    return { success: true }
+  }
+  
+  return { error: res.data?.error }
 }

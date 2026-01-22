@@ -1,7 +1,11 @@
+.info {
+  border: 0
+}
+
 .info input {
   display: block;
   margin: 0.3em 0;
-  width: 80%;
+  width: 95%;
 }
 
 .info label {
