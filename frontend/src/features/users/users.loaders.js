@@ -8,7 +8,6 @@ export const getAll = async () => {
   const data = await getAllUsers();
 
   const { error, users } = data;
-  
   if (error) return redirect('/');
 
   return users;

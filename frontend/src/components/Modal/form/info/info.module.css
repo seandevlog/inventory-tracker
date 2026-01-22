@@ -1,0 +1,10 @@
+.info input {
+  display: block;
+  margin: 0.3em 0;
+  width: 80%;
+}
+
+.info label {
+  font-size   : 15px;
+  font-weight : bold;
+}

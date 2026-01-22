@@ -3,7 +3,7 @@ import {
   login as loginClient,
   register as registerClient
 } from './auth.services';
-import { setToken } from '../../stores/token';
+import { setToken } from '@stores/token';
 import { userSchema } from '@my-org/shared/validators';
 
 export const loginSubmit = async ({ request }) => {

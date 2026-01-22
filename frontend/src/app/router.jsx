@@ -7,7 +7,7 @@ import Auth from './routes/auth';
 import Login from '@features/auth/Login';
 import Register from '@features/auth/Register'
 import Users from '@features/users/Users';
-import UserModal from '@features/users/UsersModal';
+import Modal from '@components/modal/modal';
 
 import {
   auth as authLoader,
@@ -66,17 +66,17 @@ const router = createBrowserRouter([
             children: [
               {
                 path: 'create/',
-                element: <UserModal mode='create'/>,
+                element: <Modal mode='create' title='Create User'/>,
                 action: createUserAction
               },
               {
                 path: ':userId/',
-                element: <UserModal mode='view'/>,
+                element: <Modal mode='view' title='View User'/>,
                 action: viewUserAction
               },
               {
                 path: ':userId/edit/',
-                element: <UserModal mode='edit'/>,
+                element: <Modal mode='edit' title='Edit User'/>,
                 action: editUserAction
               }  
             ]

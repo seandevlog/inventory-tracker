@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { createPortal } from 'react-dom';
+import { 
+  useNavigate,
+  useParams,
+  useOutletContext 
+} from 'react-router-dom';
+import { filter } from 'lodash';
 
 import styles from './modal.module.css';
 import actions from './modal.actions';
@@ -8,8 +14,17 @@ import reducer from './modal.reducer';
 import BackButton from './backButton/backButton';
 import ModalForm from './form/form';
 
-const Modal = ({ children, data, mode, Info, schema }) => {
+const Modal = ({ mode, title }) => {
+  const params = useParams(); 
   const navigate = useNavigate();
+  const { 
+    schema, 
+    data: groupData,
+    paramId,
+    inputs
+  } = useOutletContext();
+
+  const [ data ] = filter(groupData, { '_id': params[`${paramId}`] })
   
   const [state, dispatch] = React.useReducer(reducer, {
     show: true,
@@ -30,7 +45,7 @@ const Modal = ({ children, data, mode, Info, schema }) => {
       navigate('/users'); 
   }, [state.show, navigate])
 
-  return state.show && (
+  return state.show && createPortal(
     <div
       onClick={handleCloseWithBackground}
     >
@@ -39,16 +54,17 @@ const Modal = ({ children, data, mode, Info, schema }) => {
           className="modalClose"
           onClose={handleCloseButton}
         />
-        <header>{children}</header>
+        <header>{title}</header>
             
         <ModalForm 
           mode={mode} 
           schema={schema} 
           data={data}
-          Info={Info}
+          inputs={inputs}
         />
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 

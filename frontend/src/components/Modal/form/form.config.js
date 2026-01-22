@@ -6,21 +6,21 @@ const config = (mode) =>
       hideDeleteButton: true,
       hideSaveButton: true,
       hideEditButton: false,
-      disableInputs: true
+      disabled: true
     }
   : mode === modes.CREATE
   ? {
       hideDeleteButton: true,
       hideSaveButton: false,
       hideEditButton: true,
-      disableInputs: false
+      disabled: false
     }
   : mode === modes.EDIT
   ? {
       hideDeleteButton: false,
       hideSaveButton: false,
       hideEditButton: true,
-      disableInputs: false
+      disabled: false
     }
   : {};
 

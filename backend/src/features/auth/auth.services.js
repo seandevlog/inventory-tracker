@@ -49,7 +49,7 @@ const refresh = async ({ refreshToken }) => {
 
     let session;
     try {
-        session = hashedToken ? await Sessions.get(hashedToken) : {};
+        session = hashedToken ? await Sessions.get({ hashedToken }) : {};
     } catch (err) {
         throw new ForbiddenError('Invalid Refresh Token');
     }

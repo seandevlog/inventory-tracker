@@ -3,7 +3,7 @@ import {
   refresh as refreshClient,
   logout as logoutClient
 } from "./auth.services";
-import { setToken } from "../../stores/token";
+import { setToken } from "@stores/token";
 
 // Refresh required to check if client is already logged in
 export const auth = async () => {

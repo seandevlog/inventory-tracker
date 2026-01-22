@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useActionData } from 'react-router-dom';
 import styles from './validatedInput.module.css';
 
-const ValidatedInput = ({ id, children, type, autoComplete, className, value, disabled, schema: Schema }) => {
+const ValidatedInput = ({ id, label, type, autoComplete, className, value, disabled, schema: Schema }) => {
   const actionData = useActionData(); 
   const { validationError: submitValidationError } = actionData ?? '';
 
@@ -33,7 +33,7 @@ const ValidatedInput = ({ id, children, type, autoComplete, className, value, di
 
   return (
     <div className={styles[className]}>
-      <label htmlFor={id}>{children}</label>
+      <label htmlFor={id}>{label}</label>
       <span id="validation-error" className={errorMessage ? styles.errorPing : styles.validationError}>
         <p>{errorMessage}</p>
       </span>
@@ -45,6 +45,7 @@ const ValidatedInput = ({ id, children, type, autoComplete, className, value, di
         autoComplete={autoComplete} 
         defaultValue={value} 
         disabled={disabled}
+        className={styles[`${className}`]}
       />
     </div>
 )

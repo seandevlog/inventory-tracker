@@ -44,7 +44,7 @@ export const updateUser = async ({ userId, data }) => {
   const { password } = data;
   const hashedPassword = password && await Passwords.hash(password);
 
-  const user = await Users.findOneAndUpdate(userId, {...data, password: hashedPassword});
+  const user = await Users.findOneAndUpdate({ _id: userId }, {...data, password: hashedPassword});
   if (!user) throw new Error('Failed to find user');
 
   const isActive = data.isActive ?? true;

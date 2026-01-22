@@ -1,7 +1,7 @@
 import axios from 'axios';
-import config from '../../config';
-import cloud from '../../lib/cloud.js';
-import { getToken, setToken } from '../../stores/token.js';
+import config from '@config';
+import cloud from '@lib/cloud.js';
+import { getToken, setToken } from '@stores/token.js';
 
 const server = `${config.server}/users/`;
 
@@ -35,7 +35,9 @@ export const getAll = async () => {
     if (!axios.isAxiosError(err)) {
       throw new Error('Failed to update user data');
     }
-    if (err.response.status === 403) return { error: err.response.data };
+    if (err.response.status === 403) {
+      return { error: err.response.data };
+    }
     throw new Error(`Axios error: ${err.response?.data}`)
   }
 }
