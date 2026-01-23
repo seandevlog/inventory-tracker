@@ -11,12 +11,6 @@ const profileSchema = new Schema({
     _id: false
 });
 
-const rolesSchema = new Schema({
-    type: String,
-    enum: ['admin', 'manager', 'staff'],
-    default: ['staff']
-})
-
 const userSchema = new Schema({
     // id: String (automatically generated)
     username: {
@@ -57,7 +51,11 @@ const userSchema = new Schema({
         default: false
     },
     profile: profileSchema,
-    roles: rolesSchema
+    role: {
+        type: String,
+        enum: ['admin', 'staff'],
+        default: ['staff']
+    }
 }, { timestamps: true });
 
 const userModel = mongoose.model('User', userSchema);

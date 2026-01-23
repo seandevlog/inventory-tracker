@@ -2,6 +2,13 @@
   border: 0px;
 }
 
-.isActive label {
+.isActive,
+.role {
+  display: inline;
+  padding-right: 1em
+}
+
+.isActive label,
+.role label {
   padding-right: 0.3em
 }

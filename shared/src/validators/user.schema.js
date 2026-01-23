@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import profileSchema from './profile.schema.js';
+import userRoleSchema from './user.roles.schema.js';
 
 const schema = Joi.object({
   username: Joi.string()
@@ -50,6 +51,7 @@ const schema = Joi.object({
         .default(false),
 
   profile: profileSchema,
+  role: userRoleSchema,
 
   // Ignore
   public_id: Joi.any().strip(),

@@ -2,13 +2,13 @@ import { createBrowserRouter } from 'react-router-dom';
 import './index.css';
 import Root from './routes/root';
 import Hydrate from './routes/hydrate';
-import Dashboard from './routes/dashboard';
 import Manage from './routes/manage'
 import Error from './routes/error';
 import Auth from './routes/auth';
-import Login from '@features/auth/Login';
-import Register from '@features/auth/Register'
-import Users from '@features/users/Users';
+import Login from '@features/auth/login';
+import Register from '@features/auth/register'
+import Users from '@features/users/users';
+import Dashboard from '@features/dashboard/dashboard';
 import Modal from '@components/modal/modal';
 
 import {
@@ -28,7 +28,7 @@ import {
   edit as editUserAction
 } from '@features/users/users.actions';
 
-import pageRefreshMiddleware from '@middlewares/pageRefresh';
+import isAuthenticatedMiddleware from '@middlewares/isAuthenticated';
 import isLoggedInMiddleware from '@middlewares/isLoggedIn';
 
 const router = createBrowserRouter([
@@ -48,7 +48,8 @@ const router = createBrowserRouter([
       },
       {
         Component: Manage,
-        middleware: [pageRefreshMiddleware],
+        middleware: [isAuthenticatedMiddleware],
+        ErrorBoundary: Error,
         children: [
           { path: 'dashboard/', Component: Dashboard },
           {

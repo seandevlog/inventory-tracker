@@ -14,6 +14,8 @@ import cloudinaryApi from './features/files/cloudinary.api.routes.js';
 import isAuthenticated from '#middlewares/isAuthenticated.js';
 import errorHandler from '#middlewares/errorHandler.js';
 import databaseHandler from '#middlewares/databaseHandler.js';
+import isActive from '#middlewares/isActive.js';
+import isAdmin from '#middlewares/isAdmin.js';
 
 export const app = express();
 
@@ -40,7 +42,7 @@ app.use('/auth', auth);
 
 app.use('/dashboard', dashboard);
 
-app.use('/users', isAuthenticated, users);
+app.use('/users', isAuthenticated, isActive, isAdmin, users);
 
 app.use('/api/cloudinary', cloudinaryApi);
 

@@ -5,7 +5,7 @@ import { setToken, getToken } from '@stores/token.js';
 
 const { server } = config;
 
-const pageRefresh = async ({ request, context }, next) => {
+const isAuthenticated = async ({ request, context }, next) => {
   const url = new URL(request.url);
   const path = url.pathname;
 
@@ -19,7 +19,7 @@ const pageRefresh = async ({ request, context }, next) => {
       },
       withCredentials: true // For refresh token
     })
-
+    
     const { success, accessToken } = data;
 
     // Cannot be refreshed, user retries login
@@ -33,4 +33,4 @@ const pageRefresh = async ({ request, context }, next) => {
   return next();
 }
 
-export default pageRefresh;
+export default isAuthenticated;

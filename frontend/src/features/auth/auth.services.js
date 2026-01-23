@@ -20,21 +20,6 @@ export const register = async ( formData ) => {
   return data;
 }
 
-// export const refresh = async () => {
-//   try {
-//     const { data } = await axios.get(`${server}refresh`, {
-//       withCredentials: true
-//     });
-
-//     const { error } = data;
-//     if (error) throw new Error(error); 
-
-//     return data;
-//   } catch (err) {
-//     ; // Do nothing
-//   }
-// } 
-
 export const logout = async () => {
   const res = await axios.delete(`${server}logout`, {
     withCredentials: true

@@ -13,7 +13,7 @@ export const loginSubmit = async ({ request }) => {
   setToken(accessToken);
 
   if (accessToken) {
-    return redirect('/users');
+    return redirect('/dashboard');
   }
 
   if (error.status === 409) {
