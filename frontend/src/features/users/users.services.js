@@ -1,28 +1,11 @@
 import axios from 'axios';
 import config from '@config';
 import cloud from '@lib/cloud.js';
-import { getToken, setToken } from '@stores/token.js';
 
 const server = `${config.server}/users/`;
 
-export const getAll = async () => {
-  let accessToken = getToken();
+export const getAll = async ({ accessToken }) => {
   try {
-    // For page refreshes
-    if (!accessToken) {
-      const { data } = await axios.get(server, {
-        headers: {
-          authorization: `Bearer `, // Empty access token
-        },
-        withCredentials: true // For refresh token
-      })
-
-      if (data.success) {
-        setToken(data.accessToken);
-        accessToken = getToken();
-      }
-    } 
-
     const { data } = await axios.get(server, {
       headers: {
         authorization: `Bearer ${accessToken}`,
@@ -42,24 +25,8 @@ export const getAll = async () => {
   }
 }
 
-export const get = async ({ id }) => {
-  let accessToken = getToken();
+export const get = async ({ id, accessToken }) => {
   try {
-    // For page refreshes
-    if (!accessToken) {
-      const { data } = await axios.get(`${server}${id}`, {
-        headers: {
-          authorization: `Bearer `, // Empty access token
-        },
-        withCredentials: true // For refresh token
-      })
-
-      if (data.success) {
-        setToken(data.accessToken);
-        accessToken = getToken();
-      }
-    } 
-
     const { data } = await axios.get(`${server}${id}`, {
       headers: {
         authorization: `Bearer ${accessToken}`
@@ -77,8 +44,7 @@ export const get = async ({ id }) => {
   
 } 
 
-export const create = async ( formData ) => {
-  let accessToken = getToken();
+export const create = async ({ formData, accessToken }) => {
   try {
     const profile = formData.get('profile');
     const profileData = 
@@ -92,21 +58,6 @@ export const create = async ( formData ) => {
       formData.append('profile[public_id]', profileData.public_id);
       formData.append('profile[path]', 'users/profile_pics')
     }
-
-    // For page refreshes
-    if (!accessToken) {
-      const { data } = await axios.post(`${server}store`, formData, {
-        headers: {
-          authorization: `Bearer `, // Empty access token
-        },
-        withCredentials: true // For refresh token
-      })
-
-      if (data.success) {
-        setToken(data.accessToken);
-        accessToken = getToken();
-      }
-    } 
 
     const { data } = await axios.post(`${server}store`, formData, {
       headers: {
@@ -124,8 +75,7 @@ export const create = async ( formData ) => {
   }
 }
 
-export const edit = async ({ formData, id }) => {
-  let accessToken = getToken();
+export const edit = async ({ formData, id, accessToken }) => {
   try {
     const profile = formData.get('profile');
     if (profile instanceof File && profile.size > 0) {
@@ -142,21 +92,6 @@ export const edit = async ({ formData, id }) => {
       }
     } 
 
-    // For page refreshes
-    if (!accessToken) {
-      const { data } = await axios.patch(`${server}${id}`, formData, {
-        headers: {
-          authorization: `Bearer `, // Empty access token
-        },
-        withCredentials: true // For refresh token
-      })
-
-      if (data.success) {
-        setToken(data.accessToken);
-        accessToken = getToken();
-      }
-    }
-
     const { data } = await axios.patch(`${server}${id}`, formData, {
       headers: {
         authorization: `Bearer ${accessToken}`
@@ -172,24 +107,8 @@ export const edit = async ({ formData, id }) => {
   }
 }
 
-export const destroy = async ({ id }) => {
-  let accessToken = getToken();
+export const destroy = async ({ id, accessToken }) => {
   try {
-    // For page refreshes
-    if (!accessToken) {
-      const { data } = await axios.delete(`${server}${id}`, {
-        headers: {
-          authorization: `Bearer `, // Empty access token
-        },
-        withCredentials: true // For refresh token
-      })
-
-      if (data.success) {
-        setToken(data.accessToken);
-        accessToken = getToken();
-      }
-    } 
-
     const { data } = await axios.delete(`${server}${id}`, {
       headers: {
         authorization: `Bearer ${accessToken}`

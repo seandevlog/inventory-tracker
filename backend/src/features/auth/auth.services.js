@@ -13,8 +13,7 @@ import {
 const login = async ({ data }) => {
     const {  
         username, 
-        password, 
-        isActive 
+        password
     } = data;
 
     if (!username || !password) throw new Error('Missing credentials');
@@ -25,7 +24,8 @@ const login = async ({ data }) => {
     const result = await Passwords.compare(password, user.password);
     if (!result) throw new LoginConflictError('Password incorrect');
 
-    if (!!isActive) throw new LoginConflictError('Account is disabled');
+    const { isActive } = user;
+    if (!isActive) throw new LoginConflictError('Account is disabled');
 
     const { _id: userId } = user;
     const { accessToken, refreshToken, hashedToken } = Tokens.generate(userId);
@@ -39,7 +39,7 @@ const register = async ({ data }) => {
     let { password } = data; 
     password = await Passwords.hash(password);
 
-    await Users.create({ ...data, password });
+    await Users.create({ ...data, password, isActive: false });
 }
 
 const refresh = async ({ refreshToken }) => {

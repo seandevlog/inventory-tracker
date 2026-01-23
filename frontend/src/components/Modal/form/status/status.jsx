@@ -10,7 +10,7 @@ const Status = ({ data, disabled }) => {
 
   return (
     <fieldset className={styles.status}>
-      <legend>Status</legend>
+      <legend></legend>
       <div className={styles.isActive}>
         <label htmlFor='isActive'>Current Status</label>
         <select 

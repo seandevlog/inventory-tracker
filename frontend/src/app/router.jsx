@@ -1,6 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
 import './index.css';
 import Root from './routes/root';
+import Hydrate from './routes/hydrate';
+import Dashboard from './routes/dashboard';
 import Manage from './routes/manage'
 import Error from './routes/error';
 import Auth from './routes/auth';
@@ -10,7 +12,6 @@ import Users from '@features/users/Users';
 import Modal from '@components/modal/modal';
 
 import {
-  auth as authLoader,
   logout as logoutLoader
 } from '@features/auth/auth.loaders';
 import {
@@ -27,41 +28,33 @@ import {
   edit as editUserAction
 } from '@features/users/users.actions';
 
+import pageRefreshMiddleware from '@middlewares/pageRefresh';
+import isLoggedInMiddleware from '@middlewares/isLoggedIn';
+
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
-    errorElement: <Error />,
+    Component: Root,
+    ErrorBoundary: Error,
+    HydrateFallback: Hydrate,
     children: [
       {
-        element: <Auth />,
+        Component: Auth,
+        middleware: [isLoggedInMiddleware],
         children: [
-          {
-            index: true,
-            element: <Login />,
-            action: loginAction,
-            loader: authLoader
-          },
-          {
-            path: 'register',
-            element: <Register />,
-            action: registerAction,
-            loader: authLoader
-          }
+          { index: true, Component: Login, action: loginAction },
+          { path: 'register', Component: Register, action: registerAction }
         ]
       },
       {
-        path: 'logout',
-        element: <></>,
-        loader: logoutLoader
-      },
-      {
-        element: <Manage />,
+        Component: Manage,
+        middleware: [pageRefreshMiddleware],
         children: [
+          { path: 'dashboard/', Component: Dashboard },
           {
             id: 'users',
             path: 'users/',
-            element: <Users />,
+            Component: Users,
             loader: getAllUserLoader,
             children: [
               {
@@ -82,7 +75,8 @@ const router = createBrowserRouter([
             ]
           }
         ]
-      }
+      },
+      { path: 'logout', Component: <></>, loader: logoutLoader },
     ]
   }
 ]);

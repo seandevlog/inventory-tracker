@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from '../config';
 
-const server = `${config.server}`;
+const { server } = config;
 
 async function getCloudSignature() {
     try {

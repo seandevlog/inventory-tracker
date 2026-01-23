@@ -7,6 +7,7 @@ import cors from 'cors';
 import config from './config.js';
 
 import auth from './features/auth/auth.routes.js';
+import dashboard from './features/dashboard/dashboard.routes.js';
 import users from './features/users/user.routes.js';
 import cloudinaryApi from './features/files/cloudinary.api.routes.js';
 
@@ -36,6 +37,8 @@ app.use(cookieParser());
 app.use(databaseHandler);
 
 app.use('/auth', auth);
+
+app.use('/dashboard', dashboard);
 
 app.use('/users', isAuthenticated, users);
 

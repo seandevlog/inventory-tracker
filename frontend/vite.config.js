@@ -12,7 +12,8 @@ export default defineConfig({
       "@features": path.resolve(__dirname, "src/features"),
       "@stores": path.resolve(__dirname, "src/stores"),
       "@config": path.resolve(__dirname, 'src/config.js'),
-      "@lib": path.resolve(__dirname, 'src/lib')
+      "@lib": path.resolve(__dirname, 'src/lib'),
+      "@middlewares": path.resolve(__dirname, 'src/app/middlewares')
     }
   },
   optimizeDeps: {

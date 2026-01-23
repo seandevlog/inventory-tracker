@@ -4,7 +4,7 @@ import ValidatedInput from '@components/validatedInput/validatedInput';
 const Info = ({ schema, data, inputs, disabled }) => {
   return (
     <fieldset className={styles.info}>
-      <legend>Info</legend>
+      <legend></legend>
       {inputs.map(input => (
         <ValidatedInput
           key={input.id}

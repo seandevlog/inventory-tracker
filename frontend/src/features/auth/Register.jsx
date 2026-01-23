@@ -10,7 +10,6 @@ const Register = () => {
       <h1>Who are you?</h1>
       <h6>Please enter your details</h6>
       <Form method="post">
-        <UserInputs/>
         {userInputs.map(input => (
           <ValidatedInput
             key={input.id}

@@ -62,7 +62,7 @@ export const updateUser = async ({ userId, data }) => {
 export const deleteUser = async ({ userId }) => {
   if (!userId) throw new BadRequestError('User ID is required');
 
-  const oldUser = await Users.findOneAndDelete(userId);
+  const oldUser = await Users.findOneAndDelete({ _id: userId });
   if (!oldUser) throw new Error('Failed to find and delete user');
 
   if (oldUser.profile?.public_id) {

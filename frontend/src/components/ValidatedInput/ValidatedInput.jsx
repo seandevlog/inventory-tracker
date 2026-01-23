@@ -3,31 +3,31 @@ import { useActionData } from 'react-router-dom';
 import styles from './validatedInput.module.css';
 
 const ValidatedInput = ({ id, label, type, autoComplete, className, value, disabled, schema: Schema }) => {
-  const actionData = useActionData(); 
+  const actionData = useActionData();
   const { validationError: submitValidationError } = actionData ?? '';
 
   const [input, setInput] = React.useState(value ?? '');
 
   const [errorMessage, setErrorMessage] = React.useState('');
-  const isFirstInputDone = React.useRef(false);
+  const [isFilled, setIsFilled] = React.useState(false);
 
   const schema = Schema?.extract(id);
 
   React.useEffect(() => {
     // 1. When the input has been written on
-    // 2. When it's not inputted yet and submit is done
-    if (isFirstInputDone.current || (!isFirstInputDone.current && submitValidationError)) {
+    // 2. When it's not filled yet and submit is done
+    if (isFilled || (!isFilled && submitValidationError)) {
       const { error } = schema.validate(input);
       const { message } = error ?? '';
       setErrorMessage(message);
     }
-  }, [submitValidationError, input, schema])
+  }, [submitValidationError, input, schema, isFilled])
 
   const handleInput = (event) => {
     setInput(event.target.value)
 
-    if (!isFirstInputDone.current) {
-      isFirstInputDone.current = true
+    if (!isFilled) {
+      setIsFilled(true)
     }
   }  
 
@@ -39,7 +39,7 @@ const ValidatedInput = ({ id, label, type, autoComplete, className, value, disab
       </span>
       <input 
         id={id}
-        name={isFirstInputDone ? id : ''}
+        name={isFilled ? id : ''}
         type={type}
         onChange={handleInput}
         autoComplete={autoComplete} 

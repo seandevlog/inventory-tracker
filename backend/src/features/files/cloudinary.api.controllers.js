@@ -20,10 +20,11 @@ const uploadSignature = (req, res) => {
 }
 
 const replaceUploadSignature = (req, res) => {
+  const { publicId } = req.query;
   const {
     timestamp,
     signature
-  } = services.replaceUploadSignature({ publicId: req.query.publicId });
+  } = services.replaceUploadSignature({ publicId });
 
   res.status(200).json({
     timestamp,
