@@ -5,7 +5,7 @@ import PlaceholderImageConfig from '@components/placeholderImage/placeholderImag
 import ErrorBox from '@components/errorBox/errorBox';
 
 const Feature = ({ data, disabled }) => {
-  const currentFeature = data?.profile?.url;
+  const currentFeature = data?.feature?.url;
 
   const [feature, setFeature] = React.useState(currentFeature);
   const [errorBox, setErrorBox] = React.useState(false);
@@ -41,12 +41,12 @@ const Feature = ({ data, disabled }) => {
       <div className={styles.input}>
         <input 
           type="file" 
-          name="profile" 
+          name="feature" 
           disabled={disabled}
           onChange={handleFeature}
         />
       </div>
-      <input type="hidden" name="public_id" value={data?.profile?.public_id} disabled={!data?.profile?.public_id}/>
+      <input type="hidden" name="public_id" value={data?.feature?.public_id} disabled={!data?.feature?.public_id}/>
       {errorBox && <ErrorBox>Only accepts PNG, JPG, JPEG</ErrorBox>}
     </fieldset>
   )

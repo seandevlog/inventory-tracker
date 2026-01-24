@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './status.module.css';
 
 const Status = ({ data, disabled }) => {
-  const [isActive, setIsActive] = React.useState(data?.isActive || 'false');
+  const [isActive, setIsActive] = React.useState(data?.isActive || 'inactive');
   
   const handleIsActive = (event) => {
     setIsActive(event.target.value);

@@ -25,21 +25,21 @@ const login = async ({ data }) => {
     if (!result) throw new LoginConflictError('Password incorrect');
 
     const { isActive } = user;
-    if (!isActive) throw new LoginConflictError('Account is disabled');
+    if (isActive === 'inactive') throw new LoginConflictError('Account is disabled');
 
     const { _id: userId } = user;
     const { accessToken, refreshToken, hashedToken } = Tokens.generate(userId);
 
     const session = await Sessions.create({ userId, hashedToken });
 
-    return { accessToken, refreshToken, session };
+    return { accessToken, refreshToken, session, user };
 } 
 
 const register = async ({ data }) => {
     let { password } = data; 
     password = await Passwords.hash(password);
 
-    await Users.create({ ...data, password, isActive: false });
+    await Users.create({ ...data, password, isActive: 'inactive' });
 }
 
 const refresh = async ({ refreshToken }) => {
@@ -65,7 +65,9 @@ const refresh = async ({ refreshToken }) => {
 
     const newSession = await Sessions.create({ userId, hashedToken: newHashedToken });
 
-    return { accessToken, newRefreshToken, newSession };
+    const user = await Users.findOne({ _id: userId });
+
+    return { accessToken, newRefreshToken, newSession, user };
 }
 
 const logout = async ({ refreshToken }) => {

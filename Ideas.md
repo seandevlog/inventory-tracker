@@ -17,3 +17,6 @@ All
 
 Nav
 - Add indication who is currently logged in
+
+Filter
+- Make it a sidebar

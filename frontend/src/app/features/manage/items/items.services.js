@@ -2,7 +2,7 @@ import axios from 'axios';
 import config from '@config';
 import cloud from '@lib/cloud.js';
 
-const server = `${config.server}/users/`;
+const server = `${config.server}/items/`;
 
 export const getAll = async ({ accessToken }) => {
   const { data } = await axios.get(server, {
@@ -27,17 +27,17 @@ export const get = async ({ id, accessToken }) => {
 } 
 
 export const create = async ({ formData, accessToken }) => {
-  const profile = formData.get('profile');
-  const profileData = 
-    (profile instanceof File && profile.size > 0) 
-    ? await cloud.uploadImageSigned(profile) 
+  const feature = formData.get('feature');
+  const featureData = 
+    (feature instanceof File && feature.size > 0) 
+    ? await cloud.uploadImageSigned(feature) 
     : null;
-  if (profileData) {
-    formData.delete('profile');
+  if (featureData) {
+    formData.delete('feature');
 
-    formData.append('profile[url]', profileData.secure_url);
-    formData.append('profile[public_id]', profileData.public_id);
-    formData.append('profile[path]', 'users/profile_pics')
+    formData.append('feature[url]', featureData.secure_url);
+    formData.append('feature[public_id]', featureData.public_id);
+    formData.append('feature[path]', 'items/feature')
   }
 
   const { data } = await axios.post(`${server}store`, formData, {
@@ -51,18 +51,18 @@ export const create = async ({ formData, accessToken }) => {
 }
 
 export const edit = async ({ formData, id, accessToken }) => {
-  const profile = formData.get('profile');
-  if (profile instanceof File && profile.size > 0) {
+  const feature = formData.get('feature');
+  if (feature instanceof File && feature.size > 0) {
     const public_id = formData.get('public_id');
-    const profileData = public_id 
-      ? await cloud.replaceImageSigned(profile, public_id) 
-      : await cloud.uploadImageSigned(profile);
+    const featureData = public_id 
+      ? await cloud.replaceImageSigned(feature, public_id) 
+      : await cloud.uploadImageSigned(feature);
     
-    if (profileData) {
-      formData.delete('profile');
+    if (featureData) {
+      formData.delete('feature');
 
-      formData.append('profile[url]', profileData.secure_url);
-      formData.append('profile[public_id]', profileData.public_id);
+      formData.append('feature[url]', featureData.secure_url);
+      formData.append('feature[public_id]', featureData.public_id);
     }
   } 
 

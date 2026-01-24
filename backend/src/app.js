@@ -7,8 +7,8 @@ import cors from 'cors';
 import config from './config.js';
 
 import auth from './features/auth/auth.routes.js';
-import dashboard from './features/dashboard/dashboard.routes.js';
 import users from './features/users/user.routes.js';
+import items from './features/items/item.routes.js';
 import cloudinaryApi from './features/files/cloudinary.api.routes.js';
 
 import isAuthenticated from '#middlewares/isAuthenticated.js';
@@ -40,9 +40,9 @@ app.use(databaseHandler);
 
 app.use('/auth', auth);
 
-app.use('/dashboard', dashboard);
-
 app.use('/users', isAuthenticated, isActive, isAdmin, users);
+
+app.use('/items', isAuthenticated, isActive, items);
 
 app.use('/api/cloudinary', cloudinaryApi);
 

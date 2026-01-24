@@ -9,7 +9,7 @@ export default defineConfig({
     alias: {
       "@components": path.resolve(__dirname, "src/components"),
       "@my-org/shared/validators": path.resolve(__dirname, "../shared/src/validators"),
-      "@features": path.resolve(__dirname, "src/features"),
+      "@features": path.resolve(__dirname, "src/app/features"),
       "@stores": path.resolve(__dirname, "src/stores"),
       "@config": path.resolve(__dirname, 'src/config.js'),
       "@lib": path.resolve(__dirname, 'src/lib'),

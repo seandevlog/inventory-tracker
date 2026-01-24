@@ -1,35 +1,16 @@
 import { createBrowserRouter } from 'react-router-dom';
 import './index.css';
-import Root from './routes/root';
-import Hydrate from './routes/hydrate';
-import Manage from './routes/manage'
-import Error from './routes/error';
-import Auth from './routes/auth';
-import Login from '@features/auth/login';
-import Register from '@features/auth/register'
-import Users from '@features/users/users';
-import Dashboard from '@features/dashboard/dashboard';
-import Modal from '@components/modal/modal';
+
+import Root from './root';
+import Hydrate from './hydrate';
+
+import authRoutes from './routes/routes.auth';
+import profileRoutes from './routes/routes.profile';
+import manageRoutes from './routes/routes.manage';
 
 import {
   logout as logoutLoader
 } from '@features/auth/auth.loaders';
-import {
-  loginSubmit as loginAction,
-  registerSubmit as registerAction
-} from '@features/auth/auth.actions';
-
-import { 
-  getAll as getAllUserLoader
-} from '@features/users/users.loaders';
-import {
-  create as createUserAction,
-  view as viewUserAction,
-  edit as editUserAction
-} from '@features/users/users.actions';
-
-import isAuthenticatedMiddleware from '@middlewares/isAuthenticated';
-import isLoggedInMiddleware from '@middlewares/isLoggedIn';
 
 const router = createBrowserRouter([
   {
@@ -38,45 +19,9 @@ const router = createBrowserRouter([
     ErrorBoundary: Error,
     HydrateFallback: Hydrate,
     children: [
-      {
-        Component: Auth,
-        middleware: [isLoggedInMiddleware],
-        children: [
-          { index: true, Component: Login, action: loginAction },
-          { path: 'register', Component: Register, action: registerAction }
-        ]
-      },
-      {
-        Component: Manage,
-        middleware: [isAuthenticatedMiddleware],
-        ErrorBoundary: Error,
-        children: [
-          { path: 'dashboard/', Component: Dashboard },
-          {
-            id: 'users',
-            path: 'users/',
-            Component: Users,
-            loader: getAllUserLoader,
-            children: [
-              {
-                path: 'create/',
-                element: <Modal mode='create' title='Create User'/>,
-                action: createUserAction
-              },
-              {
-                path: ':userId/',
-                element: <Modal mode='view' title='View User'/>,
-                action: viewUserAction
-              },
-              {
-                path: ':userId/edit/',
-                element: <Modal mode='edit' title='Edit User'/>,
-                action: editUserAction
-              }  
-            ]
-          }
-        ]
-      },
+      authRoutes,
+      profileRoutes,
+      manageRoutes,
       { path: 'logout', Component: <></>, loader: logoutLoader },
     ]
   }

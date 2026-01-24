@@ -1,6 +1,14 @@
 import Joi from 'joi';
-import profileSchema from './profile.schema.js';
-import userRoleSchema from './user.roles.schema.js';
+import featureSchema from './feature.schema.js';
+
+const allowedRoles = ['admin', 'staff'];
+
+const allowedActive = ['active', 'inactive'];
+
+export const selections = {
+  role: allowedRoles,
+  isActive: allowedActive
+}
 
 const schema = Joi.object({
   username: Joi.string()
@@ -46,12 +54,20 @@ const schema = Joi.object({
           "string.empty": "Address is required"
         }),
 
-  isActive: Joi.boolean()
+  isActive: Joi.string()
+        .valid(...allowedActive)
         .required()
-        .default(false),
+        .messages({
+          'any.only': 'Status must be either active or inactive',
+          'string.empty': 'Status is required',
+          'any.required': 'Status is required'
+        }),
 
-  profile: profileSchema,
-  role: userRoleSchema,
+  role: Joi.string()
+        .valid(...allowedRoles)
+        .required(),
+
+  feature: featureSchema,
 
   // Ignore
   public_id: Joi.any().strip(),

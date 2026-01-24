@@ -15,6 +15,7 @@ const Info = ({ schema, data, inputs, disabled }) => {
           value={data?.[`${input.id}`]}
           disabled={disabled}
           schema={schema}
+          options={input.options}
           className='info'
         >
         </ValidatedInput>

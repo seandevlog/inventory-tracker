@@ -20,7 +20,8 @@
     "#features/*": "./src/features/*",
     "#config": "./src/config.js",
     "#errors/*": "./src/common/utils/errors/*",
-    "#utils/*": "./src/common/utils/*"
+    "#utils/*": "./src/common/utils/*",
+    "#schema/*": "./src/common/schema/*"
   },
   "bugs": {
     "url": "https://github.com/seandevlog/inventory-tracker/issues"

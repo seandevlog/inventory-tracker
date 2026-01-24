@@ -17,7 +17,7 @@ const isActive = async (req, res, next) => {
 
   const { isActive } = user;
 
-  if (isActive) return next();
+  if (isActive === 'active') return next();
 
   throw new ForbiddenError("Account is disabled");
 }

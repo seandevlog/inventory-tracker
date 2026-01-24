@@ -1,15 +1,6 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
-
-const profileSchema = new Schema({
-    url: {
-        type: String
-    },
-    public_id: {
-        type: String
-    },
-    _id: false
-});
+import featureSchema from '#schema/feature.js';
 
 const userSchema = new Schema({
     // id: String (automatically generated)
@@ -46,11 +37,11 @@ const userSchema = new Schema({
         required: [ true, 'Address is required' ]
     },
     isActive: {
-        type: Boolean,
-        required: [ true, 'Status is required' ],
-        default: false
+        type: String,
+        enum: ['active', 'inactive'],
+        required: [true, 'Status is required']
     },
-    profile: profileSchema,
+    feature: featureSchema,
     role: {
         type: String,
         enum: ['admin', 'staff'],

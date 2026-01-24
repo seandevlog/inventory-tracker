@@ -16,7 +16,7 @@
 ---
 
 ### Core Entities
-- **User**: `{ username, password, givenName, familyName, contact, address, passwordHash, role: 'admin'| 'manager ' | 'staff', isActive }`
+- **User**: `{ username, password, givenName, familyName, contact, address, passwordHash, role: 'admin'| 'manager' | 'staff', isActive }`
 - **Item**: `{ sku, name, unit, category?, reorderPoint, isActive }`
 - **Location**: `{ code, name, notes? }`
 - **Supplier**: `{ name, email?, phone?, address? }`

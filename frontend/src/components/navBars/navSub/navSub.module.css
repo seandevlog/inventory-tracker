@@ -1,30 +1,27 @@
 .navSub {
-    background-color: gray;
-    height          : 1.5em;
-    align-items     : center;
-    justify-content : flex-start;
-    padding         : 0 1em;
+  background-color: gray;
+  height          : 1.5em;
+  align-items     : center;
+  justify-content : flex-start;
+  padding         : 0 1em;
 }
 
 .links {
-    display         : flex;
-    flex-direction  : row;
-    list-style-type : none;
-    padding         : 0;
+  display         : flex;
+  flex-direction  : row;
+  list-style-type : none;
+  padding         : 0;
 }
 
-.links * {
-  margin-right      : 0.5em;
+.links li {
+  margin-right    : 0.7em;
+  color           : white;
+  font-size       : 0.8em;
+  font-weight     : bold;
+  text-decoration : none;
 }
 
-/* .links * {
-    margin-right    : 0.5em;
-    color           : white;
-    font-size       : 0.9em;
-    font-weight     : bold;
-    text-decoration : none;
+.links > li:hover {
+  text-decoration : underline;
+  cursor          : pointer;
 }
-
-.links *:hover {
-    text-decoration : underline;
-} */

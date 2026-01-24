@@ -4,15 +4,17 @@ import {
   register as registerClient
 } from './auth.services';
 import { setToken } from '@stores/token';
+import { setUser } from '@stores/user';
 import { userSchema } from '@my-org/shared/validators';
 
 export const loginSubmit = async ({ request }) => {
   const formData = await request.formData();
   
-  const { accessToken, error } = await loginClient(formData);
+  const { accessToken, error, user } = await loginClient(formData);
   setToken(accessToken);
 
   if (accessToken) {
+    setUser({ user });
     return redirect('/dashboard');
   }
 
@@ -24,7 +26,7 @@ export const loginSubmit = async ({ request }) => {
 export const registerSubmit = async ({ request }) => {
   const formData = await request.formData();
 
-  formData.append('isActive', true);
+  formData.append('isActive', 'active');
   
   const { error: validationError } = userSchema.validate(Object.fromEntries(formData));
   if (validationError) {

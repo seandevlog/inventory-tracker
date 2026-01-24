@@ -9,13 +9,13 @@ const Row = ({ id, className, onClick, sort, data: row }) => (
     onClick={onClick ? () => onClick(id) : null}
   >
     {sort.map(attr => {
-      if (attr === 'profile') {
+      if (attr === 'feature') {
         return (
           <td key={attr}>
-            {row.profile?.url
-            ? <img src={row.profile.url}></img>
+            {row.feature?.url
+            ? <img src={row.feature.url}></img>
             : <PlaceholderImage config={PlaceholderImageConfig.PORTRAIT}/>}
-            {/* TODO - find a way to make default profile work for all other feature */}
+            {/* TODO - find a way to make default feature work for all other feature */}
           </td>
         )
       }

@@ -38,7 +38,7 @@ const Table = ({ headers, children }) => {
     ? orderBy(children, sortAttr, ['desc'])
     : children; 
   
-  return (
+  return rows && rows.length > 0 ? (
     <table className={styles.table}>
       <thead>
         <tr>
@@ -55,7 +55,7 @@ const Table = ({ headers, children }) => {
         </tr>
       </thead>
       <tbody>
-        {rows
+        {rows && rows.length > 0
           ? rows.map(row => (
             <Row 
               key={row._id}
@@ -66,11 +66,11 @@ const Table = ({ headers, children }) => {
               data={row}
             />
           ))
-          : <tr><td colSpan={6}>No User Data Found</td></tr>
+          : []
         }
       </tbody>
     </table>
-  )
+  ) : (<div className={styles.noData}>New here? Create data with the button at the top right</div>)
 } 
 
 export default Table;

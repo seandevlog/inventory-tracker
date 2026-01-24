@@ -8,7 +8,7 @@ import { BadRequestError } from '#errors/index.js';
 export const getUser = async ({ userId }) => {
   if (!userId) throw new BadRequestError('User ID is required');
 
-  const user = await Users.findOne(userId)
+  const user = await Users.findOne({ _id: userId })
   if (!user) throw new Error('Failed to find user');
 
   return user;
@@ -47,9 +47,9 @@ export const updateUser = async ({ userId, data }) => {
   const user = await Users.findOneAndUpdate({ _id: userId }, {...data, password: hashedPassword});
   if (!user) throw new Error('Failed to find user');
 
-  const isActive = data.isActive ?? true;
+  const isActive = data.isActive ?? 'active';
   try {
-    if (isActive === 'false') {
+    if (isActive === 'inactive') {
       await Sessions.destroyAll({ userId });
     }
   } catch (err) {
@@ -65,11 +65,11 @@ export const deleteUser = async ({ userId }) => {
   const oldUser = await Users.findOneAndDelete({ _id: userId });
   if (!oldUser) throw new Error('Failed to find and delete user');
 
-  if (oldUser.profile?.public_id) {
+  if (oldUser.feature?.public_id) {
     const cloudinaryRes = await cloudinary.uploader.destroy( 
-      oldUser.profile.public_id
+      oldUser.feature.public_id
     );
-    if (cloudinaryRes.result !== 'ok') throw new Error(`Cloudinary Error: Failed to destroy ${oldUser.profile.public_id} from cloud`);
+    if (cloudinaryRes.result !== 'ok') throw new Error(`Cloudinary Error: Failed to destroy ${oldUser.feature.public_id} from cloud`);
   }
 
   return oldUser;

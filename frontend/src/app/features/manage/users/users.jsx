@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { Outlet, useLoaderData, useNavigate } from 'react-router-dom';
-import { filter } from 'lodash';
-import { userSchema } from '@my-org/shared/validators'
+import { filter, every } from 'lodash';
+import { userSchema, userSelections as selections } from '@my-org/shared/validators'
 
-import FilterSelect from '@components/filterSelect/filterSelect';
+import Filter from '@components/filter/filter';
 import CreateButton from '@components/buttons/create/create';
 import Table from '@components/table/table';
 import inputs from './users.inputs';
 
 const headers = [
-  { value: 'Profile', sort: false, attribute: 'profile', index: 0},
+  { value: 'Feature', sort: false, attribute: 'feature', index: 0},
   { value: 'Username', sort: true, attribute: 'username', index: 1},
   { value: 'Given Name', sort: true, attribute: 'givenName', index: 2},
   { value: 'Family Name', sort: true, attribute: 'familyName', index: 3},
@@ -21,19 +21,17 @@ const Users = () => {
   const users = useLoaderData();
   const navigate = useNavigate();
 
-  const [isActive, setIsActive] = React.useState('');
+  const [filterOptions, setFilterOptions] = React.useState({});
 
-  const handleFilter = (event) => {
-    setIsActive(event.target.value);
-  } 
-
-  const filteredUsers = isActive ? filter(users, function (u) { 
-    return u.isActive.toString() == isActive
-  }) : users;
+  const filteredUsers = filter(users, filterOptions);
 
   return (
     <>
-      <FilterSelect onFilter={handleFilter}/>
+      <Filter
+        selections={selections} 
+        setFilterOptions={setFilterOptions}
+        filterOptions={filterOptions}
+      />
       <CreateButton
         onClick={() => navigate('create')}
       >
@@ -42,9 +40,11 @@ const Users = () => {
       <Table 
         headers={headers}
       >
-        {filteredUsers && filteredUsers.length > 0 && filteredUsers.map(({ password, ...rest }) => {
+        {(filteredUsers && filteredUsers.length > 0) 
+        ? filteredUsers.map(({ password, ...rest }) => {
           return rest;
-        })}
+        })
+        : []}
       </Table>
       <Outlet 
         context={{

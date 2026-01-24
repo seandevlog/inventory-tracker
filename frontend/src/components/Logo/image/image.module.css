@@ -2,11 +2,3 @@
   height            : 40px;
   width             : 40px;
 }
-
-.authBackgroundImage {
-  flex              : 1 0 50%;
-
-  height            : 100%;
-  width             : 100%;
-  display           : block;
-}

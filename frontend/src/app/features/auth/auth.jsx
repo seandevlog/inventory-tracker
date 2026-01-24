@@ -5,13 +5,15 @@ import LogoImage from '@components/Logo/image/image';
 
 const Auth = () => {
   return (
-    <>
+    <div className={styles.wrapper}>
       <div className={styles.auth}>
         <Logo className="authLogo"/>
         <Outlet />
       </div>
-      <LogoImage className="authBackgroundImage"/>
-    </>
+      <div className={styles.backgroundImage}>
+        <LogoImage/>
+      </div>
+    </div>
   )
 }
 

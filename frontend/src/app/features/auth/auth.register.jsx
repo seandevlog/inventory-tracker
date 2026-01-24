@@ -1,6 +1,6 @@
 import { Form } from 'react-router-dom';
 import RedirectLink from '@components/buttons/redirect/redirect';
-import userInputs from '../users/users.inputs';
+import userInputs from '../manage/users/users.inputs';
 import ValidatedInput from '@components/validatedInput/validatedInput';
 import { userSchema } from '@my-org/shared/validators';
 
