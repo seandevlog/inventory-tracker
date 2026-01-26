@@ -13,11 +13,12 @@ div:has(>.modal) {
   display         : flex;
   align-items     : center;
   justify-content : center;
+  flex-wrap       : wrap;
 
   background      : white;
   width           : 80vw;
-  height          : auto;
-  z-index         : 2;
+  height          : calc(100vh*0.8);
+  z-index         : 1000;
   position        : relative;
 }
 
@@ -30,4 +31,45 @@ div:has(>.modal) {
   min-height      : 7.5em;
   display         : flex;
   align-items     : center;
+}
+
+.modal form {
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+
+  margin-top      : 50px;
+  height          : 80%;
+  width           : 90%;
+}
+
+.modal fieldset {
+  display: flex;
+  flex-direction: column;
+
+  height          : auto;
+  max-height      : calc(100vh*0.6);
+  width: 100%;
+  border: 0px;
+}
+
+.modal fieldset > div > div > input {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.modal fieldset > div div:has(fieldset) {
+  display: inline-flex;
+  width: fit-content;
+  margin: 0 1em 0.5em 0;
+}
+
+.modal form > div:has(button) {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+}
+
+.modal form > div:has(button) > button {
+  margin-left: 1em;
 }

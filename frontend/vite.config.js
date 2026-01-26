@@ -9,11 +9,16 @@ export default defineConfig({
     alias: {
       "@components": path.resolve(__dirname, "src/components"),
       "@my-org/shared/validators": path.resolve(__dirname, "../shared/src/validators"),
-      "@features": path.resolve(__dirname, "src/app/features"),
+      "@features": path.resolve(__dirname, "src/features"),
       "@stores": path.resolve(__dirname, "src/stores"),
       "@config": path.resolve(__dirname, 'src/config.js'),
       "@lib": path.resolve(__dirname, 'src/lib'),
-      "@middlewares": path.resolve(__dirname, 'src/app/middlewares')
+      "@middlewares": path.resolve(__dirname, 'src/middlewares'),
+      "@assets": path.resolve(__dirname, 'src/assets'),
+      "@pages": path.resolve(__dirname, 'src/pages'),
+      "@routes": path.resolve(__dirname, 'src/routes'),
+      "@contexts": path.resolve(__dirname, 'src/contexts'),
+      "@utils": path.resolve(__dirname, 'src/utils')
     }
   },
   optimizeDeps: {

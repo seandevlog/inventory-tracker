@@ -1,69 +1,60 @@
-import * as React from 'react';
+import {
+  useState,
+  useEffect
+} from 'react';
 import { createPortal } from 'react-dom';
-import { 
-  useNavigate,
-  useParams,
-  useOutletContext 
-} from 'react-router-dom';
-import { filter } from 'lodash';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import styles from './modal.module.css';
-import actions from './modal.actions';
-import reducer from './modal.reducer';
 
-import BackButton from './backButton/backButton';
-import ModalForm from './form/form';
+import BackButton from '@components/buttons/back/back';
+import modes from './modes';
+import { 
+  FormCreate, 
+  FormEdit, 
+  FormView 
+} from '@components/forms';
 
 const Modal = ({ mode, title }) => {
-  const params = useParams(); 
   const navigate = useNavigate();
-  const { 
-    schema, 
-    data: groupData,
-    paramId,
-    inputs
-  } = useOutletContext();
+  const { pathname }= useLocation();
+  const firstPath = pathname.match(/^\/([^\/]+)\//);
 
-  const [ data ] = filter(groupData, { '_id': params[`${paramId}`] })
-
-  const [state, dispatch] = React.useReducer(reducer, {
-    show: true,
-    data: {}
-  })
+  const [show, setShow] = useState(true)
 
   const handleCloseWithBackground = (event) => {
     if (event.currentTarget === event.target)
-      dispatch({ type: actions.CLOSE });
+      setShow(false);
   }
 
   const handleCloseButton = () => {
-    dispatch({ type: actions.CLOSE });
+    setShow(false);
   }
 
-  React.useEffect(() => {
-    if (!state.show)
-      navigate('/users'); 
-  }, [state.show, navigate])
+  useEffect(() => {
+    if (!show)
+      navigate(firstPath); 
+  }, [show, navigate, firstPath])
 
-  return state.show && createPortal(
-    <div
-      onClick={handleCloseWithBackground}
-    >
-      <div className={styles.modal}>
-        <BackButton 
-          className="modalClose"
-          onClose={handleCloseButton}
-        />
-        <header>{title}</header>
-            
-        <ModalForm 
-          mode={mode} 
-          schema={schema} 
-          data={data}
-          inputs={inputs}
-        />
-      </div>
-    </div>,
+  return show && createPortal(
+      <div onClick={handleCloseWithBackground}>
+        <div className={styles.modal}>
+          <BackButton 
+            className="modalClose"
+            onClose={handleCloseButton}
+          />
+          <header>{title}</header>
+              
+          {mode === modes.CREATE
+            ? <FormCreate/>
+            : mode === modes.VIEW
+            ? <FormView/>
+            : mode === modes.EDIT
+            ? <FormEdit/>
+            : null
+          }
+        </div>
+      </div>,
     document.body
   )
 }

@@ -8,17 +8,21 @@ import { BadRequestError } from '#errors/index.js';
 export const getUser = async ({ userId }) => {
   if (!userId) throw new BadRequestError('User ID is required');
 
-  const user = await Users.findOne({ _id: userId })
+  const user = await Users.findOne({ _id: userId }).lean();
   if (!user) throw new Error('Failed to find user');
 
-  return user;
+  const { password, ...rest } = user; 
+
+  return rest;
 }
 
 export const getAllUser = async () => {
-  const users = await Users.find({});
+  const users = await Users.find({}).lean();
   if (!users) throw new Error('Failed to find users');
 
-  return users;
+  const usersWithoutPW = users.map(({ password, ...rest }) => rest);
+
+  return usersWithoutPW;
 }
 
 export const storeUser = async ({ data }) => {

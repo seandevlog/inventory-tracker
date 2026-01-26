@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from './filter.module.css';
 
-const Filter = ({ selections, filterOptions, setFilterOptions }) => {
+const Filter = ({ filterOptions, setFilterOptions, selections }) => {
   return (Object.values(selections)?.length > 0) && (
     <div className={styles.filter}>
       <fieldset>

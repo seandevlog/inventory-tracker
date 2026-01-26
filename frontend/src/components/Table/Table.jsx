@@ -1,4 +1,6 @@
-import * as React from 'react';
+import {
+  useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sortBy, orderBy } from 'lodash';
 import styles from './table.module.css';
@@ -6,12 +8,13 @@ import HeaderSort from './headerSort/headerSort';
 import Row from './row/row';
 import sortOptions from './headerSort/headerSort.config';
 
-const Table = ({ headers, children }) => {
+const Table = ({ data, headers }) => {
+
   const navigate = useNavigate();
 
-  const [sortAttr, setSortAttr] = React.useState('');
+  const [sortAttr, setSortAttr] = useState('');
 
-  const [sortState, setSortState] = React.useState(sortOptions.NOSORT);
+  const [sortState, setSortState] = useState(sortOptions.NOSORT);
 
   const handleSort = (attribute) => {
     if (attribute !== sortAttr) {
@@ -33,10 +36,10 @@ const Table = ({ headers, children }) => {
   const sortedHeaderAttributes = sortedHeaderObjectsArray.map(sortedHeader => (sortedHeader.attribute));
   const rows = 
     sortAttr && sortState === sortOptions.ASCENDING
-    ? sortBy(children, sortAttr) 
+    ? sortBy(data, sortAttr) 
     : sortAttr && sortState === sortOptions.DESCENDING
-    ? orderBy(children, sortAttr, ['desc'])
-    : children; 
+    ? orderBy(data, sortAttr, ['desc'])
+    : data; 
   
   return rows && rows.length > 0 ? (
     <table className={styles.table}>

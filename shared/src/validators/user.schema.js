@@ -65,7 +65,12 @@ const schema = Joi.object({
 
   role: Joi.string()
         .valid(...allowedRoles)
-        .required(),
+        .required()
+        .messages({
+          'any.only': 'Role must be either admin or staff',
+          'string.empty': 'Role is required',
+          'any.required': 'Role is required'
+        }),
 
   feature: featureSchema,
 
