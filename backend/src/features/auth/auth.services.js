@@ -36,10 +36,15 @@ const login = async ({ data }) => {
 } 
 
 const register = async ({ data }) => {
-    let { password } = data; 
-    password = await Passwords.hash(password);
+    const { password } = data; 
+    const hashedPassword = await Passwords.hash(password);
 
-    await Users.create({ ...data, password, isActive: 'inactive' });
+    await Users.create({ 
+        ...data, 
+        password: hashedPassword, 
+        role: 'staff', 
+        isActive: 'inactive' 
+    });
 }
 
 const refresh = async ({ refreshToken }) => {
