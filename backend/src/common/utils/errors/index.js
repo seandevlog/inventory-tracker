@@ -4,6 +4,7 @@ import SuccessError from './successError.js';
 import BadRequestError from './badRequestError.js';
 import LoginConflictError from './loginConflictError.js';
 import BadGatewayError from './badGatewayError.js'
+import NotFoundError from './notFoundError.js';
 
 export {
   ForbiddenError,
@@ -11,5 +12,6 @@ export {
   SuccessError,
   BadRequestError,
   BadGatewayError,
-  LoginConflictError
+  LoginConflictError,
+  NotFoundError
 }

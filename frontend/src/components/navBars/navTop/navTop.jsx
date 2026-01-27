@@ -1,8 +1,8 @@
 import styles from './navTop.module.css';
-import Logo from '@components/logo/logo';
+import Logo from '@assets/logo/logo';
 import RedirectLink from '@components/buttons/redirect/redirect';
 
-const NavTop = ({ user }) => (
+const NavTop = () => (
   <nav className={styles.navTop}>
     <span className={styles.logo}>
       <RedirectLink url='/dashboard'>
@@ -13,7 +13,7 @@ const NavTop = ({ user }) => (
         <input type="search" placeholder="What are you looking for?"/>
     </form>
     <ul className={styles.links}>
-        <li><RedirectLink url='/profile'>{ user?.givenName || '' }</RedirectLink></li>
+        <li><RedirectLink url='/profile'>Profile</RedirectLink></li>
         <li><RedirectLink url="#">FAQ</RedirectLink></li>
         <li><RedirectLink url="/logout">Logout</RedirectLink></li>
     </ul>

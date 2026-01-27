@@ -1,14 +1,11 @@
 import { 
   Form as ReactForm,
-  useNavigate,
-  useLocation,
-  useOutletContext
+  useNavigate
 } from 'react-router-dom';
+import Form from './form';
 
 const FormView = () => {
-  const { Form } = useOutletContext();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
 
   return (
     <ReactForm
@@ -20,7 +17,7 @@ const FormView = () => {
         <button 
           type="button"
           className="btn"
-          onClick={() => navigate(`${pathname}/edit`)}
+          onClick={() => navigate(`edit`, { relative: 'path' })}
         >
           Edit
         </button>

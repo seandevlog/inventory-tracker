@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 const get = async ({ hashedToken }) => {
     if (!hashedToken) throw new Error('Hashed Token is required');
 
-    const session = await Sessions.findOne({ hashedToken });
+    const session = await Sessions.findOne({ hashedToken }).lean();
 
     if (!session) throw new Error('Session not found');
 

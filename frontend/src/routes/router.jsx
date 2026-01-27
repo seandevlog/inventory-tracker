@@ -3,6 +3,7 @@ import '@assets/global.css';
 
 import Root from '../root';
 import Hydrate from '../hydrate';
+import Error from '@pages/error/error';
 
 import authRoutes from '@routes/auth.routes';
 import profileRoutes from '@routes/profile.routes';
@@ -22,7 +23,11 @@ const router = createBrowserRouter([
       authRoutes,
       profileRoutes,
       manageRoutes,
-      { path: 'logout', Component: <></>, loader: logoutLoader },
+      { 
+        path: 'logout', 
+        Component: () => (<></>), 
+        loader: logoutLoader 
+      },
     ]
   }
 ]);

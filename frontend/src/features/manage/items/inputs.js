@@ -1,11 +1,12 @@
 import { itemSelections } from "@my-org/shared/validators/index.js";
 
 const inputs = [
-  { id: 'sku', type: 'text', autoComplete: false, label: 'SKU' },
-  { id: 'name', type: 'text', autoComplete: false, label: 'Item Name' },
-  { id: 'unit', type: 'text', autoComplete: false, label: 'Unit of Measure' },
-  { id: 'category', type: 'radio', options: itemSelections.categories, autoComplete: false, label: 'Category' },
-  { id: 'reorderPoint', type: 'text', autoComplete: false, label: 'Reorder Point' },
+  { id: 'sku', type: 'text', autoComplete: 'off', label: 'SKU' },
+  { id: 'name', type: 'text', autoComplete: 'off', label: 'Item Name' },
+  { id: 'unit', type: 'text', autoComplete: 'off', label: 'Unit of Measure' },
+  { id: 'reorderPoint', type: 'text', autoComplete: 'off', label: 'Reorder Point' },
+  { id: 'category', type: 'status', options: itemSelections.category, label: 'Category' },
+  { id: 'isActive', type: 'status', options: itemSelections.isActive, label: 'Status' },
 ];
 
 export default inputs;

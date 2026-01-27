@@ -1,7 +1,7 @@
 import { redirect } from 'react-router-dom';
 import axios from 'axios';
 import config from '@config';
-import { setToken, getToken } from '@stores/token.js';
+import { setToken } from '@stores/token.js';
 
 const { server } = config;
 
@@ -11,14 +11,13 @@ const isAuthed = async ({ context }, next) => {
     withCredentials: true // For refresh token
   })
 
-  const { success, accessToken, user } = data;
-  context.user ??= user;
+  const { success, accessToken } = data;
 
   if (!success) return redirect('/') 
       
   setToken(accessToken);
-  context.accessToken = getToken();
-
+  context.accessToken = accessToken;
+  
   return next();
 }
 

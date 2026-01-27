@@ -1,12 +1,12 @@
 import Joi from 'joi';
 import featureSchema from './feature.schema.js';
 
-const allowedCategories = ['room', 'food', 'amenities', 'housekeeping', 'services', 'events', 'retail', 'technology', 'fees', 'maintenance'];
+const allowedCategory = ['room', 'food', 'amenities', 'housekeeping', 'services', 'events', 'retail', 'technology', 'fees', 'maintenance'];
 
 const allowedActive = ['active', 'inactive'];
 
 export const selections = {
-  categories: allowedCategories,
+  category: allowedCategory,
   isActive: allowedActive
 }
 
@@ -29,15 +29,6 @@ const schema = Joi.object({
   unit: Joi.string()
         .optional(),
 
-  category: Joi.array()
-        .items(Joi.string().valid(...allowedCategories))
-        .min(1)
-        .message({
-          'array.min': 'At least one category must be selected',
-          'any.only': `Category must be one of: ${allowedCategories.join(", ")}`,
-          'array.base': 'Category must be an array' 
-        }),
-
   reorderPoint: Joi.number()
         .min(0)
         .required()
@@ -47,11 +38,20 @@ const schema = Joi.object({
           'any.required': 'Reorder Point is requried'
         }),
 
+  category: Joi.string()
+        .valid(...allowedCategory)
+        .required()
+        .messages({
+          'any.only': `Category must be one of: ${allowedCategory.join(", ")}`,
+          'string.empty': 'Category is required',
+          'any.required': 'Category is required' 
+        }),
+
   isActive: Joi.string()
         .valid(...allowedActive)
         .required()
         .messages({
-          'any.only': 'Status must be either active or inactive',
+          'any.only': `Status must be either ${allowedActive.join(", ")}`,
           'string.empty': 'Status is required',
           'any.required': 'Status is required'
         }),

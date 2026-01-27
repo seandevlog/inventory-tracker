@@ -7,7 +7,7 @@ import {
 } from "./services"
 
 export const create = async ({ request, context }) => {
-  const { accessToken } = context;
+  const { accessToken } = context; 
   const formData = await request.formData();
 
   const { error: validationError } = itemSchema.validate(Object.fromEntries(formData));
@@ -20,25 +20,22 @@ export const create = async ({ request, context }) => {
   
   if (error) return redirect('/');
 
-  return redirect('/items');
+  return redirect('/items')
 }
 
 export const edit = async ({ request, params, context }) => {
   const { accessToken } = context;
-  const { itemId: id } = params; 
+  const { itemId: id } = params;
   const formData = await request.formData();
-  
-  const intent = Object.fromEntries(formData.entries()).intent;
 
-  if (intent === 'save') { 
-    return await update({ id, accessToken, formData });
-  } else if (intent === 'delete') {
-    return await destroy({ id, accessToken });
-  }
-  throw new Error(`Action not allowed. Using: ${params.button}`);
+  const intent = formData.get('intent');
+
+  if (intent === 'update') return update({ accessToken, id, formData });
+  if (intent === 'delete') return destroy({ accessToken, id});
+  throw new Error('Intent should be either update or delete');
 }
 
-export const update = async ({ id, accessToken, formData }) => {
+const update = async ({ accessToken, id, formData }) => {
   const keys = itemSchema._ids._byKey.keys().toArray();
   const optionalInputsSchema = itemSchema.fork(keys, (field) => field.optional());
 
@@ -55,7 +52,7 @@ export const update = async ({ id, accessToken, formData }) => {
   return redirect('..');
 }
 
-export const destroy = async ({ id, accessToken }) => {
+const destroy = async ({ accessToken, id }) => {
   const data = await deleteItem({ id, accessToken })
   const { error } = data;
 

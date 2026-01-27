@@ -58,7 +58,7 @@ const schema = Joi.object({
         .valid(...allowedActive)
         .required()
         .messages({
-          'any.only': 'Status must be either active or inactive',
+          'any.only': `Status must be either ${allowedActive.join(", ")}`,
           'string.empty': 'Status is required',
           'any.required': 'Status is required'
         }),

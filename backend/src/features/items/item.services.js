@@ -8,14 +8,14 @@ import { BadRequestError } from '#errors/index.js';
 export const getItem = async ({ itemId }) => {
   if (!itemId) throw new BadRequestError('Item ID is required');
 
-  const item = await Items.findOne({ _id: itemId })
+  const item = await Items.findOne({ _id: itemId }).lean();
   if (!item) throw new Error('Failed to find item');
 
   return item;
 }
 
 export const getAllItem = async () => {
-  const items = await Items.find({});
+  const items = await Items.find({}).lean();
   if (!items) throw new Error('Failed to find items');
 
   return items;

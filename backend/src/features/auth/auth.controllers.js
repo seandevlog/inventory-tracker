@@ -2,7 +2,7 @@ import service from './auth.services.js';
 import Config from '#config';
 
 export const loginSubmit = async (req, res) => {
-    const { accessToken, refreshToken, session, user } = await service.login({ data: req.body });
+    const { accessToken, refreshToken, session } = await service.login({ data: req.body });
 
     res.cookie('refreshToken', refreshToken, {
         expires: session.expiresIn,
@@ -12,8 +12,7 @@ export const loginSubmit = async (req, res) => {
     })
     res.status(200).json({ 
         success: true,
-        accessToken,
-        user
+        accessToken
     })
 }
 
@@ -26,8 +25,7 @@ export const refresh = async (req, res) => {
     const { 
         accessToken, 
         newRefreshToken, 
-        newSession,
-        user 
+        newSession
     } = await service.refresh({ refreshToken: req.cookies?.refreshToken ?? '' })
 
     res.cookie('refreshToken', newRefreshToken, {
@@ -39,8 +37,7 @@ export const refresh = async (req, res) => {
 
     res.status(200).json({ 
         success: true,    
-        accessToken,
-        user
+        accessToken
     });
 }
 

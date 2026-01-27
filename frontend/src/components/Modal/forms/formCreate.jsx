@@ -1,11 +1,9 @@
 import { 
-  Form as ReactForm,
-  useOutletContext,
+  Form as ReactForm
 } from 'react-router-dom';
+import Form from './form';
 
 const FormCreate = () => {
-  const { Form } = useOutletContext();
-
   return (
     <ReactForm
       method="post"
@@ -15,9 +13,7 @@ const FormCreate = () => {
       <div>
         <button 
           type="submit"
-          name="intent"
-          value="save"
-          className="btn"
+          className='btn'
         >
           Save
         </button>

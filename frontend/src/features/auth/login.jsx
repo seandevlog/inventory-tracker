@@ -4,7 +4,7 @@ import Joi from 'joi';
 import RedirectLink from '@components/buttons/redirect/redirect';
 import ErrorBox from '@components/errorBox/errorBox';
 import { userSchema } from '@my-org/shared/validators';
-import TextInput from '@components/validatedInput/text';
+import ValidatedInput from '@components/validatedInput/validatedInput';
 
 const Login = () => {
   const actionData = useActionData();
@@ -21,7 +21,7 @@ const Login = () => {
       <h1>Welcome back!</h1>
       <h6>Please enter your details</h6>
       <Form method="post">
-        <TextInput 
+        <ValidatedInput 
           id='username'  
           label='Username'
           type='text'

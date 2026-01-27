@@ -26,13 +26,8 @@ const itemSchema = new Schema({
   },
 
   category: {
-      type: [String],
+      type: String,
       enum: allowedCategories,
-      validate: {
-        validator: function(x) {
-          return Array.isArray(x) && x.length > 0;
-        }
-      },
       required: true
   },
 

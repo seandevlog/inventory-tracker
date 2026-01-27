@@ -17,7 +17,7 @@ const ImageUpload = ({ disabled, ImagePlaceholder }) => {
 
   const data = filter(groupData, { _id: paramId }) 
 
-  const currentFeature = data?.feature?.url;
+  const currentFeature = data ? data?.[0]?.feature?.url : '';
 
   const [feature, setFeature] = useState(currentFeature);
   const [errorBox, setErrorBox] = useState(false);

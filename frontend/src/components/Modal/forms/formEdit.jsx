@@ -1,14 +1,9 @@
 import { 
-  Form as ReactForm,
-  useNavigate,
-  useLocation,
-  useOutletContext
+  Form as ReactForm
 } from 'react-router-dom';
+import Form from './form';
 
 const FormEdit = () => {
-  const { Form } = useOutletContext();
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
 
   return (
     <ReactForm
@@ -20,13 +15,16 @@ const FormEdit = () => {
         <button 
           type="submit"
           className="btn"
+          name="intent"
+          value='update'
         >
           Save
         </button>
         <button 
-          type="submit" 
+          type='submit' 
           className="btn"
-          onClick={() => navigate(`${pathname}/delete`)}
+          name='intent'
+          value='delete'
         >
           Delete
         </button>

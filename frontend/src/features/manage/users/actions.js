@@ -7,8 +7,7 @@ import {
 } from "./services"
 
 export const create = async ({ request, context }) => {
-  console.log('hello')
-  const { accessToken } = context;
+  const { accessToken } = context; 
   const formData = await request.formData();
 
   const { error: validationError } = userSchema.validate(Object.fromEntries(formData));
@@ -24,11 +23,19 @@ export const create = async ({ request, context }) => {
   return redirect('/users')
 }
 
-export const update = async ({ request, params, context }) => {
+export const edit = async ({ request, params, context }) => {
   const { accessToken } = context;
-  const { userId: id } = params; 
+  const { userId: id } = params;
   const formData = await request.formData();
 
+  const intent = formData.get('intent');
+
+  if (intent === 'update') return update({ accessToken, id, formData });
+  if (intent === 'delete') return destroy({ accessToken, id});
+  throw new Error('Intent should be either update or delete');
+}
+
+const update = async ({ accessToken, id, formData }) => {
   const keys = userSchema._ids._byKey.keys().toArray();
   const optionalInputsSchema = userSchema.fork(keys, (field) => field.optional());
 
@@ -45,10 +52,7 @@ export const update = async ({ request, params, context }) => {
   return redirect('..');
 }
 
-export const destroy = async ({ params, context }) => {
-  const { accessToken } = context;
-  const { userId: id } = params;
-
+const destroy = async ({ accessToken, id }) => {
   const data = await deleteUser({ id, accessToken })
   const { error } = data;
 

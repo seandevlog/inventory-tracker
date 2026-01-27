@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { filter } from 'lodash';
 import firstCharUppercase from '@utils/firstCharUppercase';
 
@@ -9,12 +9,16 @@ import Table from '@components/table/table';
 
 import MainContext from '@contexts/main.context';
 
-const Main = ({ id, data, headers, FeaturePlaceholder, selections, Form }) => {
+const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schema }) => {
   const navigate = useNavigate();
+  const params = useParams();
+  const paramId = params ? Object.values(params)?.[0] : '';
 
   const [filterOptions, setFilterOptions] = useState({});
 
   const filteredData = filter(data, filterOptions);
+
+  const singleData = filter(filteredData, { _id: paramId });
 
   return (
     <MainContext.Provider value={{
@@ -31,7 +35,12 @@ const Main = ({ id, data, headers, FeaturePlaceholder, selections, Form }) => {
         {`New ${firstCharUppercase(id)}`}
       </CreateButton>
       <Table headers={headers} data={filteredData}/>
-      <Outlet context={{ data, Form }}/>
+      <Outlet context={{ 
+        data: singleData, 
+        inputs,
+        FeaturePlaceholder,
+        schema 
+      }}/>
     </MainContext.Provider>
   )
 }

@@ -1,7 +1,7 @@
 import { redirect } from "react-router-dom";
 import { 
   get as getUser,
-  getAll as getAllUsers 
+  getAll as getAllUsers
 } from "./services";
 
 export const getAll = async ({ context }) => {

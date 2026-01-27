@@ -5,7 +5,7 @@ const RedirectLink = ({ id, url, children, className, selected, onSelect }) => {
   const navigate = useNavigate();
 
   const handleClick = (event) => {
-    navigate(url);
+    navigate(url, { relative: 'path' });
     if (onSelect) onSelect(event);
   }
 

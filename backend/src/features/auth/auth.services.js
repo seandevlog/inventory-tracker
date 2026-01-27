@@ -18,7 +18,7 @@ const login = async ({ data }) => {
 
     if (!username || !password) throw new Error('Missing credentials');
     
-    const user = await Users.findOne({ username });
+    const user = await Users.findOne({ username }).lean();
     if (!user) throw new LoginConflictError('User not found'); 
     
     const result = await Passwords.compare(password, user.password);
@@ -32,7 +32,7 @@ const login = async ({ data }) => {
 
     const session = await Sessions.create({ userId, hashedToken });
 
-    return { accessToken, refreshToken, session, user };
+    return { accessToken, refreshToken, session };
 } 
 
 const register = async ({ data }) => {
@@ -65,9 +65,7 @@ const refresh = async ({ refreshToken }) => {
 
     const newSession = await Sessions.create({ userId, hashedToken: newHashedToken });
 
-    const user = await Users.findOne({ _id: userId });
-
-    return { accessToken, newRefreshToken, newSession, user };
+    return { accessToken, newRefreshToken, newSession };
 }
 
 const logout = async ({ refreshToken }) => {

@@ -10,6 +10,7 @@ import auth from './features/auth/auth.routes.js';
 import users from './features/users/user.routes.js';
 import items from './features/items/item.routes.js';
 import cloudinaryApi from './features/files/cloudinary.api.routes.js';
+import profile from './features/profile/profile.routes.js';
 
 import isAuthenticated from '#middlewares/isAuthenticated.js';
 import errorHandler from '#middlewares/errorHandler.js';
@@ -39,6 +40,8 @@ app.use(cookieParser());
 app.use(databaseHandler);
 
 app.use('/auth', auth);
+
+app.use('/profile', isAuthenticated, isActive, profile);
 
 app.use('/users', isAuthenticated, isActive, isAdmin, users);
 

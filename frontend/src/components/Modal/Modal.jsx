@@ -2,8 +2,7 @@ import {
   useState,
   useEffect
 } from 'react';
-import { createPortal } from 'react-dom';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import styles from './modal.module.css';
 
@@ -13,12 +12,14 @@ import {
   FormCreate, 
   FormEdit, 
   FormView 
-} from '@components/forms';
+} from './forms';
+
+import getTopLevelRoute from '@utils/getTopLevelRoute';
 
 const Modal = ({ mode, title }) => {
   const navigate = useNavigate();
-  const { pathname }= useLocation();
-  const firstPath = pathname.match(/^\/([^\/]+)\//);
+  const { pathname } = useLocation();
+  const topRoute = getTopLevelRoute(pathname);
 
   const [show, setShow] = useState(true)
 
@@ -32,30 +33,30 @@ const Modal = ({ mode, title }) => {
   }
 
   useEffect(() => {
-    if (!show)
-      navigate(firstPath); 
-  }, [show, navigate, firstPath])
+    if (!show) {
+      navigate(`/${topRoute}`, { relative: 'route' }); 
+    }
+  }, [show, navigate, topRoute])
 
-  return show && createPortal(
-      <div onClick={handleCloseWithBackground}>
-        <div className={styles.modal}>
-          <BackButton 
-            className="modalClose"
-            onClose={handleCloseButton}
-          />
-          <header>{title}</header>
-              
-          {mode === modes.CREATE
-            ? <FormCreate/>
-            : mode === modes.VIEW
-            ? <FormView/>
-            : mode === modes.EDIT
-            ? <FormEdit/>
-            : null
-          }
-        </div>
-      </div>,
-    document.body
+  return (
+    <div onClick={handleCloseWithBackground}>
+      <div className={styles.modal}>
+        <BackButton 
+          className="modalClose"
+          onClose={handleCloseButton}
+        />
+        <header>{title}</header>
+            
+        {mode === modes.CREATE
+          ? <FormCreate/>
+          : mode === modes.VIEW
+          ? <FormView/>
+          : mode === modes.EDIT
+          ? <FormEdit/>
+          : null
+        }
+      </div>
+    </div>
   )
 }
 

@@ -11,10 +11,19 @@ import isLoggedInMiddleware from '@middlewares/isLoggedIn';
 
 const auth = {
   Component: Auth,
-  middleware: [isLoggedInMiddleware],
+  // middleware: [isLoggedInMiddleware],
+  loader: isLoggedInMiddleware,
   children: [
-    { index: true, Component: Login, action: loginAction },
-    { path: 'register', Component: Register, action: registerAction }
+    { 
+      index: true, 
+      Component: Login, 
+      action: loginAction 
+    },
+    { 
+      path: 'register', 
+      Component: Register, 
+      action: registerAction 
+    }
   ]
 }
 

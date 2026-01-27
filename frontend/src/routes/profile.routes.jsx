@@ -3,12 +3,12 @@ import {
 } from '@pages/profile/loader';
 import Profile from '@pages/profile/profile'
 import isAuthedMiddleware from '@middlewares/isAuthed';
+import withMiddleware from '@middlewares/helpers/withMiddleware';
 
 const profile = { 
   path: 'profile', 
   Component: Profile, 
-  middleware: [isAuthedMiddleware], 
-  loader: profileLoader
+  loader: withMiddleware(isAuthedMiddleware, profileLoader)
 }
 
 export default profile;

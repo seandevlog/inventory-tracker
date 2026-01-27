@@ -7,7 +7,7 @@ const isAuthenticated = (req, res, next) => {
     return res.redirect(`/auth/refresh`);
   }
 
-  const accessToken = auth.split(' ')[1];
+  const accessToken = auth ? auth?.split(' ')[1] : '';
   if (!accessToken) {
     return res.redirect(`/auth/refresh`);
   }
