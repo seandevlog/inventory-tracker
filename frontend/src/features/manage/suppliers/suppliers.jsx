@@ -1,0 +1,27 @@
+import { useLoaderData } from 'react-router-dom';
+import { supplierSchema } from '@my-org/shared/validators'
+import headers from './headers';
+import inputs from './inputs';
+
+import Supplier from '@assets/placeholders/supplier.svg';
+
+import Main from '@components/main/main';
+
+const Suppliers = () => {
+  const suppliers = useLoaderData();
+
+  return (
+    <>
+      <Main
+        id='supplier'
+        data={suppliers}
+        headers={headers}
+        FeaturePlaceholder={Supplier}
+        inputs={inputs}
+        schema={supplierSchema}
+      />
+    </>
+  )
+}
+
+export default Suppliers

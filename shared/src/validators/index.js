@@ -5,11 +5,13 @@ import itemSchema, {
   selections as itemSelections
 } from './item.schema.js';
 import locationSchema from './location.schema.js';
+import supplierSchema from './supplier.schema.js';
 
 export {
   userSchema,
   userSelections,
   itemSchema,
   itemSelections,
-  locationSchema
+  locationSchema,
+  supplierSchema
 }

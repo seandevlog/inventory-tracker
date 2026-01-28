@@ -3,10 +3,10 @@ import config from '@config';
 import cloud from '@lib/cloud.js';
 import { 
   postWith409Handling,
-  patchWith409Handling
+  patchWith409Handling 
 } from '@api/with409Handling';
 
-const server = `${config.server}/locations/`;
+const server = `${config.server}/suppliers/`;
 
 export const getAll = async ({ accessToken }) => {
   const { data } = await axios.get(server, {
@@ -41,7 +41,7 @@ export const create = async ({ formData, accessToken }) => {
 
     formData.append('feature[url]', featureData.secure_url);
     formData.append('feature[public_id]', featureData.public_id);
-    formData.append('feature[path]', 'locations/feature')
+    formData.append('feature[path]', 'suppliers/feature')
   }
 
   return await postWith409Handling({ url: `${server}store`, formData, accessToken});

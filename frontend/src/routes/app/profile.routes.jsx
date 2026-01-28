@@ -1,7 +1,7 @@
 import {
   profile as profileLoader
-} from '@pages/profile/loader';
-import Profile from '@pages/profile/profile'
+} from '@pages/app/profile/loader';
+import Profile from '@pages/app/profile/profile'
 import isAuthedMiddleware from '@middlewares/isAuthed';
 import withMiddleware from '@middlewares/helpers/withMiddleware';
 

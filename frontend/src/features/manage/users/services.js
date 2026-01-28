@@ -1,7 +1,10 @@
 import axios from 'axios';
 import config from '@config';
 import cloud from '@lib/cloud.js';
-import { postWith409Handling } from '@api/postWith409Handling';
+import { 
+  postWith409Handling,
+  patchWith409Handling
+} from '@api/with409Handling';
 
 const server = `${config.server}/users/`;
 
@@ -60,7 +63,7 @@ export const edit = async ({ formData, id, accessToken }) => {
     }
   } 
 
-  return await postWith409Handling({ url: `${server}${id}`, formData, accessToken});
+  return await patchWith409Handling({ url: `${server}${id}`, formData, accessToken});
 }
 
 export const destroy = async ({ id, accessToken }) => {

@@ -11,12 +11,6 @@
     width           : 100%;
 }
 
-.manage div:has(nav) {
-    position        : sticky;
-    top             : 0;
-    z-index         : var(--z-navbar);
-}
-
 .manage main {
     display         : flex;
 

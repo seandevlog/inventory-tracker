@@ -15,7 +15,10 @@ const Form = ({ disabled }) => {
 
   return (
     <>
-      <ImageUpload ImagePlaceholder={FeaturePlaceholder} />
+      <ImageUpload 
+        ImagePlaceholder={FeaturePlaceholder}
+        disabled={disabled}
+      />
       <fieldset className={styles.form}>
         <legend></legend>
         <div>

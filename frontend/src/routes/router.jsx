@@ -6,12 +6,7 @@ import Hydrate from '../hydrate';
 import Error from '@pages/error/error';
 
 import authRoutes from '@routes/auth.routes';
-import profileRoutes from '@routes/profile.routes';
-import manageRoutes from '@routes/manage/manage.routes';
-
-import {
-  logout as logoutLoader
-} from '@features/auth/loaders';
+import appRoutes from '@routes/app.routes';
 
 const router = createBrowserRouter([
   {
@@ -21,13 +16,7 @@ const router = createBrowserRouter([
     HydrateFallback: Hydrate,
     children: [
       authRoutes,
-      profileRoutes,
-      manageRoutes,
-      { 
-        path: 'logout', 
-        Component: () => (<></>), 
-        loader: logoutLoader 
-      },
+      appRoutes
     ]
   }
 ]);

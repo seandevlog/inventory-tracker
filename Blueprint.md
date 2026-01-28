@@ -17,9 +17,9 @@
 
 ### Core Entities
 - **User**: `{ username, password, givenName, familyName, contact, address, passwordHash, role: 'admin'| 'manager' | 'staff', isActive }`
-- **Item**: `{ sku, name, unit, category?, reorderPoint, isActive }`
+- **Item**: `{ sku, name, unit, category, reorderPoint, isActive }`
 - **Location**: `{ code, name, notes? }`
-- **Supplier**: `{ name, email?, phone?, address? }`
+- **Supplier**: `{ email, name, phone?, address? }`
 - **PurchaseOrder**: `{ orderId, supplierId, status, itemId, qty, unitCost }`
 - **InventoryTransaction**: `{ type, itemId, qty, fromLocationId?, toLocationId?, unitCost?, note, createdBy, createdAt }`
 
