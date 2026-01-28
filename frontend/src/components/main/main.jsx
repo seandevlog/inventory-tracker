@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { filter } from 'lodash';
+
+import styles from './main.module.css';
+
 import firstCharUppercase from '@utils/firstCharUppercase';
 
-import Filter from '@components/filter/filter';
+import Sidebar from '@components/sidebar/sidebar';
 import CreateButton from '@components/buttons/create/create';
 import Table from '@components/table/table';
 
@@ -22,19 +25,24 @@ const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schem
 
   return (
     <MainContext.Provider value={{
-      FeaturePlaceholder
+      FeaturePlaceholder,
+      setFilterOptions,
+      filterOptions,
+      selections
     }}>
-      <Filter
-        setFilterOptions={setFilterOptions}
-        filterOptions={filterOptions}
-        selections={selections}
-      />
+      {selections && 
+        (<div className={styles.sidebar}>
+          <Sidebar/>
+        </div>)
+      }
       <CreateButton
         onClick={() => navigate('create')}
       >
         {`New ${firstCharUppercase(id)}`}
       </CreateButton>
-      <Table headers={headers} data={filteredData}/>
+      <div className={styles.tableWrapper}>
+        <Table headers={headers} data={filteredData}/>
+      </div>
       <Outlet context={{ 
         data: singleData, 
         inputs,

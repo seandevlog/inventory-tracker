@@ -45,16 +45,18 @@ const Modal = ({ mode, title }) => {
           className="modalClose"
           onClose={handleCloseButton}
         />
-        <header>{title}</header>
-            
-        {mode === modes.CREATE
-          ? <FormCreate/>
-          : mode === modes.VIEW
-          ? <FormView/>
-          : mode === modes.EDIT
-          ? <FormEdit/>
-          : null
-        }
+        <div>
+          <header>{title}</header>
+              
+          {mode === modes.CREATE
+            ? <FormCreate/>
+            : mode === modes.VIEW
+            ? <FormView/>
+            : mode === modes.EDIT
+            ? <FormEdit/>
+            : null
+          }
+        </div>
       </div>
     </div>
   )

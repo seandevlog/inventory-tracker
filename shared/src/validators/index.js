@@ -3,11 +3,13 @@ import userSchema, {
 } from './user.schema.js';
 import itemSchema, {
   selections as itemSelections
-} from './item.schema.js'
+} from './item.schema.js';
+import locationSchema from './location.schema.js';
 
 export {
   userSchema,
   userSelections,
   itemSchema,
-  itemSelections
+  itemSelections,
+  locationSchema
 }

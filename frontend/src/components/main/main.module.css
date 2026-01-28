@@ -1,0 +1,8 @@
+.sidebar {
+  flex: 2;
+}
+
+.tableWrapper {
+  flex            : 8;
+  margin          : 5em 2em 1em 1em;
+}

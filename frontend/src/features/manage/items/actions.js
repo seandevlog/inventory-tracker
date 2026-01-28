@@ -15,12 +15,10 @@ export const create = async ({ request, context }) => {
     return { validationError }; 
   }
 
-  const data = await createItem({ formData, accessToken });
-  const { error } = data;
+  const { data, error } = await createItem({ formData, accessToken });
   
-  if (error) return redirect('/');
-
-  return redirect('/items')
+  if (error) return { error };
+  if (data) return redirect('/items')
 }
 
 export const edit = async ({ request, params, context }) => {
@@ -44,12 +42,11 @@ const update = async ({ accessToken, id, formData }) => {
   if (validationError) {
     return { validationError }; 
   }
-  
-  const data = await editItem({ formData, id, accessToken });
-  const { error } = data;
 
-  if (error) return redirect('/');
-  return redirect('..');
+  const { data, error } = await editItem({ formData, id, accessToken });
+
+  if (error) return { error };
+  if (data) return redirect('..');
 }
 
 const destroy = async ({ accessToken, id }) => {

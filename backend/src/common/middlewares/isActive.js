@@ -4,19 +4,21 @@ import Tokens from '#utils/tokens.js';
 import { ForbiddenError } from '#errors/index.js';
 
 const isActive = async (req, res, next) => {
-  const { refreshToken } = req.cookies;
+  let user;
+  if (!req.user) {
+    const { refreshToken } = req.cookies;
+    const hashedToken = refreshToken && Tokens.hash(refreshToken);
 
-  const hashedToken = refreshToken && Tokens.hash(refreshToken);
+    const session = hashedToken ? await Sessions.findOne({ hashedToken }) : {};
+    const { userId } = session;
 
-  const session = hashedToken ? await Sessions.findOne({ hashedToken }) : {};
-
-  const { userId } = session;
-
-  const user = userId ? await Users.findOne({ _id: userId }): {};
-  req.user = user;
-
+    user = userId ? await Users.findOne({ _id: userId }): {};
+    req.user = user;
+  } else {
+    user = req.user;
+  }
+  
   const { isActive } = user;
-
   if (isActive === 'active') return next();
 
   throw new ForbiddenError("Account is disabled");

@@ -13,28 +13,30 @@ const itemSchema = new Schema({
         return /^(?=(?:[^A-Z]*[A-Z]){3,})[A-Z0-9-]+$/
         .test(x);
       },
-    }
+    },
+    required: true,
+    unique: [ true, 'SKU already used' ] 
   },
   name: {
-      type: String,
-      required: true
+    type: String,
+    required: true
   },
 
   unit: {
-      type: String,
-      required: false
+    type: String,
+    required: false
   },
 
   category: {
-      type: String,
-      enum: allowedCategories,
-      required: true
+    type: String,
+    enum: allowedCategories,
+    required: true
   },
 
   reorderPoint: {
-      type: Number,
-      min: 0,
-      required: true
+    type: Number,
+    min: 0,
+    required: true
   },
 
   isActive: {
@@ -47,5 +49,5 @@ const itemSchema = new Schema({
 
 }, { timestamps: true });
 
-const userModel = mongoose.model('Item', itemSchema);
-export default userModel;
+const itemModel = mongoose.model('Item', itemSchema);
+export default itemModel;

@@ -6,7 +6,7 @@ div:has(>.modal) {
   display         : flex;
   align-items     : center;
   justify-content : center;
-  z-index         : 1;
+  z-index         : var(--z-modal);
 }
 
 .modal {
@@ -16,36 +16,41 @@ div:has(>.modal) {
   flex-wrap       : wrap;
 
   background      : white;
+  min-height      : fit-content;
   width           : 80vw;
-  height          : calc(100vh*0.8);
-  z-index         : 1000;
+  z-index         : var(--z-modal);
   position        : relative;
+  border-radius   : 1em;
 }
 
-.modal header {
-  position        : absolute;
-  top             : 0;
-  left            : 50%;
-  translate       : -50%;
+.modal > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5em;
 
-  min-height      : 7.5em;
-  display         : flex;
-  align-items     : center;
+  width: 100%;
+  position: relative;
 }
 
-.modal form {
+.modal div header {
+  margin: 2em 0;
+}
+
+.modal div form {
   display         : flex;
   align-items     : center;
   justify-content : center;
 
-  margin-top      : 50px;
   height          : 80%;
   width           : 90%;
+
+  position        : relative;
 }
 
-.modal fieldset {
+.modal div form fieldset {
   display: flex;
-  flex-direction: column;
 
   height          : auto;
   max-height      : calc(100vh*0.6);
@@ -53,23 +58,15 @@ div:has(>.modal) {
   border: 0px;
 }
 
-.modal fieldset > div > div > input {
-  width: 100%;
-  margin-bottom: 1em;
-}
+.modal div > form > div:has(button) {
+  display: flex;
 
-.modal fieldset > div div:has(fieldset) {
-  display: inline-flex;
-  width: fit-content;
-  margin: 0 1em 0.5em 0;
-}
-
-.modal form > div:has(button) {
   position: absolute;
-  bottom: 5%;
-  right: 5%;
+  bottom: -10%;
+  right: 1%;
+  width: min-content;
 }
 
-.modal form > div:has(button) > button {
+.modal div > form > div:has(button) button {
   margin-left: 1em;
 }

@@ -1,9 +1,9 @@
 import styles from './errorBox.module.css';
 
-const ErrorBox = ({ className, children }) => {
+const ErrorBox = ({ children }) => {
   return children && (
     <div
-      className={styles[className]}
+      className={styles.errorBox}
     >
       {children}
     </div>

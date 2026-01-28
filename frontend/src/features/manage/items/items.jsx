@@ -3,9 +3,9 @@ import { itemSchema, itemSelections as selections } from '@my-org/shared/validat
 import headers from './headers';
 import inputs from './inputs';
 
-import Portrait from '@assets/placeholders/portrait.svg';
+import Item from '@assets/placeholders/item.svg';
 
-import Main from '@features/manage/main';
+import Main from '@components/main/main';
 
 const Items = () => {
   const items = useLoaderData();
@@ -16,7 +16,7 @@ const Items = () => {
         id='item'
         data={items}
         headers={headers}
-        FeaturePlaceholder={Portrait}
+        FeaturePlaceholder={Item}
         selections={selections}
         inputs={inputs}
         schema={itemSchema}

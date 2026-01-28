@@ -15,6 +15,12 @@ div#root {
   margin          : 0;
 }
 
+:root {
+  --z-sidebar: 300;
+  --z-navbar: 400;
+  --z-modal: 500;
+}
+
 .hide {
   display         : none !important; 
 }

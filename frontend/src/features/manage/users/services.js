@@ -1,6 +1,7 @@
 import axios from 'axios';
 import config from '@config';
 import cloud from '@lib/cloud.js';
+import { postWith409Handling } from '@api/postWith409Handling';
 
 const server = `${config.server}/users/`;
 
@@ -40,14 +41,7 @@ export const create = async ({ formData, accessToken }) => {
     formData.append('feature[path]', 'users/feature')
   }
 
-  const { data } = await axios.post(`${server}store`, formData, {
-    headers: {
-      authorization: `Bearer ${accessToken}`
-    },
-    withCredentials: true
-  });
-
-  return data;
+  return await postWith409Handling({ url: `${server}store`, formData, accessToken});
 }
 
 export const edit = async ({ formData, id, accessToken }) => {
@@ -66,13 +60,7 @@ export const edit = async ({ formData, id, accessToken }) => {
     }
   } 
 
-  const { data } = await axios.patch(`${server}${id}`, formData, {
-    headers: {
-      authorization: `Bearer ${accessToken}`
-    },
-    withCredentials: true
-  });
-  return data;
+  return await postWith409Handling({ url: `${server}${id}`, formData, accessToken});
 }
 
 export const destroy = async ({ id, accessToken }) => {

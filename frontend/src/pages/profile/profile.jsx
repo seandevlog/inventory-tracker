@@ -4,7 +4,6 @@ const Profile = () => {
   const navigate = useNavigate();
   const loaderData = useLoaderData();
   const { profile } = loaderData;
-  console.log(loaderData)
 
   return (
     <>

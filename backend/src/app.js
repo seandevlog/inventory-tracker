@@ -9,6 +9,7 @@ import config from './config.js';
 import auth from './features/auth/auth.routes.js';
 import users from './features/users/user.routes.js';
 import items from './features/items/item.routes.js';
+import locations from './features/locations/location.routes.js';
 import cloudinaryApi from './features/files/cloudinary.api.routes.js';
 import profile from './features/profile/profile.routes.js';
 
@@ -41,11 +42,13 @@ app.use(databaseHandler);
 
 app.use('/auth', auth);
 
-app.use('/profile', isAuthenticated, isActive, profile);
+app.use('/profile', isActive, profile);
 
 app.use('/users', isAuthenticated, isActive, isAdmin, users);
 
 app.use('/items', isAuthenticated, isActive, items);
+
+app.use('/locations', isAuthenticated, isActive, locations);
 
 app.use('/api/cloudinary', cloudinaryApi);
 

@@ -1,7 +1,17 @@
-import * as React from 'react';
+import { 
+  useState,
+  useContext
+} from 'react';
 import styles from './filter.module.css';
+import MainContext from '@contexts/main.context';
 
-const Filter = ({ filterOptions, setFilterOptions, selections }) => {
+const Filter = () => {
+  const { 
+    setFilterOptions,
+    filterOptions,
+    selections
+  } = useContext(MainContext);
+
   return (Object.values(selections)?.length > 0) && (
     <div className={styles.filter}>
       <fieldset>
@@ -21,7 +31,7 @@ const Filter = ({ filterOptions, setFilterOptions, selections }) => {
 }
 
 const Input = ({ objKey, selections, filterOptions, setFilterOptions }) => {
-  const [selected, setSelected] = React.useState('');
+  const [selected, setSelected] = useState('');
 
   const handleSelect = (event) => {
     const group = event.target.closest('[data-group]')?.dataset.group;

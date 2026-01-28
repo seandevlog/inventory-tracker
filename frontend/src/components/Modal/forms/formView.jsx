@@ -7,6 +7,10 @@ import Form from './form';
 const FormView = () => {
   const navigate = useNavigate();
 
+  const handleNavigate = () => {
+    navigate(`edit`, { relative: 'path' })
+  };
+
   return (
     <ReactForm
       method="post"
@@ -17,7 +21,7 @@ const FormView = () => {
         <button 
           type="button"
           className="btn"
-          onClick={() => navigate(`edit`, { relative: 'path' })}
+          onClick={handleNavigate}
         >
           Edit
         </button>

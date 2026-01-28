@@ -4,16 +4,13 @@ import { setProfile } from '@stores/profile';
 
 const { server } = config;
 
-export const getProfile = async ({ accessToken }) => {
-  const res = await axios.get(`${server}/profile`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`
-    },
+export const getProfile = async () => {
+  const { data } = await axios.get(`${server}/profile`, {
     withCredentials: true
   })
 
-  if (res.success && res.profile) {
-    const { profile } = res;
+  if (data?.success && data?.profile) {
+    const { profile } = data;
     setProfile(profile);
     return profile;  
   }

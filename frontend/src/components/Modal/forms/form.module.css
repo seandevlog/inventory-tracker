@@ -1,0 +1,26 @@
+.form > div {
+  width: 100%;
+}
+
+.text {
+  width: 100%;
+}
+
+.text div {
+  width: 100%;
+  margin: 0.8em 0;
+}
+
+.text > div > input {
+  width: 100%;
+}
+
+.option {
+  margin: 1em 0;
+  display: flex;
+}
+
+.errorBox {
+  display: flex;
+  justify-content: center;
+}

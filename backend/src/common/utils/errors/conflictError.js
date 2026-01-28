@@ -1,4 +1,4 @@
-class LoginConflictError extends Error {
+class ConflictError extends Error {
   constructor(message) {
     super(message);
     this.status = 409;
@@ -6,4 +6,4 @@ class LoginConflictError extends Error {
   }
 }
 
-export default LoginConflictError;
+export default ConflictError;

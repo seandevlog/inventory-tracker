@@ -1,7 +1,5 @@
 import {v2 as cloudinary} from 'cloudinary';
 import Items from './item.model.js';
-import Passwords from '#utils/passwords.js';
-import Sessions from '#features/session/session.services.js';
 import { itemSchema } from '@my-org/shared/validators';
 import { BadRequestError } from '#errors/index.js';
 

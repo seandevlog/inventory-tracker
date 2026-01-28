@@ -6,6 +6,7 @@ import isAuthedMiddleware from '@middlewares/isAuthed';
 import withMiddleware from '@middlewares/helpers/withMiddleware';
 
 const profile = { 
+  id: 'profile',
   path: 'profile', 
   Component: Profile, 
   loader: withMiddleware(isAuthedMiddleware, profileLoader)
