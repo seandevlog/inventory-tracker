@@ -6,10 +6,10 @@ import {
   patchWith409Handling
 } from '@api/with409Handling';
 
-const server = `${config.server}/locations/`;
+const server = `${config.server}/`;
 
-export const getAll = async ({ accessToken }) => {
-  const { data } = await axios.get(server, {
+export const getAll = async ({ accessToken, path }) => {
+  const { data } = await axios.get(`${server}${path}s`, {
     headers: {
       authorization: `Bearer ${accessToken}`,
     },
@@ -19,8 +19,8 @@ export const getAll = async ({ accessToken }) => {
   return data;
 }
 
-export const get = async ({ id, accessToken }) => {
-  const { data } = await axios.get(`${server}${id}`, {
+export const get = async ({ id, accessToken, path }) => {
+  const { data } = await axios.get(`${server}${path}s/${id}`, {
     headers: {
       authorization: `Bearer ${accessToken}`
     },
@@ -30,7 +30,7 @@ export const get = async ({ id, accessToken }) => {
   return data;
 } 
 
-export const create = async ({ formData, accessToken }) => {
+export const create = async ({ formData, accessToken, path }) => {
   const feature = formData.get('feature');
   const featureData = 
     (feature instanceof File && feature.size > 0) 
@@ -41,13 +41,13 @@ export const create = async ({ formData, accessToken }) => {
 
     formData.append('feature[url]', featureData.secure_url);
     formData.append('feature[public_id]', featureData.public_id);
-    formData.append('feature[path]', 'locations/feature')
+    formData.append('feature[path]', `${path}s/feature`)
   }
 
-  return await postWith409Handling({ url: `${server}store`, formData, accessToken});
+  return await postWith409Handling({ url: `${server}${path}s/store`, formData, accessToken});
 }
 
-export const edit = async ({ formData, id, accessToken }) => {
+export const update = async ({ formData, id, accessToken, path }) => {
   const feature = formData.get('feature');
   if (feature instanceof File && feature.size > 0) {
     const public_id = formData.get('public_id');
@@ -63,11 +63,11 @@ export const edit = async ({ formData, id, accessToken }) => {
     }
   } 
 
-  return await patchWith409Handling({ url: `${server}${id}`, formData, accessToken});
+  return await patchWith409Handling({ url: `${server}${path}s/${id}`, formData, accessToken});
 }
 
-export const destroy = async ({ id, accessToken }) => {
-  const { data } = await axios.delete(`${server}${id}`, {
+export const destroy = async ({ id, accessToken, path }) => {
+  const { data } = await axios.delete(`${server}${path}s/${id}`, {
     headers: {
       authorization: `Bearer ${accessToken}`
     },

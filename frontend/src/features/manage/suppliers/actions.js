@@ -2,9 +2,11 @@ import { redirect } from "react-router-dom";
 import { supplierSchema } from "@my-org/shared/validators";
 import { 
   create as createSupplier,
-  edit as editSupplier,
+  update as updateSupplier,
   destroy as deleteSupplier
-} from "./services"
+} from "../services"
+
+const path = 'supplier';
 
 export const create = async ({ request, context }) => {
   const { accessToken } = context; 
@@ -15,7 +17,7 @@ export const create = async ({ request, context }) => {
     return { validationError }; 
   }
 
-  const { data, error } = await createSupplier({ formData, accessToken });
+  const { data, error } = await createSupplier({ formData, accessToken, path });
   
   if (error) return { error };
   if (data) return redirect('/suppliers')
@@ -43,14 +45,14 @@ const update = async ({ accessToken, id, formData }) => {
     return { validationError }; 
   }
 
-  const { data, error } = await editSupplier({ formData, id, accessToken });
+  const { data, error } = await updateSupplier({ formData, id, accessToken, path });
 
   if (error) return { error };
   if (data) return redirect('..');
 }
 
 const destroy = async ({ accessToken, id }) => {
-  const data = await deleteSupplier({ id, accessToken })
+  const data = await deleteSupplier({ id, accessToken, path })
   const { error } = data;
 
   if (error) return redirect('/');

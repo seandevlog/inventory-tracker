@@ -2,9 +2,11 @@ import { redirect } from "react-router-dom";
 import { locationSchema } from "@my-org/shared/validators";
 import { 
   create as createLocation,
-  edit as editLocation,
+  update as updateLocation,
   destroy as deleteLocation
-} from "./services"
+} from "../services"
+
+const path = 'location';
 
 export const create = async ({ request, context }) => {
   const { accessToken } = context; 
@@ -15,7 +17,7 @@ export const create = async ({ request, context }) => {
     return { validationError }; 
   }
 
-  const { data, error } = await createLocation({ formData, accessToken });
+  const { data, error } = await createLocation({ formData, accessToken, path });
   
   if (error) return { error };
   if (data) return redirect('/locations')
@@ -43,14 +45,14 @@ const update = async ({ accessToken, id, formData }) => {
     return { validationError }; 
   }
 
-  const { data, error } = await editLocation({ formData, id, accessToken });
+  const { data, error } = await updateLocation({ formData, id, accessToken, path });
 
   if (error) return { error };
   if (data) return redirect('..');
 }
 
 const destroy = async ({ accessToken, id }) => {
-  const data = await deleteLocation({ id, accessToken })
+  const data = await deleteLocation({ id, accessToken, path })
   const { error } = data;
 
   if (error) return redirect('/');

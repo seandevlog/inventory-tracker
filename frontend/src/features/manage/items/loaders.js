@@ -2,11 +2,13 @@ import { redirect } from "react-router-dom";
 import { 
   get as getItem,
   getAll as getAllItems
-} from "./services";
+} from "../services";
+
+const path = 'item';
 
 export const getAll = async ({ context }) => {
   const { accessToken } = context;
-  const data = await getAllItems({ accessToken });
+  const data = await getAllItems({ accessToken, path });
   const { items } = data;
 
   return items;
@@ -14,7 +16,7 @@ export const getAll = async ({ context }) => {
 
 export const get = async ({ params, context }) => {
   const { accessToken } = context;
-  const data = await getItem({ id: params.itemId, accessToken });
+  const data = await getItem({ id: params.itemId, accessToken, path });
 
   const { error, item } = data;
   

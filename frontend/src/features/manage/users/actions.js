@@ -2,9 +2,11 @@ import { redirect } from "react-router-dom";
 import { userSchema } from "@my-org/shared/validators";
 import { 
   create as createUser,
-  edit as editUser,
+  update as updateUser,
   destroy as deleteUser
-} from "./services"
+} from "../services"
+
+const path = 'user';
 
 export const create = async ({ request, context }) => {
   const { accessToken } = context; 
@@ -15,7 +17,7 @@ export const create = async ({ request, context }) => {
     return { validationError }; 
   }
 
-  const { data, error } = await createUser({ formData, accessToken });
+  const { data, error } = await createUser({ formData, accessToken, path });
   
   if (error) return { error };
   if (data) return redirect('/users')
@@ -43,14 +45,14 @@ const update = async ({ accessToken, id, formData }) => {
     return { validationError }; 
   }
 
-  const { data, error } = await editUser({ formData, id, accessToken });
+  const { data, error } = await updateUser({ formData, id, accessToken, path });
 
   if (error) return { error };
   if (data) return redirect('..');
 }
 
 const destroy = async ({ accessToken, id }) => {
-  const data = await deleteUser({ id, accessToken })
+  const data = await deleteUser({ id, accessToken, path })
   const { error } = data;
 
   if (error) return redirect('/');

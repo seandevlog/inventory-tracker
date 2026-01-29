@@ -2,9 +2,11 @@ import { redirect } from "react-router-dom";
 import { itemSchema } from "@my-org/shared/validators";
 import { 
   create as createItem,
-  edit as editItem,
+  update as updateItem,
   destroy as deleteItem
-} from "./services"
+} from "../services"
+
+const path = 'item';
 
 export const create = async ({ request, context }) => {
   const { accessToken } = context; 
@@ -15,7 +17,7 @@ export const create = async ({ request, context }) => {
     return { validationError }; 
   }
 
-  const { data, error } = await createItem({ formData, accessToken });
+  const { data, error } = await createItem({ formData, accessToken, path });
   
   if (error) return { error };
   if (data) return redirect('/items')
@@ -43,14 +45,14 @@ const update = async ({ accessToken, id, formData }) => {
     return { validationError }; 
   }
 
-  const { data, error } = await editItem({ formData, id, accessToken });
+  const { data, error } = await updateItem({ formData, id, accessToken, path });
 
   if (error) return { error };
   if (data) return redirect('..');
 }
 
 const destroy = async ({ accessToken, id }) => {
-  const data = await deleteItem({ id, accessToken })
+  const data = await deleteItem({ id, accessToken, path })
   const { error } = data;
 
   if (error) return redirect('/');
