@@ -1,6 +1,6 @@
 import styles from './input.module.css';
 
-const TextInput = ({ id, label, type, autoComplete, disabled, errorMessage, handleInput, isFilled, value }) => (
+const TextInput = ({ id, label, type, autoComplete, disabled, errorMessage, handleInput, isFilled, value, defaultValue }) => (
   <div className={styles.text}>
     <label htmlFor={id}>{label}</label>
     {errorMessage &&
@@ -10,12 +10,13 @@ const TextInput = ({ id, label, type, autoComplete, disabled, errorMessage, hand
     }
     <input 
       id={id}
-      name={isFilled ? id : ''}
+      name={(isFilled || !!defaultValue) ? id : ''}
       type={type}
       onChange={handleInput}
       autoComplete={autoComplete || 'off'} 
-      defaultValue={value} 
+      defaultValue={defaultValue || value} 
       disabled={disabled}
+      readOnly={!!defaultValue}
     />
   </div>
 )

@@ -3,6 +3,7 @@ import itemsRoutes from '@routes/app/manage/items.routes';
 import locationsRoutes from '@routes/app/manage/locations.routes';
 import suppliersRoutes from '@routes/app/manage/suppliers.routes';
 import ordersRoutes from '@routes/app/manage/orders.routes';
+import transactionsRoutes from '@routes/app/manage/transactions.routes';
 
 import dashboardRoutes from '@routes/app/manage/dashboard.routes';
 
@@ -18,7 +19,8 @@ const manage = {
     itemsRoutes,
     locationsRoutes,
     suppliersRoutes,
-    ordersRoutes
+    ordersRoutes,
+    transactionsRoutes
   ]
 }
 

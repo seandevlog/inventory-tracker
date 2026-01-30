@@ -30,7 +30,7 @@ const FormCreate = () => {
         <div>
           <div className={styles.text}>
             {inputs.map(input => 
-              (input.type === 'text' && !input.disabled) &&
+              (input.type === 'text' && (!input.disabled || input.defaultValue)) &&
               <ValidatedInput
                 key={input.id}
                 id={input.id}
@@ -38,6 +38,7 @@ const FormCreate = () => {
                 type={input.type}
                 autoComplete={input.autoComplete ?? 'off'}
                 schema={schema.extract(input.id)}
+                defaultValue={input.defaultValue}
               /> 
             )}
           </div>

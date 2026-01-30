@@ -21,10 +21,12 @@ const schema = Joi.object({
         }),
 
   phone: Joi.string()
-        .optional(),
+        .optional()
+        .allow(null, ''),
 
   address: Joi.string()
-  .optional(),
+        .optional()
+        .allow(null, ''),
 
   feature: featureSchema,
 

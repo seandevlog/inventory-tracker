@@ -5,7 +5,7 @@ import TextInput from './text';
 import OptionInput from './options';
 import DateInput from './date';
 
-const ValidatedInput = ({ id, label, type, schema, autoComplete, options, disabled }) => {
+const ValidatedInput = ({ id, label, type, schema, autoComplete, options, disabled, defaultValue }) => {
   const actionData = useActionData();
   const { validationError: submitValidationError } = actionData ?? '';
 
@@ -13,7 +13,7 @@ const ValidatedInput = ({ id, label, type, schema, autoComplete, options, disabl
   const { data } = outletContext ?? '';
   const value = data ? data?.[0]?.[`${id}`] : '';
 
-  const [input, setInput] = useState(value ?? '');
+  const [input, setInput] = useState((defaultValue || value) ?? '');
 
   const [errorMessage, setErrorMessage] = useState('');
   const [isFilled, setIsFilled] = useState(false);
@@ -68,6 +68,7 @@ const ValidatedInput = ({ id, label, type, schema, autoComplete, options, disabl
         handleInput={handleInput}
         isFilled={isFilled}
         value={value}
+        defaultValue={defaultValue}
       />
 }
 

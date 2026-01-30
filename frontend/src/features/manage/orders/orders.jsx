@@ -27,12 +27,8 @@ const Orders = () => {
   useEffect(() => {
     (async () => {
       const [{ data: supplierData }, { data: itemData }] = await Promise.all([
-        await axios.get(`${server}/suppliers`, {
-          withCredentials: true
-        }),
-        await axios.get(`${server}/items`, {
-          withCredentials: true
-        })
+        axios.get(`${server}/suppliers`, { withCredentials: true }),
+        axios.get(`${server}/items`, { withCredentials: true })
       ])
 
       const { suppliers } = supplierData;

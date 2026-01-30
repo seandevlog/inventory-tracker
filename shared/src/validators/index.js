@@ -9,6 +9,9 @@ import supplierSchema from './supplier.schema.js';
 import orderSchema, {
   selections as orderSelections
 } from './order.schema.js';
+import transactionSchema, {
+  selections as transactionSelections
+} from './transaction.schema.js';
 
 export {
   userSchema,
@@ -18,5 +21,7 @@ export {
   locationSchema,
   supplierSchema,
   orderSchema,
-  orderSelections
+  orderSelections,
+  transactionSchema,
+  transactionSelections
 }

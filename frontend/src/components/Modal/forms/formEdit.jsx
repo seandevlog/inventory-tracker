@@ -30,7 +30,7 @@ const FormEdit = () => {
         <div>
           <div className={styles.text}>
             {inputs.map(input => 
-              input.type === 'text' &&
+              (input.type === 'text' || !!input.defaultValue) &&
               <ValidatedInput
                 key={input.id}
                 id={input.id}
@@ -39,7 +39,8 @@ const FormEdit = () => {
                 options={input.options}
                 autoComplete={input.autoComplete ?? 'off'}
                 schema={input.disabled ? null : schema.extract(input.id)}
-                disabled={input.disabled}
+                disabled={!!input.defaultValue || input.disabled}
+                defaultValue={input.defaultValue}
               /> 
             )}
           </div>

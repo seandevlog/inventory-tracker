@@ -33,12 +33,13 @@ const FormView = () => {
         <div>
           <div className={styles.text}>
             {inputs.map(input => 
-              input.type === 'text' &&
+              (input.type === 'text' || !!input.defaultValue) && 
               <ValidatedInput
                 key={input.id}
                 id={input.id}
                 label={input.label}
                 disabled={true}
+                defaultValue={input.defaultValue}
               /> 
             )}
           </div>

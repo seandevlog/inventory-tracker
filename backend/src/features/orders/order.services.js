@@ -15,7 +15,7 @@ export const getOrder = async ({ orderId }) => {
     })
     .populate({
       path: 'item',
-      select: 'sku isActive -_id'
+      select: 'sku -_id'
     })  
     .lean();
 
@@ -42,7 +42,7 @@ export const getAllOrder = async () => {
     })
     .populate({
       path: 'item',
-      select: 'sku isActive -_id'
+      select: 'sku -_id'
     })
     .lean();
 
@@ -74,11 +74,13 @@ export const storeOrder = async ({ data }) => {
 
   const { email, sku } = value;
 
-  const supplier = await Suppliers.findOne({ email }).lean();
-  if (!supplier) throw new BadRequestError('Supplier is required');
+  const [supplier, item] = await Promise.all([
+    Suppliers.findOne({ email }).lean(),
+    Items.findOne({ sku }).lean()
+  ])
 
-  const item = await Items.findOne({ sku }).lean();
-  if (!item) throw new BadRequestError('Item is required');
+  if (!supplier) throw new BadRequestError('Supplier not found');
+  if (!item) throw new BadRequestError('Item not found');
 
   const order = await Orders.create({ 
     ...value, 
@@ -95,17 +97,14 @@ export const updateOrder = async ({ orderId, data }) => {
   if (!data) throw new BadRequestError('Data is required');
 
   const { email, sku } = data;
-  let supplier, item = undefined;
-
-  if (email) {
-    const supplier = await Suppliers.findOne({ email }).lean();
-    if (!supplier) throw new BadRequestError('Supplier not found');
-  }
   
-  if (sku) {
-    const item = await Items.findOne({ sku }).lean();
-    if (!item) throw new BadRequestError('Item not found');
-  }
+  const [ supplier, item ] = await Promise.all([
+    email ? Items.findOne({ email }).lean() : Promise.resolve(undefined),
+    sku ? Suppliers.findOne({ sku }).lean() : Promise.resolve(undefined)
+  ]);
+  
+  if (!supplier) throw new BadRequestError('Supplier not found');
+  if (!item) throw new BadRequestError('Item not found');
   
   const order = await Orders.findOneAndUpdate({ _id: orderId }, {
     ...data,

@@ -2,17 +2,21 @@ import express from 'express';
 import multer from 'multer';
 import * as controller from './user.controllers.js';
 
+import isActive from '#middlewares/isActive.js';
+import isAdmin from '#middlewares/isAdmin.js';
+import isAuthenticated from '#middlewares/isAuthenticated.js';
+
 const router = express.Router();
 const upload = multer();
 
-router.get('/', controller.getAllUser);
+router.get('/', isActive, controller.getAllUser);
 
-router.post('/store', upload.any(), controller.storeUser);
+router.post('/store', upload.any(), isAuthenticated, isActive, isAdmin, controller.storeUser);
 
-router.get('/:id', controller.getUser);
+router.get('/:id', isAuthenticated, isActive, isAdmin, controller.getUser);
 
-router.patch('/:id', upload.any(), controller.updateUser);
+router.patch('/:id', upload.any(), isAuthenticated, isActive, isAdmin, controller.updateUser);
 
-router.delete('/:id', controller.deleteUser);
+router.delete('/:id', isAuthenticated, isActive, isAdmin, controller.deleteUser);
 
 export default router;

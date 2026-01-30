@@ -27,7 +27,8 @@ const schema = Joi.object({
         }),
 
   unit: Joi.string()
-        .optional(),
+        .optional()
+        .allow(null, ''),
 
   reorderPoint: Joi.number()
         .min(0)

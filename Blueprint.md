@@ -23,7 +23,7 @@
 - **Location**: `{ code, name, notes? }`
 - **Supplier**: `{ email, name, phone?, address? }`
 - **Order**: `{ orderId, supplierId: email, itemId : sku, status, qty, unitCost }`
-- **InventoryTransaction**: `{ type, itemId, qty, fromLocationId?, toLocationId?, unitCost?, note, createdBy, createdAt }`
+- **Transaction**: `{ type, itemId: sku, qty, fromLocationId?, toLocationId: code, unitCost?, note, userId: createdBy, createdAt }`
 
 ---
 

@@ -12,6 +12,7 @@ Forms
 Table
 - Add drag and drop option for rows
 - Add statuses to table with icons
+- Add footer with computation when possible
 
 All
 - Integrate accessibility features
@@ -25,3 +26,6 @@ Filter
 Orders
 - Add currency
 - Add names/detail beside item sku and supplier email from database
+
+Notes
+- All notes should be in a textbox and has '...'

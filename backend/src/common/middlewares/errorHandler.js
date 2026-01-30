@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const errorHandler = (err, req, res, next) => {
   if (err instanceof mongoose.Error) {
-    if (err.cause.code === 11000) {
+    if (err.cause?.code === 11000) {
       err.status = 409;
     }
   }

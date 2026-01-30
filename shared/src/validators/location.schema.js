@@ -18,7 +18,8 @@ const schema = Joi.object({
         }),
 
   notes: Joi.string()
-        .optional(),
+        .optional()
+        .allow(null, ''),
 
   feature: featureSchema,
 
