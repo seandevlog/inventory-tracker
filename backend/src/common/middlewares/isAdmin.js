@@ -8,10 +8,10 @@ const isAdmin = async (req, res, next) => {
 
   if (!req.user) {
     const { refreshToken } = req.cookies;
-    const hashedToken = refreshToken && Tokens.hash(refreshToken);
+    const hashedToken = refreshToken ? Tokens.hash(refreshToken): '';
   
-    const session = hashedToken ? await Sessions.findOne({ hashedToken }) : {};
-    const { userId } = session;
+    const session = hashedToken ? await Sessions.findOne({ hashedToken }) : null;
+    const { userId } = session || null;
   
     user = userId ? await Users.findOne({ _id: userId }): {};
     req.user = user;
