@@ -26,6 +26,7 @@ Filter
 Orders
 - Add currency
 - Add names/detail beside item sku and supplier email from database
+- Add more filter options
 
 Notes
 - All notes should be in a textbox and has '...'
