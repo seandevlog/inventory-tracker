@@ -36,7 +36,15 @@ export const updateSupplier = async ({ supplierId, data }) => {
   if (!supplierId) throw new BadRequestError('Supplier ID is required');
   if (!data) throw new BadRequestError('Data is required');
 
-  const supplier = await Suppliers.findOneAndUpdate({ _id: supplierId }, {...data });
+  const keys = supplierSchema._ids._byKey.keys().toArray();
+  const optionalSuppliersSchema = supplierSchema.fork(keys, (field) => field.optional());
+
+  const { value, error } = optionalSuppliersSchema.validate(data);
+  if (typeof error !== 'undefined' && error) {
+    throw new BadRequestError(error);    
+  } 
+
+  const supplier = await Suppliers.findOneAndUpdate({ _id: supplierId }, {...value });
   if (!supplier) throw new Error('Failed to find supplier');
 
   return supplier;

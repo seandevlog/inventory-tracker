@@ -48,6 +48,14 @@ export const updateUser = async ({ userId, data }) => {
   const { password } = data;
   const hashedPassword = password && await Passwords.hash(password);
 
+  const keys = userSchema._ids._byKey.keys().toArray();
+  const optionalUsersSchema = userSchema.fork(keys, (field) => field.optional());
+
+  const { value, error } = optionalUsersSchema.validate(data);
+  if (typeof error !== 'undefined' && error) {
+    throw new BadRequestError(error);    
+  } 
+
   const user = await Users.findOneAndUpdate({ _id: userId }, {...data, password: hashedPassword});
   if (!user) throw new Error('Failed to find user');
 

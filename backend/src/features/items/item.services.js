@@ -35,7 +35,15 @@ export const updateItem = async ({ itemId, data }) => {
   if (!itemId) throw new BadRequestError('Item ID is required');
   if (!data) throw new BadRequestError('Data is required');
 
-  const item = await Items.findOneAndUpdate({ _id: itemId }, {...data });
+  const keys = itemSchema._ids._byKey.keys().toArray();
+  const optionalItemsSchema = itemSchema.fork(keys, (field) => field.optional());
+
+  const { value, error } = optionalItemsSchema.validate(data);
+  if (typeof error !== 'undefined' && error) {
+    throw new BadRequestError(error);    
+  } 
+
+  const item = await Items.findOneAndUpdate({ _id: itemId }, {...value });
   if (!item) throw new Error('Failed to find item');
 
   return item;

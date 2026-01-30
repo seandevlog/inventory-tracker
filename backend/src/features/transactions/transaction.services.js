@@ -129,6 +129,14 @@ export const updateTransaction = async ({ transactionId, data }) => {
 
   const { createdBy, sku, fromLocationCode, toLocationCode } = data;
 
+  const keys = transactionSchema._ids._byKey.keys().toArray();
+  const optionalTransactionsSchema = transactionSchema.fork(keys, (field) => field.optional());
+
+  const { value, error } = optionalTransactionsSchema.validate(data);
+  if (typeof error !== 'undefined' && error) {
+    throw new BadRequestError(error);    
+  } 
+
   const [item, fromLocation, toLocation, user] = await Promise.all([
     sku 
       ? Items.findOne({ sku }).lean() 
@@ -150,7 +158,7 @@ export const updateTransaction = async ({ transactionId, data }) => {
   if (item === null) throw new BadRequestError('Item not found');
 
   const transaction = await Transactions.findOneAndUpdate({ _id: transactionId }, {
-    ...data,
+    ...value,
     sku: undefined,
     username: undefined,
     fromLocationCode: undefined,

@@ -36,7 +36,15 @@ export const updateLocation = async ({ locationId, data }) => {
   if (!locationId) throw new BadRequestError('Location ID is required');
   if (!data) throw new BadRequestError('Data is required');
 
-  const location = await Locations.findOneAndUpdate({ _id: locationId }, {...data });
+  const keys = locationSchema._ids._byKey.keys().toArray();
+  const optionalLocationsSchema = locationSchema.fork(keys, (field) => field.optional());
+
+  const { value, error } = optionalLocationsSchema.validate(data);
+  if (typeof error !== 'undefined' && error) {
+    throw new BadRequestError(error);    
+  } 
+
+  const location = await Locations.findOneAndUpdate({ _id: locationId }, {...value });
   if (!location) throw new Error('Failed to find location');
 
   return location;

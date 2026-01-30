@@ -98,6 +98,14 @@ export const updateOrder = async ({ orderId, data }) => {
 
   const { email, sku } = data;
   
+  const keys = orderSchema._ids._byKey.keys().toArray();
+  const optionalOrdersSchema = orderSchema.fork(keys, (field) => field.optional());
+
+  const { value, error } = optionalOrdersSchema.validate(data);
+  if (typeof error !== 'undefined' && error) {
+    throw new BadRequestError(error);    
+  } 
+
   const [ supplier, item ] = await Promise.all([
     email ? Items.findOne({ email }).lean() : Promise.resolve(undefined),
     sku ? Suppliers.findOne({ sku }).lean() : Promise.resolve(undefined)
@@ -107,7 +115,7 @@ export const updateOrder = async ({ orderId, data }) => {
   if (!item) throw new BadRequestError('Item not found');
   
   const order = await Orders.findOneAndUpdate({ _id: orderId }, {
-    ...data,
+    ...value,
     email: undefined, 
     sku: undefined, 
     supplier,
