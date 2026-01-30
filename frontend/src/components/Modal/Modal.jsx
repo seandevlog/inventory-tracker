@@ -28,7 +28,8 @@ const Modal = ({ mode, title }) => {
       setShow(false);
   }
 
-  const handleCloseButton = () => {
+  const handleCloseButton = (event) => {
+    console.log(event)
     setShow(false);
   }
 
@@ -42,7 +43,7 @@ const Modal = ({ mode, title }) => {
     <div onClick={handleCloseWithBackground}>
       <div className={styles.modal}>
         <BackButton 
-          className="modalClose"
+          className={"modalClose"}
           onClick={handleCloseButton}
         />
         <div>

@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import styles from './row.module.css';
 import MainContext from '@contexts/main.context';
+import firstCharUppercase from '@utils/firstCharUppercase';
 
 const Row = ({ id, className, onClick, sort, data: row }) => {
   const { FeaturePlaceholder } = useContext(MainContext);
@@ -35,7 +36,7 @@ const Row = ({ id, className, onClick, sort, data: row }) => {
           )
         }
 
-        return (<td key={attr}>{row[`${attr}`]}</td>)
+        return (<td key={attr}>{firstCharUppercase(row[`${attr}`])}</td>)
       })}
     </tr>
   )
