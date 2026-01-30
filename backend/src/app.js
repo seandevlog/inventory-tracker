@@ -11,6 +11,8 @@ import users from './features/users/user.routes.js';
 import items from './features/items/item.routes.js';
 import locations from './features/locations/location.routes.js';
 import suppliers from './features/suppliers/supplier.routes.js';
+import orders from './features/orders/order.routes.js';
+
 import cloudinaryApi from './features/files/cloudinary.api.routes.js';
 import profile from './features/profile/profile.routes.js';
 
@@ -47,11 +49,13 @@ app.use('/profile', isActive, profile);
 
 app.use('/users', isAuthenticated, isActive, isAdmin, users);
 
-app.use('/items', isAuthenticated, isActive, items);
+app.use('/items', items);
 
 app.use('/locations', isAuthenticated, isActive, locations);
 
-app.use('/suppliers', isAuthenticated, isActive, suppliers);
+app.use('/suppliers', suppliers);
+
+app.use('/orders', isAuthenticated, isActive, orders);
 
 app.use('/api/cloudinary', cloudinaryApi);
 

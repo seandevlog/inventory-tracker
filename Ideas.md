@@ -11,6 +11,7 @@ Forms
 
 Table
 - Add drag and drop option for rows
+- Add statuses to table with icons
 
 All
 - Integrate accessibility features
@@ -20,3 +21,7 @@ Nav
 
 Filter
 - Make it a sidebar
+
+Orders
+- Add currency
+- Add names/detail beside item sku and supplier email from database

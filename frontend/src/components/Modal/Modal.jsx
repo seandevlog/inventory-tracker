@@ -43,7 +43,7 @@ const Modal = ({ mode, title }) => {
       <div className={styles.modal}>
         <BackButton 
           className="modalClose"
-          onClose={handleCloseButton}
+          onClick={handleCloseButton}
         />
         <div>
           <header>{title}</header>

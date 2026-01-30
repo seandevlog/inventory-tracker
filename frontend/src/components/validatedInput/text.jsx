@@ -1,4 +1,4 @@
-import styles from './text.module.css';
+import styles from './input.module.css';
 
 const TextInput = ({ id, label, type, autoComplete, disabled, errorMessage, handleInput, isFilled, value }) => (
   <div className={styles.text}>
@@ -13,7 +13,7 @@ const TextInput = ({ id, label, type, autoComplete, disabled, errorMessage, hand
       name={isFilled ? id : ''}
       type={type}
       onChange={handleInput}
-      autoComplete={autoComplete || ''} 
+      autoComplete={autoComplete || 'off'} 
       defaultValue={value} 
       disabled={disabled}
     />

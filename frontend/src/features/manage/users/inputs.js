@@ -9,6 +9,8 @@ const inputs = [
   { id: 'address', type: 'text', autoComplete: 'address-line1', label: 'Address' },
   { id: 'isActive', type: 'select', options: selections.isActive, label: 'Status' },
   { id: 'role', type: 'select', options: selections.role, label: 'Role' },
+  { id: 'createdAt', type: 'date', autoComplete: 'off', label: 'Date Created', disabled: true },
+  { id: 'updatedAt', type: 'date', autoComplete: 'off', label: 'Date Updated', disabled: true },
 ];
 
 export default inputs;

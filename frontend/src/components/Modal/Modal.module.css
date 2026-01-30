@@ -69,4 +69,5 @@ div:has(>.modal) {
 
 .modal div > form > div:has(button) button {
   margin-left: 1em;
+  z-index: var(--z-buttons);
 }

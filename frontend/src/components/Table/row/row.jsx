@@ -21,10 +21,22 @@ const Row = ({ id, className, onClick, sort, data: row }) => {
               {/* TODO - find a way to make default feature work for all other feature */}
             </td>
           )
+        } else if (attr === 'createdAt') {
+          return (
+            <td key={attr}>
+              {new Date(row.createdAt).toLocaleDateString(undefined, {
+                month: 'short',
+                day: '2-digit',
+                year: '2-digit',
+                minute: '2-digit',
+                hour: 'numeric'
+              })}
+            </td>
+          )
         }
-          return (<td key={attr}>{row[`${attr}`]}</td>)
-        }
-      )}
+
+        return (<td key={attr}>{row[`${attr}`]}</td>)
+      })}
     </tr>
   )
 }

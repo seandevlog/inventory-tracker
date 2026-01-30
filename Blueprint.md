@@ -9,9 +9,11 @@
   - Full access to all features  
   - Can manage Users (CRUD) and master data  
   - Can perform all stock transactions (including negative adjustments)
+  **Manager**
+  - Can manage Items, Suppliers, Locations
 - **Staff**  
   - Can perform stock transactions, create POs, view reports  
-  - Read-only access to master data (Items, Locations, Suppliers)
+  - Read-only access to master data (Items, Suppliers, Locations)
 
 ---
 
@@ -20,7 +22,7 @@
 - **Item**: `{ sku, name, unit, category, reorderPoint, isActive }`
 - **Location**: `{ code, name, notes? }`
 - **Supplier**: `{ email, name, phone?, address? }`
-- **PurchaseOrder**: `{ orderId, supplierId, status, itemId, qty, unitCost }`
+- **Order**: `{ orderId, supplierId: email, itemId : sku, status, qty, unitCost }`
 - **InventoryTransaction**: `{ type, itemId, qty, fromLocationId?, toLocationId?, unitCost?, note, createdBy, createdAt }`
 
 ---
@@ -32,7 +34,7 @@
 3. **Items CRUD**
 4. **Locations CRUD**
 5. **Suppliers CRUD**
-6. **Purchase Orders**: create, update, partial/full receive
+6. **Orders CRUD**: User should be able to choose item and supplier. 
 7. **Stock Transactions**: receive, issue, transfer, adjust
 8. **View Stock**: by item/location
 9. **Low-Stock Report**: `onHand <= reorderPoint`

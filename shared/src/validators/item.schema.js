@@ -35,7 +35,7 @@ const schema = Joi.object({
         .messages({
           'number.base': 'Reorder Point must be a number',
           'number.min': 'Reorder Point cannot be a negative amount',
-          'any.required': 'Reorder Point is requried'
+          'any.required': 'Reorder Point is required'
         }),
 
   category: Joi.string()

@@ -3,6 +3,7 @@ import { useActionData, useOutletContext } from 'react-router-dom';
 
 import TextInput from './text';
 import OptionInput from './options';
+import DateInput from './date';
 
 const ValidatedInput = ({ id, label, type, schema, autoComplete, options, disabled }) => {
   const actionData = useActionData();
@@ -35,9 +36,18 @@ const ValidatedInput = ({ id, label, type, schema, autoComplete, options, disabl
     }
   }
 
-  return (options && options?.length > 0)
+  return (type === 'date') 
+    ? <DateInput
+        id={id}
+        label={label}
+        disabled={disabled}
+        errorMessage={errorMessage}
+        handleInput={handleInput}
+        isFilled={isFilled}
+        value={value}
+      />
+    : (options && options?.length > 0)
     ? <OptionInput
-        key={id}
         id={id}
         label={label}
         type={type}
@@ -49,7 +59,6 @@ const ValidatedInput = ({ id, label, type, schema, autoComplete, options, disabl
         value={value}
       />
     : <TextInput
-        key={id}
         id={id}
         label={label}
         type={type}
