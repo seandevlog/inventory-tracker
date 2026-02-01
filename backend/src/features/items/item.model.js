@@ -50,4 +50,5 @@ const itemSchema = new Schema({
 }, { timestamps: true });
 
 const itemModel = mongoose.model('Item', itemSchema);
+
 export default itemModel;

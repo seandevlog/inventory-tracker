@@ -57,8 +57,25 @@ const transactionSchema = new Schema({
   },
 
   feature: featureSchema,
-
-}, { timestamps: true });
+}, { 
+  timestamps: true,
+  statics: {
+    findByIdWithRelations(transactionId) {
+      return this.findOne({ _id: transactionId })
+        .populate({ path: 'item', select: 'sku -_id'})
+        .populate({ path: 'fromLocation', select: 'code -_id' })
+        .populate({ path: 'toLocation', select: 'code -_id' })
+        .populate({ path: 'createdBy', select: 'username -_id' });
+    },
+    findAllWithRelations() {
+      return this.find()
+        .populate({ path: 'item', select: 'sku -_id' })
+        .populate({ path: 'fromLocation', select: 'code -_id' })
+        .populate({ path: 'toLocation', select: 'code -_id' })
+        .populate({ path: 'createdBy', select: 'username -_id' });
+    },
+  }
+});
 
 const transactionModel = mongoose.model('Transaction', transactionSchema);
 export default transactionModel;

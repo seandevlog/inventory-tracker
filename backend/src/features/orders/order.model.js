@@ -41,7 +41,33 @@ const orderSchema = new Schema({
 
   feature: featureSchema,
 
-}, { timestamps: true });
+}, { 
+  timestamps: true,
+  statics: {
+    findByIdWithRelations(orderId) {
+      return this.findOne({ _id: orderId })
+      .populate({
+        path: 'supplier',
+        select: 'email -_id'
+      })
+      .populate({
+        path: 'item',
+        select: 'sku -_id'
+      })
+    },
+    findAllWithRelations() {
+      return this.find()
+        .populate({
+          path: 'supplier',
+          select: 'email -_id'
+        })
+        .populate({
+          path: 'item',
+          select: 'sku -_id'
+        })
+    }
+  } 
+});
 
 const orderModel = mongoose.model('Order', orderSchema);
 export default orderModel;

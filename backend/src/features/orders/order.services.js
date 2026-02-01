@@ -8,16 +8,7 @@ import { BadRequestError } from '#errors/index.js';
 export const getOrder = async ({ orderId }) => {
   if (!orderId) throw new BadRequestError('Order ID is required');
 
-  const order = await Orders.findOne({ _id: orderId })
-    .populate({
-      path: 'supplier',
-      select: 'email -_id'
-    })
-    .populate({
-      path: 'item',
-      select: 'sku -_id'
-    })  
-    .lean();
+  const order = await Orders.findByIdWithRelations(orderId).lean();
 
   if (!order) throw new Error('Failed to find order');
 
@@ -35,21 +26,11 @@ export const getOrder = async ({ orderId }) => {
 }
 
 export const getAllOrder = async () => {
-  const orders = await Orders.find({})
-    .populate({
-      path: 'supplier',
-      select: 'email -_id'
-    })
-    .populate({
-      path: 'item',
-      select: 'sku -_id'
-    })
-    .lean();
+  const orders = await Orders.findAllWithRelations().lean();
 
   if (!orders) throw new Error('Failed to find orders');
 
   const flatOrders = orders.map(order => {
-    console.log(order)
     const flatOrder = {
       ...order,
       email: order.supplier?.email ?? undefined,

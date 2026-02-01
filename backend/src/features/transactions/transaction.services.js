@@ -9,24 +9,7 @@ import { BadRequestError } from '#errors/index.js';
 export const getTransaction = async ({ transactionId }) => {
   if (!transactionId) throw new BadRequestError('Transaction ID is required');
 
-  const transaction = await Transactions.findOne({ _id: transactionId })
-    .populate({
-      path: 'item',
-      select: 'sku -_id'
-    })
-    .populate({
-      path: 'fromLocation',
-      select: 'code -_id'
-    })
-    .populate({
-      path: 'toLocation',
-      select: 'code -_id'
-    })
-    .populate({
-      path: 'createdBy',
-      select: 'username -_id'
-    })    
-    .lean();
+  const transaction = await Transactions.findByIdWithRelations(transactionId).lean();
 
   if (!transaction) throw new Error('Failed to find transaction');
 
@@ -47,24 +30,7 @@ export const getTransaction = async ({ transactionId }) => {
 }
 
 export const getAllTransaction = async () => {
-  const transactions = await Transactions.find({})
-    .populate({
-      path: 'item',
-      select: 'sku -_id'
-    })
-    .populate({
-      path: 'fromLocation',
-      select: 'code -_id'
-    })
-    .populate({
-      path: 'toLocation',
-      select: 'code -_id'
-    })
-    .populate({
-      path: 'createdBy',
-      select: 'username -_id'
-    })    
-    .lean();
+  const transactions = await Transactions.findAllWithRelations().lean();
 
   if (!transactions) throw new Error('Failed to find transactions');
 
