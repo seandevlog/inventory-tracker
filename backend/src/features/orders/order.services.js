@@ -23,9 +23,9 @@ export const getOrder = async ({ orderId }) => {
 
   const flatOrder = { 
     ...order,
-    email: order.supplier.email,
-    sku: order.item.sku,
-    isActive: order.item.isActive
+    email: order.supplier?.email ?? undefined,
+    sku: order.item?.sku ?? undefined,
+    isActive: order.item?.isActive ?? undefined
   }
 
   delete order.supplier;
@@ -49,11 +49,12 @@ export const getAllOrder = async () => {
   if (!orders) throw new Error('Failed to find orders');
 
   const flatOrders = orders.map(order => {
+    console.log(order)
     const flatOrder = {
       ...order,
-      email: order.supplier.email,
-      sku: order.item.sku,
-      isActive: order.item.isActive
+      email: order.supplier?.email ?? undefined,
+      sku: order.item?.sku ?? undefined,
+      isActive: order.item?.isActive ?? undefined
     }
 
     delete order.supplier;

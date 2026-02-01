@@ -36,7 +36,9 @@ const Row = ({ id, className, onClick, sort, data: row }) => {
           )
         }
 
-        return (<td key={attr}>{firstCharUppercase(row[`${attr}`])}</td>)
+        return (<td key={attr}>{
+          row[`${attr}`] && firstCharUppercase(row[`${attr}`])
+        }</td>)
       })}
     </tr>
   )

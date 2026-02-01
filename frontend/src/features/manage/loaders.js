@@ -1,5 +1,7 @@
 import { redirect } from "react-router-dom";
 import services from "./services";
+import { removeLastS } from '@utils/removeLastS';
+
 import config from '@config';
 const { login } = config.path;
 
@@ -11,7 +13,7 @@ export const getAll = async ({ context, path }) => {
 
 export const get = async ({ params, context, path }) => {
   const { accessToken } = context;
-  const data = await services.get({ id: params.itemId, accessToken, path });
+  const data = await services.get({ id: params[`${removeLastS(path)}`], accessToken, path });
 
   const { error } = data;
   if (error) return redirect(login);

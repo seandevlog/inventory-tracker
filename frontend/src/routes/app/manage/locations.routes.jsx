@@ -1,35 +1,50 @@
 import Locations from '@features/manage/locations/locations';
 import { getAll } from '@features/manage/loaders';
 import {
-  create as createLocationAction,
-  edit as editLocationAction
-} from '@features/manage/locations/actions';
+  create,
+  edit
+} from '@features/manage/actions';
+import { locationSchema } from "@my-org/shared/validators";
 
 import Modal from '@components/modal/modal';
 
 import isAuthedMiddleware from '@middlewares/isAuthed';
-import withMiddleware from '@middlewares/helpers/withMiddleware'; 
-import { loaderWithPath } from '@utils/loaderWithPath';
+import withMiddleware from '@middlewares/helpers/withMiddleware';
+
+import { loaderWithPath } from '@utils/router/loaderWithPath';
+import { actionWithConfig } from '@utils/router/actionWithConfig';
+import { removeLastS } from '@utils/removeLastS';
+
+import config from '@config';
+const { path } = config;
 
 const locations = {
-  path: 'locations',
-  id: 'locations',
+  path: path.locations,
+  id: path.locations,
   Component: Locations,
-  loader: withMiddleware(isAuthedMiddleware, loaderWithPath(getAll, 'locations')),  
+  loader: withMiddleware(isAuthedMiddleware, loaderWithPath(getAll, path.locations)),  
   children: [
     {
       path: 'create',
       Component: () => Modal({ mode: 'create', title: 'Create Location'}),
-      action: withMiddleware(isAuthedMiddleware, createLocationAction),
+      action: withMiddleware(isAuthedMiddleware, actionWithConfig({ 
+        action: create,
+        path: path.locations,
+        schema: locationSchema
+      })),
     },
     {
-      path: ':locationId',
+      path: `:${removeLastS(path.locations)}Id`,
       Component: () => Modal({ mode: 'view', title: 'View Location'}),
     },
     {
-      path: ':locationId/edit',
+      path: `:${removeLastS(path.locations)}Id/edit`,
       Component: () => Modal({ mode: 'edit', title: 'Edit Location'}),
-      action: withMiddleware(isAuthedMiddleware, editLocationAction)
+      action: withMiddleware(isAuthedMiddleware, actionWithConfig({ 
+        action: edit,
+        path: path.locations,
+        schema: locationSchema
+      }))
     }
   ]
 }

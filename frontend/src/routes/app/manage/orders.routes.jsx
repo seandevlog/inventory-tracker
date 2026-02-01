@@ -1,35 +1,50 @@
 import Orders from '@features/manage/orders/orders';
 import { getAll } from '@features/manage/loaders';
 import {
-  create as createOrderAction,
-  edit as editOrderAction
-} from '@features/manage/orders/actions';
+  create,
+  edit
+} from '@features/manage/actions';
+import { orderSchema } from "@my-org/shared/validators";
 
 import Modal from '@components/modal/modal';
 
 import isAuthedMiddleware from '@middlewares/isAuthed';
-import withMiddleware from '@middlewares/helpers/withMiddleware'; 
-import { loaderWithPath } from '@utils/loaderWithPath';
+import withMiddleware from '@middlewares/helpers/withMiddleware';
+
+import { loaderWithPath } from '@utils/router/loaderWithPath';
+import { actionWithConfig } from '@utils/router/actionWithConfig';
+import { removeLastS } from '@utils/removeLastS';
+
+import config from '@config';
+const { path } = config;
 
 const orders = {
-  path: 'orders',
-  id: 'orders',
+  path: path.orders,
+  id: path.orders,
   Component: Orders,
-  loader: withMiddleware(isAuthedMiddleware, loaderWithPath(getAll, 'orders')),  
+  loader: withMiddleware(isAuthedMiddleware, loaderWithPath(getAll, path.orders)),  
   children: [
     {
       path: 'create',
       Component: () => Modal({ mode: 'create', title: 'Create Order'}),
-      action: withMiddleware(isAuthedMiddleware, createOrderAction),
+      action: withMiddleware(isAuthedMiddleware, actionWithConfig({ 
+        action: create,
+        path: path.orders,
+        schema: orderSchema
+      })),
     },
     {
-      path: ':orderId',
+      path: `:${removeLastS(path.orders)}Id`,
       Component: () => Modal({ mode: 'view', title: 'View Order'}),
     },
     {
-      path: ':orderId/edit',
+      path: `:${removeLastS(path.orders)}Id/edit`,
       Component: () => Modal({ mode: 'edit', title: 'Edit Order'}),
-      action: withMiddleware(isAuthedMiddleware, editOrderAction)
+      action: withMiddleware(isAuthedMiddleware, actionWithConfig({ 
+        action: edit,
+        path: path.orders,
+        schema: orderSchema
+      }))
     }
   ]
 }

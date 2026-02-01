@@ -32,10 +32,10 @@ export const getTransaction = async ({ transactionId }) => {
 
   const flatTransaction = { 
     ...transaction,
-    sku: transaction.item.sku ?? null,
-    fromLocationCode: transaction.fromLocation.code ?? null,
-    toLocationCode: transaction.toLocation.code ?? null,
-    createdBy: transaction.createdBy.username ?? null
+    sku: transaction.item.sku ?? undefined,
+    fromLocationCode: transaction.fromLocation?.code ?? undefined,
+    toLocationCode: transaction.toLocation?.code ?? undefined,
+    createdBy: transaction.createdBy?.username ?? undefined
   }
 
   delete transaction.item;
@@ -71,10 +71,10 @@ export const getAllTransaction = async () => {
   const flatTransactions = transactions.map(transaction => {
     const flatTransaction = { 
       ...transaction,
-      sku: transaction.item?.sku ?? null,
-      fromLocationCode: transaction.fromLocation?.code ?? null,
-      toLocationCode: transaction.toLocation?.code ?? null,
-      createdBy: transaction.createdBy?.username ?? null
+      sku: transaction.item?.sku ?? undefined,
+      fromLocationCode: transaction.fromLocation?.code ?? undefined,
+      toLocationCode: transaction.toLocation?.code ?? undefined,
+      createdBy: transaction.createdBy?.username ?? undefined
     }
 
     delete transaction.item;

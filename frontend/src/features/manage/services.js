@@ -20,7 +20,7 @@ export const getAll = async ({ accessToken, path }) => {
 }
 
 export const get = async ({ id, accessToken, path }) => {
-  const { data } = await axios.get(`${server}${path}s/${id}`, {
+  const { data } = await axios.get(`${server}${path}/${id}`, {
     headers: {
       authorization: `Bearer ${accessToken}`
     },
@@ -41,10 +41,10 @@ export const create = async ({ formData, accessToken, path }) => {
 
     formData.append('feature[url]', featureData.secure_url);
     formData.append('feature[public_id]', featureData.public_id);
-    formData.append('feature[path]', `${path}s/feature`)
+    formData.append('feature[path]', `${path}/feature`)
   }
 
-  return await postWith409Handling({ url: `${server}${path}s/store`, formData, accessToken});
+  return await postWith409Handling({ url: `${server}${path}/store`, formData, accessToken});
 }
 
 export const update = async ({ formData, id, accessToken, path }) => {
@@ -63,11 +63,11 @@ export const update = async ({ formData, id, accessToken, path }) => {
     }
   } 
 
-  return await patchWith409Handling({ url: `${server}${path}s/${id}`, formData, accessToken});
+  return await patchWith409Handling({ url: `${server}${path}/${id}`, formData, accessToken});
 }
 
 export const destroy = async ({ id, accessToken, path }) => {
-  const { data } = await axios.delete(`${server}${path}s/${id}`, {
+  const { data } = await axios.delete(`${server}${path}/${id}`, {
     headers: {
       authorization: `Bearer ${accessToken}`
     },
@@ -80,4 +80,7 @@ export const destroy = async ({ id, accessToken, path }) => {
 export default {
   get,
   getAll,
+  create,
+  update,
+  destroy
 }

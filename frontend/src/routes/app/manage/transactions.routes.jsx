@@ -1,35 +1,50 @@
 import Transactions from '@features/manage/transactions/transactions';
 import { getAll } from '@features/manage/loaders';
 import {
-  create as createTransactionAction,
-  edit as editTransactionAction
-} from '@features/manage/transactions/actions';
+  create,
+  edit
+} from '@features/manage/actions';
+import { transactionSchema } from "@my-org/shared/validators";
 
 import Modal from '@components/modal/modal';
 
 import isAuthedMiddleware from '@middlewares/isAuthed';
-import withMiddleware from '@middlewares/helpers/withMiddleware'; 
-import { loaderWithPath } from '@utils/loaderWithPath';
+import withMiddleware from '@middlewares/helpers/withMiddleware';
+
+import { loaderWithPath } from '@utils/router/loaderWithPath';
+import { actionWithConfig } from '@utils/router/actionWithConfig';
+import { removeLastS } from '@utils/removeLastS';
+
+import config from '@config';
+const { path } = config;
 
 const transactions = {
-  path: 'transactions',
-  id: 'transactions',
+  path: path.transactions,
+  id: path.transactions,
   Component: Transactions,
-  loader: withMiddleware(isAuthedMiddleware, loaderWithPath(getAll, 'transactions')),  
+  loader: withMiddleware(isAuthedMiddleware, loaderWithPath(getAll, path.transactions)),  
   children: [
     {
       path: 'create',
       Component: () => Modal({ mode: 'create', title: 'Create Transaction'}),
-      action: withMiddleware(isAuthedMiddleware, createTransactionAction),
+      action: withMiddleware(isAuthedMiddleware, actionWithConfig({ 
+        action: create,
+        path: path.transactions,
+        schema: transactionSchema
+      })),
     },
     {
-      path: ':transactionId',
+      path: `:${removeLastS(path.transactions)}Id`,
       Component: () => Modal({ mode: 'view', title: 'View Transaction'}),
     },
     {
-      path: ':transactionId/edit',
+      path: `:${removeLastS(path.transactions)}Id/edit`,
       Component: () => Modal({ mode: 'edit', title: 'Edit Transaction'}),
-      action: withMiddleware(isAuthedMiddleware, editTransactionAction)
+      action: withMiddleware(isAuthedMiddleware, actionWithConfig({ 
+        action: edit,
+        path: path.transactions,
+        schema: transactionSchema
+      }))
     }
   ]
 }

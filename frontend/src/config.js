@@ -1,7 +1,12 @@
 const config = {
   server: import.meta.env.VITE_SERVER,
   path: {
-    login: '/'
+    items: 'items',
+    locations: 'locations',
+    orders: 'orders',
+    suppliers: 'suppliers',
+    transactions: 'transactions',
+    users: 'users'
   }
 };
 
