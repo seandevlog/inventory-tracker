@@ -1,5 +1,5 @@
 import Orders from '@features/manage/orders/orders';
-import { getAll as getAllOrdersLoader } from '@features/manage/orders/loaders';
+import { getAll } from '@features/manage/loaders';
 import {
   create as createOrderAction,
   edit as editOrderAction
@@ -9,12 +9,13 @@ import Modal from '@components/modal/modal';
 
 import isAuthedMiddleware from '@middlewares/isAuthed';
 import withMiddleware from '@middlewares/helpers/withMiddleware'; 
+import { loaderWithPath } from '@utils/loaderWithPath';
 
 const orders = {
   path: 'orders',
   id: 'orders',
   Component: Orders,
-  loader: withMiddleware(isAuthedMiddleware, getAllOrdersLoader),  
+  loader: withMiddleware(isAuthedMiddleware, loaderWithPath(getAll, 'orders')),  
   children: [
     {
       path: 'create',

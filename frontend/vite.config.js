@@ -18,8 +18,7 @@ export default defineConfig({
       "@pages": path.resolve(__dirname, 'src/pages'),
       "@routes": path.resolve(__dirname, 'src/routes'),
       "@contexts": path.resolve(__dirname, 'src/contexts'),
-      "@utils": path.resolve(__dirname, 'src/utils'),
-      "@api": path.resolve(__dirname, 'src/api')
+      "@utils": path.resolve(__dirname, 'src/utils')
     }
   },
   optimizeDeps: {

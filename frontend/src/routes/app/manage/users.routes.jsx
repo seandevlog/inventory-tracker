@@ -1,5 +1,5 @@
 import Users from '@features/manage/users/users';
-import { getAll as getAllUsersLoader } from '@features/manage/users/loaders';
+import { getAll } from '@features/manage/loaders';
 import {
   create as createUserAction,
   edit as editUserAction
@@ -9,12 +9,13 @@ import Modal from '@components/modal/modal';
 
 import isAuthedMiddleware from '@middlewares/isAuthed';
 import withMiddleware from '@middlewares/helpers/withMiddleware'; 
+import { loaderWithPath } from '@utils/loaderWithPath';
 
 const users = {
   path: 'users',
   id: 'users',
   Component: Users,
-  loader: withMiddleware(isAuthedMiddleware, getAllUsersLoader),  
+  loader: withMiddleware(isAuthedMiddleware, loaderWithPath(getAll, 'users')),  
   children: [
     {
       path: 'create',

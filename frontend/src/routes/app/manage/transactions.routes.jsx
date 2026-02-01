@@ -1,5 +1,5 @@
 import Transactions from '@features/manage/transactions/transactions';
-import { getAll as getAllTransactionsLoader } from '@features/manage/transactions/loaders';
+import { getAll } from '@features/manage/loaders';
 import {
   create as createTransactionAction,
   edit as editTransactionAction
@@ -9,12 +9,13 @@ import Modal from '@components/modal/modal';
 
 import isAuthedMiddleware from '@middlewares/isAuthed';
 import withMiddleware from '@middlewares/helpers/withMiddleware'; 
+import { loaderWithPath } from '@utils/loaderWithPath';
 
 const transactions = {
   path: 'transactions',
   id: 'transactions',
   Component: Transactions,
-  loader: withMiddleware(isAuthedMiddleware, getAllTransactionsLoader),  
+  loader: withMiddleware(isAuthedMiddleware, loaderWithPath(getAll, 'transactions')),  
   children: [
     {
       path: 'create',

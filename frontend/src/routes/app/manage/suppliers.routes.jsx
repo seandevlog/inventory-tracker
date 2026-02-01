@@ -1,5 +1,5 @@
 import Suppliers from '@features/manage/suppliers/suppliers';
-import { getAll as getAllSuppliersLoader } from '@features/manage/suppliers/loaders';
+import { getAll } from '@features/manage/loaders';
 import {
   create as createSupplierAction,
   edit as editSupplierAction
@@ -9,12 +9,13 @@ import Modal from '@components/modal/modal';
 
 import isAuthedMiddleware from '@middlewares/isAuthed';
 import withMiddleware from '@middlewares/helpers/withMiddleware'; 
+import { loaderWithPath } from '@utils/loaderWithPath';
 
 const suppliers = {
   path: 'suppliers',
   id: 'suppliers',
   Component: Suppliers,
-  loader: withMiddleware(isAuthedMiddleware, getAllSuppliersLoader),  
+  loader: withMiddleware(isAuthedMiddleware, loaderWithPath(getAll, 'suppliers')),  
   children: [
     {
       path: 'create',

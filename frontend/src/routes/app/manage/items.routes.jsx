@@ -1,5 +1,5 @@
 import Items from '@features/manage/items/items';
-import { getAll as getAllItemsLoader } from '@features/manage/items/loaders';
+import { getAll } from '@features/manage/loaders';
 import {
   create as createItemAction,
   edit as editItemAction
@@ -8,13 +8,14 @@ import {
 import Modal from '@components/modal/modal';
 
 import isAuthedMiddleware from '@middlewares/isAuthed';
-import withMiddleware from '@middlewares/helpers/withMiddleware'; 
+import withMiddleware from '@middlewares/helpers/withMiddleware';
+import { loaderWithPath } from '@utils/loaderWithPath';
 
 const items = {
   path: 'items',
   id: 'items',
   Component: Items,
-  loader: withMiddleware(isAuthedMiddleware, getAllItemsLoader),  
+  loader: withMiddleware(isAuthedMiddleware, loaderWithPath(getAll, 'items')),  
   children: [
     {
       path: 'create',

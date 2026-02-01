@@ -4,12 +4,12 @@ import cloud from '@lib/cloud.js';
 import { 
   postWith409Handling,
   patchWith409Handling
-} from '@api/with409Handling';
+} from '@utils/api/with409Handling';
 
 const server = `${config.server}/`;
 
 export const getAll = async ({ accessToken, path }) => {
-  const { data } = await axios.get(`${server}${path}s`, {
+  const { data } = await axios.get(`${server}${path}`, {
     headers: {
       authorization: `Bearer ${accessToken}`,
     },
@@ -75,4 +75,9 @@ export const destroy = async ({ id, accessToken, path }) => {
   });
 
   return data;
+}
+
+export default {
+  get,
+  getAll,
 }

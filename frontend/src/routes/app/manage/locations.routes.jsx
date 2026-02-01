@@ -1,5 +1,5 @@
 import Locations from '@features/manage/locations/locations';
-import { getAll as getAllLocationsLoader } from '@features/manage/locations/loaders';
+import { getAll } from '@features/manage/loaders';
 import {
   create as createLocationAction,
   edit as editLocationAction
@@ -9,12 +9,13 @@ import Modal from '@components/modal/modal';
 
 import isAuthedMiddleware from '@middlewares/isAuthed';
 import withMiddleware from '@middlewares/helpers/withMiddleware'; 
+import { loaderWithPath } from '@utils/loaderWithPath';
 
 const locations = {
   path: 'locations',
   id: 'locations',
   Component: Locations,
-  loader: withMiddleware(isAuthedMiddleware, getAllLocationsLoader),  
+  loader: withMiddleware(isAuthedMiddleware, loaderWithPath(getAll, 'locations')),  
   children: [
     {
       path: 'create',
