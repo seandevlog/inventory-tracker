@@ -6,13 +6,15 @@ import { ForbiddenError } from '#errors/index.js';
 const isActive = async (req, res, next) => {
   let user;
   if (!req.user) {
-    const { refreshToken } = req.cookies;
+    const { refreshToken } = req.cookies ?? {};
     const hashedToken = refreshToken ? Tokens.hash(refreshToken): '';
 
     const session = hashedToken ? await Sessions.findOne({ hashedToken }) : null;
-    const { userId } = session || null;
+    const { userId } = session ?? {};
 
-    user = userId ? await Users.findOne({ _id: userId }): {};
+    user = userId 
+      ? await Users.findOne({ _id: userId }) ?? {}
+      : {};
     req.user = user;
   } else {
     user = req.user;

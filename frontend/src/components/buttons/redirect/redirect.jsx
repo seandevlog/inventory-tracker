@@ -1,8 +1,9 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './redirect.module.css';
 
-const RedirectLink = ({ id, url, children, className, selected, onSelect }) => {
+const RedirectLink = ({ id, url, children, selected, onSelect }) => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const handleClick = (event) => {
     navigate(url, { relative: 'path' });
@@ -12,9 +13,7 @@ const RedirectLink = ({ id, url, children, className, selected, onSelect }) => {
   return (
     <a 
       id={id}
-      className={className
-        ? styles[className]
-        : id && selected && selected === id 
+      className={(id && selected && selected === id && url && url === pathname) 
         ? styles.selected 
         : ''
       }

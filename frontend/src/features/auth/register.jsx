@@ -30,8 +30,7 @@ const Register = () => {
           Register
         </button>
       </Form>
-      <RedirectLink 
-        className="authRedirect" 
+      <RedirectLink
         url="/"
       >
         I already have an account

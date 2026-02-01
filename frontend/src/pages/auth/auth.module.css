@@ -65,7 +65,7 @@
   color           : white;
 }
 
-.authRedirect {
+.auth a {
   text-decoration : underline;
   cursor          : pointer;
   margin-top      : 1em;
