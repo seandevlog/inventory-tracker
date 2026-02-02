@@ -19,6 +19,7 @@ const App = () => {
   
   useEffect(() => {
     if (!token) (async () => {
+      console.log('hello')
       const { data } = await axios.get(`${server}/auth/refresh`, {
         withCredentials: true 
       })
