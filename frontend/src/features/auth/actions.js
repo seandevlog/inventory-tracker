@@ -1,4 +1,5 @@
 import { redirect } from 'react-router-dom';
+import Joi from 'joi';
 import { 
   login as loginClient,
   register as registerClient
@@ -15,9 +16,9 @@ export const loginSubmit = async ({ request }) => {
   if (accessToken) {
     return redirect('/dashboard');
   }
-
+  
   if (error.status === 409) {
-    return { message: error.response?.data?.error }
+    return { error: error.response?.data?.error }
   }
 } 
 

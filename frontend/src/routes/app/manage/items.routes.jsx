@@ -8,9 +8,6 @@ import { itemSchema } from "@my-org/shared/validators";
 
 import Modal from '@components/modal/modal';
 
-import isAuthedMiddleware from '@middlewares/isAuthed';
-import withMiddleware from '@middlewares/helpers/withMiddleware';
-
 import { loaderWithPath } from '@utils/router/loaderWithPath';
 import { actionWithConfig } from '@utils/router/actionWithConfig';
 import { removeLastS } from '@utils/removeLastS';
@@ -22,16 +19,16 @@ const items = {
   path: path.items,
   id: path.items,
   Component: Items,
-  loader: withMiddleware(isAuthedMiddleware, loaderWithPath(getAll, path.items)),  
+  loader: loaderWithPath(getAll, path.items),  
   children: [
     {
       path: 'create',
       Component: () => Modal({ mode: 'create', title: 'Create Item'}),
-      action: withMiddleware(isAuthedMiddleware, actionWithConfig({ 
+      action: actionWithConfig({ 
         action: create,
         path: path.items,
         schema: itemSchema
-      })),
+      }),
     },
     {
       path: `:${removeLastS(path.items)}Id`,
@@ -40,11 +37,11 @@ const items = {
     {
       path: `:${removeLastS(path.items)}Id/edit`,
       Component: () => Modal({ mode: 'edit', title: 'Edit Item'}),
-      action: withMiddleware(isAuthedMiddleware, actionWithConfig({ 
+      action: actionWithConfig({ 
         action: edit,
         path: path.items,
         schema: itemSchema
-      }))
+      })
     }
   ]
 }

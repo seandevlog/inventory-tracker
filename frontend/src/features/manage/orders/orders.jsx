@@ -1,4 +1,5 @@
 import { 
+  useContext,
   useEffect, 
   useState, 
 } from 'react';
@@ -7,8 +8,9 @@ import {
 } from 'react-router-dom';
 import axios from 'axios';
 import config from '@config';
-
 import { orderSchema, orderSelections as selections } from '@my-org/shared/validators'
+
+import AppContext from '@contexts/app.context';
 import headers from './headers';
 import inputs from './inputs';
 
@@ -20,15 +22,24 @@ const { server } = config;
 
 const Orders = () => {
   const orders = useLoaderData();
+  const { token } = useContext(AppContext);
 
   const [suppliers, setSuppliers] = useState(null);
   const [items, setItems] = useState(null);
 
   useEffect(() => {
+    if (!token) return;
+
     (async () => {
       const [{ data: supplierData }, { data: itemData }] = await Promise.all([
-        axios.get(`${server}/suppliers`, { withCredentials: true }),
-        axios.get(`${server}/items`, { withCredentials: true })
+        axios.get(`${server}/suppliers`, { 
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true 
+        }),
+        axios.get(`${server}/items`, { 
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true 
+        })
       ])
 
       const { suppliers } = supplierData;
@@ -37,7 +48,7 @@ const Orders = () => {
       const { items } = itemData;
       setItems(items);
     })()
-  }, []);
+  }, [token]);
 
   return (
     <Main

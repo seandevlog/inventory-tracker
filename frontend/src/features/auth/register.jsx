@@ -13,6 +13,7 @@ const Register = () => {
       <h6>Please enter your details</h6>
       <Form method="post">
         {filteredInputs.map(input => (
+          (!input.disabled && !input.options &&
           <ValidatedInput
             key={input.id}
             id={input.id}
@@ -20,8 +21,7 @@ const Register = () => {
             type={input.type}
             autoComplete={input.autoComplete}
             schema={userSchema.extract(input.id)}
-          >
-          </ValidatedInput>
+          />)
         ))}
         <button 
           type="submit" 

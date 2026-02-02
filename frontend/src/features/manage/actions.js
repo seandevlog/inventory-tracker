@@ -1,13 +1,15 @@
 import { redirect } from "react-router-dom";
 import services from "./services"
+import { getToken } from '@stores/token';
 import { removeLastS } from "@utils/removeLastS";
 
-export const create = async ({ request, context, path, schema }) => {
-  const { accessToken } = context; 
+export const create = async ({ request, path, schema }) => {
+  const accessToken = getToken(); 
   const formData = await request.formData();
 
   const { error: validationError } = schema.validate(Object.fromEntries(formData));
   if (validationError) {
+    console.log(validationError)
     return { validationError }; 
   }
 
@@ -17,8 +19,8 @@ export const create = async ({ request, context, path, schema }) => {
   if (data) return redirect(`/${path}`)
 }
 
-export const edit = async ({ request, params, context, path, schema }) => {
-  const { accessToken } = context;
+export const edit = async ({ request, params, path, schema }) => {
+  const accessToken = getToken();
   const id = params[`${removeLastS(path)}Id`]
   const formData = await request.formData();
 

@@ -1,4 +1,5 @@
 import { 
+  useContext,
   useEffect, 
   useState, 
 } from 'react';
@@ -12,6 +13,8 @@ import { transactionSchema, transactionSelections as selections } from '@my-org/
 import headers from './headers';
 import inputs from './inputs';
 
+import AppContext from '@contexts/app.context';
+
 import Transaction from '@assets/placeholders/transaction.svg';
 
 import Main from '@components/main/main';
@@ -21,6 +24,8 @@ const { server } = config;
 const Transactions = () => {
   const transactions = useLoaderData();
 
+  const { token } = useContext(AppContext);
+
   const [items, setItems] = useState(null);
   const [locations, setLocations] = useState(null);
   const [profile, setProfile] = useState(null);
@@ -28,9 +33,18 @@ const Transactions = () => {
   useEffect(() => {
     (async () => {
       const [{ data: locationData }, { data: itemData }, { data: profileData }] = await Promise.all([
-        axios.get(`${server}/locations`, { withCredentials: true }),
-        axios.get(`${server}/items`, { withCredentials: true }),
-        axios.get(`${server}/profile`, { withCredentials: true })
+        axios.get(`${server}/locations`, { 
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true 
+        }),
+        axios.get(`${server}/items`, { 
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true 
+        }),
+        axios.get(`${server}/profile`, { 
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true 
+        })
       ])
 
       const { locations } = locationData;

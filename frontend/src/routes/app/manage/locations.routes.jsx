@@ -8,9 +8,6 @@ import { locationSchema } from "@my-org/shared/validators";
 
 import Modal from '@components/modal/modal';
 
-import isAuthedMiddleware from '@middlewares/isAuthed';
-import withMiddleware from '@middlewares/helpers/withMiddleware';
-
 import { loaderWithPath } from '@utils/router/loaderWithPath';
 import { actionWithConfig } from '@utils/router/actionWithConfig';
 import { removeLastS } from '@utils/removeLastS';
@@ -22,16 +19,16 @@ const locations = {
   path: path.locations,
   id: path.locations,
   Component: Locations,
-  loader: withMiddleware(isAuthedMiddleware, loaderWithPath(getAll, path.locations)),  
+  loader: loaderWithPath(getAll, path.locations),  
   children: [
     {
       path: 'create',
       Component: () => Modal({ mode: 'create', title: 'Create Location'}),
-      action: withMiddleware(isAuthedMiddleware, actionWithConfig({ 
+      action: actionWithConfig({ 
         action: create,
         path: path.locations,
         schema: locationSchema
-      })),
+      }),
     },
     {
       path: `:${removeLastS(path.locations)}Id`,
@@ -40,11 +37,11 @@ const locations = {
     {
       path: `:${removeLastS(path.locations)}Id/edit`,
       Component: () => Modal({ mode: 'edit', title: 'Edit Location'}),
-      action: withMiddleware(isAuthedMiddleware, actionWithConfig({ 
+      action: actionWithConfig({ 
         action: edit,
         path: path.locations,
         schema: locationSchema
-      }))
+      })
     }
   ]
 }

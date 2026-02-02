@@ -8,9 +8,6 @@ import { transactionSchema } from "@my-org/shared/validators";
 
 import Modal from '@components/modal/modal';
 
-import isAuthedMiddleware from '@middlewares/isAuthed';
-import withMiddleware from '@middlewares/helpers/withMiddleware';
-
 import { loaderWithPath } from '@utils/router/loaderWithPath';
 import { actionWithConfig } from '@utils/router/actionWithConfig';
 import { removeLastS } from '@utils/removeLastS';
@@ -22,16 +19,16 @@ const transactions = {
   path: path.transactions,
   id: path.transactions,
   Component: Transactions,
-  loader: withMiddleware(isAuthedMiddleware, loaderWithPath(getAll, path.transactions)),  
+  loader: loaderWithPath(getAll, path.transactions),  
   children: [
     {
       path: 'create',
       Component: () => Modal({ mode: 'create', title: 'Create Transaction'}),
-      action: withMiddleware(isAuthedMiddleware, actionWithConfig({ 
+      action: actionWithConfig({ 
         action: create,
         path: path.transactions,
         schema: transactionSchema
-      })),
+      }),
     },
     {
       path: `:${removeLastS(path.transactions)}Id`,
@@ -40,11 +37,11 @@ const transactions = {
     {
       path: `:${removeLastS(path.transactions)}Id/edit`,
       Component: () => Modal({ mode: 'edit', title: 'Edit Transaction'}),
-      action: withMiddleware(isAuthedMiddleware, actionWithConfig({ 
+      action: actionWithConfig({ 
         action: edit,
         path: path.transactions,
         schema: transactionSchema
-      }))
+      })
     }
   ]
 }

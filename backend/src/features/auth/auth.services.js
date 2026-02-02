@@ -7,7 +7,8 @@ import {
   ForbiddenError, 
   SuccessError, 
   ConflictError, 
-  UnauthenticatedError
+  UnauthenticatedError,
+  BadRequestError
 } from '#errors/index.js';
 
 const login = async ({ data }) => {
@@ -16,7 +17,7 @@ const login = async ({ data }) => {
     password
   } = data;
 
-  if (!username || !password) throw new Error('Missing credentials');
+  if (!username || !password) throw new BadRequestError('Missing credentials');
   
   const user = await Users.findOne({ username }).lean();
   if (!user) throw new ConflictError('User not found'); 
@@ -27,8 +28,18 @@ const login = async ({ data }) => {
   const { isActive } = user;
   if (isActive === 'inactive') throw new ConflictError('Account is disabled');
 
-  const { _id: userId } = user;
-  const { accessToken, refreshToken, hashedToken } = Tokens.generate(userId);
+  const { 
+    _id: userId,
+    role,
+    givenName
+  } = user;
+
+  const { accessToken, refreshToken, hashedToken } = Tokens.generate({
+    userId,
+    givenName,
+    role,
+    isActive
+  });
 
   const session = await Sessions.create({ userId, hashedToken });
 
@@ -47,7 +58,7 @@ const register = async ({ data }) => {
   });
 }
 
-const refresh = async ({ refreshToken }) => {
+export const refresh = async ({ refreshToken }) => {
   if (!refreshToken) throw new UnauthenticatedError('Refresh Token is required');
 
   const hashedToken = refreshToken && Tokens.hash(refreshToken);
@@ -59,18 +70,27 @@ const refresh = async ({ refreshToken }) => {
     throw new ForbiddenError('Invalid Refresh Token');
   }
 
-  await Sessions.destroy({ hashedToken });
-
   const { userId } = session;
-  const { 
-    accessToken, 
-    refreshToken: newRefreshToken, 
-    hashedToken: newHashedToken 
-  } = Tokens.generate(userId);
+  const user = userId ? await Users.findOne({ _id: userId }).lean() : null;
+  if (!user) throw new ForbiddenError('User not found');
 
-  const newSession = await Sessions.create({ userId, hashedToken: newHashedToken });
+  const { _id: id, username, givenName, role, isActive } = user;
 
-  return { accessToken, newRefreshToken, newSession };
+  if (session.expiresIn.getTime() < Date.now()) {
+    await Sessions.destroy({ hashedToken });
+
+    const { 
+      accessToken, 
+      refreshToken: newRefreshToken, 
+      hashedToken: newHashedToken 
+    } = Tokens.generate({ userId: id, username, givenName, role, isActive });
+
+    const newSession = await Sessions.create({ userId, hashedToken: newHashedToken });
+
+    return { accessToken, newRefreshToken, newSession };
+  } else {
+    return Tokens.generateAccess({ userId: id, username, givenName, role, isActive });
+  }
 }
 
 const logout = async ({ refreshToken }) => {

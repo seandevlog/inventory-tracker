@@ -7,12 +7,11 @@ import {
   registerSubmit as registerAction
 } from '@features/auth/actions';
 
-import isLoggedInMiddleware from '@middlewares/isLoggedIn';
+import authLoader from '@pages/auth/loaders';
 
 const auth = {
   Component: Auth,
-  // middleware: [isLoggedInMiddleware],
-  loader: isLoggedInMiddleware,
+  loader: authLoader,
   children: [
     { 
       index: true, 

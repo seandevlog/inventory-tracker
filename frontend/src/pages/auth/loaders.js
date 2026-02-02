@@ -6,22 +6,17 @@ import { setToken } from "@stores/token";
 
 const { server } = config;
 
-export const isLoggedIn = async ({ context }) => {
+export const auth = async () => {
   try {
     const { data } = await axios.get(`${server}/auth/refresh`, {
       withCredentials: true
     });
-    setToken(data.accessToken ?? '')
+    setToken(data.accessToken ?? null)
 
-    const { error } = data;
-    if (error) {
-      console.log(error);
-      return;
-    }
     return redirect('/dashboard');
   } catch (err) {
     return;
   }
 } 
 
-export default isLoggedIn;
+export default auth;

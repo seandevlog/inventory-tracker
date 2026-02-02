@@ -1,28 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
-import config from '@config';
+
 import styles from './navTop.module.css';
+import AppContext from '@contexts/app.context';
+
 import Logo from '@assets/logo/logo';
 import RedirectLink from '@components/buttons/redirect/redirect';
 
-const { server } = config;
-
 const NavTop = () => {
   const { pathname } = useLocation();
-
-  const [profile, setProfile] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      const { data } = await axios.get(`${server}/profile`, {
-        withCredentials: true
-      })
-
-      const { profile: _profile } = data;
-      setProfile(_profile);
-    })()
-  }, []);
+  const { profile } = useContext(AppContext);
 
   const { givenName } = profile ?? {}; 
   

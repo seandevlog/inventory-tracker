@@ -17,7 +17,7 @@ import transactions from './features/transactions/transaction.routes.js';
 import cloudinaryApi from './features/files/cloudinary.api.routes.js';
 import profile from './features/profile/profile.routes.js';
 
-import isAuthenticated from '#middlewares/isAuthenticated.js';
+import authenticate from '#middlewares/authenticate.js';
 import errorHandler from '#middlewares/errorHandler.js';
 import databaseHandler from '#middlewares/databaseHandler.js';
 import isActive from '#middlewares/isActive.js';
@@ -46,19 +46,19 @@ app.use(databaseHandler);
 
 app.use('/auth', auth);
 
-app.use('/profile', isActive, profile);
+app.use('/profile', authenticate, isActive, profile);
 
-app.use('/users', users);
+app.use('/users', authenticate, isActive, isAdmin, users);
 
-app.use('/items', items);
+app.use('/items', authenticate, isActive, items);
 
-app.use('/locations', locations);
+app.use('/locations', authenticate, isActive, locations);
 
-app.use('/suppliers', suppliers);
+app.use('/suppliers', authenticate, isActive, suppliers);
 
-app.use('/orders', isAuthenticated, isActive, orders);
+app.use('/orders', authenticate, isActive, orders);
 
-app.use('/transactions', isAuthenticated, isActive, transactions);
+app.use('/transactions', authenticate, isActive, transactions);
 
 app.use('/api/cloudinary', cloudinaryApi);
 

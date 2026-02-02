@@ -8,9 +8,6 @@ import { userSchema } from "@my-org/shared/validators";
 
 import Modal from '@components/modal/modal';
 
-import isAuthedMiddleware from '@middlewares/isAuthed';
-import withMiddleware from '@middlewares/helpers/withMiddleware';
-
 import { loaderWithPath } from '@utils/router/loaderWithPath';
 import { actionWithConfig } from '@utils/router/actionWithConfig';
 import { removeLastS } from '@utils/removeLastS';
@@ -22,16 +19,16 @@ const users = {
   path: path.users,
   id: path.users,
   Component: Users,
-  loader: withMiddleware(isAuthedMiddleware, loaderWithPath(getAll, path.users)),  
+  loader: loaderWithPath(getAll, path.users),  
   children: [
     {
       path: 'create',
       Component: () => Modal({ mode: 'create', title: 'Create User'}),
-      action: withMiddleware(isAuthedMiddleware, actionWithConfig({ 
-        action: create,
-        path: path.users,
-        schema: userSchema
-      })),
+      action: actionWithConfig({ 
+        action: create, 
+        path: path.users, 
+        schema: userSchema 
+      })
     },
     {
       path: `:${removeLastS(path.users)}Id`,
@@ -40,11 +37,11 @@ const users = {
     {
       path: `:${removeLastS(path.users)}Id/edit`,
       Component: () => Modal({ mode: 'edit', title: 'Edit User'}),
-      action: withMiddleware(isAuthedMiddleware, actionWithConfig({ 
-        action: edit,
-        path: path.users,
-        schema: userSchema
-      }))
+      action: actionWithConfig({ 
+        action: edit, 
+        path: path.users, 
+        schema: userSchema 
+      })
     }
   ]
 }
