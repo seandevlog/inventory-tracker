@@ -2,6 +2,7 @@ import App from '@pages/app/app';
 
 import manageRoutes from '@routes/app/manage.routes';
 import profileRoutes from '@routes/app/profile.routes';
+import faqRoutes from '@routes/app/faq.routes';
 
 import { loader as appLoader } from '@pages/app/loaders';
 
@@ -15,6 +16,7 @@ const app = {
   children: [
     profileRoutes,
     manageRoutes,
+    faqRoutes,
     { 
       path: 'logout', 
       Component: () => (<></>), 

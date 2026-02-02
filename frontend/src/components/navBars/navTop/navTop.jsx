@@ -30,7 +30,7 @@ const NavTop = () => {
               : <RedirectLink url='/profile'>{givenName || 'Profile'}</RedirectLink>
             }
           </li>
-          <li><RedirectLink url="#">FAQ</RedirectLink></li>
+          <li><RedirectLink url="/faq">FAQ</RedirectLink></li>
           <li><RedirectLink url="/logout">Logout</RedirectLink></li>
       </ul>
     </nav>
