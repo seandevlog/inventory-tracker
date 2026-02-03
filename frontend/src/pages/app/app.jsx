@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import styles from './app.module.css';
 
-import NavTop from '@components/navBars/navTop/navTop';
+import NavTop from '@layouts/navBars/navTop/navTop';
 
 import AppContext from '@contexts/app.context';
 import config from '@config';

@@ -5,7 +5,7 @@ import inputs from './inputs';
 
 import Location from '@assets/placeholders/location.svg';
 
-import Main from '@components/main/main';
+import Main from '@layouts/main/main';
 
 const Locations = () => {
   const locations = useLoaderData();

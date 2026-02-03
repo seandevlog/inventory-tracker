@@ -6,7 +6,7 @@ import styles from './main.module.css';
 
 import firstCharUppercase from '@utils/firstCharUppercase';
 
-import Sidebar from '@components/sidebar/sidebar';
+import Sidebar from '@layouts/sidebar/sidebar';
 import CreateButton from '@components/buttons/create/create';
 import Table from '@components/table/table';
 

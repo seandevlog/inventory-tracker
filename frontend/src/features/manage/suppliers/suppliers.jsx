@@ -5,7 +5,7 @@ import inputs from './inputs';
 
 import Supplier from '@assets/placeholders/supplier.svg';
 
-import Main from '@components/main/main';
+import Main from '@layouts/main/main';
 
 const Suppliers = () => {
   const suppliers = useLoaderData();

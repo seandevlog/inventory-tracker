@@ -17,7 +17,7 @@ import AppContext from '@contexts/app.context';
 
 import Transaction from '@assets/placeholders/transaction.svg';
 
-import Main from '@components/main/main';
+import Main from '@layouts/main/main';
 
 const { server } = config;
 
@@ -65,7 +65,7 @@ const Transactions = () => {
       headers={headers}
       FeaturePlaceholder={Transaction}
       selections={selections}
-      inputs={inputs({ items, locations, profile })}
+      inputs={inputs({ items, locations, username: profile })}
       schema={transactionSchema}
     />
   )

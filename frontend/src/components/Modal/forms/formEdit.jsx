@@ -1,21 +1,64 @@
+import { useReducer, useMemo } from 'react';
 import { 
   Form,
   useActionData, 
   useOutletContext
 } from 'react-router-dom';
 import ImageUpload from '@components/imageUpload/imageUpload';
-import ValidatedInput from '@components/validatedInput/validatedInput';
 import ErrorBox from '@components/errorBox/errorBox';
+import ErrorCircle from '@assets/errorCircle.svg';
 import styles from './form.module.css';
+import firstCharUppercase from '@utils/firstCharUppercase'
+
+const inputReducer = {};
+
+const reducer = (state, action) => {
+  const { error } = state.schema.validate(action.value)
+  if (typeof error !== 'undefined') return {
+    ...state,
+    input: action.value,
+    errorMessage: error?.message
+  }
+  return {
+    ...state,
+    input: action.value,
+    errorMessage: ''
+  }
+}
 
 const FormEdit = () => {
   const {
     FeaturePlaceholder,
     inputs,
-    schema
+    schema,
+    data
   } = useOutletContext();
   const actionData = useActionData();
   const { error } = actionData || {};
+
+  const filteredInputs = useMemo(() => 
+    inputs.filter(({ id }) => 
+      id !== 'createdAt' && id !== 'updatedAt'
+    )
+  ,[inputs])
+
+  filteredInputs.map(({id, defaultValue}) => inputReducer[id] = useReducer(reducer, {
+    errorMessage: '', input: defaultValue ?? '', schema: schema.extract(id)
+  }))
+
+  const handleInput = (event, dispatch) => {
+    dispatch({ value: event.target.value })
+  }
+
+  const handleClick = () => {
+    filteredInputs.map(({id}) => {
+      if (!inputReducer[id][0].input && !inputReducer[id][0].errorMessage) {
+        inputReducer[id][1]({ value: inputReducer[id][0].input || data[0][id]})
+      }
+    })
+
+    return;
+  }
 
   return (
     <Form
@@ -29,48 +72,75 @@ const FormEdit = () => {
         <legend></legend>
         <div>
           <div className={styles.text}>
-            {inputs.map(input => 
-              (input.type === 'text' || !!input.defaultValue) &&
-              <ValidatedInput
-                key={input.id}
-                id={input.id}
-                label={input.label}
-                type={input.type}
-                options={input.options}
-                autoComplete={input.autoComplete ?? 'off'}
-                schema={input.disabled ? null : schema.extract(input.id)}
-                disabled={!!input.defaultValue || input.disabled}
-                defaultValue={input.defaultValue}
-              /> 
-            )}
+            {filteredInputs.map(({id, type, autoComplete, label, defaultValue, options}) => (
+              (typeof options === 'undefined') &&
+              <div key={id}>
+                {id !== 'createdBy'
+                  ? <>
+                      <label htmlFor={id}>{label}</label>
+                      <span className='validation-error'>{inputReducer[id][0]?.errorMessage}</span>
+                      <input 
+                        id={id}
+                        name={id}
+                        type={type} 
+                        autoComplete={autoComplete}
+                        value={inputReducer[id][0]?.input || data[0][id] || ''}
+                        onChange={(e) => handleInput(e, inputReducer[id][1])}
+                      />
+                    </>
+                  : <>
+                      <span><p>{label}</p></span> 
+                      <span id={id}><p>{
+                      (typeof defaultValue === 'string' || typeof data[0][id] === 'string') 
+                        ? firstCharUppercase(defaultValue || data[0][id])
+                        : defaultValue || data[0][id]
+                      }</p></span>
+                    </>
+                }
+              </div>
+            ))}
           </div>
           <div className={styles.option}>
-            {inputs.map(input => 
-              input.type === 'select' &&
-              <ValidatedInput
-                key={input.id}
-                id={input.id}
-                label={input.label}
-                type={input.type}
-                options={input.options}
-                autoComplete={input.autoComplete ?? 'off'}
-                schema={input.disabled ? null : schema.extract(input.id)}
-                disabled={input.disabled}
-              /> 
-            )}
+            {filteredInputs.map(({id, type, label, disabled, options}) => (
+              options && options?.length > 0 && !disabled &&
+              <div key={id}>
+                <label htmlFor={id}>{label}</label>
+                <select
+                  id={id}
+                  name={id}
+                  type={type}
+                  autoComplete='off'
+                  value={inputReducer[id][0]?.input || data[0][id] || ''}
+                  onChange={(e) => handleInput(e, inputReducer[id][1])}
+                >
+                  <option value=''>--Choose One--</option>
+                  {options.map(option => 
+                    <option key={option} value={option}>
+                      {firstCharUppercase(option)}
+                    </option>
+                  )}
+                </select>
+                {inputReducer[id][0]?.errorMessage &&
+                  <ErrorCircle />
+                }
+              </div>
+            ))}
           </div>
           <div className={styles.date}>
-            {inputs.map(input => 
-              input.type === 'date' &&
-              <ValidatedInput
-                key={input.id}
-                id={input.id}
-                label={input.label}
-                type={input.type}
-                autoComplete={input.autoComplete ?? 'off'}
-                disabled={input.disabled}
-              /> 
-            )}
+            {inputs.map(({id, type, label}) => (
+              type === 'date' &&
+              <div key={id}>
+                <span><p>{label}</p></span>
+                <span id={id}><p>{new Date(data[0][id]).toLocaleDateString(undefined, {
+                  weekday: 'long',
+                  month: 'long',
+                  day: '2-digit',
+                  year: 'numeric',
+                  minute: '2-digit',
+                  hour: '2-digit'
+                })}</p></span>
+              </div>
+            ))}
           </div>
           <div className={styles.errorBox}>
             <ErrorBox>{error}</ErrorBox>
@@ -83,6 +153,8 @@ const FormEdit = () => {
           className="btn"
           name="intent"
           value='update'
+          disabled={filteredInputs.reduce((acc, {id}) => acc || inputReducer[id]?.[0]?.errorMessage, false)} // Checks; all values are false --> false OR one value is true --> true
+          onClick={handleClick}
         >
           Save
         </button>

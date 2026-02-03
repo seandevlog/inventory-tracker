@@ -1,10 +1,31 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
 import { Form, useActionData } from 'react-router-dom';
 import Joi from 'joi';
 
 import RedirectLink from '@components/buttons/redirect/redirect';
 import ErrorBox from '@components/errorBox/errorBox';
 import { userSchema } from '@my-org/shared/validators';
+import firstCharUppercase from '@utils/firstCharUppercase';
+
+const inputReducer = {};
+const inputs = [
+  { id: 'username', type: 'text', autoComplete: 'username' },
+  { id: 'password', type: 'password', autoComplete: 'password'}
+];
+
+const reducer = (state, action) => {
+  const { error } = state.schema.validate(action.value)
+  if (typeof error !== 'undefined') return {
+    ...state,
+    input: action.value,
+    errorMessage: error?.message
+  }
+  return {
+    ...state,
+    input: action.value,
+    errorMessage: ''
+  }
+}
 
 const Login = () => {
   const actionData = useActionData();
@@ -16,32 +37,20 @@ const Login = () => {
     })
   );
 
-  const [usernameErrorMessage, setUsernameErrorMessage] = useState('');
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+  inputs.map(({id}) => inputReducer[id] = useReducer(reducer, {
+    errorMessage: '', input: '', schema: loginSchema.extract(id)
+  }))
 
-  const usernameSchema = loginSchema.extract('username');
-  const passwordSchema = loginSchema.extract('password');
-
-  const [usernameInput, setUsernameInput] = useState('');
-  const [passwordInput, setPasswordInput] = useState('');
-
-  const handleInput = (event, schema, setInput, setErrorMessage) => {
-    setInput(event.target.value);
-    const { error } = schema.validate(event.target.value);
-    if (typeof error !== 'undefined') return setErrorMessage(error?.message);
-    return setErrorMessage('');
+  const handleInput = (event, dispatch) => {
+    dispatch({ value: event.target.value })
   }
 
-  const handleSubmit = () => {
-    if (!usernameInput && !usernameErrorMessage) {
-      const { error } = usernameSchema.validate(usernameInput);
-      setUsernameErrorMessage(error?.message);
-    }
-
-    if (!passwordInput && !passwordErrorMessage) {
-      const { error } = passwordSchema.validate(passwordInput);
-      setPasswordErrorMessage(error?.message);
-    }
+  const handleClick = () => {
+    inputs.map(({id}) => {
+      if (!inputReducer[id][0].input && !inputReducer[id][0].errorMessage) {
+        inputReducer[id][1]({ value: inputReducer[id][0].input })
+      }
+    })
 
     return;
   }
@@ -51,45 +60,34 @@ const Login = () => {
       <h1>Welcome back!</h1>
       <h6>Please enter your details</h6>
       <Form method="post">
-        <div>
-          <label htmlFor='username'>Username</label>
-          <span className='validation-error'>{usernameErrorMessage}</span>
-          <input 
-            id='username'
-            name='username'
-            type='text' 
-            autoComplete='username'
-            value={usernameInput}
-            onChange={(e) => handleInput(e, usernameSchema, setUsernameInput, setUsernameErrorMessage)}
-          />
-        </div>
-        <div>
-          <label htmlFor='password'>Username</label>
-          <span className='validation-error'>{passwordErrorMessage}</span>
-          <input 
-            id='password'
-            name='password'
-            type='password' 
-            autoComplete='current-password'
-            value={passwordInput}
-            onChange={(e) => handleInput(e, passwordSchema, setPasswordInput, setPasswordErrorMessage)}
-          />
-        </div>
+        {inputs.map(({id, type, autoComplete}) => (
+          <div key={id}>
+            <label htmlFor={id}>{firstCharUppercase(id)}</label>
+            <span className='validation-error'>{inputReducer[id][0]?.errorMessage}</span>
+            <input 
+              id={id}
+              name={id}
+              type={type} 
+              autoComplete={autoComplete}
+              value={inputReducer[id][0]?.input ?? ''}
+              onChange={(e) => handleInput(e, inputReducer[id][1])}
+            />
+          </div>
+        ))}
         <button 
           type="submit" 
           className="btn"
-          disabled={usernameErrorMessage || passwordErrorMessage}
-          onClick={handleSubmit}
+          disabled={inputs.reduce((acc, {id}) => acc || inputReducer[id]?.[0]?.errorMessage, false)} // Checks; all values are false --> false OR one value is true --> true
+          onClick={handleClick}
         >
           Login
         </button>
       </Form>
       {submitError 
-        ? <ErrorBox>{submitError ?? null}</ErrorBox>
+        ? <ErrorBox>{submitError}</ErrorBox>
         : null
       }
       <RedirectLink 
-        className="authRedirect" 
         url="/register"
       >
         I don't have an account

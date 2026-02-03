@@ -5,7 +5,7 @@ import inputs from './inputs';
 
 import Portrait from '@assets/placeholders/portrait.svg';
 
-import Main from '@components/main/main';
+import Main from '@layouts/main/main';
 
 const Users = () => {
   const users = useLoaderData();

@@ -10,14 +10,24 @@ export const login = async ( formData ) => {
     });
     return data;
   } catch (err) {
-    return { error: err }
+    if (err.status === 409) {
+      return { error: err.response?.data?.error };
+    }
+    throw err;
   }
 }
 
 export const register = async ( formData ) => {
-  const { data } = await axios.post(`${server}register`, formData);
+  try {
+    const { data } = await axios.post(`${server}register`, formData);
 
   return data;
+  } catch (err) {
+    if (err.status === 409) {
+      return { error: err.response?.data?.error }
+    }
+    throw err;
+  }
 }
 
 export const logout = async () => {

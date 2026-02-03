@@ -21,6 +21,8 @@ div:has(>.modal) {
   z-index         : var(--z-modal);
   position        : relative;
   border-radius   : 1em;
+
+  overflow: auto;
 }
 
 .modal > div {
@@ -30,7 +32,7 @@ div:has(>.modal) {
   align-items: center;
   margin-bottom: 5em;
 
-  width: 100%;
+  width: fit-content;
   position: relative;
 }
 
@@ -47,6 +49,12 @@ div:has(>.modal) {
   width           : 90%;
 
   position        : relative;
+}
+
+.modal div form > svg {
+  width: 300px;
+  height: 300px;
+  padding: 2em;
 }
 
 .modal div form fieldset {

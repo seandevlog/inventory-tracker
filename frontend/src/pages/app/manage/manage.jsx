@@ -1,6 +1,6 @@
 import style from './manage.module.css';
 import { Outlet } from "react-router-dom";
-import NavSub from '@components/navBars/navSub/navSub';
+import NavSub from '@layouts/navBars/navSub/navSub';
 
 const Manage = () => {
 

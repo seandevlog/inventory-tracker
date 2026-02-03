@@ -5,7 +5,7 @@ import inputs from './inputs';
 
 import Item from '@assets/placeholders/item.svg';
 
-import Main from '@components/main/main';
+import Main from '@layouts/main/main';
 
 const Items = () => {
   const items = useLoaderData();

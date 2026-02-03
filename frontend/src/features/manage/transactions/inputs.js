@@ -1,6 +1,6 @@
 import { transactionSelections } from "@my-org/shared/validators/index.js";
 
-const inputs = ({ locations, items, profile }) => 
+const inputs = ({ locations, items, username }) => 
 [
   { 
     id: 'type', 
@@ -50,7 +50,7 @@ const inputs = ({ locations, items, profile }) =>
     autoComplete: 'off', 
     label: 'Created By', 
     disabled: true, 
-    defaultValue: profile
+    defaultValue: username
   },
   { 
     id: 'createdAt', 

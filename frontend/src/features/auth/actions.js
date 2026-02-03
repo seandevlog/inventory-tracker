@@ -1,11 +1,9 @@
 import { redirect } from 'react-router-dom';
-import Joi from 'joi';
 import { 
   login as loginClient,
   register as registerClient
 } from './services';
 import { setToken } from '@stores/token';
-import { userSchema } from '@my-org/shared/validators';
 
 export const loginSubmit = async ({ request }) => {
   const formData = await request.formData();
@@ -13,13 +11,9 @@ export const loginSubmit = async ({ request }) => {
   const { accessToken, error } = await loginClient(formData);
   setToken(accessToken);
 
-  if (accessToken) {
-    return redirect('/dashboard');
-  }
+  if (accessToken) return redirect('/dashboard');
   
-  if (error.status === 409) {
-    return { error: error.response?.data?.error }
-  }
+  if (error) return { error };
 } 
 
 export const registerSubmit = async ({ request }) => {
@@ -27,14 +21,10 @@ export const registerSubmit = async ({ request }) => {
 
   formData.append('isActive', 'active');
   formData.append('role', 'staff')
-  
-  const { error: validationError } = userSchema.validate(Object.fromEntries(formData));
-  if (validationError) {
-    return { validationError }; 
-  }
 
   const { error } = await registerClient(formData);
-  if (!error) {
-    return redirect('/');
-  }
+
+  if (error) return { error };
+
+  return redirect('/');
 }

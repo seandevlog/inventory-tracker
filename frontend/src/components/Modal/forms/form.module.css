@@ -11,6 +11,19 @@
   margin: 0.8em 0;
 }
 
+.text > div > span:first-child > p,
+.option > div > span:first-child > p,
+.date > div > span:first-child > p,
+.date > div > label {
+  font-weight: bold;
+}
+
+.text > div > span > p,
+.option > div > span > p,
+.date > div > span > p {
+  margin: 0.2em 0;
+}
+
 .text > div > input {
   width: 100%;
 }
@@ -20,14 +33,31 @@
   margin: 1em 0;
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .date > div,
 .option > div {
-  margin: 0.4em 0.3em 0.4em 0;
+  margin: 0 1em 0.5em 0;
+}
+
+.option > div > label {
+  margin: 0 0.2em 0.2em 0;
 }
 
 .errorBox {
   display: flex;
   justify-content: center;
+}
+
+.feature {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.feature > div > svg,
+.feature > div > img {
+  width: 300px;
+  height: 300px;
 }
