@@ -40,10 +40,18 @@ const FormEdit = () => {
     inputs.filter(({ id }) => 
       id !== 'createdAt' && id !== 'updatedAt'
     )
-  ,[inputs])
+  ,[inputs]);
+
+  const keys = useMemo(() => 
+    schema._ids._byKey.keys().toArray()
+  , [schema._ids._byKey])
+
+  const optionalInputsSchema = useMemo(() => 
+    schema.fork(keys, (field) => field.optional().allow(null, ''))
+  , [schema, keys]);
 
   filteredInputs.map(({id, defaultValue}) => inputReducer[id] = useReducer(reducer, {
-    errorMessage: '', input: defaultValue ?? '', schema: schema.extract(id)
+    errorMessage: '', input: defaultValue ?? '', schema: optionalInputsSchema.extract(id)
   }))
 
   const handleInput = (event, dispatch) => {
@@ -84,7 +92,8 @@ const FormEdit = () => {
                         name={id}
                         type={type} 
                         autoComplete={autoComplete}
-                        value={inputReducer[id][0]?.input || data[0][id] || ''}
+                        value={inputReducer[id][0]?.input || ''}
+                        placeholder={data[0][id]}
                         onChange={(e) => handleInput(e, inputReducer[id][1])}
                       />
                     </>
@@ -107,11 +116,12 @@ const FormEdit = () => {
                 <label htmlFor={id}>{label}</label>
                 <select
                   id={id}
-                  name={id}
+                  name={inputReducer[id][0]?.input ? id: ''}
                   type={type}
                   autoComplete='off'
                   value={inputReducer[id][0]?.input || data[0][id] || ''}
                   onChange={(e) => handleInput(e, inputReducer[id][1])}
+                  
                 >
                   <option value=''>--Choose One--</option>
                   {options.map(option => 
