@@ -49,7 +49,7 @@ export const updateUser = async ({ userId, data }) => {
   const hashedPassword = password && await Passwords.hash(password);
 
   const keys = userSchema._ids._byKey.keys().toArray();
-  const optionalUsersSchema = userSchema.fork(keys, (field) => field.optional());
+  const optionalUsersSchema = userSchema.fork(keys, (field) => field.optional().allow(null, ''));
 
   const { value, error } = optionalUsersSchema.validate(data);
   if (typeof error !== 'undefined' && error) {

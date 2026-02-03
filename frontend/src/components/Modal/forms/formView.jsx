@@ -52,7 +52,6 @@ const FormView = () => {
           </div>
           <div className={styles.option}>
             {inputs.map(({id, label, options}) => {
-              console.log(id, data[0][id])
               return (
               options && options?.length > 0 &&
               <div key={id}>

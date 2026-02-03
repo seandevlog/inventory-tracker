@@ -19,3 +19,9 @@
   height: 300px;
   padding: 2em;
 }
+
+@media (max-width: 1024px) {
+  .feature {
+    margin: 0;
+  }
+}

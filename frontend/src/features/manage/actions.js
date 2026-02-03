@@ -33,11 +33,12 @@ export const edit = async ({ request, params, path, schema }) => {
 
 const update = async ({ accessToken, id, formData, path, schema }) => {
   const keys = schema._ids._byKey.keys().toArray();
-  const optionalInputsSchema = schema.fork(keys, (field) => field.optional());
+  const optionalInputsSchema = schema.fork(keys, (field) => field.optional().allow(null, ''));
 
   const { error: validationError } = optionalInputsSchema.validate(Object.fromEntries(formData));
   
   if (validationError) {
+    console.log(optionalInputsSchema, validationError)
     return { validationError }; 
   }
 
