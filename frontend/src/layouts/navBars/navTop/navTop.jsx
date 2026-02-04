@@ -7,6 +7,8 @@ import AppContext from '@contexts/app.context';
 import Logo from '@assets/logo/logo';
 import RedirectLink from '@components/buttons/redirect/redirect';
 
+import firstCharUppercase from '@utils/firstCharUppercase';
+
 const NavTop = () => {
   const { pathname } = useLocation();
   const { profile } = useContext(AppContext);
@@ -27,7 +29,7 @@ const NavTop = () => {
           <li>
             {pathname.includes('profile')
               ? <RedirectLink url='/dashboard'>Manage</RedirectLink>
-              : <RedirectLink url='/profile'>{givenName || 'Profile'}</RedirectLink>
+              : <RedirectLink url='/profile'>{(givenName && firstCharUppercase(givenName)) || 'Profile'}</RedirectLink>
             }
           </li>
           <li><RedirectLink url="/faq">FAQ</RedirectLink></li>

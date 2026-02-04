@@ -17,6 +17,11 @@ const Error = () => {
       setStatus(error.status);
       setData(error.error?.message);
     } else if (axios.isAxiosError(error)) {
+      if (error.response?.status === 403) {
+        setStatus(error.response?.status);
+        setData(error.response?.data?.error);
+        return;
+      }
       setStatus(error.response?.status);
       setData(error.response?.statusText);
     } else {

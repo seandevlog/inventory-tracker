@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { 
   Form,
   useNavigate,
@@ -5,9 +6,12 @@ import {
 } from 'react-router-dom';
 import styles from './form.module.css';
 import firstCharUppercase from '@utils/firstCharUppercase';
+import AppContext from '@contexts/app.context';
 
 const FormView = () => {
   const navigate = useNavigate();
+  const { profile } = useContext(AppContext);
+  const { role } = profile || {};
 
   const handleNavigate = () => {
     navigate(`edit`, { relative: 'path' })
@@ -26,8 +30,8 @@ const FormView = () => {
     >
       <fieldset className={styles.feature}>
         <div>
-          {data[0].feature?.url
-            ? <img src={data[0].feature?.url}/>
+          {data[0]?.feature?.url
+            ? <img src={data[0]?.feature?.url}/>
             : <FeaturePlaceholder/>
           }
         </div>
@@ -85,13 +89,15 @@ const FormView = () => {
         </div>
       </fieldset>
       <div>
-        <button 
-          type="button"
-          className='btn'
-          onClick={handleNavigate}
-        >
-          Edit
-        </button>
+        {(role === 'admin' || role === 'manager') &&
+          <button 
+            type="button"
+            className='btn'
+            onClick={handleNavigate}
+          >
+            Edit
+          </button>
+        }
       </div>
     </Form>
   )

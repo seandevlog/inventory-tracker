@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import featureSchema from './feature.schema.js';
 
-const allowedRoles = ['admin', 'staff'];
+const allowedRoles = ['admin', 'manager', 'staff'];
 
 const allowedActive = ['active', 'inactive'];
 
@@ -67,7 +67,7 @@ const schema = Joi.object({
         .valid(...allowedRoles)
         .required()
         .messages({
-          'any.only': 'Role must be either admin or staff',
+          'any.only': `Role must be either ${allowedRoles.join(", ")}`,
           'string.empty': 'Role is required',
           'any.required': 'Role is required'
         }),

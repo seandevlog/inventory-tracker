@@ -1,4 +1,4 @@
-import { useReducer, useMemo } from 'react';
+import { useReducer, useMemo, useContext } from 'react';
 import { 
   Form,
   useActionData, 
@@ -9,6 +9,7 @@ import ErrorBox from '@components/errorBox/errorBox';
 import ErrorCircle from '@assets/errorCircle.svg';
 import styles from './form.module.css';
 import firstCharUppercase from '@utils/firstCharUppercase'
+import AppContext from '@contexts/app.context';
 
 const inputReducer = {};
 
@@ -27,6 +28,9 @@ const reducer = (state, action) => {
 }
 
 const FormEdit = () => {
+  const { profile } = useContext(AppContext);
+  const { role } = profile || {};
+
   const {
     FeaturePlaceholder,
     inputs,
@@ -68,8 +72,8 @@ const FormEdit = () => {
     return;
   }
 
-  return (
-    <Form
+  return (role && (role === 'admin' || role === 'manager') 
+    ? <Form
       method="post"
       encType="multipart/form-data"
     >
@@ -178,6 +182,7 @@ const FormEdit = () => {
         </button>
       </div>
     </Form>
+    : <div>This action needs a manager (or someone who looks important)</div>
   )
 }
 

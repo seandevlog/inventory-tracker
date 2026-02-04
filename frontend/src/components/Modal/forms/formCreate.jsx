@@ -1,4 +1,4 @@
-import { useReducer, useMemo } from 'react';
+import { useReducer, useMemo, useContext } from 'react';
 import { 
   Form,
   useActionData, 
@@ -9,6 +9,8 @@ import ErrorBox from '@components/errorBox/errorBox';
 import ErrorCircle from '@assets/errorCircle.svg';
 import styles from './form.module.css';
 import firstCharUppercase from '@utils/firstCharUppercase';
+import AppContext from '@contexts/app.context';
+import MainContext from '@contexts/main.context';
 
 const inputReducer = {};
 
@@ -27,6 +29,10 @@ const reducer = (state, action) => {
 }
 
 const FormCreate = () => {
+  const { profile } = useContext(AppContext);
+  const { role } = profile || {};
+  const { id: manageFeature } = useContext(MainContext);
+
   const {
     FeaturePlaceholder,
     inputs,
@@ -59,8 +65,11 @@ const FormCreate = () => {
     return;
   }
 
-  return (
-    <Form
+  return (role && 
+        ((role === 'staff' && 
+          (manageFeature !== 'item' && manageFeature !== 'location' && manageFeature !== 'supplier')) ||
+        role !== 'staff')
+    ? <Form
       method="post"
       encType="multipart/form-data"
     >
@@ -71,8 +80,7 @@ const FormCreate = () => {
         <legend></legend>
         <div>
           <div className={styles.text}>
-            {filteredInputs.map(({id, type, autoComplete, label, defaultValue, options}) => {
-              console.log(id, defaultValue)
+            {filteredInputs.map(({id, type, autoComplete, label, options}) => {
               return (
               (typeof options === 'undefined') &&
               <div key={id}>
@@ -143,6 +151,7 @@ const FormCreate = () => {
         </button>
       </div>
     </Form>
+    : <div>This action needs a manager (or someone who looks important)</div>
   )
 }
 

@@ -38,7 +38,7 @@ const update = async ({ accessToken, id, formData, path, schema }) => {
   const { error: validationError } = optionalInputsSchema.validate(Object.fromEntries(formData));
   
   if (validationError) {
-    console.log(optionalInputsSchema, validationError)
+    console.log(validationError)
     return { validationError }; 
   }
 
