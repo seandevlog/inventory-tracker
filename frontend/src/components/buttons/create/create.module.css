@@ -1,4 +1,16 @@
-.create {
+.create button {
     min-height      : 30px;
     min-width       : 85px;
+    z-index         : var(--z-create-button);
+    border-radius   : 50%;
+
+    position        : sticky;
+    top             : calc(100vh - 100px)
+}
+
+.create {
+    position        : absolute;
+    width           : 100px;
+    height          : 100%;
+    right           : 3%;
 }

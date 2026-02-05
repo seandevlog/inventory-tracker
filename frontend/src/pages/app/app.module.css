@@ -15,6 +15,7 @@
 
 .app div > nav {
   position        : sticky;
-  top             : calc(var(--navTop-height));
+  top             : var(--navTop-height);
   z-index         : var(--z-navbar);
+  height          : var(--navSub-height);
 }

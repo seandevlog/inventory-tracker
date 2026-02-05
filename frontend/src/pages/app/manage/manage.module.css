@@ -20,9 +20,3 @@
     margin          : 0;
     position        : relative;
 }
-
-.manage main>button {
-    position        : absolute;
-    top             : 3%;
-    right           : 3%;
-}

@@ -43,7 +43,7 @@ const Table = ({ data, headers }) => {
   
   return rows && rows.length > 0 ? (
     <table className={styles.table}>
-      <thead>
+      <thead className={styles.thead}>
         <tr>
           {sortedHeaderObjectsArray.map(header => header.sort 
             ? (<HeaderSort
@@ -52,8 +52,12 @@ const Table = ({ data, headers }) => {
                 sortState={sortAttr === header.attribute && sortState}
               >
                 {header.value}
-              </HeaderSort>)
-            : <th key={header.attribute}>{header.value}</th>
+              </HeaderSort>
+              )
+            : 
+              <th key={header.attribute}>
+                <div>{header.value}</div>
+              </th>
           )}
         </tr>
       </thead>

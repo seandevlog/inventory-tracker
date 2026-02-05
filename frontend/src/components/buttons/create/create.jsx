@@ -1,12 +1,14 @@
 import styles from './create.module.css';
 
 const Create = ({ children, onClick }) => (
-  <button 
-    className={`${styles.create} btn`} 
-    onClick={onClick}
-  >
-    {children}
-  </button>
+  <div className={styles.create}>
+    <button 
+      className='btn' 
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  </div>
 )
 
 export default Create;
