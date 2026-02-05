@@ -1,6 +1,6 @@
 # Inventory Tracker
 
-A simple inventory management system that allows users to track items, orders, shipments, refunds, and billing, built using the MERN stack.
+A hospitality-focused inventory management system that allows users to track items, orders, shipments, and transactions, built using the MERN stack.
 
 ---
 
