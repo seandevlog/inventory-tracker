@@ -36,7 +36,7 @@ const Error = () => {
       <p>{status}</p>
       <p>{data}</p>
       <button
-        onClick={() => navigate('/')}
+        onClick={() => navigate('/', { replace: true })}
       >
         Go Home
       </button>

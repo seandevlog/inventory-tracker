@@ -35,7 +35,7 @@ const Modal = ({ mode, title }) => {
 
   useEffect(() => {
     if (!show) {
-      navigate(`/${topRoute}`, { relative: 'route' }); 
+      navigate(`/${topRoute}`, { relative: 'route', replace: true }); 
     }
   }, [show, navigate, topRoute])
 
