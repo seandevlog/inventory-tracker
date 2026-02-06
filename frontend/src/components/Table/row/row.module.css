@@ -1,5 +1,12 @@
+.filled {
+    transition: all 200ms ease;
+}
+
 .filled:hover{
-    background-color: gray;
-    border-radius   : 30px;
+    background      : white;
+    border-radius   : 5px;
     cursor          : pointer;
+    color           : rgb(50, 49, 44);
+    transform       : translateY(-3px);
+    box-shadow      : inset rgba(140, 129, 27, 0.686) -5px -5px;
 }

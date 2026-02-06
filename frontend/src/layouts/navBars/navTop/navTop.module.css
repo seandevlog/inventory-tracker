@@ -1,5 +1,5 @@
 .navTop {
-  background-color: lightgray;
+  background-color: rgb(44, 44, 44);
   justify-content : space-between;
   align-items     : center;
   padding         : 0 1em;
@@ -17,10 +17,11 @@
 }
 
 .navTop>ul li {
-  color           : black;
+  color           : rgb(177,158,33);
   text-decoration : none;
   font-size       : 1em;
   font-weight     : bold;
+  user-select     : none;
 }
 
 .navTop>ul li:hover {

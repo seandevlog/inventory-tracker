@@ -1,13 +1,15 @@
 .filter {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
+    width               : fit-content;
+    display             : flex;
+    flex-direction      : column;
+    flex-wrap           : wrap;
+    justify-content     : center;
+    user-select         : none;
 }
 
 .filter fieldset {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     border: 0;
 }
@@ -24,6 +26,7 @@
     margin: 0.25em 0;
 }
 
-.filter * {
+.filter fieldset > legend {
     font-weight: bold;
+    user-select: none;
 }

@@ -1,37 +1,47 @@
+div:has(> .table) {
+  flex            : 1;
+  height          : calc(100vh - var(--navSub-height) - var(--navTop-height));
+  margin-left     : 1em;
+
+  overflow        : auto;
+}
+
 .table {
   table-layout    : auto;
   width           : 100%;
   margin-top      : 0;
   align-self      : center;
   border-collapse : collapse;
-  position: relative;
+  position        : relative;
 }
 
 .table th, 
 .table td {
   margin          : 0 1em;
   text-align      : center;
-  padding         : 0.5em 0;
+  padding         : 1em 0;
 }
 
 .thead > tr {
-  position: sticky;
-  top: calc(var(--navTop-height) + var(--navSub-height));
   height: 4em;
 }
 
 .thead > tr > th {
-  justify-items: center;
+  position          : sticky;
+  top               : 0;
+  justify-items     : center;
+  box-shadow        : inset var(--color-2) 0 -1px;
+  backdrop-filter   : blur(8px);
 }
 
 .thead > tr > th > div {
   height          : 2em;
   width           : max-content;
   padding-inline  : 1em;
-  background      : gray;
+  background      : inherit;
   align-content   : center;
   border-radius   : 10px;
-  color           : white;
+  color           : black;
   user-select     : none;
 }
 
@@ -39,10 +49,18 @@
   width           : 3em
 }
 
-.table > tbody tr svg {
+.table > tbody tr td svg {
   width           : 40px;
   height          : 40px;
-  fill            : rgb(89, 89, 89);
+}
+
+.table > tbody tr td svg circle {
+  fill            : rgba(140, 129, 27);
+  fill-opacity    : 0.5;
+}
+
+div:has(> .noData) {
+  flex: 1;
 }
 
 .noData {

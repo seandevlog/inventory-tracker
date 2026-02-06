@@ -13,6 +13,7 @@ Table
 - Add drag and drop option for rows
 - Add statuses to table with icons
 - Add footer with computation when possible
+- Add bulk actions
 
 All
 - Integrate accessibility features

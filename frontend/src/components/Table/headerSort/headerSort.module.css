@@ -1,10 +1,12 @@
 .tableHeaderSort > div > svg {
-    width           : 0.8em;
-    margin-right    : 0.2em;
-    padding: 0.25em 0.15em 0 0;
+  width           : 0.8em;
+  margin-right    : 0.2em;
+  padding         : 0.25em 0.15em 0 0;
+  fill            : rgb(85,81,52);
+  transform       : scale(1.2);
 }
 
 .tableHeaderSort > div:hover {
-  background      : gainsboro;
+  background      : none;
   cursor          : pointer;
 }

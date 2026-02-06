@@ -34,30 +34,30 @@ const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schem
       filterOptions,
       selections
     }}>
-      {selections && 
-        (<div className={styles.sidebar}>
+      <main className={styles.main}>
+        {selections && 
           <Sidebar/>
-        </div>)
-      }
-      {role && 
-        ((role === 'staff' && 
-          (id !== 'item' && id !== 'location' && id !== 'supplier')) ||
-        role !== 'staff') &&
-          <CreateButton
-            onClick={() => navigate('create')}
-          >
-            {`New ${firstCharUppercase(id)}`}
-          </CreateButton>
-      }
-      <div className={styles.tableWrapper}>
-        <Table headers={headers} data={filteredData}/>
-      </div>
-      <Outlet context={{ 
-        data: singleData, 
-        inputs,
-        FeaturePlaceholder,
-        schema 
-      }}/>
+        }
+        {role && 
+          ((role === 'staff' && 
+            (id !== 'item' && id !== 'location' && id !== 'supplier')) ||
+          role !== 'staff') &&
+            <CreateButton
+              onClick={() => navigate('create')}
+            >
+              {`New ${firstCharUppercase(id)}`}
+            </CreateButton>
+        }
+        <div>
+          <Table headers={headers} data={filteredData}/>
+        </div>
+        <Outlet context={{ 
+          data: singleData, 
+          inputs,
+          FeaturePlaceholder,
+          schema 
+        }}/>
+      </main>
     </MainContext.Provider>
   )
 }

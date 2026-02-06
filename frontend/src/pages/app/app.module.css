@@ -1,5 +1,5 @@
-:root {
-  --navTop-height: 3em;
+.app {
+  height          : 100%;
 }
 
 .app > nav {
@@ -7,15 +7,9 @@
   flex-direction  : row;
   width           : 100%;
   height          : var(--navTop-height);
-
-  position        : sticky;
-  top             : 0;
-  z-index         : var(--z-navbar);
 }
 
 .app div > nav {
-  position        : sticky;
-  top             : var(--navTop-height);
-  z-index         : var(--z-navbar);
   height          : var(--navSub-height);
 }
+

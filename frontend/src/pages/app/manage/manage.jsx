@@ -7,9 +7,7 @@ const Manage = () => {
   return (
     <div className={style.manage}>
       <NavSub />
-      <main>
-        <Outlet />
-      </main>
+      <Outlet />
     </div>
   )
 }

@@ -77,7 +77,7 @@ const Table = ({ data, headers }) => {
         }
       </tbody>
     </table>
-  ) : (<div className={styles.noData}>New here? Create data with the button at the top right</div>)
+  ) : (<div className={styles.noData}>New here? Create data using the 'New' button</div>)
 } 
 
 export default Table;

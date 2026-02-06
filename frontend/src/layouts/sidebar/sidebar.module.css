@@ -1,12 +1,11 @@
 .sidebar {
   height            : 100%;
-  background-color  : rgb(159, 158, 158);
-  z-index           : var(--z-sidebar);
+  background        : none;
+  width             : fit-content;
+  position          : relative;
 }
 
 .sidebar>div {
-  position          : sticky;
-  top               : 100px;
   height            : 100%;
   max-height        : 80vh;
   margin            : 0 auto;

@@ -13,6 +13,7 @@ div#root {
   height          : 100%;
   width           : 100%;
   margin          : 0;
+  overflow        : hidden;
 }
 
 :root {
@@ -24,6 +25,8 @@ div#root {
 
   --navTop-height: 3em;
   --navSub-height: 1.5em;
+
+  --color-2: rgba(140, 129, 27, 0.686);
 }
 
 .hide {

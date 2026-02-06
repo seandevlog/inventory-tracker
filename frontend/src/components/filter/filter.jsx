@@ -15,7 +15,7 @@ const Filter = () => {
   return (Object.values(selections)?.length > 0) && (
     <div className={styles.filter}>
       <fieldset>
-        <legend>Filter</legend>
+        <legend></legend>
         {Object.keys(selections).map(key => (
           <Input 
             key={key}
