@@ -42,14 +42,16 @@ const FormCreate = () => {
   const { error: submitError } = actionData || {};
 
   const filteredInputs = useMemo(() => 
-    inputs.filter(({ id }) => 
-      id !== 'createdAt' && id !== 'updatedAt'
+    inputs.filter(({ disabled }) => 
+      !disabled
     )
   ,[inputs])
 
-  filteredInputs.map(({id, defaultValue}) => inputReducer[id] = useReducer(reducer, {
-    errorMessage: '', input: defaultValue ?? '', schema: schema.extract(id)
-  }))
+  filteredInputs.map(({id, defaultValue}) =>
+    inputReducer[id] = useReducer(reducer, {
+      errorMessage: '', input: defaultValue ?? '', schema: schema.extract(id)
+    })
+  )
 
   const handleInput = (event, dispatch) => {
     dispatch({ value: event.target.value })
@@ -87,21 +89,21 @@ const FormCreate = () => {
                 <label htmlFor={id}>{label}</label>
                 {id !== 'createdBy'
                   ? <>
-                      <span className='validation-error'>{inputReducer[id][0]?.errorMessage}</span>
+                      <span className='validation-error'>{inputReducer[id]?.[0]?.errorMessage}</span>
                       <input 
                         id={id}
                         name={id}
                         type={type} 
                         autoComplete={autoComplete}
-                        value={inputReducer[id][0]?.input ?? ''}
-                        onChange={(e) => handleInput(e, inputReducer[id][1])}
+                        value={inputReducer[id]?.[0]?.input ?? ''}
+                        onChange={(e) => handleInput(e, inputReducer[id]?.[1])}
                       />
                     </>
                   : <input 
                       id={id}
                       name={id}
                       type={type} 
-                      value={inputReducer[id][0]?.input ?? ''}
+                      value={inputReducer[id]?.[0]?.input ?? ''}
                       readOnly
                     />
                 }

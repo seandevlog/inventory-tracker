@@ -22,7 +22,7 @@ const { server } = config;
 
 const Orders = () => {
   const orders = useLoaderData();
-  const { token } = useContext(AppContext);
+  const { token, profile } = useContext(AppContext);
 
   const [suppliers, setSuppliers] = useState(null);
   const [items, setItems] = useState(null);
@@ -57,7 +57,7 @@ const Orders = () => {
       headers={headers}
       FeaturePlaceholder={Order}
       selections={selections}
-      inputs={inputs({ suppliers, items })}
+      inputs={inputs({ suppliers, items, profile })}
       schema={orderSchema}
     />
   )

@@ -14,13 +14,17 @@
 .text > div > span:first-child > p,
 .option > div > span:first-child > p,
 .date > div > span:first-child > p,
-.date > div > label {
+.id > div > span:first-child > p,
+.text label,
+.date table,
+.option label {
   font-weight: bold;
 }
 
 .text > div > span > p,
 .option > div > span > p,
-.date > div > span > p {
+.date > div > span > p,
+.id > div > span > p {
   margin: 0.2em 0;
 }
 

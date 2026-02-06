@@ -8,6 +8,7 @@ export const selections = {
 }
 
 const schema = Joi.object({
+
   email: Joi.string()
         .required()
         .messages({

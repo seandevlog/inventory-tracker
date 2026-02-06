@@ -41,8 +41,8 @@ const FormEdit = () => {
   const { error } = actionData || {};
 
   const filteredInputs = useMemo(() => 
-    inputs.filter(({ id }) => 
-      id !== 'createdAt' && id !== 'updatedAt'
+    inputs.filter(({ disabled }) => 
+      !disabled
     )
   ,[inputs]);
 
@@ -64,8 +64,8 @@ const FormEdit = () => {
 
   const handleClick = () => {
     filteredInputs.map(({id}) => {
-      if (!inputReducer[id][0].input && !inputReducer[id][0].errorMessage) {
-        inputReducer[id][1]({ value: inputReducer[id][0].input || data[0][id]})
+      if (!inputReducer[id]?.[0].input && !inputReducer[id]?.[0].errorMessage) {
+        inputReducer[id]?.[1]({ value: inputReducer[id]?.[0].input || data[0]?.[id]})
       }
     })
 
@@ -83,6 +83,14 @@ const FormEdit = () => {
       <fieldset className={styles.form}>
         <legend></legend>
         <div>
+          <div className={styles.id}>
+            {inputs.map(({id, label}) => id === '_id' && (
+              <div key={id}>
+                <span><p>{label}</p></span>
+                <span id={id}><p>{data[0]?.[id]}</p></span>
+              </div>
+            ))}
+          </div>
           <div className={styles.text}>
             {filteredInputs.map(({id, type, autoComplete, label, defaultValue, options}) => (
               (typeof options === 'undefined') &&
@@ -90,23 +98,23 @@ const FormEdit = () => {
                 {id !== 'createdBy'
                   ? <>
                       <label htmlFor={id}>{label}</label>
-                      <span className='validation-error'>{inputReducer[id][0]?.errorMessage}</span>
+                      <span className='validation-error'>{inputReducer[id]?.[0]?.errorMessage}</span>
                       <input 
                         id={id}
                         name={id}
                         type={type} 
                         autoComplete={autoComplete}
-                        value={inputReducer[id][0]?.input || ''}
-                        placeholder={data[0][id]}
-                        onChange={(e) => handleInput(e, inputReducer[id][1])}
+                        value={inputReducer[id]?.[0]?.input || ''}
+                        placeholder={data[0]?.[id]}
+                        onChange={(e) => handleInput(e, inputReducer[id]?.[1])}
                       />
                     </>
                   : <>
                       <span><p>{label}</p></span> 
                       <span id={id}><p>{
-                      (typeof defaultValue === 'string' || typeof data[0][id] === 'string') 
-                        ? firstCharUppercase(defaultValue || data[0][id])
-                        : defaultValue || data[0][id]
+                      (typeof defaultValue === 'string' || typeof data[0]?.[id] === 'string') 
+                        ? firstCharUppercase(defaultValue || data[0]?.[id])
+                        : defaultValue || data[0]?.[id]
                       }</p></span>
                     </>
                 }
@@ -114,17 +122,17 @@ const FormEdit = () => {
             ))}
           </div>
           <div className={styles.option}>
-            {filteredInputs.map(({id, type, label, disabled, options}) => (
+            {inputs.map(({id, type, label, disabled, options}) => (
               options && options?.length > 0 && !disabled &&
               <div key={id}>
                 <label htmlFor={id}>{label}</label>
                 <select
                   id={id}
-                  name={inputReducer[id][0]?.input ? id: ''}
+                  name={inputReducer[id]?.[0]?.input ? id: ''}
                   type={type}
                   autoComplete='off'
-                  value={inputReducer[id][0]?.input || data[0][id] || ''}
-                  onChange={(e) => handleInput(e, inputReducer[id][1])}
+                  value={inputReducer[id]?.[0]?.input || data[0]?.[id] || ''}
+                  onChange={(e) => handleInput(e, inputReducer[id]?.[1])}
                   
                 >
                   <option value=''>--Choose One--</option>
@@ -134,7 +142,7 @@ const FormEdit = () => {
                     </option>
                   )}
                 </select>
-                {inputReducer[id][0]?.errorMessage &&
+                {inputReducer[id]?.[0]?.errorMessage &&
                   <ErrorCircle />
                 }
               </div>
@@ -145,7 +153,7 @@ const FormEdit = () => {
               type === 'date' &&
               <div key={id}>
                 <span><p>{label}</p></span>
-                <span id={id}><p>{new Date(data[0][id]).toLocaleDateString(undefined, {
+                <span id={id}><p>{new Date(data[0]?.[id]).toLocaleDateString(undefined, {
                   weekday: 'long',
                   month: 'long',
                   day: '2-digit',

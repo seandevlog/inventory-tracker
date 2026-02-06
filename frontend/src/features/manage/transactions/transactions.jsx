@@ -24,24 +24,19 @@ const { server } = config;
 const Transactions = () => {
   const transactions = useLoaderData();
 
-  const { token } = useContext(AppContext);
+  const { token, profile } = useContext(AppContext);
 
   const [items, setItems] = useState(null);
   const [locations, setLocations] = useState(null);
-  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
     (async () => {
-      const [{ data: locationData }, { data: itemData }, { data: profileData }] = await Promise.all([
+      const [{ data: locationData }, { data: itemData }] = await Promise.all([
         axios.get(`${server}/locations`, { 
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true 
         }),
         axios.get(`${server}/items`, { 
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true 
-        }),
-        axios.get(`${server}/profile`, { 
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true 
         })
@@ -52,9 +47,6 @@ const Transactions = () => {
 
       const { items } = itemData;
       setItems(items);
-
-      const { profile } = profileData;
-      setProfile(profile ? profile?.username: '');
     })()
   }, []);
 
@@ -65,7 +57,7 @@ const Transactions = () => {
       headers={headers}
       FeaturePlaceholder={Transaction}
       selections={selections}
-      inputs={inputs({ items, locations, username: profile })}
+      inputs={inputs({ items, locations, profile })}
       schema={transactionSchema}
     />
   )
