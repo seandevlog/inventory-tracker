@@ -1,22 +1,33 @@
 .create {
     position        : absolute;
     width           : fit-content;
-
     height          : fit-content;
-    right           : 3em;
-    bottom          : 85px;
+    right           : 4em;
+    bottom          : 7em;
     z-index         : var(--z-create-button);
+
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
 }
 
-.create button svg path {
+.create > div {
+    position        : relative;
+    width           : 5em;
+    height          : 5em;
+}
+
+.create > div button svg path {
     fill: white;
 }
 
-.create button svg {
-    transform: scale(3);
+.create > div button svg {
+    transform       : scale(3);
+
+    user-select     : none;
 }
 
-.create button {
+.create > div button {
     background      : linear-gradient(
                     var(--color-2),
                     #ffffff 1%, 
@@ -25,29 +36,60 @@
     border          : none;
     border-radius   : 4em;
     backdrop-filter : blur(8px);
+    
+    position        : absolute;
+    inset           : 0;
+    z-index         : calc(var(--z-create-button) + 2);
 
-    padding         : 2em 2.3em;
-
-    transition      : all 300ms ease;
-    z-index         : var(--z-create-button);
-}
-
-.create button:hover {
-    background      : rgb(84, 68, 0);
-    cursor          : pointer;
+    transition      : all 500ms ease-in-out;
 }
 
 .description {
     background      : rgb(188, 188, 188);
-    border-radius   : 30% 80% 80% 30%;
-    padding         : 0.7em;
+    border-radius   : 50%;
     color           : white;
+    font-size       : 0.1em;
+    height          : fit-content;
+    width           : fit-content;
     white-space     : nowrap;
 
-    position        : absolute;
-    left            : 0;
-    top             : 50%;
-    transform       : translate(-7em, -50%);
+    user-select     : none;
 
-    transition      : all 300ms ease;
+    align-content   : center;
+
+    position        : absolute;
+    top             : 50%;
+    left            : 30%;
+    z-index         : calc(var(--z-create-button) + 1);
+
+    transition      : none;
+}
+
+.create:hover > div {
+    display         : flex ;
+    width           : fit-content;
+}
+
+.create:hover > div > button {
+    background      : rgb(84, 68, 0);
+    cursor          : pointer;
+
+    position        : relative;
+    width           : 6em;
+    height          : 6em;
+}
+
+.create:hover .description {
+    border-radius   : 30% 80% 80% 30%;
+    padding         : 0.7em;
+    white-space     : nowrap;
+    font-size       : 1em;
+    height          : fit-content;
+
+    position        : relative;
+    top             : 25%;
+    left            : 0;
+    margin-right    : 0.5em;
+
+    transition      : all 300ms ease-in;
 }
