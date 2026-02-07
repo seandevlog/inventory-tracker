@@ -1,0 +1,131 @@
+.form > div {
+  height      : fit-content;
+  width       : 100%;
+}
+
+.input {
+  position          : relative;
+  margin            : 2em 0;
+}
+
+.input > input {
+  background        : none;
+  border            : 1px solid black;
+  border-radius     : 8px;
+  outline           : none;
+  appearance        : none;
+
+  font-size         : 1.1em;
+  padding           : 0.7em;
+  color             : black;
+  font-weight       : 500;
+
+  height            : 2em;
+  width             : 100%;
+}
+
+.input > label {
+  font-size         : 1.1em;
+  color             : black;
+  font-weight       : 500;
+  padding-left      : 0.7em;
+
+  user-select       : none;
+}
+
+.validationError {
+  display           : block;
+  height            : 1em;
+  color             : red;
+  padding-left      : 0.7em;
+}
+
+.selectInput {
+  position      : relative;
+}
+
+.selectInput > select {
+  appearance    : none;
+  border        : none;
+  border-bottom : 1px solid black;
+
+  padding       : 0 2em 0 0.3em;
+  width         : 100%;
+  text-overflow : ellipsis;
+  line-height   : 2em;
+  font-size     : 1.2em;
+}
+
+.selectInput > span > svg {
+  width         : 1em;
+  height        : 1em;
+}
+
+.selectInput > span:first-of-type {
+  position      : absolute;
+  right         : 1em;
+  top           : 35%;
+}
+
+.option {
+  margin: 1em 0;
+  display: flex;
+  flex-wrap: wrap;
+
+  height: 2em;
+}
+
+.option > div {
+  display: block;
+  height: inherit;
+  margin: 0 1em 0.5em 0;
+  flex: 1;
+}
+
+.date {
+  margin-top        : 2em;
+}
+
+.info {
+  display           : flex;
+}
+
+.info > span:first-of-type {
+  font-weight: 500;
+  align-content: center;
+}
+
+.info > span:last-of-type {
+  height: 2em;
+  align-content: center;
+}
+
+.info p {
+  font-size   : 1.1em;
+  margin      : 0;
+  padding     : 0 0.4em;
+  color       : black;
+} 
+
+.errorBox {
+  display        : flex;
+  justify-content: center;
+}
+
+@media (max-width: 1024px) {
+  .form > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+  }
+
+  .option > div {
+    width: 100%;
+    margin: 0.8em 0;
+  }
+
+  .option > div > span > p {
+    text-align: center;
+  }
+}

@@ -21,14 +21,22 @@ div:has(>.modal) {
   z-index         : var(--z-modal);
   position        : relative;
   border-radius   : 1em;
+
+  overflow        : auto;
+
+  box-shadow      : 
+    0 4px 6px black,
+    0 10px 20px black;
 }
 
 .modal > div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 5em;
+  display         : flex;
+  flex-direction  : column;
+  justify-content : center;
+  align-items     : center;
+  padding-bottom  : 10em;
+  
+  height          : fit-content;
 
   width: 90%;
   position: relative;
@@ -36,6 +44,10 @@ div:has(>.modal) {
 
 .modal div header {
   margin: 2em 0;
+
+  color: var(--color-dark-1);
+  font-size: 2em;
+  font-weight: 1000;
 }
 
 .modal div form {
@@ -43,39 +55,89 @@ div:has(>.modal) {
   align-items     : center;
   justify-content : center;
 
-  height          : 80%;
+  height          : fit-content;
   width           : 100%;
 
   position        : relative;
 }
 
-.modal div form > svg {
+.modal div form > fieldset > img,
+.modal div form > fieldset > svg > circle {
+  width: 300px;
+  height: 300px;
+  padding: 2em;
+
+  fill: var(--color-dark-1);
+  fill-opacity: 1;
+}
+
+.modal div form > fieldset > svg {
   width: 300px;
   height: 300px;
   padding: 2em;
 }
 
 .modal div form fieldset {
-  display: flex;
+  align-self      : flex-start;
 
-  height          : auto;
-  max-height      : calc(100vh*0.6);
-  width: 100%;
-  border: 0px;
+  height          : 100%;
+  width           : 100%;
+  border          : 0px;
+}
+
+.modal > div > form > fieldset:first-of-type {
+  height          : 100%;
+  flex            : 1;
+}
+
+.modal > div > form > fieldset:last-of-type { 
+  flex            : 3;
 }
 
 .modal div > form > div:has(button) {
   display: flex;
 
   position: absolute;
-  bottom: -10%;
-  right: 1%;
-  width: min-content;
+  bottom: -7em;
+  right: 50%;
+  transform: translate(50%, 0);
+  
+  width: 30%;
+  height: fit-content;
+
+  z-index: var(--z-buttons);
+}
+
+.modal div > form > div:has(button) > div {
+  width       : fit-content;
+
+  position    : absolute;
+  top         : -100%;
 }
 
 .modal div > form > div:has(button) button {
-  margin-left: 1em;
-  z-index: var(--z-buttons);
+  border-radius     : 8px;
+  background-color  : var(--color-dark-1);
+  color             : var(--color-1);
+  font-weight       : 700;
+  font-size         : 1em;
+  padding           : 1em;
+
+  box-shadow        : 
+    0 2px 3px black,
+    0 5px 10px black;
+
+  margin-left       : 1em;
+  width             : 100%;
+  height            : 100%;
+}
+
+.modal div > form > div:has(button) button:hover {
+  background        : var(--color-dark-3)
+}
+
+.modal div > form > div:has(button) button:active {
+  transform         : translateY(-10%);
 }
 
 @media (max-width: 1024px) {

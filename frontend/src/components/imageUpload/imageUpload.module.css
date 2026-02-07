@@ -20,6 +20,38 @@
   padding: 2em;
 }
 
+.fileInput > input {
+  display: none;
+}
+
+.fileInput {
+  display           : flex;
+  justify-content   : center;
+}
+
+.fileInput > label {
+  width             : fit-content;
+  padding           : 0.5em 1em;
+  border-radius     : 16px;
+  
+  font-weight       : 700;
+  background-color  : var(--color-dark-1);
+  color             : var(--color-1);
+  box-shadow        : 
+    0 2px 3px black,
+    0 5px 10px black;
+}
+
+.fileInput > label:hover {
+  background        : var(--color-dark-3);
+  cursor            : pointer;
+}
+
+.fileInput > label:active {
+  transform         : translateY(-10%);
+  transition        : all 150ms ease;
+}
+
 @media (max-width: 1024px) {
   .feature {
     margin: 0;

@@ -1,6 +1,5 @@
 .errorBox {
-  width         : 80%;
-  border        : 3px rgb(148, 10, 10) solid;
+  border        : none;
   border-radius : 5px;
   margin        : 0;
   padding       : 0.5em;

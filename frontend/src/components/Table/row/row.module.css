@@ -8,5 +8,7 @@
     cursor          : pointer;
     color           : rgb(50, 49, 44);
     transform       : translateY(-3px);
-    box-shadow      : inset rgba(140, 129, 27, 0.686) -5px -5px;
+    box-shadow      : 
+        0 4px 6px var(--color-dark-1),
+        0 10px 20px var(--color-dark-1) ;
 }

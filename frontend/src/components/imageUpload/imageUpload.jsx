@@ -48,8 +48,10 @@ const ImageUpload = ({ disabled, ImagePlaceholder }) => {
         ? <img src={feature}/>
         : <ImagePlaceholder/>
       }
-      <div className={styles.input}>
+      <div className={styles.fileInput}>
+        <label htmlFor="feature">Upload File</label>
         <input 
+          id="feature"
           type="file" 
           name="feature" 
           disabled={disabled ?? false}

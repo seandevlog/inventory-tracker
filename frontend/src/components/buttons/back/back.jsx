@@ -3,7 +3,7 @@ import Svg from '@assets/backButton.svg'
 
 const BackButton = ({ onClick }) => (
   <button 
-    className={styles.modalClose}
+    className={styles.modal}
     onClick={onClick}  
   >
     <Svg/>

@@ -6,11 +6,12 @@ import {
 } from 'react-router-dom';
 import ImageUpload from '@components/imageUpload/imageUpload';
 import ErrorBox from '@components/errorBox/errorBox';
-import ErrorCircle from '@assets/errorCircle.svg';
-import styles from './form.module.css';
+import styles from './formCreate.module.css';
 import firstCharUppercase from '@utils/firstCharUppercase';
+import splitUppercase from '@utils/splitUppercase';
 import AppContext from '@contexts/app.context';
 import MainContext from '@contexts/main.context';
+import { ArrowDown } from '@assets/arrows';
 
 const inputReducer = {};
 
@@ -49,7 +50,9 @@ const FormCreate = () => {
 
   filteredInputs.map(({id, defaultValue}) =>
     inputReducer[id] = useReducer(reducer, {
-      errorMessage: '', input: defaultValue ?? '', schema: schema.extract(id)
+      errorMessage: '', 
+      input: defaultValue ?? '',
+      schema: schema.extract(id)
     })
   )
 
@@ -81,40 +84,34 @@ const FormCreate = () => {
       <fieldset className={styles.form}>
         <legend></legend>
         <div>
-          <div className={styles.text}>
+          <div>
             {filteredInputs.map(({id, type, autoComplete, label, options}) => {
               return (
               (typeof options === 'undefined') &&
-              <div key={id}>
-                <label htmlFor={id}>{label}</label>
-                {id !== 'createdBy'
-                  ? <>
-                      <span className='validation-error'>{inputReducer[id]?.[0]?.errorMessage}</span>
-                      <input 
-                        id={id}
-                        name={id}
-                        type={type} 
-                        autoComplete={autoComplete}
-                        value={inputReducer[id]?.[0]?.input ?? ''}
-                        onChange={(e) => handleInput(e, inputReducer[id]?.[1])}
-                      />
-                    </>
-                  : <input 
-                      id={id}
-                      name={id}
-                      type={type} 
-                      value={inputReducer[id]?.[0]?.input ?? ''}
-                      readOnly
-                    />
-                }
+              <div 
+                key={id}
+                className={styles.input}
+              >
+                <input 
+                  id={id}
+                  name={id}
+                  type={type} 
+                  autoComplete={autoComplete}
+                  value={inputReducer[id]?.[0]?.input ?? ''}
+                  onChange={(e) => handleInput(e, inputReducer[id]?.[1])}
+                />
+                <span className={inputReducer[id]?.[0]?.input ? styles.floatPlaceholder : ''}>{`Enter ${label}`}</span>
+                <span className={styles.validationError}>{inputReducer[id]?.[0]?.errorMessage}</span>
               </div>
             )})}
           </div>
           <div className={styles.option}>
             {filteredInputs.map(({id, type, label, disabled, options}) => (
               options && options?.length > 0 && !disabled &&
-              <div key={id}>
-                <label htmlFor={id}>{label}</label>
+              <div 
+                key={id}
+                className={styles.selectInput}
+              >
                 <select
                   id={id}
                   name={id}
@@ -123,29 +120,36 @@ const FormCreate = () => {
                   value={inputReducer[id][0]?.input ?? ''}
                   onChange={(e) => handleInput(e, inputReducer[id][1])}
                 >
-                  <option value=''>--Choose One--</option>
+                  <option 
+                    value=''
+                    style={{ 'fontWeight': 'bolder' }}
+                    disabled
+                  >
+                      {label}
+                  </option>
                   {options.map(option => 
                     <option key={option} value={option}>
                       {firstCharUppercase(option)}
                     </option>
                   )}
                 </select>
-                {inputReducer[id][0]?.errorMessage &&
-                  <ErrorCircle />
-                }
+                <span>
+                  <ArrowDown/>
+                </span>
+                <span className={styles.validationError}>
+                  {splitUppercase(firstCharUppercase(inputReducer[id][0]?.errorMessage))}
+                </span>
               </div>
             ))}
           </div>
-          {submitError 
-            ? <ErrorBox className={styles.ErrorBox}>{submitError}</ErrorBox>
-            : null
-          }
         </div>
       </fieldset>
       <div>
+        <div className={styles.errorBox}>
+          <ErrorBox>{submitError ?? ''}</ErrorBox>
+        </div>
         <button 
-          type="submit" 
-          className="btn"
+          type="submit"
           disabled={filteredInputs.reduce((acc, {id}) => acc || inputReducer[id]?.[0]?.errorMessage, false)} // Checks; all values are false --> false OR one value is true --> true
           onClick={handleClick}
         >

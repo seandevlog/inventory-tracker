@@ -1,7 +1,7 @@
 import styles from './errorBox.module.css';
 
 const ErrorBox = ({ children }) => {
-  return children && (
+  return (
     <div
       className={styles.errorBox}
     >

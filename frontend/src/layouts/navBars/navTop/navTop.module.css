@@ -1,13 +1,18 @@
 .navTop {
-  background-color: rgb(44, 44, 44);
+  background-color: #2c2c2c;
   justify-content : space-between;
   align-items     : center;
   padding         : 0 1em;
 }
 
-.navTop input[type="search"] {
-  margin          : auto;
-  width           : 20em;
+.navTop form {
+  width           : 40em;
+  height          : 70%;
+}
+
+.navTop form > input[type="search"] {
+  width           : 100%;
+  height          : 100%;
 }
 
 .navTop input[type="search"]::placeholder {
@@ -17,7 +22,7 @@
 }
 
 .navTop>ul li {
-  color           : rgb(177,158,33);
+  color           : var(--color-1);
   text-decoration : none;
   font-size       : 1em;
   font-weight     : bold;

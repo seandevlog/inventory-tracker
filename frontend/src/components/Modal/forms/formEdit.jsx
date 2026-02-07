@@ -7,9 +7,10 @@ import {
 import ImageUpload from '@components/imageUpload/imageUpload';
 import ErrorBox from '@components/errorBox/errorBox';
 import ErrorCircle from '@assets/errorCircle.svg';
-import styles from './form.module.css';
+import styles from './formEdit.module.css';
 import firstCharUppercase from '@utils/firstCharUppercase'
 import AppContext from '@contexts/app.context';
+import { ArrowDown } from '@assets/arrows';
 
 const inputReducer = {};
 
@@ -83,75 +84,81 @@ const FormEdit = () => {
       <fieldset className={styles.form}>
         <legend></legend>
         <div>
-          <div className={styles.id}>
+          <div>
             {inputs.map(({id, label}) => id === '_id' && (
-              <div key={id}>
+              <div 
+                key={id}
+                className={styles.info}  
+              >
                 <span><p>{label}</p></span>
                 <span id={id}><p>{data[0]?.[id]}</p></span>
               </div>
             ))}
           </div>
           <div className={styles.text}>
-            {filteredInputs.map(({id, type, autoComplete, label, defaultValue, options}) => (
-              (typeof options === 'undefined') &&
-              <div key={id}>
-                {id !== 'createdBy'
-                  ? <>
-                      <label htmlFor={id}>{label}</label>
-                      <span className='validation-error'>{inputReducer[id]?.[0]?.errorMessage}</span>
-                      <input 
-                        id={id}
-                        name={id}
-                        type={type} 
-                        autoComplete={autoComplete}
-                        value={inputReducer[id]?.[0]?.input || ''}
-                        placeholder={data[0]?.[id]}
-                        onChange={(e) => handleInput(e, inputReducer[id]?.[1])}
-                      />
-                    </>
-                  : <>
-                      <span><p>{label}</p></span> 
-                      <span id={id}><p>{
-                      (typeof defaultValue === 'string' || typeof data[0]?.[id] === 'string') 
-                        ? firstCharUppercase(defaultValue || data[0]?.[id])
-                        : defaultValue || data[0]?.[id]
-                      }</p></span>
-                    </>
-                }
-              </div>
-            ))}
-          </div>
-          <div className={styles.option}>
-            {inputs.map(({id, type, label, disabled, options}) => (
-              options && options?.length > 0 && !disabled &&
-              <div key={id}>
-                <label htmlFor={id}>{label}</label>
-                <select
-                  id={id}
-                  name={inputReducer[id]?.[0]?.input ? id: ''}
-                  type={type}
-                  autoComplete='off'
-                  value={inputReducer[id]?.[0]?.input || data[0]?.[id] || ''}
-                  onChange={(e) => handleInput(e, inputReducer[id]?.[1])}
-                  
+            {filteredInputs.map(({id, type, autoComplete, label, options}) => (
+              (typeof options === 'undefined') 
+              ? id !== 'createdBy'
+                && <div
+                  key={id}
+                  className={styles.input}
                 >
-                  <option value=''>--Choose One--</option>
-                  {options.map(option => 
-                    <option key={option} value={option}>
-                      {firstCharUppercase(option)}
-                    </option>
-                  )}
-                </select>
-                {inputReducer[id]?.[0]?.errorMessage &&
-                  <ErrorCircle />
-                }
-              </div>
+                  <label htmlFor={id}>{label}</label>
+                  <input 
+                    id={id}
+                    name={id}
+                    type={type} 
+                    autoComplete={autoComplete}
+                    value={inputReducer[id]?.[0]?.input || ''}
+                    placeholder={data[0]?.[id]}
+                    onChange={(e) => handleInput(e, inputReducer[id]?.[1])}
+                  />
+                  <span className={styles.validationError}>{inputReducer[id]?.[0]?.errorMessage}</span>
+                </div>
+              : null
             ))}
           </div>
+          {filteredInputs.filter(input => (
+            typeof input.options !== 'undefined'
+          )).length > 0 &&
+            <div className={styles.option}>
+              {inputs.map(({id, type, label, disabled, options}) => (
+                options && options?.length > 0 && !disabled &&
+                <div 
+                  key={id}
+                  className={styles.selectInput}
+                >
+                  <select
+                    id={id}
+                    name={inputReducer[id]?.[0]?.input ? id: ''}
+                    className={styles.selectInput}
+                    type={type}
+                    autoComplete='off'
+                    value={inputReducer[id]?.[0]?.input || data[0]?.[id] || ''}
+                    onChange={(e) => handleInput(e, inputReducer[id]?.[1])}
+                  >
+                    <option value='' disabled>{label}</option>
+                    {options.map(option => 
+                      <option key={option} value={option}>
+                        {firstCharUppercase(option)}
+                      </option>
+                    )}
+                  </select>
+                  <span><ArrowDown/></span>
+                  {inputReducer[id]?.[0]?.errorMessage &&
+                    <ErrorCircle />
+                  }
+                </div>
+              ))}
+            </div>
+          }
           <div className={styles.date}>
             {inputs.map(({id, type, label}) => (
               type === 'date' &&
-              <div key={id}>
+              <div 
+                key={id}
+                className={styles.info}
+              >
                 <span><p>{label}</p></span>
                 <span id={id}><p>{new Date(data[0]?.[id]).toLocaleDateString(undefined, {
                   weekday: 'long',
@@ -164,11 +171,11 @@ const FormEdit = () => {
               </div>
             ))}
           </div>
-          <div className={styles.errorBox}>
-            <ErrorBox>{error}</ErrorBox>
-          </div>
         </div>
       </fieldset>
+      <div className={styles.errorBox}>
+        <ErrorBox>{error}</ErrorBox>
+      </div>
       <div>
         <button 
           type="submit"

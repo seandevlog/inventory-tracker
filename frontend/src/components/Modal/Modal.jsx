@@ -15,6 +15,7 @@ import {
 } from './forms';
 
 import getTopLevelRoute from '@utils/getTopLevelRoute';
+import firstCharUppercase from '@utils/firstCharUppercase';
 
 const Modal = ({ mode, title }) => {
   const navigate = useNavigate();
@@ -28,16 +29,20 @@ const Modal = ({ mode, title }) => {
       setShow(false);
   }
 
-  const handleCloseButton = (event) => {
-    console.log(event)
+  const handleCloseButton = () => {
     setShow(false);
   }
 
   useEffect(() => {
     if (!show) {
-      navigate(`/${topRoute}`, { relative: 'route', replace: true }); 
+      document.title = firstCharUppercase(topRoute);
+      navigate(`/${topRoute}`, { relative: 'route' }); 
     }
   }, [show, navigate, topRoute])
+
+  useEffect(() => {
+    document.title = firstCharUppercase(title);
+  }, [title]);
 
   return (
     <div onClick={handleCloseWithBackground}>
