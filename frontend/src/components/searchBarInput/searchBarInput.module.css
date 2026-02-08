@@ -1,0 +1,60 @@
+.searchBarWrapper {
+  position          : relative;
+}
+
+
+.searchBarWrapper  > input {
+  width           : 80%;
+  height          : 2em;
+  
+  background      : white;
+  border          : 1px solid black;
+  border-radius   : 8px;
+  outline         : none;
+  appearance      : none;
+  box-shadow      : 
+    0 2px 3px black,
+    0 5px 10px black;
+
+  font-size       : 1em;
+  padding         : 0.7em;
+  color           : black;
+  font-weight     : 500;
+
+  anchor-name     : --input;
+}
+
+.searchBarWrapper  > input::placeholder {
+  color           : gray;
+}
+
+.searchResults {
+  position          : absolute;
+  
+  background        : white;
+  width             : 80%;
+  border-radius     : 8px;
+  border            : 1px solid black;
+
+  display           : flex;
+  flex-direction    : column;
+
+  position-anchor   : --input;
+  top               : anchor(bottom);
+
+  box-shadow      : 
+    0 2px 3px black,
+    0 5px 10px black;
+
+  max-height        : 20em;
+  overflow          : auto;
+}
+
+.searchResults > span {
+  padding           : 0.5em;
+}
+
+.searchResults > span:hover {
+  background        : var(--color-dark-2);
+  cursor            : pointer;
+}

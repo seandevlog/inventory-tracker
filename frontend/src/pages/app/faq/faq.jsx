@@ -1,7 +1,7 @@
 const Profile = () => {
   return (
     <>
-      <div>FAQ page</div>
+      <div>Under Construction: FAQ page</div>
     </>
   );
 };

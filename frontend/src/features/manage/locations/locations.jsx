@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom';
+import { useContext } from 'react';
 import { locationSchema } from '@my-org/shared/validators'
 import headers from './headers';
 import inputs from './inputs';
@@ -7,8 +7,10 @@ import Location from '@assets/placeholders/location.svg';
 
 import Main from '@layouts/main/main';
 
+import ManageContext from '@contexts/manage.context';
+
 const Locations = () => {
-  const locations = useLoaderData();
+  const { locations } = useContext(ManageContext);
 
   return (
     <>

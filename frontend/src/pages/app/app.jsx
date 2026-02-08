@@ -40,6 +40,10 @@ const App = () => {
     })()
   }, [token]);
 
+  useEffect(() => {
+    document.title = 'Inventory Tracker'
+  }, []);
+
   return (
     <AppContext.Provider value={{ token, profile }}>
       <div className={styles.app}>

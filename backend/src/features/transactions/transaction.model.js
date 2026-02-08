@@ -27,13 +27,19 @@ const transactionSchema = new Schema({
   fromLocation: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Location',
-    required: false
+    required: function() {
+      const requiredType = ['purchase', 'returnFromCustomer', 'production', 'consignmentIn', 'adjustment', 'transfer']
+      return requiredType.includes(this.type);
+    }
   },
 
   toLocation: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Location',
-    required: true
+    required: function() {
+      const requiredType = ['sale', 'returnToSupplier', 'scrap', 'consignmentOut', 'transfer']
+      return requiredType.includes(this.type);
+    }
   },
 
   unitCost: {

@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import styles from './row.module.css';
 import MainContext from '@contexts/main.context';
 import firstCharUppercase from '@utils/firstCharUppercase';
+import splitUppercase from '@utils/splitUppercase';
 
 const Row = ({ id, className, onClick, sort, data: row }) => {
   const { FeaturePlaceholder } = useContext(MainContext);
@@ -37,7 +38,7 @@ const Row = ({ id, className, onClick, sort, data: row }) => {
         }
 
         return (<td key={attr}>{
-          row[`${attr}`] && firstCharUppercase(row[`${attr}`])
+          row[`${attr}`] && splitUppercase(firstCharUppercase(row[`${attr}`]))
         }</td>)
       })}
     </tr>

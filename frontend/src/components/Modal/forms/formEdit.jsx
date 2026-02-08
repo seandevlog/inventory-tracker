@@ -9,6 +9,7 @@ import ErrorBox from '@components/errorBox/errorBox';
 import ErrorCircle from '@assets/errorCircle.svg';
 import styles from './formEdit.module.css';
 import firstCharUppercase from '@utils/firstCharUppercase'
+import splitUppercase from '@utils/splitUppercase';
 import AppContext from '@contexts/app.context';
 import { ArrowDown } from '@assets/arrows';
 
@@ -140,7 +141,7 @@ const FormEdit = () => {
                     <option value='' disabled>{label}</option>
                     {options.map(option => 
                       <option key={option} value={option}>
-                        {firstCharUppercase(option)}
+                        {splitUppercase(firstCharUppercase(option))}
                       </option>
                     )}
                   </select>

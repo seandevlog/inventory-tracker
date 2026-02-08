@@ -19,7 +19,8 @@ export default defineConfig({
       "@routes": path.resolve(__dirname, 'src/routes'),
       "@contexts": path.resolve(__dirname, 'src/contexts'),
       "@utils": path.resolve(__dirname, 'src/utils'),
-      "@layouts": path.resolve(__dirname, 'src/layouts')
+      "@layouts": path.resolve(__dirname, 'src/layouts'),
+      "@hooks": path.resolve(__dirname, 'src/hooks')
     }
   },
   optimizeDeps: {

@@ -129,7 +129,7 @@ const FormCreate = () => {
                   </option>
                   {options.map(option => 
                     <option key={option} value={option}>
-                      {firstCharUppercase(option)}
+                      {splitUppercase(firstCharUppercase(option))}
                     </option>
                   )}
                 </select>

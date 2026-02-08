@@ -2,27 +2,73 @@
   background-color: rgb(88, 88, 88);
   height          : 1.5em;
   align-items     : center;
-  justify-content : center;
+  justify-content : space-between;
   padding         : 0 1em;
 }
 
+.quickActions,
 .links {
+  height          : 100%;
+
   display         : flex;
   flex-direction  : row;
+
   list-style-type : none;
   padding         : 0;
+
+  position        : relative;
 }
 
-.links li {
-  margin          : 0 1em;
+.quickActions > li > div:first-of-type,
+.links > li {
+  height          : 100%;
+
+  align-content   : center;
+  
+  margin          : 0 0.6em;
   color           : rgb(255,254,248);
   font-size       : 0.8em;
   font-weight     : bold;
   text-decoration : none;
   user-select     : none;
+
+  transition      : all 150ms ease;
 }
 
 .links > li:hover {
-  text-decoration : underline;
   cursor          : pointer;
+  transform       : translate(0, -10%);
+}
+
+.quickActions > li > div:first-of-type{
+  display         : flex;
+  flex-wrap       : wrap;
+  align-items     : center;
+  gap             : 0.5em;
+
+  position        : relative;
+}
+
+.quickActions > li > div:first-of-type > span {
+  width           : 1em;
+  height          : 100%;
+
+  display         : flex;
+}
+
+.quickActions > li > div:first-of-type > span > svg {
+  fill            : white;
+}
+
+.quickActions > li > div:first-of-type:hover {
+  cursor          : pointer;
+}
+
+.quickActions > li > div:first-of-type:hover > span > svg {
+  transform       : translate(20%, 0) rotate(270deg);
+  transition      : all 150ms ease;
+}
+
+.idle > svg {
+  transform       : rotate(270deg);
 }

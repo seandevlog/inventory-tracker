@@ -32,14 +32,20 @@ const schema = Joi.object({
           'any.required': 'Quantity is required'
         }),
 
-  fromLocationCode: Joi.string()
-        .optional()
-        .allow(null, ''),
+  fromLocationCode: Joi.alternatives()
+        .conditional('type', {
+            is: Joi.string().valid(
+                  'purchase', 'returnFromCustomer', 'production', 'consignmentIn', 'adjustment', 'transfer'),
+            then: Joi.string().required(),
+            otherwise: Joi.string().optional().allow(null, '')
+        }),
 
-  toLocationCode: Joi.string()
-        .required()
-        .messages({
-          "string.empty": "To location is required"
+  toLocationCode: Joi.alternatives()
+        .conditional('type', {
+            is: Joi.string().valid(
+                  'sale', 'returnToSupplier', 'scrap', 'consignmentOut', 'transfer'),
+            then: Joi.string().required(),
+            otherwise: Joi.string().optional().allow(null, '')
         }),
 
   unitCost: Joi.string()

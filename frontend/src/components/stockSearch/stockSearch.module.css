@@ -1,0 +1,48 @@
+.stockSearch {
+  position        : absolute;
+  bottom          : 0;
+  transform       : translate(0, 100%);
+  z-index         : var(--z-navbar);
+
+  height          : 100px;
+  width           : fit-content;
+
+  display         : flex;
+
+  background      : var(--color-dark-1);
+  border-radius   : 0 0 16px 16px;
+
+  box-shadow      : 
+    0 2px 3px black,
+    0 5px 10px black;
+}
+
+.stockSearch > div {
+  width           : 20em;
+
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+
+  position        : relative;
+}
+
+.stockSearch > span {
+  display         : flex;
+  flex-direction  : column;
+  justify-content : center;
+
+  text-wrap       : nowrap;
+  text-align      : center;
+
+  padding         : 0 2em 0 1em;
+
+  color           : var(--color-1);
+  font-weight     : 500;
+}
+
+.stockSearch > span > p {
+  margin          : 0; 
+}
+
+
