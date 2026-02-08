@@ -56,8 +56,6 @@ const Register = () => {
       <Form method="post">
         {filteredInputs.map(({id, type, autoComplete, label}) => (
           <div key={id}>
-            <label htmlFor={id}>{label}</label>
-            <span className='validation-error'>{inputReducer[id][0]?.errorMessage}</span>
             <input 
               id={id}
               name={id}
@@ -65,7 +63,10 @@ const Register = () => {
               autoComplete={autoComplete}
               value={inputReducer[id][0]?.input ?? ''}
               onChange={(e) => handleInput(e, inputReducer[id][1])}
+              required
             />
+            <label htmlFor={id}>Enter {label}</label>
+            <span>{inputReducer[id][0]?.errorMessage}</span>
           </div>
         ))}
         <button 

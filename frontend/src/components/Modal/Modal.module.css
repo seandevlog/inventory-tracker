@@ -133,7 +133,8 @@ div:has(>.modal) {
 }
 
 .modal div > form > div:has(button) button:hover {
-  background        : var(--color-dark-3)
+  background        : var(--color-dark-3);
+  cursor            : pointer;
 }
 
 .modal div > form > div:has(button) button:active {

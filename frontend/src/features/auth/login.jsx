@@ -5,7 +5,6 @@ import Joi from 'joi';
 import RedirectLink from '@components/buttons/redirect/redirect';
 import ErrorBox from '@components/errorBox/errorBox';
 import { userSchema } from '@my-org/shared/validators';
-import firstCharUppercase from '@utils/firstCharUppercase';
 
 const inputReducer = {};
 const inputs = [
@@ -62,8 +61,6 @@ const Login = () => {
       <Form method="post">
         {inputs.map(({id, type, autoComplete}) => (
           <div key={id}>
-            <label htmlFor={id}>{firstCharUppercase(id)}</label>
-            <span className='validation-error'>{inputReducer[id][0]?.errorMessage}</span>
             <input 
               id={id}
               name={id}
@@ -71,7 +68,10 @@ const Login = () => {
               autoComplete={autoComplete}
               value={inputReducer[id][0]?.input ?? ''}
               onChange={(e) => handleInput(e, inputReducer[id][1])}
+              required
             />
+            <label htmlFor={id}>Enter your {id}</label>
+            <span>{inputReducer[id][0]?.errorMessage}</span>
           </div>
         ))}
         <button 

@@ -32,7 +32,7 @@
   transition        : all 150ms ease-in-out;
 
   font-size         : 1.1em;
-  color             : black;
+  color             : rgb(140, 140, 140);;
   font-weight       : 500;
 
   user-select       : none;
@@ -41,7 +41,7 @@
 .input:hover > span:first-of-type,
 .input > input + span.floatPlaceholder,
 .input > input:focus + span {
-  top               : -1.5em;
+  top               : -1.7em;
 
   font-size         : 1.1em;
   color             : black;
