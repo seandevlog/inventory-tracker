@@ -6,14 +6,15 @@ import { redirect } from "react-router-dom";
 const { server } = config;
 
 export const loader = async () => {
-  if (getToken()) return;
+  if (getToken()) return { token : getToken() };
 
   try {
     const { accessToken } = await axios.get(`${server}/auth/refresh`, {
       withCredentials: true
     });
+
     setToken(accessToken);
-    return { accessToken };
+    return { token : accessToken };
   } catch (err) {
     console.log(err);
     return redirect('/');

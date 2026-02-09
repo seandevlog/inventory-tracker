@@ -12,21 +12,9 @@ const { server } = config;
 
 const App = () => {
   const loaderData = useLoaderData();
-  const { token: oldToken } = loaderData ?? {};
+  const { token } = loaderData ?? {};
 
-  const [token, setToken] = useState(oldToken);
   const [profile, setProfile] = useState(null);
-  
-  useEffect(() => {
-    if (!token) (async () => {
-      const { data } = await axios.get(`${server}/auth/refresh`, {
-        withCredentials: true 
-      })
-
-      const { accessToken } = data;
-      setToken(accessToken);
-    })()
-  }, [token])
 
   useEffect(() => {
     if (token) (async () => {
