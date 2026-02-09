@@ -28,14 +28,9 @@ export const app = express();
 mongoose.connect(config.database);
 cloudinary.config(config.cloud);
 
+app.set('trust proxy', 1)
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || config.whitelistOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: config.client,
   credentials: true
 }));
 app.use(express.urlencoded({ extended: true }));

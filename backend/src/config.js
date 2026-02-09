@@ -4,6 +4,7 @@ dotenv.config({ path: '.env' });
 const config = {
     port: process.env.PORT,
     nodeEnv: process.env.NODE_ENV,
+    client: process.env.CLIENT_URL,
     database: process.env.MONGO_URI,
     cloud: {
         cloud_name: process.env.CLOUD_NAME,
@@ -14,12 +15,7 @@ const config = {
         key: process.env.ACCESS_SECURE_KEY,
         expiresIn: process.env.ACCESS_EXPIRES_IN
     },
-    sessionTimeoutMs: Number(process.env.SESSION_TIMEOUT_MS),
-    whitelistOrigins: [
-        'http://localhost:5173',
-        'http://localhost:5174',
-        'http://localhost:5175'
-    ]
+    sessionTimeoutMs: Number(process.env.SESSION_TIMEOUT_MS)
 };
 
 export default config;
