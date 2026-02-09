@@ -1,0 +1,88 @@
+div:has(> .table) {
+  flex            : 1;
+  height          : calc(100vh - var(--navSub-height) - var(--navTop-height));
+  margin-left     : 1em;
+
+  overflow        : auto;
+
+  position        : absolute;
+  inset           : 0;
+  
+  position-anchor : --sidebar;
+  left            : anchor(right);
+}
+
+.table {
+  table-layout    : auto;
+  width           : 100%;
+  margin-top      : 0;
+  align-self      : center;
+  border-collapse : collapse;
+  position        : relative;
+}
+
+.table th, 
+.table td {
+  margin          : 0 1em;
+  text-align      : center;
+  padding         : 1em 0;
+  user-select     : none;
+}
+
+.thead > tr {
+  height: 4em;
+}
+
+.thead > tr > th {
+  position          : sticky;
+  top               : 0;
+  justify-items     : center;
+  box-shadow        : inset var(--color-dark-1) 0 -1px;
+  backdrop-filter   : blur(8px);
+
+  z-index           : var(--z-th);
+}
+
+.thead > tr > th > div {
+  height          : 2em;
+  width           : max-content;
+  padding-inline  : 1em;
+  background      : inherit;
+  align-content   : center;
+  border-radius   : 10px;
+  color           : black;
+  user-select     : none;
+}
+
+.table > tbody img {
+  width           : 3em
+}
+
+.table > tbody tr td svg {
+  width           : 40px;
+  height          : 40px;
+}
+
+.table > tbody tr td svg circle {
+  fill            : var(--color-dark-2);
+  fill-opacity    : 1;
+}
+
+div:has(> .noData) {
+  flex: 1;
+}
+
+.noData {
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: center;
+
+  padding-top: 5em;
+
+  font-size: 1.5em;
+  font-weight: 500;
+}
