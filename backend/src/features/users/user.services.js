@@ -43,33 +43,45 @@ export const storeUser = async ({ data }) => {
 
 export const updateUser = async ({ userId, data }) => {
   if (!userId) throw new BadRequestError('User ID is required');
+
   if (!data) throw new BadRequestError('Data is required');
 
-  const { password } = data;
-  const hashedPassword = password && await Passwords.hash(password);
+   const keys = userSchema._ids._byKey.keys().toArray();
 
-  const keys = userSchema._ids._byKey.keys().toArray();
   const optionalUsersSchema = userSchema.fork(keys, (field) => field.optional().allow(null, ''));
 
   const { value, error } = optionalUsersSchema.validate(data);
-  if (typeof error !== 'undefined' && error) {
-    throw new BadRequestError(error);    
-  } 
 
-  const user = await Users.findOneAndUpdate({ _id: userId }, {...data, password: hashedPassword});
-  if (!user) throw new Error('Failed to find user');
+  if (error) throw new BadRequestError(error);
 
-  const isActive = data.isActive ?? 'active';
-  try {
-    if (isActive === 'inactive') {
+  const update = { ...value };
+
+  if (!value.password) {
+    delete update.password;
+  } else {
+    update.password = await Passwords.hash(value.password);
+  }
+
+  const user = await Users.findOneAndUpdate(
+    { _id: userId },
+    update,
+    { new: true }
+  );
+
+  if (!user) throw new Error("Failed to find user");
+
+  const isActive = value.isActive ?? "active";
+
+  if (isActive === "inactive") {
+    try {
       await Sessions.destroyAll({ userId });
+    } catch {
+      console.log("No existing sessions");
     }
-  } catch (err) {
-    console.log('No existing sessions'); // Do nothing if no existing sessions
   }
 
   return user;
-}
+};
 
 export const deleteUser = async ({ userId }) => {
   if (!userId) throw new BadRequestError('User ID is required');
