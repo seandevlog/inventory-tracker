@@ -1,6 +1,6 @@
 const Hydrate = () => {
   return (
-    <div>...Loading</div>
+    <div>Backend is summoning the will to live (free tier). First load may take ~60s.</div>
   )
 }
 
