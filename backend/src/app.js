@@ -30,7 +30,7 @@ cloudinary.config(config.cloud);
 
 app.set('trust proxy', 1)
 app.use(cors({
-  origin: config.client,
+  origin: config.nodeEnv === 'production' ? config.client : 'http://localhost:5173',
   credentials: true
 }));
 app.use(express.urlencoded({ extended: true }));
