@@ -10,7 +10,7 @@ const Auth = () => {
         <Outlet />
       </div>
       <div className={styles.backgroundImage}>
-        <img src='src/assets/storage.jpg'/>
+        <img src='/storage.jpg'/>
       </div>
     </div>
   )
