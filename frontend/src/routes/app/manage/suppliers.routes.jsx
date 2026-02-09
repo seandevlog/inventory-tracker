@@ -1,4 +1,5 @@
 import Suppliers from '@features/manage/suppliers/suppliers';
+import { getAll } from '@features/manage/loaders';
 import {
   create,
   edit
@@ -7,6 +8,7 @@ import { supplierSchema } from "@my-org/shared/validators";
 
 import Modal from '@components/modal/modal';
 
+import { loaderWithPath } from '@utils/router/loaderWithPath';
 import { actionWithConfig } from '@utils/router/actionWithConfig';
 import { removeLastS } from '@utils/removeLastS';
 
@@ -17,6 +19,7 @@ const suppliers = {
   path: path.suppliers,
   id: path.suppliers,
   Component: Suppliers,
+  loader: loaderWithPath(getAll, path.suppliers),
   children: [
     {
       path: 'create',

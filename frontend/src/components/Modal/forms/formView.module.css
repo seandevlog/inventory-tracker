@@ -43,6 +43,28 @@
   position: relative;
 }
 
+.createdBy {
+  display           : flex;
+  gap               : 0.8em;
+  justify-content   : flex-start;
+
+  padding-top       : 1em;
+
+  user-select       : none;
+}
+
+.createdBy > span {
+  font-weight       : 500;
+}
+
+.createdBy > input {
+  border            : 0;
+
+  appearance        : none;
+  outline           : none;
+  user-select       : none;
+}
+
 .form > div > div:not(:last-child)::after {
   content: '';
   display: block;

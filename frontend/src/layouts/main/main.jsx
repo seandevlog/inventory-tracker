@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useMemo } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { filter } from 'lodash';
 
@@ -22,9 +22,13 @@ const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schem
 
   const [filterOptions, setFilterOptions] = useState({});
 
-  const filteredData = filter(data, filterOptions);
+  const filteredData = useMemo(() =>
+    filter(data, filterOptions)
+  ,[data, filterOptions]);
 
-  const singleData = filter(filteredData, { _id: paramId });
+  const singleData = useMemo(() =>
+    filter(filteredData, { _id: paramId })
+  , [filteredData, paramId])
 
   return (
     <MainContext.Provider value={{
@@ -35,28 +39,29 @@ const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schem
       selections
     }}>
       <main className={styles.main}>
-        {selections && 
-          <Sidebar/>
-        }
-        {role && 
-          ((role === 'staff' && 
-            (id !== 'item' && id !== 'location' && id !== 'supplier')) ||
-          role !== 'staff') &&
-            <CreateButton
-              onClick={() => navigate('create')}
-            >
-              {`New ${firstCharUppercase(id)}`}
-            </CreateButton>
-        }
         <div>
-          <Table headers={headers} data={filteredData}/>
+          <Sidebar/>
+          {role && 
+            ((role === 'staff' && 
+              (id !== 'item' && id !== 'location' && id !== 'supplier')) ||
+            role !== 'staff') &&
+              <CreateButton
+                onClick={() => navigate('create')}
+              >
+                {`New ${firstCharUppercase(id)}`}
+              </CreateButton>
+          }
+          <div>
+            <Table headers={headers} data={filteredData}/>
+          </div>
+          <Outlet context={{ 
+            groupData: filteredData,
+            singleData,
+            inputs,
+            FeaturePlaceholder,
+            schema 
+          }}/>
         </div>
-        <Outlet context={{ 
-          data: singleData, 
-          inputs,
-          FeaturePlaceholder,
-          schema 
-        }}/>
       </main>
     </MainContext.Provider>
   )

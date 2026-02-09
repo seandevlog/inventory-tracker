@@ -17,15 +17,27 @@ div#root {
 }
 
 :root {
-  --z-sidebar: 300;
-  --z-create-button: 300;
-  --z-th: 300;
-  --z-navbar: 400;
-  --z-modal: 500;
-  --z-buttons: 800;
+  --z-navTop: 200;
+  --z-manage: 100;
+
+  --z-navSub: 200;
+  --z-main: 100;
+
+  --z-sidebar: 200;
+  --z-create-button: 200;
+  --z-table: 100;
+
+  --z-th: 100;
+  
+  --z-modal: 1000;
+  --z-buttons: 1100;
 
   --navTop-height: 3em;
   --navSub-height: 1.5em;
+
+  --width-sidebar: 10em;
+
+  --navSub-drop: 100px;
 
   --color-1: rgb(234, 214, 34);
   --color-2: rgba(140, 129, 29, 0.989);

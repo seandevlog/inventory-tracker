@@ -71,7 +71,7 @@ export const storeTransaction = async ({ data }) => {
   ]);
   
   if (!fromLocation && fromLocationCode) throw new BadRequestError('From location not found');
-  if (!toLocation) throw new BadRequestError('To location not found');
+  if (!toLocation && toLocationCode) throw new BadRequestError('To location not found');
   if (!user) throw new BadRequestError('User not found');
   if (!item) throw new BadRequestError('Item not found');
 

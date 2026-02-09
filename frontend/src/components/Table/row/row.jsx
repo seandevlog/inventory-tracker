@@ -13,12 +13,12 @@ const Row = ({ id, className, onClick, sort, data: row }) => {
       className={styles[className]}
       onClick={onClick ? () => onClick(id) : null}
     >
-      {sort.map(attr => {
+      {sort && sort?.map(attr => {
         if (attr === 'feature') {
           return (
             <td key={attr}>
-              {row.feature?.url
-              ? <img src={row.feature.url}></img>
+              {row?.feature?.url
+              ? <img src={row?.feature.url}></img>
               : <FeaturePlaceholder/>}
               {/* TODO - find a way to make default feature work for all other feature */}
             </td>
@@ -26,7 +26,7 @@ const Row = ({ id, className, onClick, sort, data: row }) => {
         } else if (attr === 'createdAt') {
           return (
             <td key={attr}>
-              {new Date(row.createdAt).toLocaleDateString(undefined, {
+              {new Date(row?.createdAt).toLocaleDateString(undefined, {
                 month: 'short',
                 day: '2-digit',
                 year: '2-digit',
@@ -38,7 +38,7 @@ const Row = ({ id, className, onClick, sort, data: row }) => {
         }
 
         return (<td key={attr}>{
-          row[`${attr}`] && splitUppercase(firstCharUppercase(row[`${attr}`]))
+          attr && row?.[attr] && splitUppercase(firstCharUppercase(row?.[attr]))
         }</td>)
       })}
     </tr>

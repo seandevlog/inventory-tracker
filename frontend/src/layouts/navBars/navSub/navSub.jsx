@@ -33,37 +33,41 @@ const NavSub = () => {
     : links ?? [];
 
   return (
-    <nav className={styles.navSub}>
-      <ul className={styles.quickActions}>
-        {quickActions?.map(action => (
-          <li 
-            key={action}
-          >
-            <div
-              onClick={handleDrop}  
+    <>
+      <nav className={styles.navSub}>
+        <ul className={styles.quickActions}>
+          {quickActions?.map(action => (
+            <li 
+              key={action}
             >
-              <p>{splitUppercase(firstCharUppercase(action))}</p>
-              <span className={isDrop ? '' : styles.idle}><ArrowDown/></span>
-            </div>
-            {isDrop && <StockSearch/>}
-          </li>
-        ))}
-      </ul>
-      <ul className={styles.links}>
-        {renderLinks?.map(link => (
-          <li key={link}>
-            <RedirectLink
-              url={`/${link}`}
-              id={link}
-              onSelect={handleSelect}
-              selected={selected}
-            >
-              {firstCharUppercase(link)}
-            </RedirectLink>
-          </li>
-        ))}
-      </ul>
-    </nav>
+              <div
+                onClick={handleDrop}  
+              >
+                <p>{splitUppercase(firstCharUppercase(action))}</p>
+                <span><ArrowDown/></span>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <ul className={styles.links}>
+          {renderLinks?.map(link => (
+            <li key={link}>
+              <RedirectLink
+                url={`/${link}`}
+                id={link}
+                onSelect={handleSelect}
+                selected={selected}
+              >
+                {firstCharUppercase(link)}
+              </RedirectLink>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <div className={isDrop ? styles.showDrop : styles.hideDrop}>
+        <StockSearch/>
+      </div>
+    </>
   )
 }
 

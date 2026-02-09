@@ -1,8 +1,12 @@
 .sidebar {
   height            : 100%;
   background        : none;
-  width             : fit-content;
-  position          : relative;
+  width             : var(--width-sidebar);
+  max-width         : fit-content;
+
+  position          : absolute;
+
+  anchor-name       : --sidebar;
 }
 
 .sidebar>div {

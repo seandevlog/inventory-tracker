@@ -1,5 +1,13 @@
-.main {
-  display         : flex;
+main {
+  height          : calc(100% - var(--navSub-height));
+  width           : 100%;
+
+  position        : absolute;
+  top             : calc(var(--navSub-height));
+  z-index         : var(--z-main);
+}
+
+.main > div {
   height          : 100%;
   width           : 100%;
   margin          : 0;

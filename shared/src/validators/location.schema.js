@@ -21,6 +21,12 @@ const schema = Joi.object({
         .optional()
         .allow(null, ''),
 
+  createdBy: Joi.string()
+          .required()
+          .messages({
+            "string.empty": "Created by is required"
+          }),
+
   feature: featureSchema,
 
   // Ignore

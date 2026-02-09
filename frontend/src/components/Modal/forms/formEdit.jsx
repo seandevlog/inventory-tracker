@@ -31,16 +31,17 @@ const reducer = (state, action) => {
 
 const FormEdit = () => {
   const { profile } = useContext(AppContext);
-  const { role } = profile || {};
+  const { role, username } = profile || {};
+
+  const actionData = useActionData()
 
   const {
     FeaturePlaceholder,
     inputs,
     schema,
-    data
+    singleData
   } = useOutletContext();
-  const actionData = useActionData();
-  const { error } = actionData || {};
+  const error = actionData?.error ?? null;
 
   const filteredInputs = useMemo(() => 
     inputs.filter(({ disabled }) => 
@@ -67,7 +68,7 @@ const FormEdit = () => {
   const handleClick = () => {
     filteredInputs.map(({id}) => {
       if (!inputReducer[id]?.[0].input && !inputReducer[id]?.[0].errorMessage) {
-        inputReducer[id]?.[1]({ value: inputReducer[id]?.[0].input || data[0]?.[id]})
+        inputReducer[id]?.[1]({ value: inputReducer[id]?.[0].input || singleData[0]?.[id]})
       }
     })
 
@@ -92,7 +93,7 @@ const FormEdit = () => {
                 className={styles.info}  
               >
                 <span><p>{label}</p></span>
-                <span id={id}><p>{data[0]?.[id]}</p></span>
+                <span id={id}><p>{singleData[0]?.[id]}</p></span>
               </div>
             ))}
           </div>
@@ -111,7 +112,7 @@ const FormEdit = () => {
                     type={type} 
                     autoComplete={autoComplete}
                     value={inputReducer[id]?.[0]?.input || ''}
-                    placeholder={data[0]?.[id]}
+                    placeholder={singleData[0]?.[id]}
                     onChange={(e) => handleInput(e, inputReducer[id]?.[1])}
                   />
                   <span className={styles.validationError}>{inputReducer[id]?.[0]?.errorMessage}</span>
@@ -135,7 +136,7 @@ const FormEdit = () => {
                     className={styles.selectInput}
                     type={type}
                     autoComplete='off'
-                    value={inputReducer[id]?.[0]?.input || data[0]?.[id] || ''}
+                    value={inputReducer[id]?.[0]?.input || singleData[0]?.[id] || ''}
                     onChange={(e) => handleInput(e, inputReducer[id]?.[1])}
                   >
                     <option value='' disabled>{label}</option>
@@ -153,6 +154,15 @@ const FormEdit = () => {
               ))}
             </div>
           }
+          <div className={styles.createdBy}>
+            <span><p>Created By</p></span>
+            <input 
+              id='createdBy'
+              name='createdBy'
+              value={username}
+              readOnly
+            />
+          </div>
           <div className={styles.date}>
             {inputs.map(({id, type, label}) => (
               type === 'date' &&
@@ -161,7 +171,7 @@ const FormEdit = () => {
                 className={styles.info}
               >
                 <span><p>{label}</p></span>
-                <span id={id}><p>{new Date(data[0]?.[id]).toLocaleDateString(undefined, {
+                <span id={id}><p>{new Date(singleData[0]?.[id]).toLocaleDateString(undefined, {
                   weekday: 'long',
                   month: 'long',
                   day: '2-digit',
@@ -177,7 +187,7 @@ const FormEdit = () => {
       <div className={styles.errorBox}>
         <ErrorBox>{error}</ErrorBox>
       </div>
-      <div>
+      <div className={styles.button}>
         <button 
           type="submit"
           className="btn"

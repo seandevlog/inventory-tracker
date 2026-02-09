@@ -8,7 +8,7 @@ const SearchBarInput = ({ id, data, select, setSelect }) => {
   const [selected, setSelected] = useState(false);
 
   const filteredData = useMemo(() => 
-    data.filter(key => key.includes(value.trim().toUpperCase()))
+    data?.filter(key => key.includes(value.trim().toUpperCase()))
   , [data, value])
 
   const handleValue = (event) => {

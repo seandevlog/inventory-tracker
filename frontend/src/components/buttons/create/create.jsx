@@ -7,15 +7,13 @@ const Create = ({ children, onClick }) => {
     <div 
       className={styles.create}
     >
+      <button
+        onClick={onClick}
+      >
+        <Plus/>
+      </button>
       <div>
-        <div className={styles.description}>
-          {children}
-        </div>
-        <button
-          onClick={onClick}
-        >
-          <Plus/>
-        </button>
+        {children}
       </div>
     </div>
   )

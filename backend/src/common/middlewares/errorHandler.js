@@ -7,8 +7,12 @@ const errorHandler = (err, req, res, next) => {
     }
   }
 
+  if (err instanceof mongoose.Error.ValidationError) {
+    err.message = Object.values(err.errors)?.[0]?.reason?.message;
+    err.status = 409;
+  }
+
   const stack = err.stack || "";
-  console.log(stack);
 
   const status = err.status ?? 500;
   const message = err.message || 'Unknown Server Error';

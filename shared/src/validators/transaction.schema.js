@@ -12,7 +12,7 @@ const schema = Joi.object({
         .valid(...allowedTypes)
         .required()
         .messages({
-          'any.only': `Type must be one of: ${allowedTypes.join(", ")}`,
+          'any.only': `Type must be one of the choices`,
           'string.empty': 'Type is required',
           'any.required': 'Type is required' 
         }),
@@ -32,21 +32,13 @@ const schema = Joi.object({
           'any.required': 'Quantity is required'
         }),
 
-  fromLocationCode: Joi.alternatives()
-        .conditional('type', {
-            is: Joi.string().valid(
-                  'purchase', 'returnFromCustomer', 'production', 'consignmentIn', 'adjustment', 'transfer'),
-            then: Joi.string().required(),
-            otherwise: Joi.string().optional().allow(null, '')
-        }),
+  fromLocationCode: Joi.string()
+        .optional()
+        .allow(null, ''),
 
-  toLocationCode: Joi.alternatives()
-        .conditional('type', {
-            is: Joi.string().valid(
-                  'sale', 'returnToSupplier', 'scrap', 'consignmentOut', 'transfer'),
-            then: Joi.string().required(),
-            otherwise: Joi.string().optional().allow(null, '')
-        }),
+  toLocationCode: Joi.string()
+        .optional()
+        .allow(null, ''),
 
   unitCost: Joi.string()
         .pattern(/^\d+\.\d{2,}$/, 'at least 2 decimal places')

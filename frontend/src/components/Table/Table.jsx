@@ -62,13 +62,13 @@ const Table = ({ data, headers }) => {
         </tr>
       </thead>
       <tbody>
-        {rows && rows.length > 0
-          ? rows.map(row => (
+        {rows && rows?.length > 0
+          ? rows?.map(row => (
             <Row 
-              key={row._id}
-              id={row._id}
+              key={row?._id}
+              id={row?._id}
               className="filled"
-              onClick={() => navigate(`${row._id}`)}
+              onClick={() => navigate(`${row?._id}`)}
               sort={sortedHeaderAttributes}
               data={row}
             />

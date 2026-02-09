@@ -12,11 +12,11 @@ const Filter = () => {
     selections
   } = useContext(MainContext);
 
-  return (Object.values(selections)?.length > 0) && (
+  return (selections && Object.values(selections)?.length > 0) && (
     <div className={styles.filter}>
       <fieldset>
         <legend></legend>
-        {Object.keys(selections).map(key => (
+        {selections && Object.keys(selections).map(key => (
           <Input 
             key={key}
             objKey={key}

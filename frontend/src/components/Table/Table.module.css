@@ -4,6 +4,12 @@ div:has(> .table) {
   margin-left     : 1em;
 
   overflow        : auto;
+
+  position        : absolute;
+  inset           : 0;
+  
+  position-anchor : --sidebar;
+  left            : anchor(right);
 }
 
 .table {

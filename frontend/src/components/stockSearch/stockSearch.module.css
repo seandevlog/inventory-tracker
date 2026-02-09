@@ -2,9 +2,9 @@
   position        : absolute;
   bottom          : 0;
   transform       : translate(0, 100%);
-  z-index         : var(--z-navbar);
+  z-index         : var(--z-navSub);
 
-  height          : 100px;
+  height          : var(--navSub-drop);
   width           : fit-content;
 
   display         : flex;
@@ -18,7 +18,7 @@
 }
 
 .stockSearch > div {
-  width           : 20em;
+  width           : 18em;
 
   display         : flex;
   align-items     : center;
@@ -35,7 +35,7 @@
   text-wrap       : nowrap;
   text-align      : center;
 
-  padding         : 0 2em 0 1em;
+  padding         : 0 3em 0 2em;
 
   color           : var(--color-1);
   font-weight     : 500;

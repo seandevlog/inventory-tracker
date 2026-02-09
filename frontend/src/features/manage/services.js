@@ -2,9 +2,9 @@ import axios from 'axios';
 import config from '@config';
 import cloud from '@lib/cloud.js';
 import { 
-  postWith409Handling,
-  patchWith409Handling
-} from '@utils/api/with409Handling';
+  postWithErrorHandling,
+  patchWithErrorHandling
+} from '@utils/api/withErrorHandling';
 
 const server = `${config.server}/`;
 
@@ -44,7 +44,7 @@ export const create = async ({ formData, accessToken, path }) => {
     formData.append('feature[path]', `${path}/feature`)
   }
 
-  return await postWith409Handling({ url: `${server}${path}/store`, formData, accessToken});
+  return await postWithErrorHandling({ url: `${server}${path}/store`, formData, accessToken});
 }
 
 export const update = async ({ formData, id, accessToken, path }) => {
@@ -63,7 +63,7 @@ export const update = async ({ formData, id, accessToken, path }) => {
     }
   } 
 
-  return await patchWith409Handling({ url: `${server}${path}/${id}`, formData, accessToken});
+  return await patchWithErrorHandling({ url: `${server}${path}/${id}`, formData, accessToken});
 }
 
 export const destroy = async ({ id, accessToken, path }) => {

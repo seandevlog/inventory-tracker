@@ -12,6 +12,7 @@ import authLoader from '@pages/auth/loaders';
 const auth = {
   Component: Auth,
   loader: authLoader,
+  ErrorBoundary: Error,
   children: [
     { 
       index: true, 

@@ -19,12 +19,12 @@ export const storeUser = async (req, res) => {
 }
 
 export const updateUser = async (req, res) => {
-  await service.updateUser({ 
+  const data = await service.updateUser({ 
     userId: req.params.id,
     data: req.body
   });
   
-  res.status(200).json({ success: true })
+  res.status(200).json({ success: true, data })
 }
 
 export const deleteUser = async (req, res) => {

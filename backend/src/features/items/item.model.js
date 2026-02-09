@@ -45,6 +45,12 @@ const itemSchema = new Schema({
     required: [true, 'Status is required']
   },
 
+  createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: [ true, 'Created by is required' ]
+    },
+
   feature: featureSchema,
 
 }, { timestamps: true });

@@ -1,9 +1,17 @@
 .navSub {
   background-color: rgb(88, 88, 88);
-  height          : 1.5em;
+  height          : var(--navSub-height);
   align-items     : center;
   justify-content : space-between;
   padding         : 0 1em;
+
+  position        : absolute;
+  top             : 0;
+  z-index         : var(--z-navSub);
+
+  box-shadow      : 
+    0 2px 3px black,
+    0 5px 10px black;
 }
 
 .quickActions,
@@ -35,9 +43,15 @@
   transition      : all 150ms ease;
 }
 
+.links > li > a {
+  display         : block;
+  align-content   : center;
+  height          : 100%;
+} 
+
 .links > li:hover {
   cursor          : pointer;
-  transform       : translate(0, -10%);
+  text-shadow     : 0 0 3px var(--color-1);
 }
 
 .quickActions > li > div:first-of-type{
@@ -47,6 +61,8 @@
   gap             : 0.5em;
 
   position        : relative;
+
+  anchor-name     : --view-stock;
 }
 
 .quickActions > li > div:first-of-type > span {
@@ -62,13 +78,32 @@
 
 .quickActions > li > div:first-of-type:hover {
   cursor          : pointer;
+  text-shadow     : 0 0 3px var(--color-1);
 }
 
-.quickActions > li > div:first-of-type:hover > span > svg {
-  transform       : translate(20%, 0) rotate(270deg);
+.quickActions > li > div:first-of-type:active > span {
+  transform       : translate(0, 20%);
   transition      : all 150ms ease;
 }
 
-.idle > svg {
-  transform       : rotate(270deg);
+.hideDrop {
+  position    : absolute;
+  z-index     : calc(var(--z-navSub) - 1);
+  top         : calc(-1 * var(--navSub-drop));
+
+  position-anchor: --view-stock;
+  left        : anchor(left);
+
+  transition: all 500ms ease;
+}
+
+.showDrop {
+  position    : absolute;
+  top         : var(--navSub-height);
+  z-index     : calc(var(--z-navSub) - 1);
+
+  position-anchor: --view-stock;
+  left        : anchor(left);
+
+  transition  : all 500ms ease;
 }

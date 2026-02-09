@@ -48,6 +48,11 @@
   font-weight       : 500;
 }
 
+.createdBy {
+  display           : none;
+}
+
+
 .validationError {
   display           : block;
   height            : 1em;
@@ -69,6 +74,10 @@
   text-overflow : ellipsis;
   line-height   : 2em;
   font-size     : 1.2em;
+}
+
+.selectInput select:hover {
+  cursor        : pointer;
 }
 
 .selectInput > span > svg {

@@ -13,6 +13,7 @@ import {
 const app = {
   Component: App,
   loader: appLoader,
+  ErrorBoundary: Error,
   children: [
     profileRoutes,
     manageRoutes,

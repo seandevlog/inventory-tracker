@@ -3,35 +3,35 @@
     width           : fit-content;
     height          : fit-content;
     right           : 4em;
-    bottom          : 7em;
+    bottom          : 4em;
     z-index         : var(--z-create-button);
 
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-}
 
-.create > div {
-    position        : relative;
     width           : 5em;
     height          : 5em;
 }
 
-.create > div button svg path {
-    fill: var(--color-1);
+.create > button svg path {
+    fill            : var(--color-1);
 }
 
-.create > div button svg {
+.create > button svg {
     transform       : scale(3);
 
     user-select     : none;
 }
 
-.create > div button {
+.create > button {
     background      : var(--color-dark-1);
     border          : none;
     border-radius   : 4em;
     backdrop-filter : blur(8px);
+
+    width           : 6em;
+    height          : 6em;
 
     border-radius   : 40px;
     box-shadow      : 
@@ -42,14 +42,17 @@
     inset           : 0;
     z-index         : calc(var(--z-create-button) + 2);
 
+    anchor-name     : --create-button;
+
     transition      : all 200ms ease-in-out;
 }
 
-.description {
-    background      : rgb(188, 188, 188);
-    border-radius   : 50%;
-    color           : white;
+.create > div {
+    background      : var(--color-dark-2);
+    border-radius   : 8vw 16vw 16vw 8vw;
+    color           : rgb(196, 196, 196);
     font-size       : 0.1em;
+    font-weight     : 700;
     height          : fit-content;
     width           : fit-content;
     white-space     : nowrap;
@@ -59,38 +62,27 @@
     align-content   : center;
 
     position        : absolute;
-    top             : 50%;
-    left            : 30%;
     z-index         : calc(var(--z-create-button) + 1);
+
+    position-anchor : --create-button;
 
     transition      : none;
 }
 
-.create:hover > div {
-    display         : flex ;
-    width           : fit-content;
-}
-
-.create:hover > div > button {
+.create > button:hover {
     background      : var(--color-dark-2);
     cursor          : pointer;
-
-    position        : relative;
-    width           : 6em;
-    height          : 6em;
 }
 
-.create:hover .description {
-    border-radius   : 30% 80% 80% 30%;
-    padding         : 0.7em;
-    white-space     : nowrap;
+.create > button:hover + div {
     font-size       : 1em;
-    height          : fit-content;
+    height          : 2em;
+    padding         : 0 1em;
 
-    position        : relative;
-    top             : 25%;
-    left            : 0;
+    position-anchor : --create-button;
+    right           : anchor(left);
+
     margin-right    : 0.5em;
 
-    transition      : all 150ms ease-in;
+    transition      : all 150ms ease;
 }

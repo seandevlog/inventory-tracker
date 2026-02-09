@@ -19,32 +19,36 @@ const StockSearch = () => {
   const [locationInput, setLocationInput] = useState(null);
 
   const currentItemsSKU = useMemo(() => 
-    items.map(({ sku }) => sku), 
+    items?.map(({ sku }) => sku), 
   [items]);
 
   const currentLocationsCode = useMemo(() => 
-    locations.map(({ code }) => code), 
+    locations?.map(({ code }) => code), 
   [locations])
 
-  const filteredTransactions = useMemo(() => 
-    filter(transactions, 
-      { sku: itemInput, fromLocation: locationInput, toLocation: locationInput}
-    ),
-  [itemInput, locationInput, transactions]);
+  const fromLocationTransactions = useMemo(() => 
+    transactions && filter(transactions, { item: { sku: itemInput }, fromLocation: { code: locationInput }})
+  , [itemInput, locationInput, transactions])
+
+  const toLocationTransactions = useMemo(() => 
+    transactions && filter(transactions, { item: { sku: itemInput }, toLocation: { code: locationInput }})
+  , [itemInput, locationInput, transactions])
 
   const increaseStock = useMemo(() => 
-    filteredTransactions.reduce((accumulator, { toLocation, qty }) => toLocation === itemInput && (accumulator + qty), 0),
-  [filteredTransactions, itemInput])
+    toLocationTransactions?.reduce((accumulator, { qty }) => 
+      accumulator + qty
+    , 0),
+  [toLocationTransactions])
 
   const reduceStock = useMemo(() => 
-    filteredTransactions.reduce((accumulator, { fromLocation, qty }) => fromLocation === itemInput && (accumulator + qty), 0),
-  [filteredTransactions, itemInput])
+    fromLocationTransactions?.reduce((accumulator, { qty }) => 
+      accumulator + qty
+    , 0),
+  [fromLocationTransactions])
 
   const newStock = useMemo(
     () => increaseStock - reduceStock,
   [increaseStock, reduceStock]);
-
-  console.log(increaseStock, reduceStock)
 
   return (
     <div className={styles.stockSearch}>

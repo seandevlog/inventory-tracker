@@ -25,7 +25,7 @@ const schema = Joi.object({
         .valid(...allowedStatus)
         .required()
         .messages({
-          'any.only': `Status must be one of: ${allowedStatus.join(", ")}`,
+          'any.only': `Status must be one of the choices`,
           'string.empty': 'Status is required',
           'any.required': 'Status is required' 
         }),
@@ -47,6 +47,12 @@ const schema = Joi.object({
           'any.required': 'Unit cost is required',
           'string.pattern.name': 'Unit cost should have {#name}'
         }),
+
+  createdBy: Joi.string()
+          .required()
+          .messages({
+            "string.empty": "Created by is required"
+          }),
 
   feature: featureSchema,
 

@@ -82,34 +82,53 @@
   flex: 1;
 }
 
-.date {
-  margin-top        : 2em;
+.info > span > p {
+  margin            : 0;
 }
 
-.info {
+.info,
+.createdBy {
   display           : flex;
+  gap               : 0.8em;
+  justify-content   : flex-start;
+
+  padding-top       : 1em;
+
+  user-select       : none;
 }
 
-.info > span:first-of-type {
-  font-weight: 500;
-  align-content: center;
+.info > span:first-of-type,
+.createdBy > span {
+  font-weight       : 500;
 }
 
-.info > span:last-of-type {
-  height: 2em;
-  align-content: center;
-}
+.createdBy > input {
+  border            : 0;
 
-.info p {
-  font-size   : 1.1em;
-  margin      : 0;
-  padding     : 0 0.4em;
-  color       : black;
-} 
+  appearance        : none;
+  outline           : none;
+  user-select       : none;
+}
 
 .errorBox {
   display        : flex;
   justify-content: center;
+}
+
+.button {
+  gap             : 1em;
+}
+
+.button > button:first-of-type {
+  flex            : 3;
+}
+
+.button > button:last-of-type {
+  background      : white;
+  color           : gray;
+  scale           : 0.9;
+
+  flex            : 1;
 }
 
 @media (max-width: 1024px) {

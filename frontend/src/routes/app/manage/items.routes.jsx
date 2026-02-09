@@ -19,7 +19,7 @@ const items = {
   path: path.items,
   id: path.items,
   Component: Items,
-  // loader: loaderWithPath(getAll, path.items),  
+  loader: loaderWithPath(getAll, path.items),  
   children: [
     {
       path: 'create',

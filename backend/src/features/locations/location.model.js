@@ -25,6 +25,12 @@ const locationSchema = new Schema({
     required: false
   },
 
+  createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: [ true, 'Created by is required' ]
+    },
+
   feature: featureSchema,
 
 }, { timestamps: true });

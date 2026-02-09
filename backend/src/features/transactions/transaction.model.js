@@ -9,7 +9,28 @@ const transactionSchema = new Schema({
   type: {
     type: String,
     enum: allowedTypes,
-    required: [ true, `Type must be one of: ${allowedTypes.join(', ')}` ]
+    required: [ true, `Type must be one of: ${allowedTypes.join(', ')}` ],
+    validate: {
+      validator: function (value) {
+        const toRequired = ['purchase', 'returnFromCustomer', 'production', 'consignmentIn', 'adjustment', 'transfer']
+
+        const fromRequired = ['sale', 'returnToSupplier', 'scrap', 'consignmentOut', 'transfer'];
+
+        if (value === 'transfer' && !this.fromLocation && !this.toLocation) {
+          throw new Error('From and To Location are required');
+        }
+
+        if (fromRequired.includes(value) && !this.fromLocation) {
+          throw new Error('From Location is required');
+        }
+
+        if (toRequired.includes(value) && !this.toLocation) {
+          throw new Error('To Location is required');
+        }
+
+        return true;
+      }
+    }
   },
 
   item: {
@@ -27,19 +48,13 @@ const transactionSchema = new Schema({
   fromLocation: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Location',
-    required: function() {
-      const requiredType = ['purchase', 'returnFromCustomer', 'production', 'consignmentIn', 'adjustment', 'transfer']
-      return requiredType.includes(this.type);
-    }
+    required: false
   },
 
   toLocation: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Location',
-    required: function() {
-      const requiredType = ['sale', 'returnToSupplier', 'scrap', 'consignmentOut', 'transfer']
-      return requiredType.includes(this.type);
-    }
+    required: false
   },
 
   unitCost: {

@@ -72,6 +72,12 @@ const schema = Joi.object({
           'any.required': 'Role is required'
         }),
 
+  createdBy: Joi.string()
+          .required()
+          .messages({
+            "string.empty": "Created by is required"
+          }),
+
   feature: featureSchema,
 
   // Ignore

@@ -1,4 +1,5 @@
 import Users from '@features/manage/users/users';
+import { getAll } from '@features/manage/loaders';
 import {
   create,
   edit
@@ -7,6 +8,7 @@ import { userSchema } from "@my-org/shared/validators";
 
 import Modal from '@components/modal/modal';
 
+import { loaderWithPath } from '@utils/router/loaderWithPath';
 import { actionWithConfig } from '@utils/router/actionWithConfig';
 import { removeLastS } from '@utils/removeLastS';
 
@@ -17,6 +19,7 @@ const users = {
   path: path.users,
   id: path.users,
   Component: Users,
+  loader: loaderWithPath(getAll, path.users),
   children: [
     {
       path: 'create',

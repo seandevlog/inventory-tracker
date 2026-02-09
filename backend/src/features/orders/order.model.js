@@ -33,7 +33,10 @@ const orderSchema = new Schema({
   unitCost: {
     type: String,
     validate: {
-      validator: x => Number.isInteger(x * 100),
+      validator: function(x) {
+        const decimal = x.toString().split('.')[1] || '';
+        return decimal.length >= 2;
+      },
       message: 'Amount must have at least two decimal places'
     },
     required: true

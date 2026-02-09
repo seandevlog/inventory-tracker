@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const postWith409Handling = async ({ url, formData, accessToken }) => {
+export const postWithErrorHandling = async ({ url, formData, accessToken }) => {
   try {
     const { data } = await axios.post( url, formData, {
       headers: {
@@ -11,7 +11,7 @@ export const postWith409Handling = async ({ url, formData, accessToken }) => {
     return { data };
   } catch (err) {
     if (axios.isAxiosError(err)) {
-      if (err.response?.status === 409) {
+      if (err.response?.status === 409 || err.response?.status === 403) {
         return { error: err.response.data?.error }
       }
     }
@@ -19,7 +19,7 @@ export const postWith409Handling = async ({ url, formData, accessToken }) => {
   }
 }
 
-export const patchWith409Handling = async ({ url, formData, accessToken }) => {
+export const patchWithErrorHandling = async ({ url, formData, accessToken }) => {
   try {
     const { data } = await axios.patch( url, formData, {
       headers: {
@@ -30,7 +30,7 @@ export const patchWith409Handling = async ({ url, formData, accessToken }) => {
     return { data };
   } catch (err) {
     if (axios.isAxiosError(err)) {
-      if (err.response?.status === 409) {
+      if (err.response?.status === 409 || err.response?.status === 403) {
         return { error: err.response.data?.error }
       }
     }

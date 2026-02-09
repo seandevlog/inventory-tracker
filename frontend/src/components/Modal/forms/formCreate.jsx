@@ -31,7 +31,7 @@ const reducer = (state, action) => {
 
 const FormCreate = () => {
   const { profile } = useContext(AppContext);
-  const { role } = profile || {};
+  const { role, username } = profile || {};
   const { id: manageFeature } = useContext(MainContext);
 
   const {
@@ -87,7 +87,7 @@ const FormCreate = () => {
           <div>
             {filteredInputs.map(({id, type, autoComplete, label, options}) => {
               return (
-              (typeof options === 'undefined') &&
+              (typeof options === 'undefined' && id !== 'createdBy') &&
               <div 
                 key={id}
                 className={styles.input}
@@ -105,42 +105,54 @@ const FormCreate = () => {
               </div>
             )})}
           </div>
-          <div className={styles.option}>
-            {filteredInputs.map(({id, type, label, disabled, options}) => (
-              options && options?.length > 0 && !disabled &&
-              <div 
-                key={id}
-                className={styles.selectInput}
-              >
-                <select
-                  id={id}
-                  name={id}
-                  type={type}
-                  autoComplete='off'
-                  value={inputReducer[id][0]?.input ?? ''}
-                  onChange={(e) => handleInput(e, inputReducer[id][1])}
+          {filteredInputs.reduce((acc, {options}) => (
+            acc || (options && options?.length > 0)), false) &&
+            <div className={styles.option}>
+              {filteredInputs.map(({id, type, label, disabled, options}) => (
+                options && options?.length > 0 && !disabled &&
+                <div 
+                  key={id}
+                  className={styles.selectInput}
                 >
-                  <option 
-                    value=''
-                    style={{ 'fontWeight': 'bolder' }}
-                    disabled
+                  <select
+                    id={id}
+                    name={id}
+                    type={type}
+                    autoComplete='off'
+                    value={inputReducer[id][0]?.input ?? ''}
+                    onChange={(e) => handleInput(e, inputReducer[id][1])}
                   >
-                      {label}
-                  </option>
-                  {options.map(option => 
-                    <option key={option} value={option}>
-                      {splitUppercase(firstCharUppercase(option))}
+                    <option 
+                      value=''
+                      style={{ 'fontWeight': 'bolder' }}
+                      disabled
+                    >
+                        {label}
                     </option>
-                  )}
-                </select>
-                <span>
-                  <ArrowDown/>
-                </span>
-                <span className={styles.validationError}>
-                  {splitUppercase(firstCharUppercase(inputReducer[id][0]?.errorMessage))}
-                </span>
-              </div>
-            ))}
+                    {options.map(option => 
+                      <option key={option} value={option}>
+                        {splitUppercase(firstCharUppercase(option))}
+                      </option>
+                    )}
+                  </select>
+                  <span>
+                    <ArrowDown/>
+                  </span>
+                  <span className={styles.validationError}>
+                    {splitUppercase(firstCharUppercase(inputReducer[id][0]?.errorMessage))}
+                  </span>
+                </div>
+              ))}
+            </div>
+          }
+          <div className={styles.createdBy}>
+            <span><p>Created By</p></span>
+            <input 
+              id='createdBy'
+              name='createdBy'
+              value={username}
+              readOnly
+            />
           </div>
         </div>
       </fieldset>
