@@ -1,5 +1,5 @@
 const config = {
-  server: import.meta.env.VITE_SERVER,
+  server: import.meta.env.VITE_API_URL,
   path: {
     items: 'items',
     locations: 'locations',
