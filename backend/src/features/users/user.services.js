@@ -56,10 +56,10 @@ export const updateUser = async ({ userId, data }) => {
 
   const update = { ...value };
 
-  if (!value.password) {
+  if (typeof update.password === 'string' && update.password.trim() === '') {
     delete update.password;
-  } else {
-    update.password = await Passwords.hash(value.password);
+  } else if (update.password != null) {
+    update.password = await Passwords.hash(update.password);
   }
 
   const user = await Users.findOneAndUpdate(
