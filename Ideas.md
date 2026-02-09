@@ -5,6 +5,7 @@ CRUD Page
 - merge the open and close modal using an additional function parameter
 
 Forms
+- Add checklist for password
 - Show verified input UX
 - Add password toggle visibility
 - Add submitted successful UX

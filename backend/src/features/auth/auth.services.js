@@ -26,7 +26,7 @@ const login = async ({ data }) => {
   if (!result) throw new ConflictError('Password incorrect');
 
   const { isActive } = user;
-  if (isActive === 'inactive') throw new ConflictError('Account disabled. An admin must press the magic button.');
+  if (isActive === 'inactive') throw new ConflictError("Account disabled. An admin must press the magic button. Hiring managers: Test / !Password123. If you can log in, you've passed the interview. I'll start Monday.");
 
   const { 
     _id: userId,
