@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import styles from './auth.module.css';
-import Logo from '@assets/Logo/Logo';
+import Logo from '@assets/logo/logo';
 
 const Auth = () => {
   return (
