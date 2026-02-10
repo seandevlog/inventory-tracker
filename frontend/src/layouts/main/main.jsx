@@ -10,6 +10,8 @@ import Sidebar from '@layouts/sidebar/sidebar';
 import CreateButton from '@components/buttons/create/create';
 import Table from '@components/table/table';
 import Lock from '@assets/lock.svg'
+import { ArrowDownThick } from '@assets/arrows';
+import SleepingDog from '@assets/sleepingDog.svg';
 
 import MainContext from '@contexts/main.context';
 import AppContext from '@contexts/app.context';
@@ -41,7 +43,9 @@ const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schem
     }}>
       <main className={styles.main}>
         <div>
-          <Sidebar/>
+          {filteredData && filteredData.length > 0 &&
+            <Sidebar/>
+          }
           {role && 
             ((role === 'staff' && 
               (id !== 'item' && id !== 'location' && id !== 'supplier')) ||
@@ -52,9 +56,16 @@ const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schem
                 {`New ${firstCharUppercase(id)}`}
               </CreateButton>
           }
-          <div>
-            <Table headers={headers} data={filteredData}/>
-          </div>
+          {filteredData && filteredData.length > 0
+            ? <div>
+                <Table headers={headers} data={filteredData}/>
+              </div>
+            : <div className={styles.noData}>
+                <span>No entries yet. The 'plus' button is your friend.</span>
+                <ArrowDownThick/>
+                <SleepingDog/>
+              </div>
+          }
           <Outlet context={{ 
             groupData: filteredData,
             singleData,

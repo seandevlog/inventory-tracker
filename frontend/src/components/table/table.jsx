@@ -41,7 +41,7 @@ const Table = ({ data, headers }) => {
     ? orderBy(data, sortAttr, ['desc'])
     : data; 
   
-  return rows && rows.length > 0 ? (
+  return (
     <table className={styles.table}>
       <thead className={styles.thead}>
         <tr>
@@ -77,7 +77,7 @@ const Table = ({ data, headers }) => {
         }
       </tbody>
     </table>
-  ) : (<div className={styles.noData}>New here? Create data using the 'New' button</div>)
+  )
 } 
 
 export default Table;
