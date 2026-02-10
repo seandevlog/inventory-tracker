@@ -43,7 +43,7 @@ const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schem
     }}>
       <main className={styles.main}>
         <div>
-          {filteredData && filteredData.length > 0 &&
+          {data && data.length > 0 &&
             <Sidebar/>
           }
           {role && 
