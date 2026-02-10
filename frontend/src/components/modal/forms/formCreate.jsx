@@ -51,6 +51,14 @@ const FormCreate = () => {
     )
   ,[inputs])
 
+  filteredInputs.map(({id, defaultValue}) =>
+    inputReducer[id] = useReducer(reducer, {
+      errorMessage: '', 
+      input: defaultValue ?? '',
+      schema: schema.extract(id)
+    })
+  )
+
   const handleInput = (event, dispatch) => {
     dispatch({ value: event.target.value })
   }
