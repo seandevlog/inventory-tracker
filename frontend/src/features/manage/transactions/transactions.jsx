@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom';
+import { useContext } from 'react';
 
 import { transactionSchema, transactionSelections as selections } from '@my-org/shared/validators'
 import headers from './headers';
@@ -6,15 +6,17 @@ import inputs from './inputs';
 
 import Transaction from '@assets/placeholders/transaction.svg';
 
-import useItem from '@hooks/useItem';
-import useLocation from '@hooks/useLocation';
-
 import Main from '@layouts/main/main';
 
+import ManageContext from '@contexts/manage.context';
+
 const Transactions = () => {
-  const items = useItem();
-  const locations = useLocation();
-  const transactions = useLoaderData();
+  const { 
+    transactions,
+    items,
+    locations,
+    bumpTransactionRefresh
+  } = useContext(ManageContext);
 
   return (
     <Main
@@ -25,6 +27,7 @@ const Transactions = () => {
       selections={selections}
       inputs={inputs({ items, locations })}
       schema={transactionSchema}
+      onSubmitted={bumpTransactionRefresh}
       disabled={{
         current: 
           (typeof locations?.length === 'undefined' || locations?.length <= 0) || (typeof items?.length === 'undefined' || items?.length <= 0),

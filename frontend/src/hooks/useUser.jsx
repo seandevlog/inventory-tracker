@@ -7,7 +7,7 @@ import AppContext from '@contexts/app.context';
 
 const { server, path } = config;
 
-const useUser = () => {
+const useUser = ({ refreshKey }) => {
   const { token, profile } = useContext(AppContext);
   const { role } = profile || {};
 
@@ -26,7 +26,7 @@ const useUser = () => {
         setUsers(data.users);
       })()
     }
-  }, [token, role])
+  }, [token, role, refreshKey])
 
   return users;
 }

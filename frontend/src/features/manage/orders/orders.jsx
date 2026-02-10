@@ -1,20 +1,22 @@
-import { useLoaderData } from 'react-router-dom';
+import { useContext } from 'react';
 import { orderSchema, orderSelections as selections } from '@my-org/shared/validators'
 
 import headers from './headers';
 import inputs from './inputs';
 
-import useItem from '@hooks/useItem';
-import useSupplier from '@hooks/useSupplier';
-
 import Order from '@assets/placeholders/order.svg';
 
 import Main from '@layouts/main/main';
 
+import ManageContext from '@contexts/manage.context';
+
 const Orders = () => {
-  const items = useItem();
-  const suppliers = useSupplier();
-  const orders = useLoaderData();
+  const { 
+    orders,
+    items,
+    suppliers,
+    bumpOrdersRefresh
+  } = useContext(ManageContext);
   
   return (
     <Main
@@ -25,6 +27,7 @@ const Orders = () => {
       selections={selections}
       inputs={inputs({ suppliers, items })}
       schema={orderSchema}
+      onSubmitted={bumpOrdersRefresh}
       disabled={{
         current: 
           (typeof suppliers?.length === 'undefined' || suppliers?.length <= 0) || (typeof items?.length === 'undefined' || items?.length <= 0),

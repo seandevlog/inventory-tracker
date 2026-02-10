@@ -1,5 +1,4 @@
 import Orders from '@features/manage/orders/orders';
-import { getAll } from '@features/manage/loaders';
 import {
   create,
   edit
@@ -8,7 +7,6 @@ import { orderSchema } from "@my-org/shared/validators";
 
 import Modal from '@components/modal/modal';
 
-import { loaderWithPath } from '@utils/router/loaderWithPath';
 import { actionWithConfig } from '@utils/router/actionWithConfig';
 import { removeLastS } from '@utils/removeLastS';
 
@@ -19,7 +17,6 @@ const orders = {
   path: path.orders.relative,
   id: path.orders.relative,
   Component: Orders,
-  loader: loaderWithPath(getAll, path.orders.relative), 
   children: [
     {
       path: 'create',

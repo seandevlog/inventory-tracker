@@ -14,7 +14,7 @@ const FormView = () => {
   const { role, username } = profile || {};
 
   const handleNavigate = () => {
-    navigate(`edit`, { relative: 'path' })
+    navigate('edit', { relative: 'path' })
   };
 
   const {

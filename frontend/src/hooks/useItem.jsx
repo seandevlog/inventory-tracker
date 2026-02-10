@@ -7,7 +7,7 @@ import AppContext from '@contexts/app.context';
 
 const { server, path } = config;
 
-const useItem = () => {
+const useItem = ({ refreshKey }) => {
   const { token } = useContext(AppContext);
 
   const [items, setItems] = useState(null);
@@ -20,10 +20,9 @@ const useItem = () => {
           Authorization: `Bearer ${token}`
         }
       })
-
       setItems(data.items);
     })()
-  }, [token])
+  }, [token, refreshKey])
 
   return items;
 }

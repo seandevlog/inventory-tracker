@@ -7,7 +7,7 @@ import AppContext from '@contexts/app.context';
 
 const { server, path } = config;
 
-const useTransaction = () => {
+const useTransaction = ({ refreshKey }) => {
   const { token } = useContext(AppContext);
 
   const [transactions, setTransactions] = useState(null);
@@ -23,7 +23,7 @@ const useTransaction = () => {
 
       setTransactions(data.transactions);
     })()
-  }, [token])
+  }, [token, refreshKey])
 
   return transactions;
 }

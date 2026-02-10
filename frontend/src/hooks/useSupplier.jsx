@@ -7,7 +7,7 @@ import AppContext from '@contexts/app.context';
 
 const { server, path } = config;
 
-const useSupplier = () => {
+const useSupplier = ({ refreshKey }) => {
   const { token } = useContext(AppContext);
 
   const [suppliers, setSuppliers] = useState(null);
@@ -23,7 +23,7 @@ const useSupplier = () => {
 
       setSuppliers(data.suppliers);
     })()
-  }, [token])
+  }, [token, refreshKey])
 
   return suppliers;
 }

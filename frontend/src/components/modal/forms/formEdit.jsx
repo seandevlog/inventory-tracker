@@ -1,7 +1,8 @@
-import { useReducer, useMemo, useContext } from 'react';
+import { useReducer, useMemo, useContext, useEffect } from 'react';
 import { 
   Form,
   useActionData, 
+  useNavigation, 
   useOutletContext
 } from 'react-router-dom';
 import ImageUpload from '@components/imageUpload/imageUpload';
@@ -30,8 +31,9 @@ const reducer = (state, action) => {
 }
 
 const FormEdit = () => {
+  const navigation = useNavigation();
   const { profile } = useContext(AppContext);
-  const { role, username } = profile || {};
+  const { role } = profile || {};
 
   const actionData = useActionData()
 
@@ -39,7 +41,8 @@ const FormEdit = () => {
     FeaturePlaceholder,
     inputs,
     schema,
-    singleData
+    singleData,
+    onSubmitted
   } = useOutletContext();
   const error = actionData?.error ?? null;
 
@@ -74,6 +77,12 @@ const FormEdit = () => {
 
     return;
   }
+
+  useEffect(() => {
+    if (navigation.state === 'submitting') {
+      return () => onSubmitted();
+    }
+  }, [navigation, onSubmitted])
 
   return (role && (role === 'admin' || role === 'manager') 
     ? <Form

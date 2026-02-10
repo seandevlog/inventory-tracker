@@ -1,4 +1,4 @@
-import { useLoaderData, useRouteLoaderData } from 'react-router-dom';
+import { useContext } from 'react';
 import { itemSchema, itemSelections as selections } from '@my-org/shared/validators'
 import headers from './headers';
 import inputs from './inputs';
@@ -7,8 +7,10 @@ import Item from '@assets/placeholders/item.svg';
 
 import Main from '@layouts/main/main';
 
+import ManageContext from '@contexts/manage.context';
+
 const Items = () => {
-  const items = useLoaderData();
+  const { items, bumpItemRefresh } = useContext(ManageContext);
 
   return (
     <>
@@ -20,6 +22,7 @@ const Items = () => {
         selections={selections}
         inputs={inputs}
         schema={itemSchema}
+        onSubmitted={bumpItemRefresh}
       />
     </>
   )

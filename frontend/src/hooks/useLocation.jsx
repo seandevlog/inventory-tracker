@@ -7,7 +7,7 @@ import AppContext from '@contexts/app.context';
 
 const { server, path } = config;
 
-const useLocation = () => {
+const useLocation = ({ refreshKey }) => {
   const { token } = useContext(AppContext);
 
   const [locations, setLocations] = useState(null);
@@ -23,7 +23,7 @@ const useLocation = () => {
 
       setLocations(data.locations);
     })()
-  }, [token])
+  }, [token, refreshKey])
 
   return locations;
 }

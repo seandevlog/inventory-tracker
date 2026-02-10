@@ -16,7 +16,7 @@ import SleepingDog from '@assets/sleepingDog.svg';
 import MainContext from '@contexts/main.context';
 import AppContext from '@contexts/app.context';
 
-const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schema, disabled }) => {
+const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schema, disabled, onSubmitted }) => {
   const { profile } = useContext(AppContext);
   const { role } = profile || {};
   const navigate = useNavigate();
@@ -71,7 +71,8 @@ const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schem
             singleData,
             inputs,
             FeaturePlaceholder,
-            schema 
+            schema,
+            onSubmitted 
           }}/>
         </div>
       </main>

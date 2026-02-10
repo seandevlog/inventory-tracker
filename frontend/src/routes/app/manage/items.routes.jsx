@@ -1,5 +1,4 @@
 import Items from '@features/manage/items/items';
-import { getAll } from '@features/manage/loaders';
 import {
   create,
   edit
@@ -8,7 +7,6 @@ import { itemSchema } from "@my-org/shared/validators";
 
 import Modal from '@components/modal/modal';
 
-import { loaderWithPath } from '@utils/router/loaderWithPath';
 import { actionWithConfig } from '@utils/router/actionWithConfig';
 import { removeLastS } from '@utils/removeLastS';
 
@@ -19,7 +17,6 @@ const items = {
   path: path.items.relative,
   id: path.items.relative,
   Component: Items,
-  loader: loaderWithPath(getAll, path.items.relative),  
   children: [
     {
       path: 'create',

@@ -1,5 +1,4 @@
 import Locations from '@features/manage/locations/locations';
-import { getAll } from '@features/manage/loaders';
 import {
   create,
   edit
@@ -8,7 +7,6 @@ import { locationSchema } from "@my-org/shared/validators";
 
 import Modal from '@components/modal/modal';
 
-import { loaderWithPath } from '@utils/router/loaderWithPath';
 import { actionWithConfig } from '@utils/router/actionWithConfig';
 import { removeLastS } from '@utils/removeLastS';
 
@@ -19,7 +17,6 @@ const locations = {
   path: path.locations.relative,
   id: path.locations.relative,
   Component: Locations,
-  loader: loaderWithPath(getAll, path.locations.relative), 
   children: [
     {
       path: 'create',

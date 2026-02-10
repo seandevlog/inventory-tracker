@@ -7,7 +7,7 @@ import AppContext from '@contexts/app.context';
 
 const { server, path } = config;
 
-const useOrder = () => {
+const useOrder = ({ refreshKey }) => {
   const { token } = useContext(AppContext);
 
   const [orders, setOrders] = useState(null);
@@ -23,7 +23,7 @@ const useOrder = () => {
 
       setOrders(data.orders);
     })()
-  }, [token])
+  }, [token, refreshKey])
 
   return orders;
 }
