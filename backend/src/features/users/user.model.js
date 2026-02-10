@@ -45,7 +45,7 @@ const userSchema = new Schema({
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: [ true, 'Created by is required' ]
+    // required: [ true, 'Created by is required' ]
   },
 
   feature: featureSchema,
@@ -64,7 +64,7 @@ const userSchema = new Schema({
     findAllWithRelations() {
       return this.find()
         .populate({ path: 'createdBy', select: 'username -_id' });
-    },
+    }
   }
 });
 
