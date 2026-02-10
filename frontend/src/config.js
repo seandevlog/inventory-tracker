@@ -14,7 +14,7 @@ const config = {
 
     register: {
       relative: 'register',
-      absolute: '/register'
+      absolute: '/auth/register'
     },
 
     manage: {

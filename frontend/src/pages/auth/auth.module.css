@@ -38,6 +38,13 @@
   box-shadow      : 
     2px 0 3px black,
     5px 0 10px black;
+
+  direction: rtl;
+  overflow-y: auto;
+}
+
+.auth > * {
+  direction: ltr;
 }
 
 .auth > span:first-of-type > p {
