@@ -9,6 +9,9 @@ import RedirectLink from '@components/buttons/redirect/redirect';
 
 import firstCharUppercase from '@utils/firstCharUppercase';
 
+import config from '@config';
+const { path } = config;
+
 const NavTop = () => {
   const { pathname } = useLocation();
   const { profile } = useContext(AppContext);
@@ -18,7 +21,7 @@ const NavTop = () => {
   return (
     <nav className={styles.navTop}>
       <span className={styles.logo}>
-        <RedirectLink url='/dashboard'>
+        <RedirectLink url={path.manage.absolute}>
           <Logo/>
         </RedirectLink>
       </span>
@@ -28,12 +31,12 @@ const NavTop = () => {
       <ul className={styles.links}>
           <li>
             {pathname.includes('profile')
-              ? <RedirectLink url='/dashboard'>Manage</RedirectLink>
-              : <RedirectLink url='/profile'>{(givenName && firstCharUppercase(givenName)) || 'Profile'}</RedirectLink>
+              ? <RedirectLink url={path.manage.absolute}>Manage</RedirectLink>
+              : <RedirectLink url={path.profile.absolute}>{(givenName && firstCharUppercase(givenName)) || 'Profile'}</RedirectLink>
             }
           </li>
-          <li><RedirectLink url="/faq">FAQ</RedirectLink></li>
-          <li><RedirectLink url="/logout">Logout</RedirectLink></li>
+          <li><RedirectLink url={path.faq.absolute}>FAQ</RedirectLink></li>
+          <li><RedirectLink url={path.logout.absolute}>Logout</RedirectLink></li>
       </ul>
     </nav>
   )

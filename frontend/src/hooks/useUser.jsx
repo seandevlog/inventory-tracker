@@ -16,7 +16,7 @@ const useUser = () => {
   useEffect(() => {
     if (role === 'admin') {
       (async () => {
-        const { data } = await axios.get(`${server}/${path.users}/`,{
+        const { data } = await axios.get(`${server}/${path.users.relative}/`,{
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${token}`

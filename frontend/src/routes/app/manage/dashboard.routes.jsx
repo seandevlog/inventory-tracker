@@ -1,7 +1,7 @@
 import Dashboard from '@features/manage/dashboard/dashboard';
 
 const dashboard = {
-  path: 'dashboard/', 
+  index: true,
   Component: Dashboard,
 }
 

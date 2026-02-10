@@ -14,7 +14,7 @@ const useOrder = () => {
 
   useEffect(() => {
     (async () => {
-      const { data } = await axios.get(`${server}/${path.orders}/`,{
+      const { data } = await axios.get(`${server}/${path.orders.relative}/`,{
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`

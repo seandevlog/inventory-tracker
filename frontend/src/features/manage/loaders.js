@@ -5,13 +5,13 @@ import { getToken } from '@stores/token';
 import firstCharUppercase from '@utils/firstCharUppercase';
 
 import config from '@config';
-const { login } = config.path;
+const { path: configPath } = config;
 
 export const getAll = async ({ path }) => {
   document.title = firstCharUppercase(path);
   const accessToken = getToken();
   const data = await services.getAll({ accessToken, path });
-  return data[`${path}`];
+  return data[path];
 }
 
 export const get = async ({ params, path }) => {
@@ -20,7 +20,7 @@ export const get = async ({ params, path }) => {
   const data = await services.get({ id: params[`${removeLastS(path)}`], accessToken, path });
 
   const { error } = data;
-  if (error) return redirect(login);
+  if (error) return redirect(configPath.root);
 
-  return data[`${path}`];
+  return data[path];
 }

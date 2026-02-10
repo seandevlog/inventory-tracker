@@ -14,7 +14,7 @@ const useTransaction = () => {
 
   useEffect(() => {
     (async () => {
-      const { data } = await axios.get(`${server}/${path.transactions}/`,{
+      const { data } = await axios.get(`${server}/${path.transactions.relative}/`,{
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`

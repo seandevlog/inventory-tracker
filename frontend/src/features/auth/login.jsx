@@ -5,6 +5,8 @@ import Joi from 'joi';
 import RedirectLink from '@components/buttons/redirect/redirect';
 import ErrorBox from '@components/errorBox/errorBox';
 import { userSchema } from '@my-org/shared/validators';
+import config from '@config';
+const { path } = config;
 
 const inputReducer = {};
 const inputs = [
@@ -88,7 +90,7 @@ const Login = () => {
         : null
       }
       <RedirectLink 
-        url="/register"
+        url={path.register.absolute}
       >
         I don't have an account
       </RedirectLink>

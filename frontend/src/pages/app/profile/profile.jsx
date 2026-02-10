@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 import AppContext from '@contexts/app.context';
 
+import config from '@config';
+const { path } = config;
+
 const Profile = () => {
   const navigate = useNavigate()
 
@@ -18,7 +21,7 @@ const Profile = () => {
         : 'No Data Found'
       }
       <button
-        onClick={() => navigate('/dashboard')}
+        onClick={() => navigate(path.manage.absolute)}
       >
         Go Home
       </button>

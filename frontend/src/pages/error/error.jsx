@@ -2,6 +2,8 @@ import * as React from 'react';
 import styles from './error.module.css';
 import { useRouteError, useNavigate, isRouteErrorResponse } from "react-router-dom";
 import axios from 'axios';
+import config from '@config';
+const { path } = config;
 
 const Error = () => {
   const error = useRouteError();
@@ -36,7 +38,7 @@ const Error = () => {
       <p>{status}</p>
       <p>{data}</p>
       <button
-        onClick={() => navigate('/', { replace: true })}
+        onClick={() => navigate(path.root, { replace: true })}
       >
         Go Home
       </button>

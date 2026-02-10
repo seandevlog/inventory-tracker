@@ -16,30 +16,30 @@ import config from '@config';
 const { path } = config;
 
 const items = {
-  path: path.items,
-  id: path.items,
+  path: path.items.relative,
+  id: path.items.relative,
   Component: Items,
-  loader: loaderWithPath(getAll, path.items),  
+  loader: loaderWithPath(getAll, path.items.relative),  
   children: [
     {
       path: 'create',
       Component: () => Modal({ mode: 'create', title: 'Create Item'}),
       action: actionWithConfig({ 
         action: create,
-        path: path.items,
+        path: path.items.absolute,
         schema: itemSchema
       }),
     },
     {
-      path: `:${removeLastS(path.items)}Id`,
+      path: `:${removeLastS(path.items.relative)}Id`,
       Component: () => Modal({ mode: 'view', title: 'View Item'}),
     },
     {
-      path: `:${removeLastS(path.items)}Id/edit`,
+      path: `:${removeLastS(path.items.relative)}Id/edit`,
       Component: () => Modal({ mode: 'edit', title: 'Edit Item'}),
       action: actionWithConfig({ 
         action: edit,
-        path: path.items,
+        path: path.items.absolute,
         schema: itemSchema
       })
     }

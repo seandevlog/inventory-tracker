@@ -7,6 +7,9 @@ import ErrorBox from '@components/errorBox/errorBox';
 
 import userInputs from '@features/manage/users/inputs';
 
+import config from '@config';
+const { path } = config;
+
 const inputReducer = {};
 const filteredInputs = userInputs.filter(({ id }) => 
   id !== 'isActive' && id !== 'role' &&
@@ -83,7 +86,7 @@ const Register = () => {
         : null
       }
       <RedirectLink
-        url="/"
+        url={path.root}
       >
         I already have an account
       </RedirectLink>

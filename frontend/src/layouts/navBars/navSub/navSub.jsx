@@ -10,6 +10,9 @@ import splitUppercase from '@utils/splitUppercase';
 
 import { ArrowDown } from '@assets/arrows';
 
+import config from '@config';
+const { path } = config;
+
 const quickActions = [ 'viewStock' ];
 const links = [ 'users', 'items', 'locations', 'suppliers', 'orders', 'transactions' ];
 
@@ -53,10 +56,17 @@ const NavSub = () => {
           {renderLinks?.map(link => (
             <li key={link}>
               <RedirectLink
-                url={`/${link}`}
+                url={path[link].absolute}
                 id={link}
                 onSelect={handleSelect}
                 selected={selected}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  boxShadow: 
+                    `0 2px 0 var(--color-1),
+                    0 5px 0 var(--color-2)`
+                }}
               >
                 {firstCharUppercase(link)}
               </RedirectLink>

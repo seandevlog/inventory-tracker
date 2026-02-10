@@ -16,30 +16,30 @@ import config from '@config';
 const { path } = config;
 
 const transactions = {
-  path: path.transactions,
-  id: path.transactions,
+  path: path.transactions.relative,
+  id: path.transactions.relative,
   Component: Transactions,
-  loader: loaderWithPath(getAll, path.transactions),
+  loader: loaderWithPath(getAll, path.transactions.relative),
   children: [
     {
       path: 'create',
       Component: () => Modal({ mode: 'create', title: 'Create Transaction'}),
       action: actionWithConfig({ 
         action: create,
-        path: path.transactions,
+        path: path.transactions.absolute,
         schema: transactionSchema
       }),
     },
     {
-      path: `:${removeLastS(path.transactions)}Id`,
+      path: `:${removeLastS(path.transactions.relative)}Id`,
       Component: () => Modal({ mode: 'view', title: 'View Transaction'}),
     },
     {
-      path: `:${removeLastS(path.transactions)}Id/edit`,
+      path: `:${removeLastS(path.transactions.relative)}Id/edit`,
       Component: () => Modal({ mode: 'edit', title: 'Edit Transaction'}),
       action: actionWithConfig({ 
         action: edit,
-        path: path.transactions,
+        path: path.transactions.absolute,
         schema: transactionSchema
       })
     }

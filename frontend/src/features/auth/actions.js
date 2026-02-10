@@ -5,13 +5,16 @@ import {
 } from './services';
 import { setToken } from '@stores/token';
 
+import config from '@config';
+const { path } = config;
+
 export const loginSubmit = async ({ request }) => {
   const formData = await request.formData();
   
   const { accessToken, error } = await loginClient(formData);
   setToken(accessToken);
 
-  if (accessToken) return redirect('/dashboard');
+  if (accessToken) return redirect(path.manage.absolute);
   
   if (error) return { error };
 } 
@@ -26,5 +29,5 @@ export const registerSubmit = async ({ request }) => {
 
   if (error) return { error };
 
-  return redirect('/');
+  return redirect(path.root);
 }

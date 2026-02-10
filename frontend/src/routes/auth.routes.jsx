@@ -9,6 +9,9 @@ import {
 
 import authLoader from '@pages/auth/loaders';
 
+import config from '@config';
+const { path } = config;
+
 const auth = {
   Component: Auth,
   loader: authLoader,
@@ -20,7 +23,7 @@ const auth = {
       action: loginAction 
     },
     { 
-      path: 'register', 
+      path: path.register.relative, 
       Component: Register, 
       action: registerAction 
     }

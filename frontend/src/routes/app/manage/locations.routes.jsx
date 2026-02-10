@@ -16,30 +16,30 @@ import config from '@config';
 const { path } = config;
 
 const locations = {
-  path: path.locations,
-  id: path.locations,
+  path: path.locations.relative,
+  id: path.locations.relative,
   Component: Locations,
-  loader: loaderWithPath(getAll, path.locations), 
+  loader: loaderWithPath(getAll, path.locations.relative), 
   children: [
     {
       path: 'create',
       Component: () => Modal({ mode: 'create', title: 'Create Location'}),
       action: actionWithConfig({ 
         action: create,
-        path: path.locations,
+        path: path.locations.absolute,
         schema: locationSchema
       }),
     },
     {
-      path: `:${removeLastS(path.locations)}Id`,
+      path: `:${removeLastS(path.locations.relative)}Id`,
       Component: () => Modal({ mode: 'view', title: 'View Location'}),
     },
     {
-      path: `:${removeLastS(path.locations)}Id/edit`,
+      path: `:${removeLastS(path.locations.relative)}Id/edit`,
       Component: () => Modal({ mode: 'edit', title: 'Edit Location'}),
       action: actionWithConfig({ 
         action: edit,
-        path: path.locations,
+        path: path.locations.absolute,
         schema: locationSchema
       })
     }

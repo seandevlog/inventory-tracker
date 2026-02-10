@@ -14,7 +14,7 @@ const useSupplier = () => {
 
   useEffect(() => {
     (async () => {
-      const { data } = await axios.get(`${server}/${path.suppliers}/`,{
+      const { data } = await axios.get(`${server}/${path.suppliers.relative}/`,{
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`

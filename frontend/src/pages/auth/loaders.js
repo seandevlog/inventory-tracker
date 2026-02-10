@@ -4,7 +4,7 @@ import { redirect } from "react-router-dom";
 import config from '@config';
 import { setToken } from "@stores/token";
 
-const { server } = config;
+const { server, path } = config;
 
 export const auth = async () => {
   try {
@@ -13,7 +13,7 @@ export const auth = async () => {
     });
     setToken(data.accessToken ?? null)
 
-    return redirect('/dashboard');
+    return redirect(path.manage.absolute);
   } catch (err) {
     return;
   }

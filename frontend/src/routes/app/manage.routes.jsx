@@ -10,7 +10,12 @@ import dashboardRoutes from '@routes/app/manage/dashboard.routes';
 import Manage from '@pages/app/manage/manage'
 import Error from '@pages/error/error';
 
+import config from '@config';
+const { path } = config;
+
 const manage = {
+  id: path.manage.relative,
+  path: path.manage.relative,
   Component: Manage,
   ErrorBoundary: Error,
   children: [

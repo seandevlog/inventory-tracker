@@ -1,8 +1,9 @@
 import {
   useState,
-  useEffect
+  useEffect,
+  useContext
 } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './modal.module.css';
 
@@ -14,13 +15,16 @@ import {
   FormView 
 } from './forms';
 
-import getTopLevelRoute from '@utils/getTopLevelRoute';
+import MainContext from '@contexts/main.context';
+
 import firstCharUppercase from '@utils/firstCharUppercase';
+
+import config from '@config';
+const { path } = config;
 
 const Modal = ({ mode, title }) => {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const topRoute = getTopLevelRoute(pathname);
+  const { id } = useContext(MainContext);
 
   const [show, setShow] = useState(true)
 
@@ -35,10 +39,10 @@ const Modal = ({ mode, title }) => {
 
   useEffect(() => {
     if (!show) {
-      document.title = firstCharUppercase(topRoute);
-      navigate(`/${topRoute}`, { relative: 'route' }); 
+      document.title = firstCharUppercase(id);
+      navigate(path[`${id}s`].absolute); 
     }
-  }, [show, navigate, topRoute])
+  }, [id, navigate, show])
 
   useEffect(() => {
     document.title = firstCharUppercase(title);

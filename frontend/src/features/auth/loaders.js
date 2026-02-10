@@ -3,12 +3,15 @@ import {
   logout as logoutClient
 } from "./services";
 import { setToken } from "@stores/token";
+import config from "@config";
+
+const { path } = config;
 
 export const logout = async () => {
   const { success } = await logoutClient();
 
   if (success) {
     setToken('');
-    return redirect('/');
+    return redirect(path.root);
   }
 }

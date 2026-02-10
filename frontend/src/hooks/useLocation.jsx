@@ -14,7 +14,7 @@ const useLocation = () => {
 
   useEffect(() => {
     (async () => {
-      const { data } = await axios.get(`${server}/${path.locations}/`,{
+      const { data } = await axios.get(`${server}/${path.locations.relative}/`,{
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`

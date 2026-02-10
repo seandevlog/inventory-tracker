@@ -68,7 +68,7 @@ const Table = ({ data, headers }) => {
               key={row?._id}
               id={row?._id}
               className="filled"
-              onClick={() => navigate(`${row?._id}`)}
+              onClick={() => navigate(row?._id)}
               sort={sortedHeaderAttributes}
               data={row}
             />
