@@ -13,6 +13,7 @@ const SearchBarInput = ({ id, data, setSelect }) => {
 
   const handleValue = (event) => {
     setValue(event.target.value);
+    setSelect(event.target.value)
     setSelected(false);
   }
   
@@ -25,8 +26,7 @@ const SearchBarInput = ({ id, data, setSelect }) => {
   return (
     <div className={styles.searchBarWrapper}>
       <input 
-        id={id} 
-        name={id}
+        id={id}
         type='text' 
         value={value}
         onChange={handleValue}

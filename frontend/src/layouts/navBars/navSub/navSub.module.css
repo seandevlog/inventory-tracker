@@ -92,7 +92,7 @@
   top         : calc(-1 * var(--navSub-drop));
 
   position-anchor: --view-stock;
-  left        : anchor(left);
+  left        : calc(anchor(left) - 0.5em);
 
   transition: all 500ms ease;
 }
@@ -101,9 +101,9 @@
   position    : absolute;
   top         : var(--navSub-height);
   z-index     : calc(var(--z-navSub) - 1);
+  left        : calc(anchor(left) - 0.5em);
 
   position-anchor: --view-stock;
-  left        : anchor(left);
 
   transition  : all 500ms ease;
 }

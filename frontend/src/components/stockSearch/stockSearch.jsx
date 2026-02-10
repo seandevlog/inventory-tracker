@@ -50,24 +50,54 @@ const StockSearch = () => {
     () => increaseStock - reduceStock,
   [increaseStock, reduceStock]);
 
-  return (
-    <div className={styles.stockSearch}>
-      <SearchBarInput
-        id='item'
-        data={currentItemsSKU}
-        select={itemInput}
-        setSelect={setItemInput}
-      />
-      <SearchBarInput
-        id='location'
-        data={currentLocationsCode}
-        select={locationInput}
-        setSelect={setLocationInput}
-      />
-      <span>
-        <p>Current Stock</p>
-        <p>{isNaN(newStock) ? 'No Result' : newStock}</p>
-      </span>
+  return (items && locations && items?.length > 0 && locations?.length > 0
+    ? <div className={styles.stockSearch}>
+      <span>Lookup a stock of an item by typing the SKU and Location code</span>
+      <div>
+        <SearchBarInput
+          id='SKU'
+          data={currentItemsSKU}
+          select={itemInput}
+          setSelect={setItemInput}
+        />
+        <SearchBarInput
+          id='Location Code'
+          data={currentLocationsCode}
+          select={locationInput}
+          setSelect={setLocationInput}
+        />
+        <span>
+          {typeof itemInput !== 'undefined' && itemInput && typeof locationInput !== 'undefined' && locationInput &&
+            ((typeof fromLocationTransactions !== 'undefined' && fromLocationTransactions.length <= 0) ||
+            (typeof toLocationTransactions !== 'undefined' && toLocationTransactions.length <=0))
+          ? <> 
+              <p>Both Inputs</p>
+              <p>Invalid</p>
+            </>
+          : typeof itemInput !== 'undefined' && itemInput && 
+              ((typeof fromLocationTransactions !== 'undefined' && fromLocationTransactions.length <= 0) ||
+              (typeof toLocationTransactions !== 'undefined' && toLocationTransactions.length <=0))
+          ? <> 
+              <p>Invalid Input</p>
+              <p>SKU</p>
+            </>
+          : typeof locationInput !== 'undefined' && locationInput && 
+            ((typeof fromLocationTransactions !== 'undefined' && fromLocationTransactions.length <= 0) ||
+            (typeof toLocationTransactions !== 'undefined' && toLocationTransactions.length <=0))
+          ? <> 
+              <p>Invalid Input</p>
+              <p>Location</p>
+            </>
+          : <>
+              <p>Current Stock</p>
+              <p>{isNaN(newStock) ? 'No Result' : newStock}</p>
+            </>
+          }
+        </span>
+      </div>
+    </div>
+    : <div className={styles.noData}>
+      <span>Peekaboo! Create Locations & Items first to access this feature</span>
     </div>
   )
 }
