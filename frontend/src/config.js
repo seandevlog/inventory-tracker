@@ -3,7 +3,14 @@ const config = {
   path: {
     root: '/',
 
-    app: 'app',
+    app: {
+      relative: 'app',
+      absolute: '/app'
+    },
+    auth: {
+      relative: 'auth',
+      absolute: '/auth'
+    },
 
     register: {
       relative: 'register',

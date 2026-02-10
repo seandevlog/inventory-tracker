@@ -13,6 +13,8 @@ import config from '@config';
 const { path } = config;
 
 const auth = {
+  id: path.auth.relative,
+  path: path.auth.relative,
   Component: Auth,
   loader: authLoader,
   ErrorBoundary: Error,

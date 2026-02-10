@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, redirect } from 'react-router-dom';
 import '@assets/global.css';
 
 import Root from '../root';
@@ -18,6 +18,7 @@ const router = createBrowserRouter([
     ErrorBoundary: Error,
     HydrateFallback: Hydrate,
     children: [
+      { index: true, loader: () => redirect(path.auth.absolute)},
       authRoutes,
       appRoutes
     ]

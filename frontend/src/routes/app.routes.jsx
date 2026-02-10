@@ -14,12 +14,16 @@ import config from '@config';
 const { path } = config;
 
 const app = {
-  id: path.app,
-  path: path.app,
+  id: path.app.relative,
+  path: path.app.relative,
   Component: App,
   ErrorBoundary: Error,
   children: [
-    { index: true, loader: () => redirect(path.manage.absolute)},
+    { 
+      index: true, 
+      loader: () => redirect(path.manage.absolute),
+      Component: () => (<></>)
+    },
     profileRoutes,
     manageRoutes,
     faqRoutes,
