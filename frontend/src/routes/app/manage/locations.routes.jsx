@@ -26,7 +26,7 @@ const locations = {
       Component: () => Modal({ mode: 'create', title: 'Create Location'}),
       action: actionWithConfig({ 
         action: create,
-        path: path.locations.absolute,
+        path: path.locations.relative,
         schema: locationSchema
       }),
     },
@@ -39,7 +39,7 @@ const locations = {
       Component: () => Modal({ mode: 'edit', title: 'Edit Location'}),
       action: actionWithConfig({ 
         action: edit,
-        path: path.locations.absolute,
+        path: path.locations.relative,
         schema: locationSchema
       })
     }

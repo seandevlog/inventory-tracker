@@ -26,7 +26,7 @@ const items = {
       Component: () => Modal({ mode: 'create', title: 'Create Item'}),
       action: actionWithConfig({ 
         action: create,
-        path: path.items.absolute,
+        path: path.items.relative,
         schema: itemSchema
       }),
     },
@@ -39,7 +39,7 @@ const items = {
       Component: () => Modal({ mode: 'edit', title: 'Edit Item'}),
       action: actionWithConfig({ 
         action: edit,
-        path: path.items.absolute,
+        path: path.items.relative,
         schema: itemSchema
       })
     }

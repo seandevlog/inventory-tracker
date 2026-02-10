@@ -26,7 +26,7 @@ const transactions = {
       Component: () => Modal({ mode: 'create', title: 'Create Transaction'}),
       action: actionWithConfig({ 
         action: create,
-        path: path.transactions.absolute,
+        path: path.transactions.relative,
         schema: transactionSchema
       }),
     },
@@ -39,7 +39,7 @@ const transactions = {
       Component: () => Modal({ mode: 'edit', title: 'Edit Transaction'}),
       action: actionWithConfig({ 
         action: edit,
-        path: path.transactions.absolute,
+        path: path.transactions.relative,
         schema: transactionSchema
       })
     }

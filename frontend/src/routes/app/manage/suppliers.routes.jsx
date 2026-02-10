@@ -26,7 +26,7 @@ const suppliers = {
       Component: () => Modal({ mode: 'create', title: 'Create Supplier'}),
       action: actionWithConfig({ 
         action: create,
-        path: path.suppliers.absolute,
+        path: path.suppliers.relative,
         schema: supplierSchema
       }),
     },
@@ -39,7 +39,7 @@ const suppliers = {
       Component: () => Modal({ mode: 'edit', title: 'Edit Supplier'}),
       action: actionWithConfig({ 
         action: edit,
-        path: path.suppliers.absolute,
+        path: path.suppliers.relative,
         schema: supplierSchema
       })
     }

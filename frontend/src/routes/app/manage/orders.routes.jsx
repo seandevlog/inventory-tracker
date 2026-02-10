@@ -26,7 +26,7 @@ const orders = {
       Component: () => Modal({ mode: 'create', title: 'Create Order'}),
       action: actionWithConfig({ 
         action: create,
-        path: path.orders.absolute,
+        path: path.orders.relative,
         schema: orderSchema
       }),
     },
@@ -39,7 +39,7 @@ const orders = {
       Component: () => Modal({ mode: 'edit', title: 'Edit Order'}),
       action: actionWithConfig({ 
         action: edit,
-        path: path.orders.absolute,
+        path: path.orders.relative,
         schema: orderSchema
       })
     }

@@ -26,7 +26,7 @@ const users = {
       Component: () => Modal({ mode: 'create', title: 'Create User'}),
       action: actionWithConfig({ 
         action: create, 
-        path: path.users.absolute, 
+        path: path.users.relative, 
         schema: userSchema 
       })
     },
@@ -39,7 +39,7 @@ const users = {
       Component: () => Modal({ mode: 'edit', title: 'Edit User'}),
       action: actionWithConfig({ 
         action: edit, 
-        path: path.users.absolute, 
+        path: path.users.relative, 
         schema: userSchema 
       })
     }
