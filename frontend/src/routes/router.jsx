@@ -18,7 +18,11 @@ const router = createBrowserRouter([
     ErrorBoundary: Error,
     HydrateFallback: Hydrate,
     children: [
-      { index: true, loader: () => redirect(path.auth.absolute)},
+      { 
+        index: true,
+        Component: () => (<></>), 
+        loader: () => redirect(path.auth.absolute)
+      },
       authRoutes,
       appRoutes
     ]
