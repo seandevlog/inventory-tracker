@@ -1,26 +1,19 @@
-import { 
-  useContext,
-} from 'react';
-import { useLoaderData, useRouteLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 
 import { transactionSchema, transactionSelections as selections } from '@my-org/shared/validators'
 import headers from './headers';
 import inputs from './inputs';
 
-import ManageContext from '@contexts/manage.context';
-
 import Transaction from '@assets/placeholders/transaction.svg';
+
+import useItem from '@hooks/useItem';
+import useLocation from '@hooks/useLocation';
 
 import Main from '@layouts/main/main';
 
-import config from '@config'
-
-const { path } = config;
-
 const Transactions = () => {
-  const items = useRouteLoaderData(path.items) 
-  const locations =  useRouteLoaderData(path.items);
-  const { items: contextItems, locations: contextLocations } = useContext(ManageContext);
+  const items = useItem();
+  const locations = useLocation();
   const transactions = useLoaderData();
 
   return (
@@ -30,8 +23,20 @@ const Transactions = () => {
       headers={headers}
       FeaturePlaceholder={Transaction}
       selections={selections}
-      inputs={inputs({ items: items || contextItems, locations: locations || contextLocations })}
+      inputs={inputs({ items, locations })}
       schema={transactionSchema}
+      disabled={{
+        current: 
+          (typeof locations?.length === 'undefined' || locations?.length <= 0) || (typeof items?.length === 'undefined' || items?.length <= 0),
+        message: 
+          (typeof locations?.length !== 'undefined' && locations?.length > 0)
+          ? "We have locations now, next up, create items so there's something to transaction from them."
+          : (typeof items?.length !== 'undefined' && items?.length > 0)
+          ? "Nice, items are ready, now create locations so those items can actually come from somewhere." 
+          : (typeof locations?.length === 'undefined' || locations?.length <= 0) || (typeof items?.length === 'undefined' || items?.length <= 0)
+          ? "Transactions need items and locations to happen. Create items and assign locations first."
+          : "",
+      }}
     />
   )
 }

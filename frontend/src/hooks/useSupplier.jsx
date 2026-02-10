@@ -10,7 +10,7 @@ const { server, path } = config;
 const useSupplier = () => {
   const { token } = useContext(AppContext);
 
-  const [supplier, setSuppliers] = useState(null);
+  const [suppliers, setSuppliers] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -25,7 +25,7 @@ const useSupplier = () => {
     })()
   }, [token])
 
-  return [ supplier, setSuppliers ];
+  return suppliers;
 }
 
 export default useSupplier;

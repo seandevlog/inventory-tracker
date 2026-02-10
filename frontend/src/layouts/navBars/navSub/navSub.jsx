@@ -65,7 +65,8 @@ const NavSub = () => {
                   height: '100%',
                   boxShadow: 
                     `0 2px 0 var(--color-1),
-                    0 5px 0 var(--color-2)`
+                    0 5px 0 var(--color-2)`,
+                  color: 'black'
                 }}
               >
                 {firstCharUppercase(link)}

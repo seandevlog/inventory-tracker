@@ -1,5 +1,4 @@
 import style from './manage.module.css';
-import { useEffect } from 'react';
 import { Outlet } from "react-router-dom";
 
 import useItem from '@hooks/useItem';
@@ -13,21 +12,21 @@ import ManageContext from '@contexts/manage.context';
 import NavSub from '@layouts/navBars/navSub/navSub';
 
 const Manage = () => {
-  const [items, setItems] = useItem();
-  const [locations, setLocations] = useLocation();
-  const [transactions, setTransactions] = useTransaction();
-  const [suppliers, setSuppliers] = useSupplier();
-  const [orders, setOrders] = useOrder();
-  const [users, setUsers] = useUser();
+  const items = useItem();
+  const locations = useLocation();
+  const transactions = useTransaction();
+  const suppliers = useSupplier();
+  const orders = useOrder();
+  const users = useUser();
 
   return (
     <ManageContext.Provider value={{
-      items, setItems,
-      locations, setLocations, 
-      transactions, setTransactions,
-      suppliers, setSuppliers,
-      orders, setOrders,
-      users, setUsers
+      items,
+      locations, 
+      transactions,
+      suppliers,
+      orders,
+      users
     }}>
       <div className={style.manage}>
         <NavSub />

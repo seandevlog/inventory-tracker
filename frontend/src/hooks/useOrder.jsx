@@ -25,7 +25,7 @@ const useOrder = () => {
     })()
   }, [token])
 
-  return [ orders, setOrders ];
+  return orders;
 }
 
 export default useOrder;

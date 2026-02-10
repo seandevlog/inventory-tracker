@@ -25,7 +25,7 @@ const useItem = () => {
     })()
   }, [token])
 
-  return [ items, setItems ];
+  return items;
 }
 
 export default useItem;

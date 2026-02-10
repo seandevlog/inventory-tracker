@@ -10,7 +10,7 @@ const { server, path } = config;
 const useTransaction = () => {
   const { token } = useContext(AppContext);
 
-  const [transaction, setTransactions] = useState(null);
+  const [transactions, setTransactions] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -25,7 +25,7 @@ const useTransaction = () => {
     })()
   }, [token])
 
-  return [ transaction, setTransactions ];
+  return transactions;
 }
 
 export default useTransaction;

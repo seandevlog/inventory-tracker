@@ -1,8 +1,8 @@
 import { createBrowserRouter, redirect } from 'react-router-dom';
 import '@assets/global.css';
 
-import Root from '../root';
-import Hydrate from '../hydrate';
+import Root from '@pages/root';
+import Hydrate from '@pages/hydrate';
 import Error from '@pages/error/error';
 
 import authRoutes from '@routes/auth.routes';

@@ -1,28 +1,21 @@
-import { 
-  useContext
-} from 'react';
-import { useLoaderData, useRouteLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import { orderSchema, orderSelections as selections } from '@my-org/shared/validators'
-
-import ManageContext from '@contexts/manage.context';
 
 import headers from './headers';
 import inputs from './inputs';
+
+import useItem from '@hooks/useItem';
+import useSupplier from '@hooks/useSupplier';
 
 import Order from '@assets/placeholders/order.svg';
 
 import Main from '@layouts/main/main';
 
-import config from '@config';
-
-const { path } = config;
-
 const Orders = () => {
-  const items = useRouteLoaderData(path.items) 
-  const suppliers =  useRouteLoaderData(path.suppliers);
-  const { items: contextItems, suppliers: contextSuppliers } = useContext(ManageContext);
+  const items = useItem();
+  const suppliers = useSupplier();
   const orders = useLoaderData();
-
+  
   return (
     <Main
       id='order'
@@ -30,8 +23,20 @@ const Orders = () => {
       headers={headers}
       FeaturePlaceholder={Order}
       selections={selections}
-      inputs={inputs({ suppliers: suppliers || contextSuppliers, items: items || contextItems })}
+      inputs={inputs({ suppliers, items })}
       schema={orderSchema}
+      disabled={{
+        current: 
+          (typeof suppliers?.length === 'undefined' || suppliers?.length <= 0) || (typeof items?.length === 'undefined' || items?.length <= 0),
+        message: 
+          (typeof suppliers?.length !== 'undefined' && suppliers?.length > 0)
+          ? "We have suppliers now, next up, create items so there's something to order from them."
+          : (typeof items?.length !== 'undefined' && items?.length > 0)
+          ? "Nice, items are ready, now create suppliers so those items can actually come from somewhere." 
+          : (typeof suppliers?.length === 'undefined' || suppliers?.length <= 0) || (typeof items?.length === 'undefined' || items?.length <= 0)
+          ? "You've opened Orders, but there's nothing to order yet. Try creating items and suppliers first."
+          : "",
+      }}
     />
   )
 }

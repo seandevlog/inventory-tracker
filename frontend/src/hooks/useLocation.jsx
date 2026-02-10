@@ -25,7 +25,7 @@ const useLocation = () => {
     })()
   }, [token])
 
-  return [ locations, setLocations ];
+  return locations;
 }
 
 export default useLocation;

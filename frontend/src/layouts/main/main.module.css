@@ -13,3 +13,25 @@ main {
   margin          : 0;
   position        : relative;
 }
+
+.disabled {
+  background      : var(--color-dark-3);
+  color           : white;
+
+  display         : flex;
+  flex-direction  : column;
+  justify-content : center;
+  align-items     : center;
+}
+
+.disabled > span > svg {
+  width           : 10vw;
+  
+  fill            : white;
+}
+
+.disabled > span {
+  font-size       : 1.5em;
+  text-align      : center;
+  padding         : 0 4em;
+}

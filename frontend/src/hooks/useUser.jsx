@@ -28,7 +28,7 @@ const useUser = () => {
     }
   }, [token, role])
 
-  return [ users, setUsers ];
+  return users;
 }
 
 export default useUser;

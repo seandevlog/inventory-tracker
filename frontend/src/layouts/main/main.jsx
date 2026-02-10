@@ -9,11 +9,12 @@ import firstCharUppercase from '@utils/firstCharUppercase';
 import Sidebar from '@layouts/sidebar/sidebar';
 import CreateButton from '@components/buttons/create/create';
 import Table from '@components/table/table';
+import Lock from '@assets/lock.svg'
 
 import MainContext from '@contexts/main.context';
 import AppContext from '@contexts/app.context';
 
-const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schema }) => {
+const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schema, disabled }) => {
   const { profile } = useContext(AppContext);
   const { role } = profile || {};
   const navigate = useNavigate();
@@ -30,8 +31,8 @@ const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schem
     filter(filteredData, { _id: paramId })
   , [filteredData, paramId])
 
-  return (
-    <MainContext.Provider value={{
+  return (typeof disabled === 'undefined' || (typeof disabled !== 'undefined' && !disabled?.current)
+    ? <MainContext.Provider value={{
       id,
       FeaturePlaceholder,
       setFilterOptions,
@@ -64,6 +65,12 @@ const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schem
         </div>
       </main>
     </MainContext.Provider>
+    : <main className={styles.disabled}>
+      <span>
+        <Lock/>
+        <p>{disabled.message}</p>
+      </span>
+    </main>
   )
 }
 
