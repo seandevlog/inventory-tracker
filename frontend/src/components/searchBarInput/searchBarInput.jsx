@@ -3,12 +3,12 @@ import styles from './searchBarInput.module.css';
 
 import firstCharUppercase from '@utils/firstCharUppercase';
 
-const SearchBarInput = ({ id, data, select, setSelect }) => {
+const SearchBarInput = ({ id, data, setSelect }) => {
   const [value, setValue] = useState('');
   const [selected, setSelected] = useState(false);
 
   const filteredData = useMemo(() => 
-    data?.filter(key => key.includes(value.trim().toUpperCase()))
+    data?.filter(key => key && key?.includes(value.trim().toUpperCase()))
   , [data, value])
 
   const handleValue = (event) => {

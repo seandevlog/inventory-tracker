@@ -93,7 +93,7 @@ export const updateTransaction = async ({ transactionId, data }) => {
   if (!transactionId) throw new BadRequestError('Transaction ID is required');
   if (!data) throw new BadRequestError('Data is required');
 
-  const { createdBy, sku, fromLocationCode, toLocationCode } = data;
+  const { sku, fromLocationCode, toLocationCode } = data;
 
   const keys = transactionSchema._ids._byKey.keys().toArray();
   const optionalTransactionsSchema = transactionSchema.fork(keys, (field) => field.optional());
@@ -103,7 +103,7 @@ export const updateTransaction = async ({ transactionId, data }) => {
     throw new BadRequestError(error);    
   } 
 
-  const [item, fromLocation, toLocation, user] = await Promise.all([
+  const [item, fromLocation, toLocation] = await Promise.all([
     sku 
       ? Items.findOne({ sku }).lean() 
       : Promise.resolve(undefined),
@@ -112,15 +112,11 @@ export const updateTransaction = async ({ transactionId, data }) => {
       : Promise.resolve(undefined),
     toLocationCode 
       ? Locations.findOne({ code: toLocationCode }).lean() 
-      : Promise.resolve(undefined),
-    createdBy 
-      ? Users.findOne({ username: createdBy }).lean() 
-      : Promise.resolve(undefined),
+      : Promise.resolve(undefined)
   ]);
   
   if (fromLocation === null) throw new BadRequestError('From location not found');
   if (toLocation === null) throw new BadRequestError('To location not found');
-  if (user === null) throw new BadRequestError('User not found');
   if (item === null) throw new BadRequestError('Item not found');
 
   const transaction = await Transactions.findOneAndUpdate({ _id: transactionId }, {
@@ -129,10 +125,10 @@ export const updateTransaction = async ({ transactionId, data }) => {
     username: undefined,
     fromLocationCode: undefined,
     toLocationCode: undefined,
+    createdBy: undefined,
     item,
     fromLocation,
-    toLocation,
-    createdBy: user
+    toLocation
   });
   
   if (!transaction) throw new Error('Failed to find transaction');

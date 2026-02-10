@@ -1,22 +1,40 @@
 import {v2 as cloudinary} from 'cloudinary';
 import Suppliers from './supplier.model.js';
+import Users from '#features/users/user.model.js';
 import { supplierSchema } from '@my-org/shared/validators';
 import { BadRequestError } from '#errors/index.js';
 
 export const getSupplier = async ({ supplierId }) => {
   if (!supplierId) throw new BadRequestError('Supplier ID is required');
 
-  const supplier = await Suppliers.findOne({ _id: supplierId }).lean();
+  const supplier = await Suppliers.findByIdWithRelations(supplierId).lean();
   if (!supplier) throw new Error('Failed to find supplier');
 
-  return supplier;
+  const flatSupplier = { 
+    ...supplier,
+    createdBy: supplier.createdBy?.username ?? undefined
+  }
+
+  delete supplier.createdBy;
+
+  return flatSupplier;
 }
 
 export const getAllSupplier = async () => {
-  const suppliers = await Suppliers.find({}).lean();
+  const suppliers = await Suppliers.findAllWithRelations().lean();
   if (!suppliers) throw new Error('Failed to find suppliers');
 
-  return suppliers;
+  const flatSuppliers = suppliers.map(supplier => {
+    const flatSupplier = {
+      ...supplier,
+      createdBy: supplier.createdBy?.username ?? undefined
+    }
+
+    delete supplier.createdBy;
+    return flatSupplier;
+  })
+
+  return flatSuppliers;
 }
 
 export const storeSupplier = async ({ data }) => {
@@ -27,7 +45,16 @@ export const storeSupplier = async ({ data }) => {
     throw new BadRequestError(error);    
   } 
 
-  const supplier = await Suppliers.create({ ...value});
+  const { createdBy } = value;
+
+  const user = await Users.findOne({ username: createdBy }).lean();
+  if (!user) throw new BadRequestError('User not found');
+
+  const supplier = await Suppliers.create({ 
+    ...value,
+    username: undefined,
+    createdBy: user
+  });
 
   return supplier;
 }
@@ -42,10 +69,11 @@ export const updateSupplier = async ({ supplierId, data }) => {
   const { value, error } = optionalSuppliersSchema.validate(data);
   if (typeof error !== 'undefined' && error) {
     throw new BadRequestError(error);    
-  } 
+  }
 
-  const supplier = await Suppliers.findOneAndUpdate({ _id: supplierId }, {...value });
-  if (!supplier) throw new Error('Failed to find supplier');
+  const supplier = await Suppliers.findOneAndUpdate({ _id: supplierId }, 
+    { ...value, createdBy: undefined });
+  if (!location) throw new Error('Failed to find supplier');
 
   return supplier;
 }

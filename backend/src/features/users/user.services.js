@@ -8,21 +8,38 @@ import { BadRequestError } from '#errors/index.js';
 export const getUser = async ({ userId }) => {
   if (!userId) throw new BadRequestError('User ID is required');
 
-  const user = await Users.findOne({ _id: userId }).lean();
+  const user = await Users.findByIdWithRelations(userId).lean();
   if (!user) throw new Error('Failed to find user');
 
   const { password, ...rest } = user; 
 
-  return rest;
+  const flatUser = { 
+    ...rest,
+    createdBy: user.createdBy?.username ?? undefined
+  }
+
+  delete user.createdBy;
+
+  return flatUser;
 }
 
 export const getAllUser = async () => {
-  const users = await Users.find({}).lean();
+  const users = await Users.findAllWithRelations().lean();
   if (!users) throw new Error('Failed to find users');
 
   const usersWithoutPW = users.map(({ password, ...rest }) => rest);
 
-  return usersWithoutPW;
+  const flatUsers = usersWithoutPW.map(user => {
+    const flatUser = {
+      ...user,
+      createdBy: user.createdBy?.username ?? undefined
+    }
+
+    delete user.createdBy;
+    return flatUser;
+  })
+
+  return flatUsers;
 }
 
 export const storeUser = async ({ data }) => {
@@ -37,7 +54,16 @@ export const storeUser = async ({ data }) => {
   const hashedPassword = password && await Passwords.hash(password);
   if (!hashedPassword) throw new BadRequestError('Password is required');
 
-  const user = await Users.create({ ...value, password: hashedPassword});
+  const { createdBy } = value;
+  
+  let admin = await Users.findOne({ username: createdBy }).lean();
+
+  const user = await Users.create({ 
+    ...value,
+    password: hashedPassword,
+    createdBy: admin ?? undefined
+  });
+
   return user;
 }
 

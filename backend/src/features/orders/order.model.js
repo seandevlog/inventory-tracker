@@ -42,6 +42,12 @@ const orderSchema = new Schema({
     required: true
   },
 
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: [ true, 'Created by is required' ]
+  },
+
   feature: featureSchema,
 
 }, { 
@@ -57,6 +63,10 @@ const orderSchema = new Schema({
         path: 'item',
         select: 'sku -_id'
       })
+      .populate({
+        path: 'user',
+        select: 'email -_id'
+      })
     },
     findAllWithRelations() {
       return this.find()
@@ -67,6 +77,10 @@ const orderSchema = new Schema({
         .populate({
           path: 'item',
           select: 'sku -_id'
+        })
+        .populate({
+          path: 'createdBy',
+          select: 'username -_id'
         })
     }
   } 

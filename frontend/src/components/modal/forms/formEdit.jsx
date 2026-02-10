@@ -159,7 +159,7 @@ const FormEdit = () => {
             <input 
               id='createdBy'
               name='createdBy'
-              value={username}
+              value={singleData?.[0]?.createdBy ?? 'The universe, probably'}
               readOnly
             />
           </div>

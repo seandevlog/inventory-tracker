@@ -16,7 +16,7 @@ export const create = async ({ request, path, schema }) => {
   const { data, error } = await services.create({ formData, accessToken, path });
   
   if (error) return { error };
-  if (data) return redirect(path)
+  if (data) return redirect('..')
 }
 
 export const edit = async ({ request, params, path, schema }) => {
@@ -53,5 +53,5 @@ const destroy = async ({ accessToken, id, path }) => {
   const { error } = data;
 
   if (error) return redirect('/');
-  return redirect(path);
+  return redirect('..');
 }

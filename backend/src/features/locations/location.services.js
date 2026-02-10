@@ -1,22 +1,40 @@
 import {v2 as cloudinary} from 'cloudinary';
 import Locations from './location.model.js';
+import Users from '#features/users/user.model.js';
 import { locationSchema } from '@my-org/shared/validators';
 import { BadRequestError } from '#errors/index.js';
 
 export const getLocation = async ({ locationId }) => {
   if (!locationId) throw new BadRequestError('Location ID is required');
 
-  const location = await Locations.findOne({ _id: locationId }).lean();
+  const location = await Locations.findByIdWithRelations(locationId).lean();
   if (!location) throw new Error('Failed to find location');
 
-  return location;
+  const flatLocation = { 
+    ...location,
+    createdBy: location.createdBy?.username ?? undefined
+  }
+
+  delete location.createdBy;
+
+  return flatLocation;
 }
 
 export const getAllLocation = async () => {
-  const locations = await Locations.find({}).lean();
+  const locations = await Locations.findAllWithRelations().lean();
   if (!locations) throw new Error('Failed to find locations');
 
-  return locations;
+  const flatLocations = locations.map(location => {
+    const flatLocation = {
+      ...location,
+      createdBy: location.createdBy?.username ?? undefined
+    }
+
+    delete location.createdBy;
+    return flatLocation;
+  })
+
+  return flatLocations;
 }
 
 export const storeLocation = async ({ data }) => {
@@ -27,7 +45,16 @@ export const storeLocation = async ({ data }) => {
     throw new BadRequestError(error);    
   } 
 
-  const location = await Locations.create({ ...value});
+  const { createdBy } = value;
+
+  const user = await Users.findOne({ username: createdBy }).lean();
+  if (!user) throw new BadRequestError('User not found');
+
+  const location = await Locations.create({ 
+    ...value,
+    username: undefined,
+    createdBy: user
+  });
 
   return location;
 }
@@ -42,9 +69,10 @@ export const updateLocation = async ({ locationId, data }) => {
   const { value, error } = optionalLocationsSchema.validate(data);
   if (typeof error !== 'undefined' && error) {
     throw new BadRequestError(error);    
-  } 
+  }
 
-  const location = await Locations.findOneAndUpdate({ _id: locationId }, {...value });
+  const location = await Locations.findOneAndUpdate({ _id: locationId }, 
+    { ...value, createdBy: undefined });
   if (!location) throw new Error('Failed to find location');
 
   return location;
@@ -65,4 +93,3 @@ export const deleteLocation = async ({ locationId }) => {
 
   return oldLocation;
 }
-

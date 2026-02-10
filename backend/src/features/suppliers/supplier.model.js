@@ -38,7 +38,19 @@ const supplierSchema = new Schema({
 
   feature: featureSchema,
 
-}, { timestamps: true });
+}, { 
+  timestamps: true,
+  statics: {
+    findByIdWithRelations(itemId) {
+      return this.findOne({ _id: itemId })
+        .populate({ path: 'createdBy', select: 'username -_id' });
+    },
+    findAllWithRelations() {
+      return this.find()
+        .populate({ path: 'createdBy', select: 'username -_id' });
+    },
+  }
+});
 
 const supplierModel = mongoose.model('Supplier', supplierSchema);
 export default supplierModel;

@@ -41,13 +41,32 @@ const userSchema = new Schema({
     enum: ['active', 'inactive'],
     required: [true, 'Status is required']
   },
+
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: [ true, 'Created by is required' ]
+  },
+
   feature: featureSchema,
   role: {
     type: String,
     enum: ['admin', 'manager', 'staff'],
     default: ['staff']
   }
-}, { timestamps: true });
+}, { 
+  timestamps: true,
+  statics: {
+    findByIdWithRelations(itemId) {
+      return this.findOne({ _id: itemId })
+        .populate({ path: 'createdBy', select: 'username -_id' });
+    },
+    findAllWithRelations() {
+      return this.find()
+        .populate({ path: 'createdBy', select: 'username -_id' });
+    },
+  }
+});
 
 const userModel = mongoose.model('User', userSchema);
 export default userModel;

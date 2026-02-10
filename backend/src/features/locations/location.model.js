@@ -33,7 +33,19 @@ const locationSchema = new Schema({
 
   feature: featureSchema,
 
-}, { timestamps: true });
+}, { 
+  timestamps: true,
+  statics: {
+    findByIdWithRelations(locationId) {
+      return this.findOne({ _id: locationId })
+        .populate({ path: 'createdBy', select: 'username -_id' });
+    },
+    findAllWithRelations() {
+      return this.find()
+        .populate({ path: 'createdBy', select: 'username -_id' });
+    },
+  }
+});
 
 const locationModel = mongoose.model('Location', locationSchema);
 export default locationModel;

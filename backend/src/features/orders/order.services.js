@@ -2,6 +2,7 @@ import {v2 as cloudinary} from 'cloudinary';
 import Orders from './order.model.js';
 import Suppliers from '#features/suppliers/supplier.model.js';
 import Items from '#features/items/item.model.js';
+import Users from '#features/users/user.model.js';
 import { orderSchema } from '@my-org/shared/validators';
 import { BadRequestError } from '#errors/index.js';
 
@@ -16,11 +17,13 @@ export const getOrder = async ({ orderId }) => {
     ...order,
     email: order.supplier?.email ?? undefined,
     sku: order.item?.sku ?? undefined,
-    isActive: order.item?.isActive ?? undefined
+    isActive: order.item?.isActive ?? undefined,
+    createdBy: order.createdBy?.username ?? undefined
   }
 
   delete order.supplier;
   delete order.item;
+  delete order.createdBy;
 
   return flatOrder;
 }
@@ -35,11 +38,13 @@ export const getAllOrder = async () => {
       ...order,
       email: order.supplier?.email ?? undefined,
       sku: order.item?.sku ?? undefined,
-      isActive: order.item?.isActive ?? undefined
+      isActive: order.item?.isActive ?? undefined,
+      createdBy: order.createdBy?.username ?? undefined
     }
 
     delete order.supplier;
     delete order.item;
+    delete order.createdBy;
     return flatOrder;
   })
 
@@ -54,20 +59,24 @@ export const storeOrder = async ({ data }) => {
     throw new BadRequestError(error);    
   } 
 
-  const { email, sku } = value;
+  const { email, sku, createdBy } = value;
 
-  const [supplier, item] = await Promise.all([
+  const [supplier, item, user] = await Promise.all([
     Suppliers.findOne({ email }).lean(),
-    Items.findOne({ sku }).lean()
+    Items.findOne({ sku }).lean(),
+    Users.findOne({ username: createdBy }).lean()
   ])
 
   if (!supplier) throw new BadRequestError('Supplier not found');
   if (!item) throw new BadRequestError('Item not found');
+  if (!user) throw new BadRequestError('User not found');
 
   const order = await Orders.create({ 
     ...value, 
     email: undefined, 
     sku: undefined, 
+    username: undefined,
+    createdBy: user,
     supplier,
     item
   });
@@ -99,7 +108,8 @@ export const updateOrder = async ({ orderId, data }) => {
   const order = await Orders.findOneAndUpdate({ _id: orderId }, {
     ...value,
     email: undefined, 
-    sku: undefined, 
+    sku: undefined,
+    createdBy: undefined, 
     supplier,
     item 
   });
