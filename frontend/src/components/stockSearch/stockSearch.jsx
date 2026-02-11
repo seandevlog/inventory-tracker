@@ -59,8 +59,6 @@ const StockSearch = () => {
     locations && locations.length > 0 && locations.reduce((acc, {code}) => acc || code === locationInput, false)
   , [locationInput, locations]);
 
-  console.log(isValidItem);
-
   return (items && locations && items?.length > 0 && locations?.length > 0
     ? <div className={styles.stockSearch}>
       <div>
@@ -69,14 +67,14 @@ const StockSearch = () => {
           <SearchBarInput
             id='SKU'
             data={currentItemsSKU}
-            select={itemInput}
-            setSelect={setItemInput}
+            submitted={itemInput}
+            setSubmitted={setItemInput}
           />
           <SearchBarInput
             id='Location Code'
             data={currentLocationsCode}
-            select={locationInput}
-            setSelect={setLocationInput}
+            submitted={locationInput}
+            setSubmitted={setLocationInput}
           />
         </div>
       </div>

@@ -40,6 +40,7 @@
   justify-content: center;
   align-items: center;
   gap: 1em;
+  height: 2em;
 }
 
 .stockSearch > span {
@@ -54,6 +55,11 @@
 .stockSearch > span > p {
   margin: 0;
   color           : var(--color-1);
+}
+
+.stockSearch > div > div > div > div {
+  max-height: 15em;
+  overflow: auto;
 }
 
 .noData {

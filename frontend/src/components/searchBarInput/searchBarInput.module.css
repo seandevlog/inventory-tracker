@@ -1,26 +1,46 @@
 .searchBarWrapper {
-  position          : relative;
+  position        : relative;
+  width           : 100%;
+  height          : 100%;
+
+  display         : flex;
+  align-items     : center;
 }
 
 .searchBarWrapper  > input {
-  width           : 100%;
-  height          : 2em;
+  height          : 100%;
+  width           : 80%;
   
-  background      : white;
-  border          : 1px solid black;
+  background      : none;
   border-radius   : 8px;
+  border          : none;
   outline         : none;
   appearance      : none;
-  box-shadow      : 
-    0 2px 3px black,
-    0 5px 10px black;
 
   font-size       : 1em;
   padding         : 0.7em;
   color           : black;
   font-weight     : 500;
+  text-overflow   : ellipsis;
+  overflow-x      : auto;
 
   anchor-name     : --input;
+}
+
+.searchBarWrapper::before {
+  content         : '';
+  display         : block;
+  width           : 100%;
+  height          : 2em;
+  background      : white;
+
+  position        : absolute;
+  z-index         : -1;
+
+  border-radius   : 8px;
+  box-shadow      : 
+    0 2px 3px black,
+    0 5px 10px black;
 }
 
 .searchBarWrapper  > input::placeholder {
@@ -56,4 +76,42 @@
 .searchResults > span:hover {
   background        : var(--color-dark-2);
   cursor            : pointer;
+}
+
+.icon {
+  flex              : 1;
+  height            : 100%;
+  width             : 100%;
+
+  display           : flex;
+  justify-content   : center;
+  align-items       : center;
+
+  background        : var(--color-1);
+  border-radius     : 0 8px 8px 0;
+
+  box-shadow        : 
+    -1px 0 2px black,
+    -2px 0 4px black;
+
+  transition        : all 150ms ease;
+}
+
+.icon:hover{
+  cursor            : pointer;
+
+  background        : var(--color-2)
+}
+
+.icon:active > svg{
+  transform         : scale(0.8);
+}
+
+.iconClicked {
+  background        : var(--color-2);
+}
+
+.icon > svg {
+  width             : 1em;
+  fill              : var(--color-dark-1);
 }
