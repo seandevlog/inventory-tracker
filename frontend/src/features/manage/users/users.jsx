@@ -7,10 +7,10 @@ import Portrait from '@assets/placeholders/portrait.svg';
 
 import Main from '@layouts/main/main';
 
-import ManageContext from '@contexts/manage.context'; 
+import AppContext from '@contexts/app.context'; 
 
 const Users = () => {
-  const { users, bumpUserRefresh } = useContext(ManageContext);
+  const { users, bumpUserRefresh } = useContext(AppContext);
 
   return (
     <>

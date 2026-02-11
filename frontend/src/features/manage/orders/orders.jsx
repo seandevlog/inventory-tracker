@@ -8,7 +8,7 @@ import Order from '@assets/placeholders/order.svg';
 
 import Main from '@layouts/main/main';
 
-import ManageContext from '@contexts/manage.context';
+import AppContext from '@contexts/app.context';
 
 const Orders = () => {
   const { 
@@ -16,7 +16,7 @@ const Orders = () => {
     items,
     suppliers,
     bumpOrdersRefresh
-  } = useContext(ManageContext);
+  } = useContext(AppContext);
   
   return (
     <Main

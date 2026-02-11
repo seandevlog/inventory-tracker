@@ -7,10 +7,10 @@ import Supplier from '@assets/placeholders/supplier.svg';
 
 import Main from '@layouts/main/main';
 
-import ManageContext from '@contexts/manage.context'; 
+import AppContext from '@contexts/app.context'; 
 
 const Suppliers = () => {
-  const { suppliers, bumpSupplierRefresh } = useContext(ManageContext);
+  const { suppliers, bumpSupplierRefresh } = useContext(AppContext);
 
   return (
     <>

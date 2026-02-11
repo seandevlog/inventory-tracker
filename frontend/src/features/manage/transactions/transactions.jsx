@@ -8,7 +8,7 @@ import Transaction from '@assets/placeholders/transaction.svg';
 
 import Main from '@layouts/main/main';
 
-import ManageContext from '@contexts/manage.context';
+import AppContext from '@contexts/app.context';
 
 const Transactions = () => {
   const { 
@@ -16,7 +16,7 @@ const Transactions = () => {
     items,
     locations,
     bumpTransactionRefresh
-  } = useContext(ManageContext);
+  } = useContext(AppContext);
 
   return (
     <Main

@@ -1,18 +1,16 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios";
 
 import config from '@config';
 
-import AppContext from '@contexts/app.context';
-
 const { server, path } = config;
 
-const useLocation = ({ refreshKey }) => {
-  const { token } = useContext(AppContext);
-
+const useLocation = ({ refreshKey, token = null}) => {
   const [locations, setLocations] = useState(null);
 
   useEffect(() => {
+    if (!token) return;
+
     (async () => {
       const { data } = await axios.get(`${server}/${path.locations.relative}/`,{
         withCredentials: true,

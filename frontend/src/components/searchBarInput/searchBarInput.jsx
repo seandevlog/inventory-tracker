@@ -46,7 +46,7 @@ const SearchBarInput = ({ id, data, setSubmitted }) => {
           const next = 
             prev <= 0
             ? filteredData?.length - 1
-            : queriedIndex - 1
+            : prev - 1
           setTempSearchValue(filteredData?.[next]);
           return next;
         });

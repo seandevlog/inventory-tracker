@@ -7,10 +7,10 @@ import Item from '@assets/placeholders/item.svg';
 
 import Main from '@layouts/main/main';
 
-import ManageContext from '@contexts/manage.context';
+import AppContext from '@contexts/app.context';
 
 const Items = () => {
-  const { items, bumpItemRefresh } = useContext(ManageContext);
+  const { items, bumpItemRefresh } = useContext(AppContext);
 
   return (
     <>

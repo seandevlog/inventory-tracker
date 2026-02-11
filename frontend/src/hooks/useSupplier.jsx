@@ -1,18 +1,16 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios";
 
 import config from '@config';
 
-import AppContext from '@contexts/app.context';
-
 const { server, path } = config;
 
-const useSupplier = ({ refreshKey }) => {
-  const { token } = useContext(AppContext);
-
+const useSupplier = ({ refreshKey, token = null}) => {
   const [suppliers, setSuppliers] = useState(null);
 
   useEffect(() => {
+    if (!token) return;
+
     (async () => {
       const { data } = await axios.get(`${server}/${path.suppliers.relative}/`,{
         withCredentials: true,

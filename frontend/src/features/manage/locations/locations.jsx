@@ -8,10 +8,10 @@ import Location from '@assets/placeholders/location.svg';
 
 import Main from '@layouts/main/main';
 
-import ManageContext from '@contexts/manage.context';
+import AppContext from '@contexts/app.context';
 
 const Locations = () => {
-  const { locations, bumpLocationRefresh } = useContext(ManageContext);
+  const { locations, bumpLocationRefresh } = useContext(AppContext);
 
   return (
     <>

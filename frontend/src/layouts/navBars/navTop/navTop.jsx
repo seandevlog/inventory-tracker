@@ -9,12 +9,21 @@ import RedirectLink from '@components/buttons/redirect/redirect';
 
 import firstCharUppercase from '@utils/firstCharUppercase';
 
+import SearchBarInput from '@components/searchBarInput/searchBarInput';
+
 import config from '@config';
 const { path } = config;
 
 const NavTop = () => {
   const { pathname } = useLocation();
-  const { profile } = useContext(AppContext);
+  const { 
+    profile,
+    transactions,
+    items,
+    locations,
+    orders,
+    suppliers
+  } = useContext(AppContext);
 
   const { givenName } = profile ?? {}; 
   
@@ -26,7 +35,13 @@ const NavTop = () => {
         </RedirectLink>
       </span>
       <form>
-          <input type="search" placeholder="What are you looking for?"/>
+        {/* <SearchBarInput id='search' data={[
+          ...transactions.map(t => t._id), 
+          ...items.map(i => i.sku), 
+          ...locations.map(l => l.code), 
+          ...orders.map(o => o._id), 
+          ...suppliers.map(s => s.email)
+        ]}/> */}
       </form>
       <ul className={styles.links}>
           <li>

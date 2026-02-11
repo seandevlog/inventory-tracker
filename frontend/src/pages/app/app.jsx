@@ -7,7 +7,15 @@ import styles from './app.module.css';
 
 import NavTop from '@layouts/navBars/navTop/navTop';
 
+import useItem from '@hooks/useItem';
+import useLocation from '@hooks/useLocation';
+import useTransaction from '@hooks/useTransaction';
+import useSupplier from '@hooks/useSupplier';
+import useOrder from '@hooks/useOrder';
+import useUser from '@hooks/useUser';
+
 import AppContext from '@contexts/app.context';
+
 import config from '@config';
 const { server, path } = config;
 
@@ -49,8 +57,37 @@ const App = () => {
     document.title = 'Inventory Tracker'
   }, []);
 
+  const [itemRefreshKey, setItemRefreshKey] = useState(0);
+  const [locationRefreshKey, setLocationRefreshKey] = useState(0);
+  const [orderRefreshKey, setOrderRefreshKey] = useState(0);
+  const [supplierRefreshKey, setSupplierRefreshKey] = useState(0);
+  const [transactionRefreshKey, setTransactionRefreshKey] = useState(0);
+  const [userRefreshKey, setUserRefreshKey] = useState(0);
+
+  const bumpItemRefresh = () => setItemRefreshKey(key => key + 1);
+  const bumpLocationRefresh = () => setLocationRefreshKey(key => key + 1);
+  const bumpOrderRefresh = () => setOrderRefreshKey(key => key + 1);
+  const bumpSupplierRefresh = () => setSupplierRefreshKey(key => key + 1);
+  const bumpTransactionRefresh = () => setTransactionRefreshKey(key => key + 1);
+  const bumpUserRefresh = () => setUserRefreshKey(key => key + 1);
+
+  const items = useItem({ refreshKey: itemRefreshKey, token: tokenState });
+  const locations = useLocation({ refreshKey: locationRefreshKey, token: tokenState });
+  const orders = useOrder({ refreshKey: orderRefreshKey, token: tokenState });
+  const suppliers = useSupplier({ refreshKey: supplierRefreshKey, token: tokenState });
+  const transactions = useTransaction({ refreshKey: transactionRefreshKey, token: tokenState });
+  const users = useUser({ refreshKey: userRefreshKey, profile, token: tokenState });
+
   return (
-    <AppContext.Provider value={{ token: tokenState, profile }}>
+    <AppContext.Provider value={{
+      token: tokenState, profile,
+      items, itemRefreshKey, bumpItemRefresh,
+      locations, locationRefreshKey, bumpLocationRefresh,
+      orders, orderRefreshKey, bumpOrderRefresh,
+      suppliers, supplierRefreshKey, bumpSupplierRefresh,
+      transactions, transactionRefreshKey, bumpTransactionRefresh,
+      users, userRefreshKey, bumpUserRefresh,
+    }}>
       <div className={styles.app}>
         <NavTop />
         <Outlet />

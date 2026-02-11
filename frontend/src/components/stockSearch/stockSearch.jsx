@@ -10,10 +10,10 @@ import { filter } from 'lodash';
 
 import SearchBarInput from '@components/searchBarInput/searchBarInput';
 
-import ManageContext from '@contexts/manage.context';
+import AppContext from '@contexts/app.context';
 
 const StockSearch = () => {
-  const { items, locations, transactions } = useContext(ManageContext);
+  const { items, locations, transactions } = useContext(AppContext);
 
   const [itemInput, setItemInput] = useState(null);
   const [locationInput, setLocationInput] = useState(null);
