@@ -17,26 +17,30 @@ const Error = () => {
   React.useEffect(() => {
     if (isRouteErrorResponse(error)) {
       setStatus(error.status);
-      setData(error.error?.message);
+      setData(error.error?.message || String(error.error));
     } else if (axios.isAxiosError(error)) {
       if (error.response?.status === 403) {
         setStatus(error.response?.status);
-        setData(error.response?.data?.error);
+        setData(error.response?.data?.error || String(error.response?.data));
         return;
       }
       setStatus(error.response?.status);
-      setData(error.response?.statusText);
+      setData(error.response?.statusText || String(error.response?.statusText));
     } else {
-      setStatus(error.status);
-      setData(error.data?.error);
+      setStatus(error.status || 'Unknown');
+      setData(
+        typeof error.data?.error === 'string'
+        ? error.data.error
+        : JSON.stringify(error.data?.error) || String(error)
+      )
     }
-  }, [setStatus, error])
+  }, [error])
 
   return (
     <div className={styles.error}>
       <p>Oops! Something went wrong.</p>
-      <p>{status}</p>
-      <p>{data}</p>
+      {status && <p>{status}</p>}
+      {data && <p>{data}</p>}
       <button
         onClick={() => navigate(path.root, { replace: true })}
       >
