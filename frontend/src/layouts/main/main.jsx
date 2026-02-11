@@ -11,7 +11,7 @@ import CreateButton from '@components/buttons/create/create';
 import Table from '@components/table/table';
 import Lock from '@assets/lock.svg'
 import { ArrowDownThick } from '@assets/arrows';
-import SleepingDog from '@assets/sleepingDog.svg';
+import EmptyBox from '@assets/empty-box.svg';
 
 import MainContext from '@contexts/main.context';
 import AppContext from '@contexts/app.context';
@@ -61,9 +61,9 @@ const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schem
                 <Table headers={headers} data={filteredData}/>
               </div>
             : <div className={styles.noData}>
-                <span>No entries yet. The 'plus' button is your friend.</span>
+                <span>No entries yet. Press the '+' button.</span>
                 <ArrowDownThick/>
-                <SleepingDog/>
+                <EmptyBox/>
               </div>
           }
           <Outlet context={{ 
