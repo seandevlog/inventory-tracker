@@ -4,7 +4,10 @@ dotenv.config({ path: '.env' });
 const config = {
     port: process.env.PORT,
     nodeEnv: process.env.NODE_ENV,
-    client: process.env.CLIENT_URL,
+    client: {
+        prod: process.env.CLIENT_URL,
+        dev: process.env.CLIENT_URL_DEV
+    },
     database: process.env.MONGO_URI,
     cloud: {
         cloud_name: process.env.CLOUD_NAME,
