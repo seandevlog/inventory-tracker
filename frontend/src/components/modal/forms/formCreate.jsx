@@ -136,7 +136,12 @@ const FormCreate = () => {
                       style={{ 'fontWeight': 'bolder' }}
                       disabled
                     >
-                        {label}
+                      {label}
+                    </option>
+                    <option
+                      value=''
+                    >
+                      --Leave Empty--
                     </option>
                     {options.map(option => 
                       <option key={option} value={option}>

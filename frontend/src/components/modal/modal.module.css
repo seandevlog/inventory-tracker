@@ -1,5 +1,5 @@
 div:has(>.modal) {
-  position        : fixed;
+  position        : absolute;
   inset           : 0 ;
   background      : rgb(0,0,0,0.5);
 
@@ -16,10 +16,10 @@ div:has(>.modal) {
   flex-wrap       : wrap;
 
   background      : white;
-  max-height      : 80vh;
+  max-height      : 90%;
   width           : 80vw;
   z-index         : var(--z-modal);
-  position        : relative;
+  position        : absolute;
   border-radius   : 1em;
 
   overflow        : auto;
@@ -125,7 +125,7 @@ div:has(>.modal) {
   background-color  : var(--color-dark-1);
   color             : var(--color-1);
   font-weight       : 700;
-  font-size         : 1em;
+  font-size         : 0.875em;
   padding           : 1em;
 
   box-shadow        : 

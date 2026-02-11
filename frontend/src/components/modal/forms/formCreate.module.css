@@ -15,7 +15,7 @@
   outline           : none;
   appearance        : none;
 
-  font-size         : 1.1em;
+  font-size         : 1rem;
   padding           : 0.7em;
   color             : black;
   font-weight       : 500;
@@ -31,7 +31,7 @@
   transform         : translate(5%, 30%);
   transition        : all 150ms ease-in-out;
 
-  font-size         : 1.1em;
+  font-size         : 1rem;
   color             : rgb(140, 140, 140);;
   font-weight       : 500;
 
@@ -43,7 +43,7 @@
 .input > input:focus + span {
   top               : -1.7em;
 
-  font-size         : 1.1em;
+  font-size         : 1rem;
   color             : black;
   font-weight       : 500;
 }
@@ -73,7 +73,7 @@
   width         : 100%;
   text-overflow : ellipsis;
   line-height   : 2em;
-  font-size     : 1.2em;
+  font-size     : 1rem;
 }
 
 .selectInput select:hover {

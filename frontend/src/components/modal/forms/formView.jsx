@@ -2,7 +2,8 @@ import { useContext } from 'react';
 import { 
   Form,
   useNavigate,
-  useOutletContext
+  useOutletContext,
+  useLocation
 } from 'react-router-dom';
 import styles from './formView.module.css';
 import firstCharUppercase from '@utils/firstCharUppercase';
@@ -10,11 +11,12 @@ import AppContext from '@contexts/app.context';
 
 const FormView = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const { profile } = useContext(AppContext);
   const { role, username } = profile || {};
 
   const handleNavigate = () => {
-    navigate('edit', { relative: 'path' })
+    navigate(`${pathname}/edit`)
   };
 
   const {
