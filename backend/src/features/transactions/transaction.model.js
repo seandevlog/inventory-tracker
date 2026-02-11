@@ -12,9 +12,9 @@ const transactionSchema = new Schema({
     required: [ true, `Type must be one of: ${allowedTypes.join(', ')}` ],
     validate: {
       validator: function (value) {
-        const toRequired = ['purchase', 'returnFromCustomer', 'production', 'consignmentIn', 'adjustment', 'transfer']
+        const toRequired = ['purchase', 'returnFromCustomer', 'production', 'consignmentIn', 'adjustment']
 
-        const fromRequired = ['sale', 'returnToSupplier', 'scrap', 'consignmentOut', 'transfer'];
+        const fromRequired = ['sale', 'returnToSupplier', 'scrap', 'consignmentOut'];
 
         if (value === 'transfer' && !this.fromLocation && !this.toLocation) {
           throw new Error('From and To Location are required');
@@ -26,6 +26,14 @@ const transactionSchema = new Schema({
 
         if (toRequired.includes(value) && !this.toLocation) {
           throw new Error('To Location is required');
+        }
+
+        if (fromRequired.includes(value) && this.toLocation) {
+          throw new Error('To Location should be empty');
+        }
+
+        if (toRequired.includes(value) && this.fromLocation) {
+          throw new Error('From Location should be empty');
         }
 
         return true;
