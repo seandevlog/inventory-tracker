@@ -8,7 +8,11 @@
   width           : 40rem;
 
   display         : flex;
-  flex-direction  : column;
+  flex-direction  : row;
+  gap             : 1em;
+  padding         : 1em;
+  justify-content : center;
+  align-items     : center;
 
   background      : var(--color-dark-1);
   border-radius   : 0 0 16px 16px;
@@ -18,50 +22,38 @@
     0 5px 10px black;
 }
 
-.stockSearch > span:first-of-type {
-  padding       : 1em;
-
-  font-size     : 0.875rem;
-  color         : #BABABB
+.stockSearch > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
 }
 
-.stockSearch > div {
-  display       : flex;
+.stockSearch > div > span {
+  color: #BABABB;
+  font-size: 0.875rem;
 }
 
 .stockSearch > div > div {
-  width           : 14em;
-
-  display         : flex;
-  align-items     : center;
-  justify-content : center;
-
-  position        : relative;
-  padding-left    : 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
 }
 
-.stockSearch > div > span:last-of-type {
-  display         : flex;
-  flex-direction  : column;
-  justify-content : center;
+.stockSearch > span {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-  text-wrap       : nowrap;
-  text-align      : center;
+  width: 8em;
+}
 
-  padding         : 0 auto;
-
+.stockSearch > span > p {
+  margin: 0;
   color           : var(--color-1);
-  font-weight     : 500;
-
-  /* transform       : translate(1rem, -0.8rem); */
-  position: absolute;
-  right: 2em;
-  bottom: 50%;
-  transform: translate(0, 50%);
-}
-
-.stockSearch > div > span:last-of-type > p {
-  margin          : 0; 
 }
 
 .noData {
