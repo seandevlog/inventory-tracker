@@ -1,8 +1,8 @@
+import Building from "@layouts/building/building";
+
 const Dashboard = () => {
   return (
-    <main>
-      <div>Under Construction: Dashboard</div>
-    </main>
+    <Building/>
   )
 }
 
