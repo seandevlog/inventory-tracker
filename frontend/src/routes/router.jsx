@@ -2,7 +2,7 @@ import { createBrowserRouter, redirect } from 'react-router-dom';
 import '@assets/global.css';
 
 import Root from '@pages/root';
-import Hydrate from '@pages/hydrate';
+import Hydrate from '@pages/hydrate/hydrate';
 import Error from '@pages/error/error';
 
 import authRoutes from '@routes/auth.routes';

@@ -31,7 +31,6 @@ const App = () => {
         const { data } = await axios.get(`${server}/auth/refresh`, {
           withCredentials: true
         })
-
         setTokenState(data.accessToken);
         return setToken(data.accessToken);
       } catch (err) {
