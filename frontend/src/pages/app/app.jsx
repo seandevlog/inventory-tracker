@@ -78,6 +78,14 @@ const App = () => {
   const transactions = useTransaction({ refreshKey: transactionRefreshKey, token: tokenState });
   const users = useUser({ refreshKey: userRefreshKey, profile, token: tokenState });
 
+  const style = (pathname) => (
+    pathname === path.app.absolute
+    ? { 
+        color: 'black',
+      }
+    : undefined
+  );
+
   return (
     <AppContext.Provider value={{
       token: tokenState, profile,
@@ -89,7 +97,7 @@ const App = () => {
       users, userRefreshKey, bumpUserRefresh,
     }}>
       <div className={styles.app}>
-        <NavTop />
+        <NavTop style={style}/>
         <Outlet />
       </div>
     </AppContext.Provider>

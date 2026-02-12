@@ -31,7 +31,7 @@
 }
 
 .stockSearch > div > span {
-  color: #BABABB;
+  color: var(--color-dark-4);
   font-size: 0.875rem;
 }
 

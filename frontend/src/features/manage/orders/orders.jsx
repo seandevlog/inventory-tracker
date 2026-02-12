@@ -15,7 +15,7 @@ const Orders = () => {
     orders,
     items,
     suppliers,
-    bumpOrdersRefresh
+    bumpOrderRefresh
   } = useContext(AppContext);
   
   return (
@@ -27,7 +27,7 @@ const Orders = () => {
       selections={selections}
       inputs={inputs({ suppliers, items })}
       schema={orderSchema}
-      onSubmitted={bumpOrdersRefresh}
+      onSubmitted={bumpOrderRefresh}
       disabled={{
         current: 
           (typeof suppliers?.length === 'undefined' || suppliers?.length <= 0) || (typeof items?.length === 'undefined' || items?.length <= 0),

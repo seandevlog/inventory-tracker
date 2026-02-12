@@ -9,49 +9,45 @@ import RedirectLink from '@components/buttons/redirect/redirect';
 
 import firstCharUppercase from '@utils/firstCharUppercase';
 
-import SearchBarInput from '@components/searchBarInput/searchBarInput';
-
 import config from '@config';
 const { path } = config;
 
-const NavTop = () => {
+const NavTop = ({style}) => {
   const { pathname } = useLocation();
   const { 
-    profile,
-    transactions,
-    items,
-    locations,
-    orders,
-    suppliers
+    profile
   } = useContext(AppContext);
 
   const { givenName } = profile ?? {}; 
   
   return (
-    <nav className={styles.navTop}>
+    <nav className={styles.navTop} style={
+      pathname === path.app.absolute
+      ? { background: 'transparent', zIndex: 1 }
+      : undefined
+    }>
       <span className={styles.logo}>
-        <RedirectLink url={path.manage.absolute}>
-          <Logo/>
+        <RedirectLink url={path.app.absolute} >
+          <Logo style={
+            style(pathname)
+          }/>
         </RedirectLink>
       </span>
-      <form>
-        {/* <SearchBarInput id='search' data={[
-          ...transactions.map(t => t._id), 
-          ...items.map(i => i.sku), 
-          ...locations.map(l => l.code), 
-          ...orders.map(o => o._id), 
-          ...suppliers.map(s => s.email)
-        ]}/> */}
-      </form>
       <ul className={styles.links}>
           <li>
             {pathname.includes('profile')
               ? <RedirectLink url={path.manage.absolute}>Manage</RedirectLink>
-              : <RedirectLink url={path.profile.absolute}>{(givenName && firstCharUppercase(givenName)) || 'Profile'}</RedirectLink>
+              : <RedirectLink url={path.profile.absolute} style={
+                  style(pathname)
+                }>{(givenName && firstCharUppercase(givenName)) || 'Profile'}</RedirectLink>
             }
           </li>
-          <li><RedirectLink url={path.faq.absolute}>FAQ</RedirectLink></li>
-          <li><RedirectLink url={path.logout.absolute}>Logout</RedirectLink></li>
+          <li><RedirectLink url={path.faq.absolute} style={
+                style(pathname)
+              }>FAQ</RedirectLink></li>
+          <li><RedirectLink url={path.logout.absolute} style={
+                style(pathname)
+              }>Logout</RedirectLink></li>
       </ul>
     </nav>
   )

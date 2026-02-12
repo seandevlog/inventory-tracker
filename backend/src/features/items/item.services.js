@@ -73,7 +73,7 @@ export const updateItem = async ({ itemId, data }) => {
 
   const item = await Items.findOneAndUpdate({ _id: itemId }, 
     { ...value, createdBy: undefined });
-  if (!location) throw new Error('Failed to find item');
+  if (!item) throw new Error('Failed to find item');
 
   return item;
 }

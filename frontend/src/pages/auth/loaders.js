@@ -13,7 +13,7 @@ export const auth = async () => {
     });
     setToken(data.accessToken ?? null)
 
-    return redirect(path.manage.absolute);
+    return redirect(path.app.absolute);
   } catch (err) {
     return;
   }

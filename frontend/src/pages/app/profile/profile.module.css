@@ -1,0 +1,8 @@
+.profile {
+  height          : calc(100% - var(--navTop-height));
+  width           : 100%;
+
+  position        : absolute;
+  top             : calc(var(--navTop-height));
+  z-index         : var(--z-main);
+}

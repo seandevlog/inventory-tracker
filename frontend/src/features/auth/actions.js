@@ -14,7 +14,7 @@ export const loginSubmit = async ({ request }) => {
   const { accessToken, error } = await loginClient(formData);
   setToken(accessToken);
 
-  if (accessToken) return redirect(path.manage.absolute);
+  if (accessToken) return redirect(path.app.absolute);
   
   if (error) return { error };
 } 

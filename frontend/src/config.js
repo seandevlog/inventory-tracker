@@ -29,6 +29,11 @@ const config = {
       relative: 'faq',
       absolute: '/app/faq',
     },
+
+    dashboard: {
+      relative: 'dashboard',
+      absolute: '/app/manage/dashboard'
+    },
     items: {
       relative: 'items',
       absolute: '/app/manage/items'

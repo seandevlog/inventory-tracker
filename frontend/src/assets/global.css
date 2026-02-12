@@ -7,13 +7,14 @@ body {
   height          : 100vh;
   width           : 100vw;
   margin          : 0;
+  overflow        : hidden;
 }
 
 div#root {
   height          : 100%;
   width           : 100%;
   margin          : 0;
-  overflow        : hidden;
+  overflow        : auto;
 }
 
 :root {
@@ -34,10 +35,16 @@ div#root {
 
   --navTop-height: 3em;
   --navSub-height: 1.5em;
+  --height-section: 80vh;
+  --height-footer: 30vh;
 
   --width-sidebar: 10em;
 
   --navSub-drop: 100px;
+
+  --padding-vertical-home: 5em;
+
+  --carousel-li-width: 800px;
 
   --color-1: rgb(234, 214, 34);
   --color-2: rgba(140, 129, 29, 0.989);
@@ -46,6 +53,7 @@ div#root {
   --color-dark-1: #2c2c2c;
   --color-dark-2: #585858;
   --color-dark-3: #707070;
+  --color-dark-4: #BABABB;
 }
 
 .hide {

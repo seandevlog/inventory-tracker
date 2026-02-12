@@ -53,6 +53,24 @@ const NavSub = () => {
           ))}
         </ul>
         <ul className={styles.links}>
+          <li>
+            <RedirectLink
+              url={path.manage.absolute}
+              id='dashboard'
+              onSelect={handleSelect}
+              selected={selected}
+              style={{
+                width: '100%',
+                height: '100%',
+                boxShadow: 
+                  `0 2px 0 var(--color-1),
+                  0 5px 0 var(--color-2)`,
+                color: 'black'
+              }}
+             >
+              Dashboard
+             </RedirectLink>
+          </li>
           {renderLinks?.map(link => (
             <li key={link}>
               <RedirectLink

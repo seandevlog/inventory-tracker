@@ -13,7 +13,7 @@ const RedirectLink = ({ id, url, children, selected, onSelect, style }) => {
   return (
     <a 
       id={id}
-      style={((id && selected && selected === id) || (url && url === pathname)) 
+      style={((id && selected && selected === id) || (url && url === pathname) || !id) 
         ? style
         : undefined
       }

@@ -1,6 +1,5 @@
-import { redirect } from 'react-router-dom';
-
 import App from '@pages/app/app';
+import Home from '@pages/app/home/home'
 
 import manageRoutes from '@routes/app/manage.routes';
 import profileRoutes from '@routes/app/profile.routes';
@@ -19,11 +18,7 @@ const app = {
   Component: App,
   ErrorBoundary: Error,
   children: [
-    { 
-      index: true, 
-      loader: () => redirect(path.manage.absolute),
-      Component: () => (<></>)
-    },
+    { index: true, Component: Home },
     profileRoutes,
     manageRoutes,
     faqRoutes,
