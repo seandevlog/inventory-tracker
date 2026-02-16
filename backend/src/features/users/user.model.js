@@ -45,7 +45,8 @@ const userSchema = new Schema({
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    // required: [ true, 'Created by is required' ]
+    // required: [ true, 'Created by is required' ],
+    default: 'null'
   },
 
   feature: featureSchema,

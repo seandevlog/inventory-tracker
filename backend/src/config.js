@@ -18,7 +18,8 @@ const config = {
         key: process.env.ACCESS_SECURE_KEY,
         expiresIn: process.env.ACCESS_EXPIRES_IN
     },
-    sessionTimeoutMs: Number(process.env.SESSION_TIMEOUT_MS)
+    sessionTimeoutMs: Number(process.env.SESSION_TIMEOUT_MS),
+    demo: process.env.DEMO
 };
 
 export default config;

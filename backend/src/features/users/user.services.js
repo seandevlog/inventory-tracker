@@ -3,7 +3,8 @@ import Users from './user.model.js';
 import Passwords from '#utils/passwords.js';
 import Sessions from '#features/session/session.services.js';
 import { userSchema } from '@my-org/shared/validators';
-import { BadRequestError } from '#errors/index.js';
+import { BadRequestError, ConflictError } from '#errors/index.js';
+import config from '#config';
 
 export const getUser = async ({ userId }) => {
   if (!userId) throw new BadRequestError('User ID is required');
@@ -70,6 +71,9 @@ export const storeUser = async ({ data }) => {
 export const updateUser = async ({ userId, data }) => {
   if (!userId) throw new BadRequestError('User ID is required');
 
+  // Demo Account
+  if (userId === config.demo) throw new ConflictError('Demo Account cannot be edited');
+
   if (!data) throw new BadRequestError('Data is required');
 
    const keys = userSchema._ids._byKey.keys().toArray();
@@ -111,6 +115,9 @@ export const updateUser = async ({ userId, data }) => {
 
 export const deleteUser = async ({ userId }) => {
   if (!userId) throw new BadRequestError('User ID is required');
+
+  // Demo Account
+  if (userId === config.demo) throw new ConflictError('Demo Account cannot be deleted');
 
   const oldUser = await Users.findOneAndDelete({ _id: userId });
   if (!oldUser) throw new Error('Failed to find and delete user');

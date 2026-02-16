@@ -3,7 +3,8 @@ import config from '@config';
 import cloud from '@lib/cloud.js';
 import { 
   postWithErrorHandling,
-  patchWithErrorHandling
+  patchWithErrorHandling,
+  deleteWithErrorHandling
 } from '@utils/api/withErrorHandling';
 
 const server = `${config.server}/`;
@@ -67,14 +68,14 @@ export const update = async ({ formData, id, accessToken, path }) => {
 }
 
 export const destroy = async ({ id, accessToken, path }) => {
-  const { data } = await axios.delete(`${server}${path}/${id}`, {
-    headers: {
-      authorization: `Bearer ${accessToken}`
-    },
-    withCredentials: true
-  });
+  // const { data } = await axios.delete(`${server}${path}/${id}`, {
+  //   headers: {
+  //     authorization: `Bearer ${accessToken}`
+  //   },
+  //   withCredentials: true
+  // });
 
-  return data;
+  return await deleteWithErrorHandling({ url: `${server}${path}/${id}`, accessToken });
 }
 
 export default {

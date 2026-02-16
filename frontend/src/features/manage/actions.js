@@ -7,7 +7,7 @@ export const create = async ({ request, path, schema }) => {
   const accessToken = getToken(); 
   const formData = await request.formData();
 
-  const { error: validationError } = schema.validate(Object.fromEntries(formData));
+  const { error: validationError} = schema.validate(Object.fromEntries(formData));
   if (validationError) {
     console.log(validationError)
     return { validationError }; 
@@ -15,7 +15,7 @@ export const create = async ({ request, path, schema }) => {
 
   const { data, error } = await services.create({ formData, accessToken, path });
   
-  if (error) return { error };
+  if (error) return { error: error ?? null };
   if (data) return redirect('..')
 }
 
@@ -44,7 +44,7 @@ const update = async ({ accessToken, id, formData, path, schema }) => {
 
   const { data, error } = await services.update({ formData, id, accessToken, path });
 
-  if (error) return { error };
+  if (error) return { error: error ?? null };
   if (data) return redirect('..');
 }
 
@@ -52,6 +52,6 @@ const destroy = async ({ accessToken, id, path }) => {
   const data = await services.destroy({ id, accessToken, path })
   const { error } = data;
 
-  if (error) return redirect('/');
+  if (error) return { error: error ?? null };
   return redirect('..');
 }

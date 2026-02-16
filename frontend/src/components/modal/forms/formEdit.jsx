@@ -168,7 +168,9 @@ const FormEdit = () => {
             <input 
               id='createdBy'
               name='createdBy'
-              value={singleData?.[0]?.createdBy ?? 'The universe, probably'}
+              value={singleData?.[0]?.createdBy || ''}
+              placeholder={!singleData?.[0]?.createdBy ? 'The universe, probably' : null}
+              disabled={!singleData?.[0]?.createdBy}
               readOnly
             />
           </div>
@@ -193,10 +195,10 @@ const FormEdit = () => {
           </div>
         </div>
       </fieldset>
-      <div className={styles.errorBox}>
-        <ErrorBox>{error}</ErrorBox>
-      </div>
       <div className={styles.button}>
+        <div className={styles.errorBox}>
+          <ErrorBox>{error}</ErrorBox>
+        </div>
         <button 
           type="submit"
           className="btn"
