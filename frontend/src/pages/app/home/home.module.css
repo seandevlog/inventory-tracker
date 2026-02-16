@@ -54,15 +54,27 @@ div:has(.home) > nav {
     0 5px 10px black;
 }
 
-.intro > button:hover {
+.callToAction:hover {
   cursor          : pointer;
   background      : var(--color-1);
   color           : var(--color-dark-1);
 }
 
-.intro > button:active {
+.callToAction:active {
   transform       : scale(0.8);
   transition      : all 150ms ease;
+}
+
+.lockedButton {
+  background      : var(--color-dark-4);
+
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+}
+
+.lockedButton > svg {
+  width           : 1.5em;
 }
 
 .hero {

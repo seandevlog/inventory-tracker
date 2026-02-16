@@ -10,16 +10,22 @@ import RedirectLink from '@components/buttons/redirect/redirect';
 import firstCharUppercase from '@utils/firstCharUppercase';
 
 import config from '@config';
+import { Profiler } from 'react';
 const { path } = config;
 
 const NavTop = ({style}) => {
   const { pathname } = useLocation();
   const { 
-    profile
+    profile,
+    setProfile
   } = useContext(AppContext);
 
   const { givenName } = profile ?? {}; 
   
+  const handleLogout = () => {
+    setProfile(null);
+  }
+
   return (
     <nav className={styles.navTop} style={
       pathname === path.app.absolute
@@ -37,17 +43,23 @@ const NavTop = ({style}) => {
           <li>
             {pathname.includes('profile')
               ? <RedirectLink url={path.manage.absolute}>Manage</RedirectLink>
-              : <RedirectLink url={path.profile.absolute} style={
+              : <RedirectLink url={(givenName && firstCharUppercase(givenName)) ? path.profile.absolute : path.auth.absolute} style={
                   style(pathname)
-                }>{(givenName && firstCharUppercase(givenName)) || 'Profile'}</RedirectLink>
+                }>{(givenName && firstCharUppercase(givenName)) || 'Sign in'}</RedirectLink>
             }
           </li>
           <li><RedirectLink url={path.faq.absolute} style={
-                style(pathname)
-              }>FAQ</RedirectLink></li>
-          <li><RedirectLink url={path.logout.absolute} style={
-                style(pathname)
-              }>Logout</RedirectLink></li>
+            style(pathname)
+          }>FAQ</RedirectLink></li>
+          {typeof profile !== 'undefined' && profile !== null &&
+            <li
+              onClick={handleLogout}
+            ><RedirectLink url={path.logout.absolute} style={
+              style(pathname)
+            }>
+              Logout
+            </RedirectLink></li>
+          }
       </ul>
     </nav>
   )

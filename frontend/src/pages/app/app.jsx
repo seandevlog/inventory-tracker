@@ -87,7 +87,7 @@ const App = () => {
 
   return (
     <AppContext.Provider value={{
-      token: tokenState, profile,
+      token: tokenState, profile, setProfile,
       items, itemRefreshKey, bumpItemRefresh,
       locations, locationRefreshKey, bumpLocationRefresh,
       orders, orderRefreshKey, bumpOrderRefresh,

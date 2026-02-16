@@ -86,7 +86,7 @@ const Register = () => {
         : null
       }
       <RedirectLink
-        url={path.root}
+        url={path.auth.absolute}
       >
         I already have an account
       </RedirectLink>

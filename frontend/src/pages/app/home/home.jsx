@@ -1,15 +1,20 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styles from './home.module.css';
 
 import Check from "@assets/check.svg";
 import LetterX from "@assets/letterx.svg";
+import Lock from '@assets/lock.svg';
+
+import AppContext from '@contexts/app.context';
 
 import config from '@config';
 const { path } = config;
 
 const Home = () => {
   const navigate = useNavigate();
+  const { profile } = useContext(AppContext);
 
   return (
     <main className={styles.home}>
@@ -22,10 +27,14 @@ const Home = () => {
             <p>Welcome to [ Your Company's ] Inventory Tracker</p>
           </div>
           <button
-            className={styles.callToAction}
+            className={typeof profile !== 'undefined' && profile !== null 
+              ? styles.callToAction
+              : styles.lockedButton}
             onClick={() => navigate(path.manage.absolute)}
+            disabled={typeof profile === 'undefined' || profile === null}
           >
             Access Your Inventory
+            {typeof profile === 'undefined' || profile === null && <Lock/>}
           </button>
           <div>
             <p>Welcome to your company's inventory tracker, built specifically for you and the way your team works.</p>

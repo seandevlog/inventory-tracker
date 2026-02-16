@@ -1,5 +1,5 @@
-import { useReducer } from 'react';
-import { Form, useActionData } from 'react-router-dom';
+import { useReducer, useEffect } from 'react';
+import { Form, useActionData, useFetcher } from 'react-router-dom';
 import Joi from 'joi';
 
 import RedirectLink from '@components/buttons/redirect/redirect';
@@ -31,6 +31,7 @@ const reducer = (state, action) => {
 const Login = () => {
   const actionData = useActionData();
   const { error: submitError } = actionData ?? {};
+  const fetcher = useFetcher();
 
   const loginSchema = userSchema.fork(['password'], () => 
     Joi.string().required().messages({
@@ -56,6 +57,16 @@ const Login = () => {
     return;
   }
 
+  const handleDemo = () => {
+    const formData = new FormData();
+    formData.append("username", "test");
+    formData.append("password", "!Password123");
+
+    fetcher.submit(formData, {
+      method: "post"
+    });
+  }
+
   return (
     <>
       <h1>Welcome back!</h1>
@@ -78,11 +89,17 @@ const Login = () => {
         ))}
         <button 
           type="submit" 
-          className="btn"
           disabled={inputs.reduce((acc, {id}) => acc || inputReducer[id]?.[0]?.errorMessage, false)} // Checks; all values are false --> false OR one value is true --> true
           onClick={handleClick}
         >
           Login
+        </button>
+        {/* Demo */}
+        <button 
+          type="button" 
+          onClick={handleDemo}
+        >
+          Demo Login
         </button>
       </Form>
       {submitError 

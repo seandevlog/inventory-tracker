@@ -21,7 +21,7 @@ const router = createBrowserRouter([
       { 
         index: true,
         Component: () => (<></>), 
-        loader: () => redirect(path.auth.absolute)
+        loader: () => redirect(path.app.absolute)
       },
       authRoutes,
       appRoutes
