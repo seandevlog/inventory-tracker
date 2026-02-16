@@ -1,5 +1,5 @@
 const config = {
-  server: import.meta.env.VITE_API_URL,
+  server: import.meta.env.PROD ? import.meta.env.VITE_API_URL : '/api',
   path: {
     root: '/',
 

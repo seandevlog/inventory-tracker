@@ -2,7 +2,6 @@ import express from 'express';
 import mongoose from 'mongoose';
 import {v2 as cloudinary} from 'cloudinary';
 import cookieParser from 'cookie-parser';
-import cors from 'cors';
 
 import config from './config.js';
 
@@ -24,37 +23,36 @@ import isActive from '#middlewares/isActive.js';
 import isAdmin from '#middlewares/isAdmin.js';
 
 export const app = express();
+const api = express.Router();
 
 mongoose.connect(config.database);
 cloudinary.config(config.cloud);
 
 app.set('trust proxy', 1)
-app.use(cors({
-  origin: config.nodeEnv === 'production' ? config.client.prod : config.client.dev,
-  credentials: true
-}));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
 app.use(databaseHandler);
 
-app.use('/auth', auth);
+app.use('/api', api);
 
-app.use('/profile', authenticate, isActive, profile);
+api.use('/auth', auth);
 
-app.use('/users', authenticate, isActive, isAdmin, users);
+api.use('/profile', authenticate, isActive, profile);
 
-app.use('/items', authenticate, isActive, items);
+api.use('/users', authenticate, isActive, isAdmin, users);
 
-app.use('/locations', authenticate, isActive, locations);
+api.use('/items', authenticate, isActive, items);
 
-app.use('/suppliers', authenticate, isActive, suppliers);
+api.use('/locations', authenticate, isActive, locations);
 
-app.use('/orders', authenticate, isActive, orders);
+api.use('/suppliers', authenticate, isActive, suppliers);
 
-app.use('/transactions', authenticate, isActive, transactions);
+api.use('/orders', authenticate, isActive, orders);
 
-app.use('/api/cloudinary', cloudinaryApi);
+api.use('/transactions', authenticate, isActive, transactions);
+
+api.use('/cloudinary', cloudinaryApi);
 
 app.use(errorHandler)

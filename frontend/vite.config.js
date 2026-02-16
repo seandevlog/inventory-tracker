@@ -25,5 +25,10 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ["@my-org/shared"]
+  },
+  server: {
+    proxy: {
+      '/api': "http://localhost:5000"
+    }
   }
 })
