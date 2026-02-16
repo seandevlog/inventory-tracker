@@ -54,7 +54,8 @@ const register = async ({ data }) => {
       ...data, 
       password: hashedPassword, 
       role: 'staff', 
-      isActive: 'inactive' 
+      isActive: 'inactive',
+      createdBy: null 
   });
 }
 

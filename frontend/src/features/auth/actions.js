@@ -24,10 +24,11 @@ export const registerSubmit = async ({ request }) => {
 
   formData.append('isActive', 'active');
   formData.append('role', 'staff')
+  formData.append('createdBy', null)
 
   const { error } = await registerClient(formData);
 
   if (error) return { error };
 
-  return redirect(path.root);
+  return redirect(path.auth.absolute);
 }
