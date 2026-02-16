@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import {v2 as cloudinary} from 'cloudinary';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 import config from './config.js';
 
@@ -28,7 +29,11 @@ const api = express.Router();
 mongoose.connect(config.database);
 cloudinary.config(config.cloud);
 
-app.set('trust proxy', 1)
+app.set('trust proxy', 1);
+app.use(cors({
+  origin: config.nodeEnv === 'production' ? config.client.prod : config.client.dev,
+  credentials: true
+}));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
