@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import axios from 'axios';
-import { getToken, setToken } from '@stores/token';
 
 import styles from './app.module.css';
 
 import NavTop from '@layouts/navBars/navTop/navTop';
 
+import useToken from '@hooks/useToken';
 import useItem from '@hooks/useItem';
 import useLocation from '@hooks/useLocation';
 import useTransaction from '@hooks/useTransaction';
@@ -20,37 +20,21 @@ import config from '@config';
 const { server, path } = config;
 
 const App = () => {
-  const navigate = useNavigate();
-
   const [profile, setProfile] = useState(null);
-  const [tokenState, setTokenState] = useState(getToken());
+
+  const { token } = useToken();
 
   useEffect(() => {
-    if (typeof getToken() !== 'undefined' || getToken() !== null || getToken() !== '') (async() => {
-      try {
-        const { data } = await axios.get(`${server}/auth/refresh`, {
-          withCredentials: true
-        })
-        setTokenState(data.accessToken);
-        return setToken(data.accessToken);
-      } catch (err) {
-        console.log(err);
-        return navigate(path.root);
-      }
-    })()
-  }, [navigate])
-
-  useEffect(() => {
-    if (tokenState) (async () => {
+    if (token) (async () => {
       const { data } = await axios.get(`${server}/profile`, {
-        headers: { Authorization: `Bearer ${tokenState}` },
+        headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       })
       
       const { profile: _profile } = data;
       setProfile(_profile);
     })()
-  }, [tokenState]);
+  }, [token]);
 
   useEffect(() => {
     document.title = 'Inventory Tracker'
@@ -70,15 +54,16 @@ const App = () => {
   const bumpTransactionRefresh = () => setTransactionRefreshKey(key => key + 1);
   const bumpUserRefresh = () => setUserRefreshKey(key => key + 1);
 
-  const items = useItem({ refreshKey: itemRefreshKey, token: tokenState });
-  const locations = useLocation({ refreshKey: locationRefreshKey, token: tokenState });
-  const orders = useOrder({ refreshKey: orderRefreshKey, token: tokenState });
-  const suppliers = useSupplier({ refreshKey: supplierRefreshKey, token: tokenState });
-  const transactions = useTransaction({ refreshKey: transactionRefreshKey, token: tokenState });
-  const users = useUser({ refreshKey: userRefreshKey, profile, token: tokenState });
+  const items = useItem({ refreshKey: itemRefreshKey, token });
+  const locations = useLocation({ refreshKey: locationRefreshKey, token });
+  const orders = useOrder({ refreshKey: orderRefreshKey, token });
+  const suppliers = useSupplier({ refreshKey: supplierRefreshKey, token });
+  const transactions = useTransaction({ refreshKey: transactionRefreshKey, token });
+  const users = useUser({ refreshKey: userRefreshKey, profile, token });
 
   const style = (pathname) => (
-    pathname === path.app.absolute
+    // pathname === path.app.absolute
+    pathname === path.root
     ? { 
         color: 'black',
       }
@@ -87,7 +72,7 @@ const App = () => {
 
   return (
     <AppContext.Provider value={{
-      token: tokenState, profile, setProfile,
+      token, profile, setProfile,
       items, itemRefreshKey, bumpItemRefresh,
       locations, locationRefreshKey, bumpLocationRefresh,
       orders, orderRefreshKey, bumpOrderRefresh,
