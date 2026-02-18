@@ -1,8 +1,8 @@
+import Building from "@layouts/building/building";
+
 const Profile = () => {
   return (
-    <>
-      <div>Under Construction: FAQ page</div>
-    </>
+    <Building/>
   );
 };
 
