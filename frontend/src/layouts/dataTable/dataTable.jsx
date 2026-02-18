@@ -7,11 +7,13 @@ import styles from './dataTable.module.css';
 import firstCharUppercase from '@utils/firstCharUppercase';
 
 import Sidebar from '@layouts/sidebar/sidebar';
-import CreateButton from '@components/buttons/create/create';
+
 import Table from '@components/table/table';
+
 import Lock from '@assets/lock.svg'
 import { ArrowDownThick } from '@assets/arrows';
 import EmptyBox from '@assets/empty-box.svg';
+import Plus from '@assets/plus.svg';
 
 import DataTableContext from '@contexts/dataTable.context';
 import AppContext from '@contexts/app.context';
@@ -53,7 +55,7 @@ const DataTable = ({ id, data, headers, FeaturePlaceholder, selections, inputs, 
               <CreateButton
                 onClick={() => navigate('create')}
               >
-                {`New ${firstCharUppercase(id)}`}
+                {`New ${id && firstCharUppercase(id)}`}
               </CreateButton>
           }
           {filteredData && filteredData.length > 0
@@ -83,6 +85,23 @@ const DataTable = ({ id, data, headers, FeaturePlaceholder, selections, inputs, 
         <p>{disabled.message}</p>
       </span>
     </main>
+  )
+}
+
+const CreateButton = ({ children, onClick }) => {
+  return (
+    <div 
+      className={styles.create}
+    >
+      <button
+        onClick={onClick}
+      >
+        <Plus/>
+      </button>
+      <div>
+        {children}
+      </div>
+    </div>
   )
 }
 
