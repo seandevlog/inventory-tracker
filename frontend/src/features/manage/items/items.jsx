@@ -5,7 +5,7 @@ import inputs from './inputs';
 
 import Item from '@assets/placeholders/item.svg';
 
-import Main from '@layouts/main/main';
+import DataTable from '@layouts/dataTable/dataTable';
 
 import AppContext from '@contexts/app.context';
 
@@ -13,18 +13,16 @@ const Items = () => {
   const { items, bumpItemRefresh } = useContext(AppContext);
 
   return (
-    <>
-      <Main
-        id='item'
-        data={items}
-        headers={headers}
-        FeaturePlaceholder={Item}
-        selections={selections}
-        inputs={inputs}
-        schema={itemSchema}
-        onSubmitted={bumpItemRefresh}
-      />
-    </>
+    <DataTable
+      id='item'
+      data={items}
+      headers={headers}
+      FeaturePlaceholder={Item}
+      selections={selections}
+      inputs={inputs}
+      schema={itemSchema}
+      onSubmitted={bumpItemRefresh}
+    />
   )
 }
 

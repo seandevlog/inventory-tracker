@@ -2,7 +2,7 @@ import { useState, useContext, useMemo } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { filter } from 'lodash';
 
-import styles from './main.module.css';
+import styles from './dataTable.module.css';
 
 import firstCharUppercase from '@utils/firstCharUppercase';
 
@@ -13,10 +13,10 @@ import Lock from '@assets/lock.svg'
 import { ArrowDownThick } from '@assets/arrows';
 import EmptyBox from '@assets/empty-box.svg';
 
-import MainContext from '@contexts/main.context';
+import DataTableContext from '@contexts/dataTable.context';
 import AppContext from '@contexts/app.context';
 
-const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schema, disabled, onSubmitted }) => {
+const DataTable = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schema, disabled, onSubmitted }) => {
   const { profile } = useContext(AppContext);
   const { role } = profile || {};
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schem
   , [filteredData, paramId])
 
   return (typeof disabled === 'undefined' || (typeof disabled !== 'undefined' && !disabled?.current)
-    ? <MainContext.Provider value={{
+    ? <DataTableContext.Provider value={{
       id,
       FeaturePlaceholder,
       setFilterOptions,
@@ -76,7 +76,7 @@ const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schem
           }}/>
         </div>
       </main>
-    </MainContext.Provider>
+    </DataTableContext.Provider>
     : <main className={styles.disabled}>
       <span>
         <Lock/>
@@ -86,4 +86,4 @@ const Main = ({ id, data, headers, FeaturePlaceholder, selections, inputs, schem
   )
 }
 
-export default Main;
+export default DataTable;

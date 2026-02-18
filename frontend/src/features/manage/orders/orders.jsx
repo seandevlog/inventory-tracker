@@ -6,7 +6,7 @@ import inputs from './inputs';
 
 import Order from '@assets/placeholders/order.svg';
 
-import Main from '@layouts/main/main';
+import DataTable from '@layouts/dataTable/dataTable';
 
 import AppContext from '@contexts/app.context';
 
@@ -19,7 +19,7 @@ const Orders = () => {
   } = useContext(AppContext);
   
   return (
-    <Main
+    <DataTable
       id='order'
       data={orders}
       headers={headers}

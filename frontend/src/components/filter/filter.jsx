@@ -3,14 +3,14 @@ import {
   useContext
 } from 'react';
 import styles from './filter.module.css';
-import MainContext from '@contexts/main.context';
+import DataTableContext from '@contexts/dataTable.context';
 
 const Filter = () => {
   const { 
     setFilterOptions,
     filterOptions,
     selections
-  } = useContext(MainContext);
+  } = useContext(DataTableContext);
 
   return (selections && Object.values(selections)?.length > 0) && (
     <div className={styles.filter}>

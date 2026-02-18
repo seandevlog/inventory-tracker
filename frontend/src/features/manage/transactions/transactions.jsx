@@ -6,7 +6,7 @@ import inputs from './inputs';
 
 import Transaction from '@assets/placeholders/transaction.svg';
 
-import Main from '@layouts/main/main';
+import DataTable from '@layouts/dataTable/dataTable';
 
 import AppContext from '@contexts/app.context';
 
@@ -19,7 +19,7 @@ const Transactions = () => {
   } = useContext(AppContext);
 
   return (
-    <Main
+    <DataTable
       id='transaction'
       data={transactions}
       headers={headers}

@@ -5,7 +5,7 @@ import inputs from './inputs';
 
 import Portrait from '@assets/placeholders/portrait.svg';
 
-import Main from '@layouts/main/main';
+import DataTable from '@layouts/dataTable/dataTable';
 
 import AppContext from '@contexts/app.context'; 
 
@@ -13,18 +13,16 @@ const Users = () => {
   const { users, bumpUserRefresh } = useContext(AppContext);
 
   return (
-    <>
-      <Main
-        id='user'
-        data={users}
-        headers={headers}
-        FeaturePlaceholder={Portrait}
-        selections={selections}
-        inputs={inputs}
-        schema={userSchema}
-        onSubmitted={bumpUserRefresh}
-      />
-    </>
+    <DataTable
+      id='user'
+      data={users}
+      headers={headers}
+      FeaturePlaceholder={Portrait}
+      selections={selections}
+      inputs={inputs}
+      schema={userSchema}
+      onSubmitted={bumpUserRefresh}
+    />
   )
 }
 

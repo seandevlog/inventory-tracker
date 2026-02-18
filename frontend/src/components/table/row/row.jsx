@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import styles from './row.module.css';
-import MainContext from '@contexts/main.context';
+import MainContext from '@contexts/dataTable.context';
 import firstCharUppercase from '@utils/firstCharUppercase';
 import splitUppercase from '@utils/splitUppercase';
 

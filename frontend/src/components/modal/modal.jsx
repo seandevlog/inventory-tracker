@@ -14,7 +14,7 @@ import {
   FormView 
 } from './forms';
 
-import MainContext from '@contexts/main.context';
+import MainContext from '@contexts/dataTable.context';
 
 import firstCharUppercase from '@utils/firstCharUppercase';
 

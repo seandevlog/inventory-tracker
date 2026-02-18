@@ -11,7 +11,7 @@ import styles from './formCreate.module.css';
 import firstCharUppercase from '@utils/firstCharUppercase';
 import splitUppercase from '@utils/splitUppercase';
 import AppContext from '@contexts/app.context';
-import MainContext from '@contexts/main.context';
+import DataTableContext from '@contexts/dataTable.context';
 import { ArrowDown } from '@assets/arrows';
 
 const inputReducer = {};
@@ -34,7 +34,7 @@ const FormCreate = () => {
   const navigation = useNavigation();
   const { profile } = useContext(AppContext);
   const { role, username } = profile || {};
-  const { id: manageFeature } = useContext(MainContext);
+  const { id: manageFeature } = useContext(DataTableContext);
 
   const {
     FeaturePlaceholder,
