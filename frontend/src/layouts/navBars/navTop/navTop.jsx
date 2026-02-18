@@ -27,7 +27,6 @@ const NavTop = ({style}) => {
   const handleLogout = () => {
     bumpTokenRefresh();
     bumpProfileRefresh();
-    navigate(path.root);
     navigate(0, { replace: true });
   }
 
