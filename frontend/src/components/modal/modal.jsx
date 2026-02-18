@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 
 import styles from './modal.module.css';
 
-import BackButton from '@components/buttons/back/back';
 import modes from './modes';
 import { 
   FormCreate, 
@@ -18,6 +17,8 @@ import {
 import MainContext from '@contexts/main.context';
 
 import firstCharUppercase from '@utils/firstCharUppercase';
+
+import Svg from '@assets/backButton.svg'
 
 import config from '@config';
 const { path } = config;
@@ -71,5 +72,14 @@ const Modal = ({ mode, title }) => {
     </div>
   )
 }
+
+const BackButton = ({ onClick }) => (
+  <button 
+    className={styles.back}
+    onClick={onClick}  
+  >
+    <Svg/>
+  </button>
+)
 
 export default Modal;
