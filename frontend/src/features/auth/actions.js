@@ -11,12 +11,13 @@ const { path } = config;
 export const loginSubmit = async ({ request }) => {
   const formData = await request.formData();
   
-  const { accessToken, error } = await loginClient(formData);
+  const { data, error } = await loginClient(formData);
+  const { accessToken } = data;
   setToken(accessToken);
 
-  if (accessToken) return redirect(path.app.absolute);
+  if (accessToken) return { accessToken, error: null };
   
-  if (error) return { error };
+  if (error) return { accessToken: null, error };
 } 
 
 export const registerSubmit = async ({ request }) => {

@@ -20,7 +20,6 @@ const Row = ({ id, className, onClick, sort, data: row }) => {
               {row?.feature?.url
               ? <img src={row?.feature.url}></img>
               : <FeaturePlaceholder/>}
-              {/* TODO - find a way to make default feature work for all other feature */}
             </td>
           )
         } else if (attr === 'createdAt') {

@@ -1,5 +1,5 @@
-import { useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import styles from './navTop.module.css';
 import AppContext from '@contexts/app.context';
@@ -10,30 +10,51 @@ import RedirectLink from '@components/buttons/redirect/redirect';
 import firstCharUppercase from '@utils/firstCharUppercase';
 
 import config from '@config';
-import { Profiler } from 'react';
+
 const { path } = config;
 
 const NavTop = ({style}) => {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { 
+  const {
     profile,
-    setProfile
-  } = useContext(AppContext);
+    bumpTokenRefresh,
+    bumpProfileRefresh
+  } = useContext(AppContext); 
 
-  const { givenName } = profile ?? {}; 
+  const { givenName } = profile ?? {};
   
   const handleLogout = () => {
-    setProfile(null);
+    bumpTokenRefresh();
+    bumpProfileRefresh();
+    navigate(path.root);
+    navigate(0, { replace: true });
   }
 
-  return (
+  if (pathname === path.auth.absolute || pathname === path.register.absolute) return (
     <nav className={styles.navTop} style={
-      pathname === path.app.absolute
+      pathname === path.root
       ? { background: 'transparent', zIndex: 1 }
       : undefined
     }>
       <span className={styles.logo}>
-        <RedirectLink url={path.app.absolute} >
+        <RedirectLink url={path.root} >
+          <Logo style={
+            style(pathname)
+          }/>
+        </RedirectLink>
+      </span>
+    </nav>
+  )
+
+  return (
+    <nav className={styles.navTop} style={
+      pathname === path.root
+      ? { background: 'transparent', zIndex: 1 }
+      : undefined
+    }>
+      <span className={styles.logo}>
+        <RedirectLink url={path.root} >
           <Logo style={
             style(pathname)
           }/>
@@ -48,17 +69,23 @@ const NavTop = ({style}) => {
                 }>{(givenName && firstCharUppercase(givenName)) || 'Sign in'}</RedirectLink>
             }
           </li>
-          <li><RedirectLink url={path.faq.absolute} style={
-            style(pathname)
-          }>FAQ</RedirectLink></li>
+          <li>
+            <RedirectLink url={path.faq.absolute} style={
+              style(pathname)
+            }>
+              FAQ
+            </RedirectLink>
+          </li>
           {typeof profile !== 'undefined' && profile !== null &&
             <li
               onClick={handleLogout}
-            ><RedirectLink url={path.logout.absolute} style={
-              style(pathname)
-            }>
+            >
+              <RedirectLink url={path.logout.absolute} style={
+                style(pathname)
+              }>
               Logout
-            </RedirectLink></li>
+              </RedirectLink>
+            </li>
           }
       </ul>
     </nav>

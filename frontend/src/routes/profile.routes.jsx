@@ -1,4 +1,4 @@
-import Profile from '@pages/app/profile/profile'
+import Profile from '@pages/profile/profile'
 
 import config from '@config';
 const { path } = config;

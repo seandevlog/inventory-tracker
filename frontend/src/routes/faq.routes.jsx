@@ -1,4 +1,4 @@
-import Faq from '@pages/app/faq/faq'
+import Faq from '@pages/faq/faq'
 
 import config from '@config';
 const { path } = config;

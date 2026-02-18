@@ -3,10 +3,6 @@ const config = {
   path: {
     root: '/',
 
-    app: {
-      relative: 'app',
-      absolute: '/app'
-    },
     auth: {
       relative: 'auth',
       absolute: '/auth'
@@ -19,49 +15,49 @@ const config = {
 
     manage: {
       relative: 'manage',
-      absolute: '/app/manage'
+      absolute: '/manage'
     },
     profile: {
       relative: 'profile',
-      absolute: '/app/profile'
+      absolute: '/profile'
     },
     faq: {
       relative: 'faq',
-      absolute: '/app/faq',
+      absolute: '/faq',
     },
 
     dashboard: {
       relative: 'dashboard',
-      absolute: '/app/manage/dashboard'
+      absolute: '/manage/dashboard'
     },
     items: {
       relative: 'items',
-      absolute: '/app/manage/items'
+      absolute: '/manage/items'
     },
     locations: {
       relative: 'locations',
-      absolute: '/app/manage/locations'
+      absolute: '/manage/locations'
     },
     orders: {
       relative: 'orders',
-      absolute: '/app/manage/orders'
+      absolute: '/manage/orders'
     },
     suppliers: {
       relative: 'suppliers',
-      absolute: '/app/manage/suppliers'
+      absolute: '/manage/suppliers'
     },
     transactions: {
       relative: 'transactions',
-      absolute: '/app/manage/transactions'
+      absolute: '/manage/transactions'
     },
     users: {
       relative: 'users',
-      absolute: '/app/manage/users'
+      absolute: '/manage/users'
     },
 
     logout: {
       relative: 'logout',
-      absolute: '/app/logout'
+      absolute: '/logout'
     }
   }
 };

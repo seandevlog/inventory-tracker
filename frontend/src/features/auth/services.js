@@ -8,10 +8,10 @@ export const login = async ( formData ) => {
     const { data } = await axios.post(`${server}login`, formData, {
       withCredentials: true
     });
-    return data;
+    return { data, error: null };
   } catch (err) {
     if (err.status === 409) {
-      return { error: err.response?.data?.error };
+      return { data: null, error: err.response?.data?.error };
     }
     throw err;
   }

@@ -68,13 +68,6 @@ export const update = async ({ formData, id, accessToken, path }) => {
 }
 
 export const destroy = async ({ id, accessToken, path }) => {
-  // const { data } = await axios.delete(`${server}${path}/${id}`, {
-  //   headers: {
-  //     authorization: `Bearer ${accessToken}`
-  //   },
-  //   withCredentials: true
-  // });
-
   return await deleteWithErrorHandling({ url: `${server}${path}/${id}`, accessToken });
 }
 

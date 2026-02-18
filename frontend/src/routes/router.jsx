@@ -1,12 +1,21 @@
-import { createBrowserRouter, redirect } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import '@assets/global.css';
 
-import Root from '@pages/root';
+import App from '@pages/app/app';
+import Home from '@pages/home/home';
+
+import manageRoutes from '@routes/manage.routes';
+import profileRoutes from '@routes/profile.routes';
+import faqRoutes from '@routes/faq.routes';
+
+import {
+  logout as logoutLoader
+} from '@features/auth/loaders';
+
 import Hydrate from '@pages/hydrate/hydrate';
 import Error from '@pages/error/error';
 
 import authRoutes from '@routes/auth.routes';
-import appRoutes from '@routes/app.routes';
 
 import config from '@config';
 const { path } = config;
@@ -14,17 +23,20 @@ const { path } = config;
 const router = createBrowserRouter([
   {
     path: path.root,
-    Component: Root,
+    Component: App,
     ErrorBoundary: Error,
     HydrateFallback: Hydrate,
     children: [
+      { index: true, Component: Home },
+      profileRoutes,
+      manageRoutes,
+      faqRoutes,
       { 
-        index: true,
+        path: path.logout.relative, 
         Component: () => (<></>), 
-        loader: () => redirect(path.app.absolute)
+        loader: logoutLoader 
       },
       authRoutes,
-      appRoutes
     ]
   }
 ]);

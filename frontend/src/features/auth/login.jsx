@@ -1,10 +1,13 @@
-import { useReducer, useEffect } from 'react';
-import { Form, useActionData, useFetcher } from 'react-router-dom';
+import { useContext, useEffect, useReducer } from 'react';
+import { Form, useActionData, useFetcher, useNavigate } from 'react-router-dom';
 import Joi from 'joi';
+
+import AppContext from '@contexts/app.context';
 
 import RedirectLink from '@components/buttons/redirect/redirect';
 import ErrorBox from '@components/errorBox/errorBox';
 import { userSchema } from '@my-org/shared/validators';
+
 import config from '@config';
 const { path } = config;
 
@@ -29,9 +32,24 @@ const reducer = (state, action) => {
 }
 
 const Login = () => {
+  const navigate = useNavigate();
   const actionData = useActionData();
-  const { error: submitError } = actionData ?? {};
+  const { accessToken, error: submitError } = actionData ?? {};
   const fetcher = useFetcher();
+  const { accessToken : accessTokenDemo} = fetcher.data ?? {};
+
+  const {
+    bumpTokenRefresh,
+    bumpProfileRefresh
+  } = useContext(AppContext);
+
+  useEffect(() => {
+    if (accessToken || accessTokenDemo) {
+      bumpTokenRefresh();
+      bumpProfileRefresh();
+      navigate(path.root);
+    } 
+  }, [accessToken, accessTokenDemo])
 
   const loginSchema = userSchema.fork(['password'], () => 
     Joi.string().required().messages({

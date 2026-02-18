@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import axios from 'axios';
 
 import styles from './app.module.css';
 
 import NavTop from '@layouts/navBars/navTop/navTop';
 
 import useToken from '@hooks/useToken';
+import useProfile from '@hooks/useProfile';
 import useItem from '@hooks/useItem';
 import useLocation from '@hooks/useLocation';
 import useTransaction from '@hooks/useTransaction';
@@ -17,24 +17,16 @@ import useUser from '@hooks/useUser';
 import AppContext from '@contexts/app.context';
 
 import config from '@config';
-const { server, path } = config;
+const { path } = config;
 
 const App = () => {
-  const [profile, setProfile] = useState(null);
+  const [tokenRefreshKey, setTokenRefreshKey] = useState(0);
+  const bumpTokenRefresh = () => setTokenRefreshKey(key => key + 1); 
+  const { token } = useToken({ refreshKey: tokenRefreshKey });
 
-  const { token } = useToken();
-
-  useEffect(() => {
-    if (token) (async () => {
-      const { data } = await axios.get(`${server}/profile`, {
-        headers: { Authorization: `Bearer ${token}` },
-        withCredentials: true,
-      })
-      
-      const { profile: _profile } = data;
-      setProfile(_profile);
-    })()
-  }, [token]);
+  const [profileRefreshKey, setProfileRefreshKey] = useState(0);
+  const bumpProfileRefresh = () => setProfileRefreshKey(key => key + 1); 
+  const { profile } = useProfile({ refreshKey: profileRefreshKey, token });
 
   useEffect(() => {
     document.title = 'Inventory Tracker'
@@ -62,7 +54,6 @@ const App = () => {
   const users = useUser({ refreshKey: userRefreshKey, profile, token });
 
   const style = (pathname) => (
-    // pathname === path.app.absolute
     pathname === path.root
     ? { 
         color: 'black',
@@ -72,7 +63,8 @@ const App = () => {
 
   return (
     <AppContext.Provider value={{
-      token, profile, setProfile,
+      token, tokenRefreshKey, bumpTokenRefresh, 
+      profile, profileRefreshKey, bumpProfileRefresh,
       items, itemRefreshKey, bumpItemRefresh,
       locations, locationRefreshKey, bumpLocationRefresh,
       orders, orderRefreshKey, bumpOrderRefresh,

@@ -1,3 +1,11 @@
+div:has(.wrapper) > nav {
+  background: none;
+} 
+
+div:has(.wrapper) > nav > span > a > span > p {
+  color: black;
+}
+
 .wrapper {
   height          : 100%;
   display         : flex;
