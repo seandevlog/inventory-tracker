@@ -38,7 +38,7 @@ const NavTop = ({style}) => {
       bumpProfileRefresh();
       navigate(0, { replace : true })
     }
-  }, [fetcher, bumpProfileRefresh, bumpTokenRefresh, navigate])
+  }, [fetcher, navigate])
 
   if (pathname === path.auth.absolute || pathname === path.register.absolute) return (
     <nav className={styles.navTop} style={
