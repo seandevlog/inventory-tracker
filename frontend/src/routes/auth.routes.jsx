@@ -1,10 +1,11 @@
 import Auth from '@pages/auth/auth';
 import Login from '@features/auth/login';
-import Register from '@features/auth/register'
+import Register from '@features/auth/register';
 
 import {
   loginSubmit as loginAction,
-  registerSubmit as registerAction
+  registerSubmit as registerAction,
+  logoutSubmit as logoutAction
 } from '@features/auth/actions';
 
 import config from '@config';
@@ -25,6 +26,11 @@ const auth = {
       path: path.register.relative, 
       Component: Register, 
       action: registerAction 
+    },
+    {
+      path: path.logout.relative,
+      Component: () => (<></>),
+      action: logoutAction
     }
   ]
 }

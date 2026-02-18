@@ -1,7 +1,8 @@
 import { redirect } from 'react-router-dom';
 import { 
   login as loginClient,
-  register as registerClient
+  register as registerClient,
+  logout as logoutClient
 } from './services';
 import { setToken } from '@stores/token';
 
@@ -32,4 +33,12 @@ export const registerSubmit = async ({ request }) => {
   if (error) return { error };
 
   return redirect(path.auth.absolute);
+}
+
+export const logoutSubmit = async () => {
+  const { success, error } = await logoutClient();
+
+  if (error) throw error;
+  
+  if (success) return { success };
 }

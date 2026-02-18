@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useFetcher, useLocation, useNavigate } from 'react-router-dom';
 
 import styles from './navTop.module.css';
 import AppContext from '@contexts/app.context';
@@ -14,21 +14,31 @@ import config from '@config';
 const { path } = config;
 
 const NavTop = ({style}) => {
-  const navigate = useNavigate();
   const { pathname } = useLocation();
+  const fetcher = useFetcher();
+  const navigate = useNavigate();
   const {
     profile,
-    bumpTokenRefresh,
-    bumpProfileRefresh
+    bumpProfileRefresh,
+    bumpTokenRefresh
   } = useContext(AppContext); 
 
   const { givenName } = profile ?? {};
   
   const handleLogout = () => {
-    bumpTokenRefresh();
-    bumpProfileRefresh();
-    navigate(0, { replace: true });
+    fetcher.submit(null, { 
+      method: 'DELETE',
+      action: '/auth/logout' 
+    });
   }
+
+  useEffect(() => {
+    if (fetcher.state === 'idle' && fetcher.data?.success ) {
+      bumpTokenRefresh();
+      bumpProfileRefresh();
+      navigate(0, { replace : true })
+    }
+  }, [fetcher, bumpProfileRefresh, bumpTokenRefresh, navigate])
 
   if (pathname === path.auth.absolute || pathname === path.register.absolute) return (
     <nav className={styles.navTop} style={
@@ -79,7 +89,7 @@ const NavTop = ({style}) => {
             <li
               onClick={handleLogout}
             >
-              <RedirectLink url={path.logout.absolute} style={
+              <RedirectLink style={
                 style(pathname)
               }>
               Logout

@@ -12,6 +12,10 @@ const config = {
       relative: 'register',
       absolute: '/auth/register'
     },
+    logout: {
+      relative: 'logout',
+      absolute: '/auth/logout'
+    },
 
     manage: {
       relative: 'manage',
@@ -54,11 +58,6 @@ const config = {
       relative: 'users',
       absolute: '/manage/users'
     },
-
-    logout: {
-      relative: 'logout',
-      absolute: '/logout'
-    }
   }
 };
 

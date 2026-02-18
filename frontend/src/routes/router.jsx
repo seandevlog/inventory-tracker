@@ -31,11 +31,6 @@ const router = createBrowserRouter([
       profileRoutes,
       manageRoutes,
       faqRoutes,
-      { 
-        path: path.logout.relative, 
-        Component: () => (<></>), 
-        loader: logoutLoader 
-      },
       authRoutes,
     ]
   }

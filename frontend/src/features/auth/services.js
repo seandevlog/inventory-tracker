@@ -31,13 +31,16 @@ export const register = async ( formData ) => {
 }
 
 export const logout = async () => {
-  const res = await axios.delete(`${server}logout`, {
-    withCredentials: true
-  });
+  try {
+    await axios.delete(`${server}logout`, {
+      withCredentials: true
+    });
 
-  if (res.status < 400) {
-    return { success: true }
+    return { success: true, error: null };
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      return { success: false, error: err.response?.data };
+    }
+    return { success: false, error: err.message || 'Error Unkown' };
   }
-  
-  return { error: res.data?.error }
 }
