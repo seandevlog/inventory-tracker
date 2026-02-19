@@ -3,10 +3,6 @@ import styles from './hydrate.module.css';
 
 import Logo from '@assets/logo/logo'
 
-const url = [
-  
-];
-
 const messages = [
   "A sudden aura erupted... your inventory awakened with overwhelming power!",
   "The Socks Clan confronted the T-Shirt Squad, one wrong fold, and war would begin.",
