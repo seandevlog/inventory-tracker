@@ -167,3 +167,13 @@ div:has(.wrapper) > nav > span > a > span > p {
   margin-top      : 1em;
   color           :black;
 }
+
+@media (max-width: 320px) {
+  .wrapper > div:last-of-type {
+    display: none;
+  }
+
+  .auth {
+    border-radius: 0;
+  } 
+}
