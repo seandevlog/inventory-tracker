@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/api(.*)",
-      "destination": "https://inventory-tracker-1-gtj0.onrender.com"
+      "source": "/api/(.*)",
+      "destination": "https://inventory-tracker-1-gtj0.onrender.com/api/$1"
     },
     { 
       "source": "/(.*)", 
