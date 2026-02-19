@@ -3,6 +3,7 @@ import { Form, useActionData } from 'react-router-dom';
 import { userSchema } from '@my-org/shared/validators';
 
 import ErrorBox from '@components/errorBox/errorBox';
+import RedirectLink from '@components/redirect/redirect';
 
 import userInputs from '@features/manage/users/inputs';
 
@@ -84,11 +85,11 @@ const Register = () => {
         ? <ErrorBox>{submitError}</ErrorBox>
         : null
       }
-      <a 
-        href={path.auth.absolute}
+      <RedirectLink 
+        url={path.auth.absolute}
       >
         I already have an account
-      </a>
+      </RedirectLink>
     </>
   )
 }

@@ -2,6 +2,14 @@ div:has(.home) > nav {
   position        : relative;
 }
 
+div:has(.home) > nav > ul > li > a {
+  color           : black;
+}
+
+div:has(.home) > nav > span > a > span > p {
+  color           : black;
+}
+
 .home {
   height          : calc((var(--height-section) * 4));
   width           : 100%;

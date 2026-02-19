@@ -5,7 +5,7 @@ import styles from './navTop.module.css';
 import AppContext from '@contexts/app.context';
 
 import Logo from '@assets/logo/logo';
-import RedirectLink from '@components/buttons/redirect/redirect';
+import RedirectLink from '@components/redirect/redirect';
 
 import firstCharUppercase from '@utils/firstCharUppercase';
 
@@ -13,7 +13,7 @@ import config from '@config';
 
 const { path } = config;
 
-const NavTop = ({style}) => {
+const NavTop = () => {
   const { pathname } = useLocation();
   const fetcher = useFetcher();
   const navigate = useNavigate();
@@ -48,9 +48,7 @@ const NavTop = ({style}) => {
     }>
       <span className={styles.logo}>
         <RedirectLink url={path.root} >
-          <Logo style={
-            style(pathname)
-          }/>
+          <Logo/>
         </RedirectLink>
       </span>
     </nav>
@@ -64,24 +62,18 @@ const NavTop = ({style}) => {
     }>
       <span className={styles.logo}>
         <RedirectLink url={path.root} >
-          <Logo style={
-            style(pathname)
-          }/>
+          <Logo/>
         </RedirectLink>
       </span>
       <ul className={styles.links}>
           <li>
             {pathname.includes('profile')
               ? <RedirectLink url={path.manage.absolute}>Manage</RedirectLink>
-              : <RedirectLink url={(givenName && firstCharUppercase(givenName)) ? path.profile.absolute : path.auth.absolute} style={
-                  style(pathname)
-                }>{(givenName && firstCharUppercase(givenName)) || 'Sign in'}</RedirectLink>
+              : <RedirectLink url={(givenName && firstCharUppercase(givenName)) ? path.profile.absolute : path.auth.absolute}>{(givenName && firstCharUppercase(givenName)) || 'Sign in'}</RedirectLink>
             }
           </li>
           <li>
-            <RedirectLink url={path.faq.absolute} style={
-              style(pathname)
-            }>
+            <RedirectLink url={path.faq.absolute}>
               FAQ
             </RedirectLink>
           </li>
@@ -89,9 +81,7 @@ const NavTop = ({style}) => {
             <li
               onClick={handleLogout}
             >
-              <RedirectLink style={
-                style(pathname)
-              }>
+              <RedirectLink>
               Logout
               </RedirectLink>
             </li>

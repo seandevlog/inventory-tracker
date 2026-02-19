@@ -3,7 +3,7 @@ import { useState, useContext } from 'react';
 import styles from './navSub.module.css';
 import AppContext from '@contexts/app.context';
 
-import RedirectLink from '@components/buttons/redirect/redirect';
+import RedirectLink from '@components/redirect/redirect';
 import StockSearch from '@components/stockSearch/stockSearch';
 import firstCharUppercase from '@utils/firstCharUppercase';
 import splitUppercase from '@utils/splitUppercase';
