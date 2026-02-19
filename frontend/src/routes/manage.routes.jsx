@@ -1,3 +1,5 @@
+import { redirect } from 'react-router-dom';
+
 import usersRoutes from '@routes/manage/users.routes';
 import itemsRoutes from '@routes/manage/items.routes';
 import locationsRoutes from '@routes/manage/locations.routes';
@@ -19,6 +21,7 @@ const manage = {
   Component: Manage,
   ErrorBoundary: Error,
   children: [
+    { index: true, loader: () => redirect('dashboard') },
     dashboardRoutes,
     usersRoutes,
     itemsRoutes,

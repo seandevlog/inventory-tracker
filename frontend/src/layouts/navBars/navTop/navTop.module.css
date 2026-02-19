@@ -25,7 +25,7 @@
   text-indent     : 0.8em;
 }
 
-.navTop>ul li {
+.navTop>ul li > a {
   color           : var(--color-1);
   text-decoration : none;
   font-size       : 1em;

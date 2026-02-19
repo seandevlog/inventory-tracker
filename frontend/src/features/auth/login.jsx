@@ -4,7 +4,6 @@ import Joi from 'joi';
 
 import AppContext from '@contexts/app.context';
 
-import RedirectLink from '@components/buttons/redirect/redirect';
 import ErrorBox from '@components/errorBox/errorBox';
 import { userSchema } from '@my-org/shared/validators';
 
@@ -124,11 +123,11 @@ const Login = () => {
         ? <ErrorBox>{submitError}</ErrorBox>
         : null
       }
-      <RedirectLink 
-        url={path.register.absolute}
+      <a 
+        href={path.register.absolute}
       >
         I don't have an account
-      </RedirectLink>
+      </a>
     </>
   )
 }

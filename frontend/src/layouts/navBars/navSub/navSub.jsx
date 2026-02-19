@@ -11,29 +11,18 @@ import splitUppercase from '@utils/splitUppercase';
 import { ArrowDown } from '@assets/arrows';
 
 import config from '@config';
+import { useLocation } from 'react-router-dom';
 const { path } = config;
 
 const quickActions = [ 'viewStock' ];
-const links = [ 'users', 'items', 'locations', 'suppliers', 'orders', 'transactions' ];
+const links = [ 'dashboard', 'users', 'items', 'locations', 'suppliers', 'orders', 'transactions' ];
 
 const NavSub = () => {
-  const { profile } = useContext(AppContext);
-
-  const [selected, setSelected] = useState('');
   const [isDrop, setIsDrop] = useState(false);
-  
-  const handleSelect = (event) => {
-    setSelected(event.target.id);
-  }
 
   const handleDrop = () => {
     setIsDrop(!isDrop);
   }
-
-  const { role } = profile ?? {};
-  const renderLinks = role !== 'admin'
-    ? links.filter(link => link !== 'users') 
-    : links ?? [];
 
   return (
     <>
@@ -53,50 +42,70 @@ const NavSub = () => {
           ))}
         </ul>
         <ul className={styles.links}>
-          <li>
-            <RedirectLink
-              url={path.manage.absolute}
-              id='dashboard'
-              onSelect={handleSelect}
-              selected={selected}
-              style={{
-                width: '100%',
-                height: '100%',
-                boxShadow: 
-                  `0 2px 0 var(--color-1),
-                  0 5px 0 var(--color-2)`,
-                color: 'black'
-              }}
-             >
-              Dashboard
-             </RedirectLink>
-          </li>
-          {renderLinks?.map(link => (
-            <li key={link}>
-              <RedirectLink
-                url={path[link].absolute}
-                id={link}
-                onSelect={handleSelect}
-                selected={selected}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  boxShadow: 
-                    `0 2px 0 var(--color-1),
-                    0 5px 0 var(--color-2)`,
-                  color: 'black'
-                }}
-              >
-                {firstCharUppercase(link)}
-              </RedirectLink>
-            </li>
-          ))}
+          <RedirectList/>
         </ul>
       </nav>
       <div className={isDrop ? styles.showDrop : styles.hideDrop}>
         <StockSearch/>
       </div>
     </>
+  )
+}
+
+const RedirectList = () => {
+  const { profile } = useContext(AppContext);
+
+  const { role } = profile ?? {};
+  const renderLinks = role !== 'admin'
+    ? links.filter(link => link !== 'users') 
+    : links ?? [];
+
+  const [selected, setSelected] = useState('');
+
+  const handleSelect = (event) => {
+    setSelected(event.target.id);
+  };
+
+  return (
+    <>
+      {renderLinks?.map(link => (
+        <li key={link}>
+          <NavLink
+            url={path[link].absolute}
+            id={link}
+            onSelect={handleSelect}
+            selected={selected}
+          >
+            {firstCharUppercase(link)}
+          </NavLink>
+        </li>
+      ))}
+    </>
+  )
+} 
+
+const NavLink = ({ id, url, selected, onSelect, children }) => {
+  const { pathname } = useLocation();
+
+  const handleClick = (event) => {
+    if (onSelect) onSelect(event);
+  }
+
+  return (
+    <div 
+      id={id}
+      className={(selected === id) || (url === pathname) || !id
+        ? styles.linkSelected
+        : undefined
+      }
+      onClick={handleClick}
+    >
+      <RedirectLink
+        url={url}
+      >
+        {children}  
+      </RedirectLink>
+    </div>
   )
 }
 
