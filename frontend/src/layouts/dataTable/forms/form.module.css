@@ -128,7 +128,13 @@
 .selectInput > span:first-of-type {
   position: absolute;
   right: 1em;
-  top: 35%;
+  top: 0;
+  transform: translateY(50%);
+}
+
+.selectInput > select:hover,
+.selectInput > span:hover {
+  cursor: pointer;
 }
 
 /* Options row container */
@@ -136,15 +142,16 @@
   margin: 0;
   display: flex;
   flex-wrap: wrap;
+  gap: 0.5em;
 
-  height: 2em;
+  height: fit-content;
 }
 
 .option > div {
   display: block;
   height: inherit;
-  margin: 0.5em 1em 0 0;
-  flex: 1;
+  margin-top: 0.5em;
+  flex: 0 0 calc(50% - 0.5em);
 }
 
 /* ===== Info rows + CreatedBy ===== */
@@ -236,25 +243,25 @@
 
 /* value box matches input styling */
 .viewValue {
-  display: flex;
-  align-items: center;
-
   border: 1px solid black;
   border-radius: 8px;
 
   font-size: 1rem;
-  padding: 0.7em;
-  color: black;
   font-weight: 500;
+  color: black;
 
-  display: inline-block;
-  max-width: calc(100% - 0.9em);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+
+  padding: 0 0.7em;
 
   height: 2em;
   width: 100%;
+
+  min-width: 0;              
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .viewSelect .viewValue {

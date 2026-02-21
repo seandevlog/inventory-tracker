@@ -250,8 +250,8 @@
 
   background: none;
   border: none;
-  border-radius: 50%;
-  padding: 0.5rem;
+  border-radius: 32px;
+  padding: 0.3rem;
 
   cursor: pointer;
 }
