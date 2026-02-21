@@ -86,7 +86,7 @@
   cursor          : pointer;
 }
 
-@media (max-width: 426px) {
+@media (max-width: 570px) {
   .authNav {
     position: absolute;
     top: 0.3rem;

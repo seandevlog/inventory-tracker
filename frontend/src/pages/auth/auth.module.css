@@ -170,7 +170,7 @@
   padding-left: 0.7em;
 }
 
-@media (max-width: 426px) {
+@media (max-width: 570px) {
   .backgroundImage {
     display: none;
   }
