@@ -9,12 +9,15 @@ import DataTable from '@layouts/dataTable/dataTable';
 
 import AppContext from '@contexts/app.context'; 
 
+import config from '@config';
+const { path } = config;
+
 const Users = () => {
   const { users, bumpUserRefresh } = useContext(AppContext);
 
   return (
     <DataTable
-      id='user'
+      id={path.users.relative}
       data={users}
       headers={headers}
       FeaturePlaceholder={Portrait}

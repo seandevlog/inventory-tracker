@@ -10,6 +10,9 @@ import DataTable from '@layouts/dataTable/dataTable';
 
 import AppContext from '@contexts/app.context';
 
+import config from '@config';
+const { path } = config;
+
 const Transactions = () => {
   const { 
     transactions,
@@ -20,7 +23,7 @@ const Transactions = () => {
 
   return (
     <DataTable
-      id='transaction'
+      id={path.transactions.relative}
       data={transactions}
       headers={headers}
       FeaturePlaceholder={Transaction}

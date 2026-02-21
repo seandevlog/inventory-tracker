@@ -5,10 +5,8 @@ import {
 } from '@features/manage/actions';
 import { orderSchema } from "@my-org/shared/validators";
 
-import Modal from '@components/modal/modal';
-
 import { actionWithConfig } from '@utils/router/actionWithConfig';
-import { removeLastS } from '@utils/removeLastS';
+import removeLastS from '@utils/removeLastS';
 
 import config from '@config';
 const { path } = config;
@@ -20,24 +18,20 @@ const orders = {
   children: [
     {
       path: 'create',
-      Component: () => Modal({ mode: 'create', title: 'Create Order'}),
+      Component: () => (<></>),
       action: actionWithConfig({ 
-        action: create,
-        path: path.orders.relative,
-        schema: orderSchema
-      }),
-    },
-    {
-      path: `:${removeLastS(path.orders.relative)}Id`,
-      Component: () => Modal({ mode: 'view', title: 'View Order'}),
+        action: create, 
+        path: path.orders.relative, 
+        schema: orderSchema 
+      })
     },
     {
       path: `:${removeLastS(path.orders.relative)}Id/edit`,
-      Component: () => Modal({ mode: 'edit', title: 'Edit Order'}),
+      Component: () => (<></>),
       action: actionWithConfig({ 
-        action: edit,
-        path: path.orders.relative,
-        schema: orderSchema
+        action: edit, 
+        path: path.orders.relative, 
+        schema: orderSchema 
       })
     }
   ]

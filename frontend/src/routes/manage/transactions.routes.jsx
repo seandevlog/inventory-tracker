@@ -5,10 +5,8 @@ import {
 } from '@features/manage/actions';
 import { transactionSchema } from "@my-org/shared/validators";
 
-import Modal from '@components/modal/modal';
-
 import { actionWithConfig } from '@utils/router/actionWithConfig';
-import { removeLastS } from '@utils/removeLastS';
+import removeLastS from '@utils/removeLastS';
 
 import config from '@config';
 const { path } = config;
@@ -20,24 +18,20 @@ const transactions = {
   children: [
     {
       path: 'create',
-      Component: () => Modal({ mode: 'create', title: 'Create Transaction'}),
+      Component: () => (<></>),
       action: actionWithConfig({ 
-        action: create,
-        path: path.transactions.relative,
-        schema: transactionSchema
-      }),
-    },
-    {
-      path: `:${removeLastS(path.transactions.relative)}Id`,
-      Component: () => Modal({ mode: 'view', title: 'View Transaction'}),
+        action: create, 
+        path: path.transactions.relative, 
+        schema: transactionSchema 
+      })
     },
     {
       path: `:${removeLastS(path.transactions.relative)}Id/edit`,
-      Component: () => Modal({ mode: 'edit', title: 'Edit Transaction'}),
+      Component: () => (<></>),
       action: actionWithConfig({ 
-        action: edit,
-        path: path.transactions.relative,
-        schema: transactionSchema
+        action: edit, 
+        path: path.transactions.relative, 
+        schema: transactionSchema 
       })
     }
   ]

@@ -1,4 +1,5 @@
 import {
+  useContext,
   useState,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -8,9 +9,13 @@ import HeaderSort from './headerSort/headerSort';
 import Row from './row/row';
 import sortOptions from './headerSort/headerSort.config';
 
+import DataTableContext from '@contexts/dataTable.context';
+
 const Table = ({ data, headers }) => {
 
   const navigate = useNavigate();
+
+  const { dispatchModal } = useContext(DataTableContext);
 
   const [sortAttr, setSortAttr] = useState('');
 
@@ -68,7 +73,7 @@ const Table = ({ data, headers }) => {
               key={row?._id}
               id={row?._id}
               className="filled"
-              onClick={() => navigate(row?._id)}
+              onClick={() => dispatchModal({ type: 'view', payload: { param: row?._id }})}
               sort={sortedHeaderAttributes}
               data={row}
             />

@@ -5,10 +5,8 @@ import {
 } from '@features/manage/actions';
 import { userSchema } from "@my-org/shared/validators";
 
-import Modal from '@components/modal/modal';
-
 import { actionWithConfig } from '@utils/router/actionWithConfig';
-import { removeLastS } from '@utils/removeLastS';
+import removeLastS from '@utils/removeLastS';
 
 import config from '@config';
 const { path } = config;
@@ -20,7 +18,7 @@ const users = {
   children: [
     {
       path: 'create',
-      Component: () => Modal({ mode: 'create', title: 'Create User'}),
+      Component: () => (<></>),
       action: actionWithConfig({ 
         action: create, 
         path: path.users.relative, 
@@ -28,12 +26,8 @@ const users = {
       })
     },
     {
-      path: `:${removeLastS(path.users.relative)}Id`,
-      Component: () => Modal({ mode: 'view', title: 'View User'}),
-    },
-    {
       path: `:${removeLastS(path.users.relative)}Id/edit`,
-      Component: () => Modal({ mode: 'edit', title: 'Edit User'}),
+      Component: () => (<></>),
       action: actionWithConfig({ 
         action: edit, 
         path: path.users.relative, 

@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import styles from './row.module.css';
 import MainContext from '@contexts/dataTable.context';
-import firstCharUppercase from '@utils/firstCharUppercase';
 import splitUppercase from '@utils/splitUppercase';
 
 const Row = ({ id, className, onClick, sort, data: row }) => {
@@ -37,7 +36,7 @@ const Row = ({ id, className, onClick, sort, data: row }) => {
         }
 
         return (<td key={attr}>{
-          attr && row?.[attr] && splitUppercase(firstCharUppercase(row?.[attr]))
+          attr && row?.[attr] && splitUppercase(row?.[attr])
         }</td>)
       })}
     </tr>

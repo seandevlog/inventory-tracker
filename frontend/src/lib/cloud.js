@@ -5,7 +5,7 @@ const { server } = config;
 
 async function getCloudSignature() {
     try {
-        const url = new URL(`${server}/api/cloudinary/upload-signature`);
+        const url = new URL(`${server}/cloudinary/upload-signature`);
         url.searchParams.set('path', 'users/feature')
         const { data } = await axios.get(url);
         return data;
@@ -49,7 +49,7 @@ export async function uploadImageSigned(file) {
 }
 
 async function getReplaceSignature(publicId) {
-    const url = `${server}/api/cloudinary/upload-signature/replace?publicId=${encodeURIComponent(publicId)}`
+    const url = `${server}/cloudinary/upload-signature/replace?publicId=${encodeURIComponent(publicId)}`
     try {
         const { data } = await axios.get(url);
 

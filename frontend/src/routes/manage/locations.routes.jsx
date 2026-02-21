@@ -5,10 +5,8 @@ import {
 } from '@features/manage/actions';
 import { locationSchema } from "@my-org/shared/validators";
 
-import Modal from '@components/modal/modal';
-
 import { actionWithConfig } from '@utils/router/actionWithConfig';
-import { removeLastS } from '@utils/removeLastS';
+import removeLastS from '@utils/removeLastS';
 
 import config from '@config';
 const { path } = config;
@@ -20,24 +18,20 @@ const locations = {
   children: [
     {
       path: 'create',
-      Component: () => Modal({ mode: 'create', title: 'Create Location'}),
+      Component: () => (<></>),
       action: actionWithConfig({ 
-        action: create,
-        path: path.locations.relative,
-        schema: locationSchema
-      }),
-    },
-    {
-      path: `:${removeLastS(path.locations.relative)}Id`,
-      Component: () => Modal({ mode: 'view', title: 'View Location'}),
+        action: create, 
+        path: path.locations.relative, 
+        schema: locationSchema 
+      })
     },
     {
       path: `:${removeLastS(path.locations.relative)}Id/edit`,
-      Component: () => Modal({ mode: 'edit', title: 'Edit Location'}),
+      Component: () => (<></>),
       action: actionWithConfig({ 
-        action: edit,
-        path: path.locations.relative,
-        schema: locationSchema
+        action: edit, 
+        path: path.locations.relative, 
+        schema: locationSchema 
       })
     }
   ]

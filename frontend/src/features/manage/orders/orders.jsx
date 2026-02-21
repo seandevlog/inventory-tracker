@@ -10,6 +10,9 @@ import DataTable from '@layouts/dataTable/dataTable';
 
 import AppContext from '@contexts/app.context';
 
+import config from '@config';
+const { path } = config;
+
 const Orders = () => {
   const { 
     orders,
@@ -20,7 +23,7 @@ const Orders = () => {
   
   return (
     <DataTable
-      id='order'
+      id={path.orders.relative}
       data={orders}
       headers={headers}
       FeaturePlaceholder={Order}

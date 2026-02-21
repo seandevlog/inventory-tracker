@@ -1,0 +1,388 @@
+.formRoot {
+  width: 100%;
+  position: relative;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.feature {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.fields {
+  flex: 3;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.form > div {
+  height: fit-content;
+  width: 100%;
+}
+
+/* ===== Text inputs ===== */
+.input {
+  position: relative;
+  margin: 1em 0;
+}
+
+.input > input {
+  background: none;
+  border: 1px solid black;
+  border-radius: 8px;
+  outline: none;
+  appearance: none;
+
+  font-size: 1rem;
+  padding: 0.7em;
+  color: black;
+  font-weight: 500;
+
+  height: 2em;
+  width: 100%;
+
+  anchor-name: --input;
+}
+
+/* Create mode placeholder  */
+.placeholder {
+  position-anchor: --input;
+
+  position: absolute;
+  left: calc(anchor(left) + 0.7rem);
+  top: anchor(50%);
+  transform: translate(0, -50%);
+  font-weight: 500;
+
+  transition: all 150ms ease;
+}
+
+/* Edit mode labels & Create mode floating placeholder */
+.input > label,
+.floatPlaceholder {
+  position: absolute;
+  left: 0.9em;
+  top: -0.9em;
+
+  font-size: 0.85rem;
+  padding: 0 0.35em;
+
+  background: white;
+  color: black;
+  font-weight: 500;
+
+  user-select: none;
+
+  transition: all 150ms ease;
+}
+
+/* Validation */
+.validationError {
+  display: block;
+  height: 1rem;
+  font-size: 0.875rem;
+  color: red;
+  padding-left: 0.7em;
+}
+
+/* ===== Select inputs ===== */
+.selectInput {
+  position: relative;
+}
+
+.selectInput > select {
+  appearance: none;
+  border: none;
+  border-bottom: 1px solid black;
+
+  padding: 0 2em 0 0.3em;
+  width: 100%;
+  text-overflow: ellipsis;
+  line-height: 2em;
+  font-size: 1rem;
+  background: transparent;
+}
+
+.selectInput > span > svg {
+  width: 1em;
+  height: 1em;
+}
+
+.selectInput > span:first-of-type {
+  position: absolute;
+  right: 1em;
+  top: 35%;
+}
+
+/* Options row container */
+.option {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+
+  height: 2em;
+}
+
+.option > div {
+  display: block;
+  height: inherit;
+  margin: 0.5em 1em 0 0;
+  flex: 1;
+}
+
+/* ===== Info rows + CreatedBy ===== */
+.info > span > p,
+.createdBy > span > p {
+  margin: 0;
+}
+
+.info,
+.createdBy {
+  display: flex;
+  gap: 0.8em;
+  justify-content: flex-start;
+
+  padding-top: 1em;
+  user-select: none;
+}
+
+.info > span:first-of-type,
+.createdBy > span {
+  font-weight: 500;
+}
+
+/* createdBy input */
+.createdBy > input {
+  border: 0;
+  appearance: none;
+  outline: none;
+  user-select: none;
+  background: transparent;
+}
+
+/* =========================
+   Navigate button
+========================= */
+.navigateButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateY(-100%);
+  background: none;
+  border: none;
+  border-radius: 16px;
+}
+
+.navigateButton:hover {
+  background: var(--color-dark-1);
+  cursor: pointer;
+}
+
+.navigateButton > svg {
+  fill: var(--color-dark-1);
+  margin: 1rem;
+}
+
+.navigateButton:hover > svg {
+  fill: var(--color-1);
+}
+
+/* =========================
+   View mode rows
+========================= */
+.viewInput,
+.viewSelect {
+  position: relative;
+  margin: 1em 0 2em 0;
+}
+
+/* label positioned like floating label */
+.viewLabel {
+  position: absolute;
+  left: 0.9em;
+  top: -0.9em;
+
+  font-size: 0.85rem;
+  padding: 0 0.35em;
+
+  display: inline-block;
+  max-width: calc(100% - 0.9em);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  background: white;
+  color: black;
+  font-weight: 500;
+  user-select: none;
+}
+
+/* value box matches input styling */
+.viewValue {
+  display: flex;
+  align-items: center;
+
+  border: 1px solid black;
+  border-radius: 8px;
+
+  font-size: 1rem;
+  padding: 0.7em;
+  color: black;
+  font-weight: 500;
+
+  height: 2em;
+  width: 100%;
+}
+
+.viewSelect .viewValue {
+  border: none;
+  border-bottom: 1px solid black;
+  border-radius: 0;
+
+  padding: 0 2em 0 0.3em;
+  line-height: 2em;
+  height: 2em;
+}
+
+/* empty state */
+.viewEmpty {
+  color: gray;
+  font-style: italic;
+}
+
+/* =========================
+   Footer (Error + Buttons)
+========================= */
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.errorBox {
+  display: flex;
+  justify-content: center;
+  width: min(520px, 100%);
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  width: min(520px, 100%);
+}
+
+/* Primary button (Save) */
+.primaryBtn {
+  flex: 1;
+
+  border-radius: 8px;
+  background-color: var(--color-dark-1);
+  color: var(--color-1);
+
+  font-weight: 700;
+  font-size: 0.875rem;
+  padding: 1em;
+
+  box-shadow:
+    0 2px 3px rgba(0,0,0,0.3),
+    0 5px 10px rgba(0,0,0,0.4);
+
+  transition: background 150ms ease, transform 100ms ease;
+}
+
+.primaryBtn:hover {
+  background: var(--color-dark-3);
+  cursor: pointer;
+}
+
+.primaryBtn:active {
+  transform: translateY(2px);
+}
+
+.primaryBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Secondary / Delete button */
+.dangerBtn {
+  flex: 1;
+
+  border-radius: 8px;
+  background: white;
+  color: gray;
+
+  font-weight: 700;
+  font-size: 0.875rem;
+  padding: 1em;
+
+  box-shadow:
+    0 2px 3px rgba(0,0,0,0.2),
+    0 5px 10px rgba(0,0,0,0.3);
+
+  transition: background 150ms ease, transform 100ms ease;
+}
+
+.dangerBtn:hover {
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+.dangerBtn:active {
+  transform: translateY(2px);
+}
+
+@media (max-width: 1024px) {
+  .main {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .feature,
+  .fields {
+    flex: unset;
+    width: 80%;
+  }
+
+  .option {
+    height: auto;
+  }
+
+  .option > div {
+    width: 100%;
+    margin: 0.8em 0;
+  }
+
+  .option > div > span > p {
+    text-align: center;
+  }
+
+  .viewInput,
+  .viewSelect {
+    width: 100%;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+}

@@ -9,12 +9,15 @@ import DataTable from '@layouts/dataTable/dataTable';
 
 import AppContext from '@contexts/app.context';
 
+import config from '@config';
+const { path } = config;
+
 const Items = () => {
   const { items, bumpItemRefresh } = useContext(AppContext);
 
   return (
     <DataTable
-      id='item'
+      id={path.items.relative}
       data={items}
       headers={headers}
       FeaturePlaceholder={Item}

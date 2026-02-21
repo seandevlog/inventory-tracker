@@ -1,9 +1,9 @@
 import FormCreate from './formCreate';
-import FormView from './formView';
 import FormEdit from './formEdit';
+import FormView from './formView';
 
 export {
   FormCreate,
-  FormView,
-  FormEdit
+  FormEdit,
+  FormView
 }
