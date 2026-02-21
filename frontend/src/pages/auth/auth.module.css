@@ -178,7 +178,5 @@
   .auth {
     border-radius: 0;
     width: 100%;
-    min-height: auto;
-    overflow-y: visible;
   }
 }
