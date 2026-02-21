@@ -247,6 +247,12 @@
   color: black;
   font-weight: 500;
 
+  display: inline-block;
+  max-width: calc(100% - 0.9em);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   height: 2em;
   width: 100%;
 }
