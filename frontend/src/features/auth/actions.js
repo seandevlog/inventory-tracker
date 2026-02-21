@@ -13,7 +13,7 @@ export const loginSubmit = async ({ request }) => {
   const formData = await request.formData();
   
   const { data, error } = await loginClient(formData);
-  const { accessToken } = data;
+  const { accessToken } = data ?? {};
   setToken(accessToken);
 
   if (accessToken) return { accessToken, error: null };

@@ -1,10 +1,10 @@
 import { useContext, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import styles from './auth.module.css';
+import styles from "./auth.module.css";
 
-import AppContext from '@contexts/app.context';
+import AppContext from "@contexts/app.context";
 
-import config from '@config';
+import config from "@config";
 const { path } = config;
 
 const Auth = () => {
@@ -14,17 +14,18 @@ const Auth = () => {
   useEffect(() => {
     if (token) navigate(path.root);
   }, [token, navigate]);
-  
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.auth}>
-        <Outlet />
+        <Outlet context={{ classes: styles }} />
       </div>
+
       <div className={styles.backgroundImage}>
-        <img src='/storage.jpg'/>
+        <img src="/storage.jpg" alt="" />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Auth;

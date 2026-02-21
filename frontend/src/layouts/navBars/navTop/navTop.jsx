@@ -46,7 +46,7 @@ const NavTop = () => {
   , [pathname])
 
   if (pathname === path.auth.absolute || pathname === path.register.absolute) return (
-    <nav className={styles.navTop} style={
+    <nav className={styles.authNav} style={
       pathname === path.root
       ? { background: 'transparent', zIndex: 1 }
       : undefined
