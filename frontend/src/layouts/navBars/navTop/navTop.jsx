@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { useFetcher, useLocation, useNavigate } from 'react-router-dom';
 
 import styles from './navTop.module.css';
@@ -8,6 +8,7 @@ import Logo from '@assets/logo/logo';
 import RedirectLink from '@components/redirect/redirect';
 
 import firstCharUppercase from '@utils/firstCharUppercase';
+import getTopLevelRoute from '@utils/getTopLevelRoute';
 
 import config from '@config';
 
@@ -40,17 +41,19 @@ const NavTop = () => {
     }
   }, [fetcher, navigate])
 
+  const isManage = useMemo(() =>
+    getTopLevelRoute(pathname) === path.manage.relative
+  , [pathname])
+
   if (pathname === path.auth.absolute || pathname === path.register.absolute) return (
     <nav className={styles.navTop} style={
       pathname === path.root
       ? { background: 'transparent', zIndex: 1 }
       : undefined
     }>
-      <span className={styles.logo}>
-        <RedirectLink url={path.root} >
-          <Logo/>
-        </RedirectLink>
-      </span>
+      <RedirectLink url={path.root} classes={styles.redirect} >
+        <Logo classes={styles.logo}/>
+      </RedirectLink>
     </nav>
   )
 
@@ -60,11 +63,9 @@ const NavTop = () => {
       ? { background: 'transparent', zIndex: 1 }
       : undefined
     }>
-      <span className={styles.logo}>
-        <RedirectLink url={path.root} >
-          <Logo/>
-        </RedirectLink>
-      </span>
+      <RedirectLink url={path.root} classes={styles.redirect}>
+        <Logo classes={isManage? styles.manageLogo : styles.logo}/>
+      </RedirectLink>
       <ul className={styles.links}>
           <li>
             {pathname.includes('profile')

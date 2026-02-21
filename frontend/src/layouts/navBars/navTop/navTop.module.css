@@ -40,24 +40,38 @@
 .links {
   display         : flex;
   flex-direction  : row;
+  gap             : 0.8rem;
   padding         : 0;
 }
 
 .links li {
   list-style-type : none;
-  margin          : 0 0.3em;
 }
 
-.logo > a > span > span {
+.redirect {
   margin          : 0 0.5em;
 }
 
-.logo > a > span {
+.logo > p,
+.manageLogo > p {
   display         : inline-flex;
   align-items     : center;
+  font-size       : 1.225rem;
 
-  color           : black;
   text-decoration : none;
+}
+
+.logo:hover,
+.manageLogo:hover {
+  cursor          : pointer;
+}
+
+.logo > p {
+  color           : black;
+}
+
+.manageLogo > p {
+  color           : var(--color-1);
 }
 
 .logo:hover {

@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 
-const RedirectLink = ({ url, children }) => {
+const RedirectLink = ({ url, children, classes }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -12,6 +12,7 @@ const RedirectLink = ({ url, children }) => {
   return (
     <a
       onClick={handleClick}
+      styles={classes}
     >
       {children}
     </a>

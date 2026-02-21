@@ -1,12 +1,12 @@
 import styles from './logo.module.css';
 
-const Logo = ({ style }) => {
+const Logo = ({ classes }) => {
   return (
     <span 
       id="logo" 
-      className={styles.logo}
+      className={`${classes} ${styles.logo}`}
     >
-      <p style={style}>Inventory Tracker</p>
+      <p>Inventory Tracker</p>
     </span>
   )
 }
