@@ -1,0 +1,31 @@
+.loading {
+  position: fixed;
+  left: 16;
+  right: 16;
+  bottom: 16;
+  z-index: 9999;
+  padding: "12px 14px";
+  border-radius: 12;
+  background: rgba(0,0,0,0.85);
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10;
+}
+
+.circle {
+  width: 10;
+  height: 10;
+  border-radius: 999;
+  background: white;
+  opacity: 0.8;
+}
+
+.text {
+  line-height: 1.2;
+}
+
+.message {
+  opacity: 0.8; 
+  font-size: 12;
+}
