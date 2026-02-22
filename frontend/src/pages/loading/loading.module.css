@@ -16,7 +16,7 @@
 .box {
   width: 100px;
   height: 100px;
-  animation: carousel 5s infinite linear;
+  animation: carousel 30s infinite linear;
 }
 
 .box > g {
@@ -31,8 +31,8 @@
 }
 
 @keyframes carousel {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(100%); }
+  from { transform: translateX(calc(-1 * 0.5 * 100vw)); }
+  to { transform: translateX(calc(0.5 * 100vw)); }
 }
 
 .text {
@@ -43,4 +43,10 @@
   opacity: 0.8;
   text-align: center;
   font-size: 12px;
+}
+
+@media (max-width: 570px) {
+  .box {
+    animation: carousel 5s infinite linear;
+  }
 }
