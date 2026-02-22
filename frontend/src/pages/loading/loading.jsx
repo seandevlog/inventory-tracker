@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useFetchers, useNavigation } from "react-router-dom";
 import styles from './loading.module.css';
 
+import Box from '@assets/placeholders/item.svg';
+
 const Loading = () => {
   const navigation = useNavigation();
   const fetchers = useFetchers();
@@ -40,7 +42,7 @@ const Loading = () => {
       role="status"
       aria-live="polite"
     >
-      <span className={styles.circle}/>
+      <Box classes={styles.box}/>
       <div className={styles.text}>
         {!slow ? (
           <div>Loading…</div>
