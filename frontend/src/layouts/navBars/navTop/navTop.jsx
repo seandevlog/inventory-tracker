@@ -9,8 +9,8 @@ import Hamburger from '@assets/hamburger.svg';
 import CloseButton from '@assets/closeButton.svg';
 
 import RedirectLink from '@components/redirect/redirect';
+import NavContext from './navTop.helper';
 
-import firstCharUppercase from '@utils/firstCharUppercase';
 import getTopLevelRoute from '@utils/getTopLevelRoute';
 
 import config from '@config';
@@ -110,54 +110,6 @@ const NavTop = () => {
   )
 }
 
-const NavContext = ({
-  id, pathname, givenName, profile, handleLogout, styles, onLinkClick
-}) => (
-  <>
-    <RedirectLink 
-      url={path.root}
-      onClick={onLinkClick ?? undefined}
-    >
-      <Logo classes={styles[`${id}Logo`]}/>
-    </RedirectLink>
-    <ul className={styles[`${id}Links`]}>
-        <li onClick={onLinkClick}>
-          {pathname.includes('profile') ? 
-            <RedirectLink 
-              url={path.manage.absolute} 
-              classes={styles[`${id}Text`]}
-            >
-              Manage
-            </RedirectLink> : 
-            <RedirectLink 
-              url={(givenName && firstCharUppercase(givenName)) ? path.profile.absolute : path.auth.absolute} 
-              classes={styles[`${id}Text`]}
-            >
-              {(givenName && firstCharUppercase(givenName)) || 'Sign in'}
-            </RedirectLink>
-          }
-        </li>
-        <li onClick={onLinkClick ?? undefined}>
-          <RedirectLink 
-            url={path.faq.absolute}
-            classes={styles[`${id}Text`]}
-          >
-            FAQ
-          </RedirectLink>
-        </li>
-        {typeof profile !== 'undefined' && profile !== null &&
-          <li
-            onClick={handleLogout ?? undefined}
-          >
-            <RedirectLink
-              classes={styles[`${id}Text`]}
-            >
-              Logout
-            </RedirectLink>
-          </li>
-        }
-    </ul>
-  </>
-)  
+
 
 export default NavTop;

@@ -14,10 +14,13 @@ const { path } = config;
 
 const Home = () => {
   const navigate = useNavigate();
-  const { profile } = useContext(AppContext);
+  const { profile, currPageRef } = useContext(AppContext);
 
   return (
-    <main className={styles.home}>
+    <main
+      ref={currPageRef} 
+      className={styles.home}
+    >
         <div className={styles.intro}>
           <div className={styles.hero}>
             <img src='/inventory-hero.jpg' alt='Inventory Hero'/>

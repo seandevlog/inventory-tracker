@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import styles from './app.module.css';
@@ -16,9 +16,6 @@ import useOrder from '@hooks/useOrder';
 import useUser from '@hooks/useUser';
 
 import AppContext from '@contexts/app.context';
-
-import config from '@config';
-const { path } = config;
 
 const App = () => {
   const [tokenRefreshKey, setTokenRefreshKey] = useState(0);
@@ -54,6 +51,8 @@ const App = () => {
   const transactions = useTransaction({ refreshKey: transactionRefreshKey, token });
   const users = useUser({ refreshKey: userRefreshKey, profile, token });
 
+  const currPageRef = useRef(null);
+
   return (
     <AppContext.Provider value={{
       token, tokenRefreshKey, bumpTokenRefresh, 
@@ -64,6 +63,7 @@ const App = () => {
       suppliers, supplierRefreshKey, bumpSupplierRefresh,
       transactions, transactionRefreshKey, bumpTransactionRefresh,
       users, userRefreshKey, bumpUserRefresh,
+      currPageRef
     }}>
       <div className={styles.app}>
         <Loading/>
