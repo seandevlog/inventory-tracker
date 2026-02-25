@@ -1,10 +1,13 @@
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useFetcher, useLocation, useNavigate } from 'react-router-dom';
 
 import styles from './navTop.module.css';
 import AppContext from '@contexts/app.context';
 
 import Logo from '@assets/logo/logo';
+import Hamburger from '@assets/hamburger.svg';
+import CloseButton from '@assets/closeButton.svg';
+
 import RedirectLink from '@components/redirect/redirect';
 
 import firstCharUppercase from '@utils/firstCharUppercase';
@@ -25,12 +28,15 @@ const NavTop = () => {
   } = useContext(AppContext); 
 
   const { givenName } = profile ?? {};
+
+  const [isMobileNavExpand, setIsMobileNavExpand] = useState(false);
   
   const handleLogout = () => {
     fetcher.submit(null, { 
       method: 'DELETE',
       action: '/auth/logout' 
     });
+    setIsMobileNavExpand(false);
   }
 
   useEffect(() => {
@@ -45,51 +51,113 @@ const NavTop = () => {
     getTopLevelRoute(pathname) === path.manage.relative
   , [pathname])
 
-  if (pathname === path.auth.absolute || pathname === path.register.absolute) return (
-    <nav className={styles.authNav} style={
-      pathname === path.root
-      ? { background: 'transparent', zIndex: 1 }
-      : undefined
-    }>
-      <RedirectLink url={path.root} classes={styles.redirect} >
-        <Logo classes={styles.logo}/>
+  const isAuth = useMemo(() =>
+    pathname === path.auth.absolute || pathname === path.register.absolute
+  , [pathname])
+
+  const isMobile = window.innerWidth <= 570;
+
+  if (isAuth) return (
+    <nav className={styles.authNav}>
+      <RedirectLink url={path.root}>
+        <Logo classes={styles.authLogo}/>
       </RedirectLink>
     </nav>
   )
 
+  if (isMobile) return (
+    <>
+      <nav 
+        className={isMobileNavExpand ? styles.mobileNavShow : styles.mobileNavHide}
+      >
+        {isMobileNavExpand ?
+          <CloseButton
+            classes={`${styles.navTopIcon} ${styles.closeButton}`}
+            onClick={() => setIsMobileNavExpand(false)}
+          /> :
+          <Hamburger 
+            classes={styles.navTopIcon}
+            onClick={() => setIsMobileNavExpand(true)}
+          />          
+        }
+
+        <NavContext
+          id='mobile'
+          pathname={pathname}
+          givenName={givenName}
+          profile={profile}
+          handleLogout={handleLogout}
+          styles={styles}
+          onLinkClick={() => setIsMobileNavExpand(false)}
+        />
+      </nav>
+      {isMobileNavExpand && <div className={styles.mobileNavBackground}/>}
+    </>
+  )
+
   return (
-    <nav className={styles.navTop} style={
-      pathname === path.root
-      ? { background: 'transparent', zIndex: 1 }
-      : undefined
-    }>
-      <RedirectLink url={path.root} classes={styles.redirect}>
-        <Logo classes={isManage? styles.manageLogo : styles.logo}/>
-      </RedirectLink>
-      <ul className={styles.links}>
-          <li>
-            {pathname.includes('profile')
-              ? <RedirectLink url={path.manage.absolute}>Manage</RedirectLink>
-              : <RedirectLink url={(givenName && firstCharUppercase(givenName)) ? path.profile.absolute : path.auth.absolute}>{(givenName && firstCharUppercase(givenName)) || 'Sign in'}</RedirectLink>
-            }
-          </li>
-          <li>
-            <RedirectLink url={path.faq.absolute}>
-              FAQ
-            </RedirectLink>
-          </li>
-          {typeof profile !== 'undefined' && profile !== null &&
-            <li
-              onClick={handleLogout}
-            >
-              <RedirectLink>
-              Logout
-              </RedirectLink>
-            </li>
-          }
-      </ul>
+    <nav className={isManage ? styles.manageNav : styles.homeNav}>
+      <NavContext
+        id={isManage ? 'manage' : 'home'}
+        isManage={isManage}
+        pathname={pathname}
+        givenName={givenName}
+        profile={profile}
+        handleLogout={handleLogout}
+        styles={styles}
+      /> 
     </nav>
   )
 }
+
+const NavContext = ({
+  id, pathname, givenName, profile, handleLogout, styles, onLinkClick
+}) => (
+  <>
+    <RedirectLink 
+      url={path.root}
+      onClick={onLinkClick ?? undefined}
+    >
+      <Logo classes={styles[`${id}Logo`]}/>
+    </RedirectLink>
+    <ul className={styles[`${id}Links`]}>
+        <li onClick={onLinkClick}>
+          {pathname.includes('profile') ? 
+            <RedirectLink 
+              url={path.manage.absolute} 
+              classes={styles[`${id}Text`]}
+            >
+              Manage
+            </RedirectLink> : 
+            <RedirectLink 
+              url={(givenName && firstCharUppercase(givenName)) ? path.profile.absolute : path.auth.absolute} 
+              classes={styles[`${id}Text`]}
+            >
+              {(givenName && firstCharUppercase(givenName)) || 'Sign in'}
+            </RedirectLink>
+          }
+        </li>
+        <li onClick={onLinkClick ?? undefined}>
+          <RedirectLink 
+            url={path.faq.absolute}
+            classes={styles[`${id}Text`]}
+          >
+            FAQ
+          </RedirectLink>
+        </li>
+        {typeof profile !== 'undefined' && profile !== null &&
+          <li
+            onClick={handleLogout ?? undefined}
+          >
+            <RedirectLink
+              classes={styles[`${id}Text`]}
+            >
+              Logout
+            </RedirectLink>
+          </li>
+        }
+    </ul>
+  </>
+)  
 
 export default NavTop;

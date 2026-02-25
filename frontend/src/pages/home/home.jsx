@@ -18,33 +18,33 @@ const Home = () => {
 
   return (
     <main className={styles.home}>
-      <div>
         <div className={styles.intro}>
           <div className={styles.hero}>
             <img src='/inventory-hero.jpg' alt='Inventory Hero'/>
           </div>
           <div className={styles.title}>
-            <p>Welcome to [ Your Company's ] Inventory Tracker</p>
+            <p>Track Smarter.</p>
+            <p>Work Faster.</p>
           </div>
-          <button
-            className={typeof profile !== 'undefined' && profile !== null 
-              ? styles.callToAction
-              : styles.lockedButton}
-            onClick={() => navigate(path.manage.absolute)}
-            disabled={typeof profile === 'undefined' || profile === null}
-          >
-            Access Your Inventory
-            {typeof profile === 'undefined' || profile === null && <Lock/>}
-          </button>
-          <div>
-            <p>Welcome to your company's inventory tracker, built specifically for you and the way your team works.</p>
-            <p>Your central hub for managing inventory, tracking movement, monitoring orders, and staying in control of your operations. Every item, every transaction, every supplier, and every order now has a place, organized, searchable, and accessible when you need it.</p>
-          </div>
+        </div>
+        <button
+          className={typeof profile !== 'undefined' && profile !== null 
+            ? styles.callToAction
+            : styles.lockedButton}
+          onClick={() => navigate(path.manage.absolute)}
+          disabled={typeof profile === 'undefined' || profile === null}
+        >
+          Access Your Inventory
+          {typeof profile === 'undefined' || profile === null && <Lock/>}
+        </button>
+        <div className={styles.introMessage}>
+          <p>Welcome to your company's inventory tracker, built specifically for you and the way your team works.</p>
+          <p>Your central hub for managing inventory, tracking movement, and staying in control. Everything is organized, searchable, and accessible when you need it.</p>
         </div>
         <div className={styles.sectionTwo}>
           <div className={styles.ownership}>
             <p>This is your space.</p>
-            <p>It was designed to simplify your workflow, reduce manual errors, and give you clear visibility into your inventory at all times. Whether you're checking stock levels, reviewing past transactions, managing suppliers, or preparing for your next order cycle, everything is structured to help you move faster and make better decisions.</p>
+            <p>Designed to streamline your workflow, reduce errors, and give you full visibility of your inventory so you can move faster and make better decisions.</p>
           </div>
           <div className={styles.purpose}>
             <div>
@@ -153,7 +153,6 @@ const Home = () => {
             <p>MIT License © 2026 Sean Delos Santos. <a href="https://spdx.org/licenses/MIT.html" target="_blank">Full license</a></p>
           </footer>
         </div>
-      </div>
     </main>
   );
 };

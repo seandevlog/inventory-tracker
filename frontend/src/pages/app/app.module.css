@@ -1,15 +1,6 @@
 .app {
   height          : 100%;
-}
-
-.app > nav {
-  display         : flex;
-  flex-direction  : row;
-  width           : 100%;
-  height          : var(--navTop-height);
-}
-
-.app div > nav {
-  height          : var(--navSub-height);
+  position        : relative;
+  overflow        : hidden;
 }
 
