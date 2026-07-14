@@ -124,7 +124,8 @@
     box-shadow 150ms ease;
 }
 
-.redirectControl > a {
+.redirectControl > a,
+.navItem > div > a {
   box-sizing: border-box;
 
   width: 100%;
@@ -138,6 +139,14 @@
 
   color: inherit;
   text-decoration: none;
+}
+
+.navItem > div > a > svg {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+
+  fill: currentColor;
 }
 
 .redirectControl:hover {
@@ -159,8 +168,8 @@
   color: var(--color-1);
 
   box-shadow:
-    inset 0 -2px 0 var(--color-1),
-    inset 0 -5px 0 var(--color-2);
+    inset 0 -1px 0 var(--color-1),
+    inset 0 -2px 0 var(--color-2);
 }
 
 /* ===== Quick-action dropdown ===== */
@@ -234,6 +243,23 @@
 
   .links::-webkit-scrollbar {
     display: none;
+  }
+
+  .navItem > div > a {
+    padding: 0.4rem;
+
+    flex-direction: column;
+    gap: 0.3rem;
+
+    font-size: clamp(0.6rem, 2.5vw, 0.72rem);
+    line-height: 1;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .navItem > div > a > svg {
+    width: clamp(1.15rem, 5vw, 1.5rem);
+    height: clamp(1.15rem, 5vw, 1.5rem);
   }
 
   .navItem,
