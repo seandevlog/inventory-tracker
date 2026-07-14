@@ -50,6 +50,8 @@ div#root {
   --height-section: 80vh;
   --height-footer: 30vh;
 
+  --height-botNav: 4em;
+
   --width-sidebar: 10em;
 
   --navSub-drop: 100px;
@@ -62,6 +64,10 @@ div#root {
   --color-2: rgba(140, 129, 29, 0.989);
   --color-3: rgba(97, 90, 20, 0.989);
   --color-4: rgba(140, 129, 29, 0.499);
+  --color-5: rgb(21, 45, 94);
+  --color-6: rgb(52, 76, 130);
+  --color-7: rgb(74, 100, 160);
+  --color-8: rgb(160, 175, 210);
   --color-dark-1: #2c2c2c;
   --color-dark-2: #585858;
   --color-dark-3: #707070;

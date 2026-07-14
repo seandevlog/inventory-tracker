@@ -88,8 +88,8 @@
 
 .hideDrop {
   position    : absolute;
-  z-index     : calc(var(--z-navSub) - 1);
-  top         : calc(-1 * var(--navSub-drop));
+  top         : var(--navSub-height);
+  transform   : translateX(-100vw);
 
   position-anchor: --view-stock;
   left        : calc(anchor(left) - 0.5em);
@@ -120,4 +120,102 @@
     0 2px 0 var(--color-1),
     0 5px 0 var(--color-2);
   color               : black;
+}
+
+@media (max-width: 570px) {
+  .navSub,
+  .navStretch {
+    position          : absolute;
+    height            : calc(var(--height-botNav) * 4);
+    background        : var(--color-dark-1);
+    overflow-x        : auto;
+    overflow-y        : hidden;
+    padding           : 0 0.5rem;
+    top               : unset;
+    bottom            : 0;
+    z-index           : 100;
+
+    display           : flex;
+    align-items       : start;
+
+    anchor-name       : --navBot;
+  }
+
+  .navSub {
+    transform         : translateY(calc(var(--height-botNav) * 3));
+    transition        : all 150ms ease;
+  }
+
+  .navStretch {
+    transition        : all 150ms ease;
+  }
+
+  .links {
+    gap               : 0.5rem;
+    margin            : 0;
+    height            : var(--height-botNav);
+  }
+
+  .links > li {
+    min-width         : 54px;
+    min-height        : var(--height-botNav);
+
+    display           : flex;
+    flex-direction    : column;
+    justify-content   : flex-start;
+    align-items       : center;
+    margin            : 0;
+
+    position          : relative;
+  }
+
+  .links > li > div:first-child {
+    display           : flex;
+    flex-direction    : column;
+    justify-content   : center;
+    align-items       : center;
+    margin            : 0;
+    gap               : 8px;
+
+    flex              : 1;
+  }
+
+  .links > li > div > a {
+    font-size         : 8px;
+  }
+  
+  .linkSelected,
+  .actionSelected {
+    color             : var(--color-1);
+    height            : auto;
+    box-shadow        : none;
+    position          : relative;
+  }
+
+  .linkSelected::before,
+  .actionSelected::before {
+    content           : '';
+    width             : 54px;
+    border            : 1px solid var(--color-1);
+
+    position          : absolute;
+    top               : 0;
+  }
+
+  .showDrop,
+  .hideDrop {
+    position          : relative;
+    top               : unset;
+    left              : unset;
+    transform         : unset;
+    transition        : unset;
+  }
+
+  /* .showDrop {
+    position          : relative;
+  }
+
+  .hideDrop {
+
+  } */
 }

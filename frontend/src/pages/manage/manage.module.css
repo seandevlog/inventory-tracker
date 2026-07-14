@@ -1,14 +1,21 @@
 .manage {
-    height          : calc(100% - var(--navTop-height));
-    width           : 100%;
+  height          : calc(100% - var(--navTop-height));
+  width           : 100%;
 
-    position        : absolute;
-    top             : var(--navTop-height);
-    z-index         : var(--z-manage);
+  position        : absolute;
+  top             : var(--navTop-height);
+  z-index         : var(--z-manage);
 }
 
 .manage nav {
-    display         : flex;
-    flex-direction  : row;
-    width           : 100%;
+  display         : flex;
+  flex-direction  : row;
+  width           : 100%;
+}
+
+@media (max-width: 570px) {
+  .manage {
+    display       : flex;
+    flex-direction: column-reverse;
+  }
 }

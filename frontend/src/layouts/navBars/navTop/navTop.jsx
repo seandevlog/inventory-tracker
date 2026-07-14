@@ -9,7 +9,7 @@ import Hamburger from '@assets/hamburger.svg';
 import CloseButton from '@assets/closeButton.svg';
 
 import RedirectLink from '@components/redirect/redirect';
-import NavContext from './navTop.helper';
+import NavContent from './navTop.helper';
 
 import getTopLevelRoute from '@utils/getTopLevelRoute';
 
@@ -55,7 +55,9 @@ const NavTop = () => {
     pathname === path.auth.absolute || pathname === path.register.absolute
   , [pathname])
 
-  const isMobile = window.innerWidth <= 570;
+  useEffect(() => {
+    setIsMobileNavExpand(false);
+  }, [pathname]);
 
   if (isAuth) return (
     <nav className={styles.authNav}>
@@ -65,48 +67,38 @@ const NavTop = () => {
     </nav>
   )
 
-  if (isMobile) return (
+  return (
     <>
       <nav 
-        className={isMobileNavExpand ? styles.mobileNavShow : styles.mobileNavHide}
-      >
+        className={`${isManage ? styles.manageNav : styles.homeNav} ${isMobileNavExpand ? styles.mobileNavShow : styles.mobileNavHide}`}>
+        
         {isMobileNavExpand ?
           <CloseButton
-            classes={`${styles.navTopIcon} ${styles.closeButton}`}
+            classes={`${styles.navTopIcon} ${styles.closeButton} ${isManage ? styles.manageIcon : ""}`}
             onClick={() => setIsMobileNavExpand(false)}
           /> :
           <Hamburger 
-            classes={styles.navTopIcon}
+            classes={`${styles.navTopIcon} ${isManage ? styles.manageIcon : ""}`}
             onClick={() => setIsMobileNavExpand(true)}
           />          
         }
 
-        <NavContext
-          id='mobile'
+        <NavContent
+          id={isManage ? "manage" : "home"}
           pathname={pathname}
-          givenName={givenName}
           profile={profile}
           handleLogout={handleLogout}
           styles={styles}
           onLinkClick={() => setIsMobileNavExpand(false)}
         />
       </nav>
-      {isMobileNavExpand && <div className={styles.mobileNavBackground}/>}
+      {isMobileNavExpand && 
+        <div 
+          className={styles.mobileNavBackground}
+          onClick={() => setIsMobileNavExpand(false)}
+        />
+      }
     </>
-  )
-
-  return (
-    <nav className={isManage ? styles.manageNav : styles.homeNav}>
-      <NavContext
-        id={isManage ? 'manage' : 'home'}
-        isManage={isManage}
-        pathname={pathname}
-        givenName={givenName}
-        profile={profile}
-        handleLogout={handleLogout}
-        styles={styles}
-      /> 
-    </nav>
   )
 }
 

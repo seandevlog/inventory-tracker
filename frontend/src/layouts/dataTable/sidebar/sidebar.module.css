@@ -4,7 +4,7 @@
   width             : var(--width-sidebar);
   max-width         : fit-content;
 
-  position          : absolute;
+  position          : relative;
 
   anchor-name       : --sidebar;
 }

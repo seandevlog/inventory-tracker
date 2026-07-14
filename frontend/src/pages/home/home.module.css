@@ -6,10 +6,19 @@
   overflow-x      : hidden;
 
   --button-space  : calc((60px + 1rem)/2);
+  --page-padding  : clamp(1rem, 5vw, 5rem);
+  --section-spacing: clamp(4rem, 9vw, 8rem);
 }
 
-.home * > p {
+.home p {
   margin          : 0;
+}
+
+.home p,
+.home header,
+.home a {
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 .intro {
@@ -26,7 +35,9 @@
 }
 
 .title {
-  max-width       : 50%;
+  width: 100%;
+  max-width: 900px;
+  padding: 0 1rem;
 }
 
 .title > p {
@@ -82,8 +93,29 @@
   justify-content : center;
 }
 
-.lockedButton > svg {
+.lockedButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.lockedButton > div {
+  display: flex;
+}
+
+.lockedButton > div > svg {
   width           : 1.5em;
+}
+
+.lockedButton > div > p {
+  display: flex;
+  align-items: center;
+}
+
+.lockedButton > p {
+  font-size       : 10px;
+  color           : var(--color-dark-2);
 }
 
 .hero {
@@ -344,7 +376,7 @@
   content: '';
   width: 100%;
   flex: 8;
-  background: var(--color-1);
+  background: var(--color-7);
   border-radius: 0 0 16px 16px;
 }
 

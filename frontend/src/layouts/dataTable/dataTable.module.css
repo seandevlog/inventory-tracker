@@ -1,13 +1,13 @@
-.main {
+.dataTable {
   height          : calc(100% - var(--navSub-height));
   width           : 100%;
 
   position        : absolute;
   top             : calc(var(--navSub-height));
-  z-index         : var(--z-main);
+  z-index         : var(--z-dataTable);
 }
 
-.main > div {
+.dataTable > div {
   height          : 100%;
   width           : 100%;
   margin          : 0;
@@ -68,7 +68,7 @@
   transform: translate(-50%, -60%);
 }
 
-.main > div > div:has(button) {
+.dataTable > div > div:has(button) {
   anchor-name: --button;
 }
 
@@ -104,97 +104,110 @@
   bottom: anchor(top);
 }
 
+.tableWrapper {
+  flex            : 1;
+  height          : calc(100vh - var(--navSub-height) - var(--navTop-height));
+
+  overflow        : auto;
+
+  position        : absolute;
+  inset           : 0;
+  
+  position-anchor : --sidebar;
+  left            : anchor(right);
+}
+
 .create {
-    position        : absolute;
-    width           : fit-content;
-    height          : fit-content;
-    right           : 4em;
-    bottom          : 4em;
-    z-index         : var(--z-create-button);
+  position        : absolute;
+  width           : fit-content;
+  height          : fit-content;
+  right           : 4em;
+  bottom          : 4em;
+  z-index         : var(--z-create-button);
 
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
 
-    width           : 5em;
-    height          : 5em;
+  width           : 5em;
+  height          : 5em;
 }
 
 .create > button svg path {
-    fill            : var(--color-1);
+  fill            : var(--color-1);
 }
 
 .create > button svg {
-    transform       : scale(3);
+  transform       : scale(3);
 
-    user-select     : none;
+  user-select     : none;
 }
 
 .create > button {
-    background      : var(--color-dark-1);
-    border          : none;
-    border-radius   : 4em;
-    backdrop-filter : blur(8px);
+  background      : var(--color-dark-1);
+  border          : none;
+  border-radius   : 4em;
+  backdrop-filter : blur(8px);
 
-    width           : 6em;
-    height          : 6em;
+  width           : 6em;
+  height          : 6em;
 
-    border-radius   : 40px;
-    box-shadow      : 
-        0 2px 3px black,
-        0 5px 10px black;      
-    
-    position        : absolute;
-    inset           : 0;
-    z-index         : calc(var(--z-create-button) + 2);
+  border-radius   : 40px;
+  box-shadow      : 
+      0 2px 3px black,
+      0 5px 10px black;      
+  
+  position        : absolute;
+  inset           : 0;
+  z-index         : calc(var(--z-create-button) + 2);
 
-    anchor-name     : --create-button;
+  anchor-name     : --create-button;
 
-    transition      : all 200ms ease-in-out;
+  transition      : all 200ms ease-in-out;
 }
 
 .create > div {
-    background      : var(--color-dark-2);
-    border-radius   : 8vw 16vw 16vw 8vw;
-    color           : rgb(196, 196, 196);
-    font-size       : 0.1em;
-    font-weight     : 700;
-    height          : fit-content;
-    width           : fit-content;
-    white-space     : nowrap;
+  background      : var(--color-dark-2);
+  border-radius   : 8vw 16vw 16vw 8vw;
+  color           : rgb(196, 196, 196);
+  font-size       : 0.1em;
+  font-weight     : 700;
+  height          : fit-content;
+  width           : fit-content;
+  white-space     : nowrap;
 
-    user-select     : none;
+  user-select     : none;
 
-    align-content   : center;
+  align-content   : center;
 
-    position        : absolute;
-    z-index         : calc(var(--z-create-button) + 1);
+  position        : absolute;
+  z-index         : calc(var(--z-create-button) + 1);
 
-    position-anchor : --create-button;
+  position-anchor : --create-button;
 
-    transition      : none;
+  transition      : none;
 }
 
 .create > button:hover {
-    background      : var(--color-dark-2);
-    cursor          : pointer;
+  background      : var(--color-dark-2);
+  cursor          : pointer;
 }
 
 .create > button:hover + div {
-    font-size       : 1em;
-    height          : 2em;
-    padding         : 0 1em;
+  font-size       : 1em;
+  height          : 2em;
+  padding         : 0 1em;
 
-    position-anchor : --create-button;
-    right           : anchor(left);
+  position-anchor : --create-button;
+  right           : anchor(left);
 
-    margin-right    : 0.5em;
+  margin-right    : 0.5em;
 
-    transition      : all 150ms ease;
+  transition      : all 150ms ease;
 }
 
 .create > button:active {
-    background: black;
+  background: black;
 }
 
 /* Overlay */
@@ -284,5 +297,15 @@
   .modal > form > div:has(button) {
     bottom: -5%;
     width: 60%;
+  }
+}
+
+@media (max-width: 570px) {
+  .dataTable,
+  .disabled {
+    position          : absolute;
+    top               : 0;
+    height            : calc(100% - var(--height-botNav));
+    z-index           : 0;
   }
 }

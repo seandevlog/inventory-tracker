@@ -8,10 +8,6 @@ import manageRoutes from '@routes/manage.routes';
 import profileRoutes from '@routes/profile.routes';
 import faqRoutes from '@routes/faq.routes';
 
-import {
-  logout as logoutLoader
-} from '@features/auth/loaders';
-
 import Hydrate from '@pages/hydrate/hydrate';
 import Error from '@pages/error/error';
 

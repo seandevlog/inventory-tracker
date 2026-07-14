@@ -1,17 +1,3 @@
-div:has(> .table) {
-  flex            : 1;
-  height          : calc(100vh - var(--navSub-height) - var(--navTop-height));
-  margin-left     : 1em;
-
-  overflow        : auto;
-
-  position        : absolute;
-  inset           : 0;
-  
-  position-anchor : --sidebar;
-  left            : anchor(right);
-}
-
 .table {
   table-layout    : auto;
   width           : 100%;

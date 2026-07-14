@@ -25,3 +25,9 @@
   font-weight: 500;
   margin: 0;
 }
+
+@media (max-width: 570px) {
+  .building > p {
+    text-align: center;
+  }
+}

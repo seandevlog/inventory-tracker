@@ -6,7 +6,7 @@ import styles from './dataTable.module.css';
 import firstCharUppercase from '@utils/firstCharUppercase';
 import removeLastS from '@utils/removeLastS';
 
-import Sidebar from '@layouts/sidebar/sidebar';
+import Sidebar from './sidebar/sidebar';
 
 import Table from './table/table';
 import { 
@@ -136,7 +136,7 @@ const DataTable = ({ id, data, headers, FeaturePlaceholder, selections, inputs, 
       onSubmitted,
       dispatchModal: dispatch 
     }}>
-      <main className={styles.main}>
+      <main className={styles.dataTable}>
         <div>
           {data && data.length > 0 &&
             <Sidebar/>
@@ -150,7 +150,7 @@ const DataTable = ({ id, data, headers, FeaturePlaceholder, selections, inputs, 
             </CreateButton>
           }
           {filteredData && filteredData.length > 0
-            ? <div>
+            ? <div className={styles.tableWrapper}>
                 <Table headers={headers} data={filteredData}/>
               </div>
             : <div className={styles.noData}>

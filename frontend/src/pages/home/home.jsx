@@ -37,8 +37,13 @@ const Home = () => {
           onClick={() => navigate(path.manage.absolute)}
           disabled={typeof profile === 'undefined' || profile === null}
         >
-          Access Your Inventory
-          {typeof profile === 'undefined' || profile === null && <Lock/>}
+          <div>
+            <p>Access Your Inventory</p>
+            {typeof profile === 'undefined' || profile === null && <Lock/>}
+          </div>
+          {typeof profile === 'undefined' || profile === null && 
+            <p>Sign in required</p>
+          }
         </button>
         <div className={styles.introMessage}>
           <p>Welcome to your company's inventory tracker, built specifically for you and the way your team works.</p>
