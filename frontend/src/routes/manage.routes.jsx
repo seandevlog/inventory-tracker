@@ -9,8 +9,8 @@ import transactionsRoutes from '@routes/manage/transactions.routes';
 
 import dashboardRoutes from '@routes/manage/dashboard.routes';
 
-import Manage from '@pages/manage/manage'
-import Error from '@pages/error/error';
+import Manage from '@components/pages/manage/manage'
+import Error from '@components/pages/error/error';
 
 import config from '@config';
 const { path } = config;

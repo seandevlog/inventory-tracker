@@ -2,8 +2,8 @@ import { useReducer, useState } from "react";
 import { Form, useActionData, useOutletContext } from "react-router-dom";
 import { userSchema } from "@my-org/shared/validators";
 
-import ErrorBox from "@components/errorBox/errorBox";
-import RedirectLink from "@components/redirect/redirect";
+import ErrorBox from "@components/ui/errorBox/errorBox";
+import RedirectLink from "@components/ui/redirect/redirect";
 
 import userInputs from "@features/manage/users/inputs";
 

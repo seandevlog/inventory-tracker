@@ -1,0 +1,361 @@
+.navSub {
+  box-sizing: border-box;
+
+  width: 100%;
+  height: var(--navSub-height);
+  padding-inline: clamp(1rem, 3vw, 2rem);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: var(--z-navSub);
+
+  background: rgb(88, 88, 88);
+
+  box-shadow:
+    0 2px 3px rgb(0 0 0 / 50%),
+    0 5px 10px rgb(0 0 0 / 35%);
+}
+
+/* ===== Lists ===== */
+
+.quickActions,
+.links {
+  height: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  align-items: stretch;
+  gap: clamp(0.5rem, 1.5vw, 1rem);
+
+  list-style: none;
+}
+
+.links {
+  justify-content: flex-end;
+}
+
+.navItem {
+  height: 100%;
+  min-width: 0;
+
+  display: flex;
+  align-items: stretch;
+
+  position: relative;
+
+  list-style: none;
+}
+
+/* ===== Shared controls ===== */
+
+.navControl {
+  appearance: none;
+
+  height: 100%;
+  min-width: 0;
+  padding: 0 0.5rem;
+
+  border: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  color: rgb(255, 254, 248);
+  background: transparent;
+
+  font: inherit;
+  font-size: clamp(0.72rem, 1.2vw, 0.85rem);
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+
+  cursor: pointer;
+  user-select: none;
+
+  transition:
+    color 150ms ease,
+    text-shadow 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.navControl:hover {
+  text-shadow: 0 0 3px var(--color-1);
+}
+
+.navControl > svg {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+
+  fill: currentColor;
+}
+
+/* ===== Redirect links ===== */
+
+.redirectControl {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+
+  color: rgb(255, 254, 248);
+
+  font-size: clamp(0.72rem, 1.2vw, 0.85rem);
+  font-weight: 700;
+  white-space: nowrap;
+
+  cursor: pointer;
+  user-select: none;
+
+  transition:
+    color 150ms ease,
+    text-shadow 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.redirectControl > a {
+  box-sizing: border-box;
+
+  width: 100%;
+  height: 100%;
+  padding: 0 0.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  color: inherit;
+  text-decoration: none;
+}
+
+.redirectControl:hover {
+  text-shadow: 0 0 3px var(--color-1);
+}
+
+.redirectControl svg {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+
+  fill: currentColor;
+}
+
+/* ===== Selected states ===== */
+
+.linkSelected,
+.actionSelected {
+  color: var(--color-1);
+
+  box-shadow:
+    inset 0 -2px 0 var(--color-1),
+    inset 0 -5px 0 var(--color-2);
+}
+
+/* ===== Quick-action dropdown ===== */
+
+.showDrop,
+.hideDrop {
+  min-width: min(24rem, calc(100vw - 2rem));
+  max-width: calc(100vw - 2rem);
+
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  z-index: calc(var(--z-navSub) + 1);
+
+  transition:
+    opacity 200ms ease,
+    visibility 200ms ease,
+    transform 200ms ease;
+}
+
+.showDrop {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.hideDrop {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.5rem);
+  pointer-events: none;
+}
+
+/* ===== Mobile ===== */
+
+@media (max-width: 767px) {
+  .navSub {
+    width: 100%;
+    height: var(--height-botNav);
+    padding: 0 0.5rem;
+
+    position: fixed;
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+
+    gap: 0;
+
+    background: var(--color-dark-1);
+  }
+
+  .quickActions {
+    display: none;
+  }
+
+  .links {
+    width: 100%;
+    height: 100%;
+    gap: 0;
+
+    justify-content: flex-start;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scrollbar-width: none;
+  }
+
+  .links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .navItem,
+  .menuSwitcher {
+    min-width: clamp(58px, 15vw, 74px);
+    height: 100%;
+
+    flex: 1 0 auto;
+  }
+
+  .navControl {
+    width: 100%;
+    height: 100%;
+    padding: 0.4rem;
+
+    flex-direction: column;
+    gap: 0.3rem;
+
+    font-size: clamp(0.6rem, 2.5vw, 0.72rem);
+    line-height: 1;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .navControl > svg {
+    width: clamp(1.15rem, 5vw, 1.5rem);
+    height: clamp(1.15rem, 5vw, 1.5rem);
+  }
+
+  .redirectControl {
+    width: 100%;
+    height: 100%;
+
+    font-size: clamp(0.6rem, 2.5vw, 0.72rem);
+  }
+
+  .redirectControl > a {
+    padding: 0.4rem;
+
+    flex-direction: column;
+    gap: 0.3rem;
+
+    line-height: 1;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .redirectControl svg {
+    width: clamp(1.15rem, 5vw, 1.5rem);
+    height: clamp(1.15rem, 5vw, 1.5rem);
+  }
+
+  .linkSelected,
+  .actionSelected {
+    color: var(--color-1);
+    box-shadow: inset 0 2px 0 var(--color-1);
+  }
+
+  /* Quick-action content appears above bottom nav */
+
+  .showDrop,
+  .hideDrop {
+    box-sizing: border-box;
+
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    max-height: min(
+      65dvh,
+      calc(100dvh - var(--height-botNav) - 1rem)
+    );
+
+    padding: 1rem;
+
+    position: fixed;
+    top: auto;
+    right: 0;
+    bottom: var(--height-botNav);
+    left: 0;
+    z-index: 99;
+
+    overflow-y: auto;
+
+    background: var(--color-dark-1);
+
+    box-shadow: 0 -5px 15px rgb(0 0 0 / 35%);
+  }
+
+  .showDrop {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .hideDrop {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(1rem);
+  }
+}
+
+/* ===== Small phones ===== */
+
+@media (max-width: 380px) {
+  .navItem,
+  .menuSwitcher {
+    min-width: 56px;
+  }
+
+  .navControl,
+  .redirectControl {
+    font-size: 0.6rem;
+  }
+}
+
+/* ===== Reduced motion ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .navControl,
+  .redirectControl,
+  .showDrop,
+  .hideDrop {
+    transition: none;
+  }
+}

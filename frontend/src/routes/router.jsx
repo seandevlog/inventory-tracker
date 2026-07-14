@@ -1,15 +1,15 @@
 import { createBrowserRouter } from 'react-router-dom';
 import '@assets/global.css';
 
-import App from '@pages/app/app';
-import Home from '@pages/home/home';
+import App from '@components/pages/app/app';
+import Home from '@components/pages/home/home';
 
 import manageRoutes from '@routes/manage.routes';
 import profileRoutes from '@routes/profile.routes';
 import faqRoutes from '@routes/faq.routes';
 
-import Hydrate from '@pages/hydrate/hydrate';
-import Error from '@pages/error/error';
+import Hydrate from '@components/pages/hydrate/hydrate';
+import Error from '@components/pages/error/error';
 
 import authRoutes from '@routes/auth.routes';
 

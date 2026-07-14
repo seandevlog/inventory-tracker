@@ -3,8 +3,8 @@ import { Outlet } from 'react-router-dom';
 
 import styles from './app.module.css';
 
-import NavTop from '@layouts/navBars/navTop/navTop';
-import Loading from '@pages/loading/loading';
+import NavTop from '@components/layouts/navBars/navTop/navTop';
+import Loading from '@components/pages/loading/loading';
 
 import useToken from '@hooks/useToken';
 import useProfile from '@hooks/useProfile';

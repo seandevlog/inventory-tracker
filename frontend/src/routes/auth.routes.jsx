@@ -1,4 +1,4 @@
-import Auth from '@pages/auth/auth';
+import Auth from '@components/pages/auth/auth';
 import Login from '@features/auth/login';
 import Register from '@features/auth/register';
 

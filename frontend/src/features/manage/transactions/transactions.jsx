@@ -6,7 +6,7 @@ import inputs from './inputs';
 
 import Transaction from '@assets/placeholders/transaction.svg';
 
-import DataTable from '@layouts/dataTable/dataTable';
+import DataTable from '@components/layouts/dataTable/dataTable';
 
 import AppContext from '@contexts/app.context';
 

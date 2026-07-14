@@ -8,7 +8,7 @@ import styles from './stockSearch.module.css';
 
 import { filter } from 'lodash';
 
-import SearchBarInput from '@components/searchBarInput/searchBarInput';
+import SearchBarInput from '@components/ui/searchBarInput/searchBarInput';
 
 import AppContext from '@contexts/app.context';
 

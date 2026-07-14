@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
 import Logo from "@assets/logo/logo";
-import RedirectLink from "@components/redirect/redirect";
+import RedirectLink from "@components/ui/redirect/redirect";
 
 import AppContext from "@contexts/app.context";
 

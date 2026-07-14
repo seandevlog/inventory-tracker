@@ -1,4 +1,4 @@
-import Building from "@layouts/building/building";
+import Building from "@components/layouts/building/building";
 
 const Dashboard = () => {
   return (

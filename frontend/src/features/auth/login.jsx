@@ -9,8 +9,8 @@ import {
 import Joi from "joi";
 
 import AppContext from "@contexts/app.context";
-import ErrorBox from "@components/errorBox/errorBox";
-import RedirectLink from "@components/redirect/redirect";
+import ErrorBox from "@components/ui/errorBox/errorBox";
+import RedirectLink from "@components/ui/redirect/redirect";
 import { userSchema } from "@my-org/shared/validators";
 
 import config from "@config";

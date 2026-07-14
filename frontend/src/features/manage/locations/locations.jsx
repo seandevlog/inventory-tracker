@@ -5,7 +5,7 @@ import inputs from './inputs';
 
 import Location from '@assets/placeholders/location.svg';
 
-import DataTable from '@layouts/dataTable/dataTable';
+import DataTable from '@components/layouts/dataTable/dataTable';
 
 import AppContext from '@contexts/app.context';
 

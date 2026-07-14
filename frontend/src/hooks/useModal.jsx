@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react"
 
-import Modal from "@components/modal/modal";
+import Modal from "@components/ui/modal/modal";
 
 const useModal = (styles) => {
   const [isVisible, setVisibility] = useState(false);

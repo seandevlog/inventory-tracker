@@ -8,7 +8,7 @@ import Logo from '@assets/logo/logo';
 import Hamburger from '@assets/hamburger.svg';
 import CloseButton from '@assets/closeButton.svg';
 
-import RedirectLink from '@components/redirect/redirect';
+import RedirectLink from '@components/ui/redirect/redirect';
 import NavContent from './navTop.helper';
 
 import getTopLevelRoute from '@utils/getTopLevelRoute';

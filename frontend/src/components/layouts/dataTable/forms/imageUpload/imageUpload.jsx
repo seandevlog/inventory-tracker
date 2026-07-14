@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { filter } from "lodash";
 
 import styles from "./imageUpload.module.css";
-import ErrorBox from "@components/errorBox/errorBox";
+import ErrorBox from "@components/ui/errorBox/errorBox";
 import DataTableContext from "@contexts/dataTable.context";
 
 const ALLOWED_TYPES = new Set(["image/png", "image/jpg", "image/jpeg"]);

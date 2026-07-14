@@ -1,43 +1,36 @@
-// FormEdit.jsx
 import { useContext, useEffect, useMemo } from "react";
 import { useFetcher } from "react-router-dom";
 import styles from "./form.module.css";
 
 import ImageUpload from "./imageUpload/imageUpload";
-import ErrorBox from "@components/errorBox/errorBox";
+import ErrorBox from "@components/ui/errorBox/errorBox";
 
 import FormTextInputs from "./formEntries/formTextInputs";
 import FormSelectInputs from "./formEntries/formSelectInputs";
 import FormCreatedBy from "./formEntries/formCreatedBy";
-import FormDateRows from "./formEntries/formDateRows";
 
 import AppContext from "@contexts/app.context";
 import DataTableContext from "@contexts/dataTable.context";
 
 import useFormFields from "@hooks/useFormFields";
 
-import Eye from "@assets/eye.svg";
-
 import config from "@config";
 const { path } = config;
 
-const FormEdit = () => {
+const FormCreate = () => {
   const fetcher = useFetcher();
 
   const { profile } = useContext(AppContext);
-  const { role } = profile || {};
+  const { role, username } = profile || {};
 
   const {
     id: manageId,
     FeaturePlaceholder,
     inputs,
     schema,
-    singleData,
     onSubmitted,
     dispatchModal
   } = useContext(DataTableContext);
-
-  const row = singleData?.[0] ?? {};
 
   const filtered = useMemo(() => inputs.filter((i) => !i.disabled), [inputs]);
 
@@ -48,12 +41,7 @@ const FormEdit = () => {
     onChange,
     touchEmptyRequired,
     hasErrors
-  } = useFormFields({
-    inputs: filtered,
-    schema,
-    mode: "edit",
-    singleData: row
-  });
+  } = useFormFields({ inputs: filtered, schema, mode: "create" });
 
   useEffect(() => {
     if (fetcher.state === "idle" && fetcher.data?.success) {
@@ -62,13 +50,19 @@ const FormEdit = () => {
     }
   }, [dispatchModal, fetcher.state, fetcher.data, onSubmitted]);
 
+  const allowed =
+    role &&
+    ((role === "staff" &&
+      manageId !== "item" &&
+      manageId !== "location" &&
+      manageId !== "supplier") ||
+      role !== "staff");
+
   const url = useMemo(() => {
     if (!manageId || !path[manageId]?.absolute) return null;
-    if (!singleData?.[0]?._id) return null;
-    return `${path[manageId].absolute}/${singleData[0]._id}/edit`;
-  }, [manageId, singleData]);
+    return `${path[manageId].absolute}/create`;
+  }, [manageId]);
 
-  const allowed = role && (role === "admin" || role === "manager");
   if (!allowed)
     return <div>This action needs a manager (or someone who looks important)</div>;
 
@@ -82,46 +76,17 @@ const FormEdit = () => {
       <div className={styles.layout}>
         <div className={styles.main}>
           <div className={styles.feature}>
-            <ImageUpload
-              ImagePlaceholder={FeaturePlaceholder}
-              mode="edit"
-              defaultUrl={row?.feature?.url}
-            />
+            <ImageUpload ImagePlaceholder={FeaturePlaceholder} mode="create" />
           </div>
 
           <fieldset className={styles.fields}>
-            <button
-              type="button"
-              onClick={() => dispatchModal({ type: "view" })}
-              className={styles.navigateButton}
-              aria-label="View"
-            >
-              <Eye />
-            </button>
-
             <div>
-              <div>
-                {inputs.map(({ id, label }) =>
-                  id === "_id" ? (
-                    <div key={id} className={styles.info}>
-                      <span>
-                        <p>{label}</p>
-                      </span>
-                      <span id={id}>
-                        <p>{row?.[id]}</p>
-                      </span>
-                    </div>
-                  ) : null
-                )}
-              </div>
-
               <FormTextInputs
                 inputs={filteredInputs}
                 values={values}
                 errors={errors}
                 onChange={onChange}
-                mode="edit"
-                singleData={row}
+                mode="create"
                 styles={styles}
               />
 
@@ -130,19 +95,11 @@ const FormEdit = () => {
                 values={values}
                 errors={errors}
                 onChange={onChange}
-                mode="edit"
-                singleData={row}
+                mode="create"
                 styles={styles}
               />
 
-              <FormCreatedBy
-                placeholder={row?.createdBy ?? "The universe, probably"}
-                styles={styles}
-              />
-
-              <div className={styles.date}>
-                <FormDateRows inputs={inputs} data={row} styles={styles} />
-              </div>
+              <FormCreatedBy value={username} styles={styles} mode="create" />
             </div>
           </fieldset>
         </div>
@@ -155,22 +112,11 @@ const FormEdit = () => {
           <div className={styles.actions}>
             <button
               type="submit"
-              name="intent"
-              value="update"
               disabled={hasErrors}
               onClick={touchEmptyRequired}
               className={styles.primaryBtn}
             >
               Save
-            </button>
-
-            <button
-              type="submit"
-              name="intent"
-              value="delete"
-              className={styles.dangerBtn}
-            >
-              Delete
             </button>
           </div>
         </div>
@@ -179,4 +125,4 @@ const FormEdit = () => {
   );
 };
 
-export default FormEdit;
+export default FormCreate;

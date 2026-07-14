@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import styles from './profile.module.css';
 
-import Building from "@layouts/building/building";
+import Building from "@components/layouts/building/building";
 
 import AppContext from '@contexts/app.context';
 

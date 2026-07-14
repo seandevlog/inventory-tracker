@@ -1,5 +1,5 @@
 import styles from './sidebar.module.css';
-import Filter from '@components/filter/filter';
+import Filter from '@components/ui/filter/filter';
 
 const Sidebar = () => {
 
