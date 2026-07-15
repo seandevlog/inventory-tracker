@@ -1,149 +1,273 @@
-import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
-import styles from './searchBarInput.module.css';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
-import firstCharUppercase from '@utils/firstCharUppercase';
+import styles from "./searchBarInput.module.css";
 
-import SearchIcon from '@assets/searchIcon.svg';
+import firstCharUppercase from "@utils/firstCharUppercase";
+import SearchIcon from "@assets/searchIcon.svg";
 
-const SearchBarInput = ({ id, data, setSubmitted }) => {
-  const [searchValue, setSearchValue] = useState('');
-  const [focused, setFocused] = useState(false);
-  const [tempSearchValue, setTempSearchValue] = useState('');
-  const [queriedIndex, setQueriedIndex] = useState(-1);
-  const [mouseHover, setMouseHover] = useState(false);
-  const [buttonSubmit, setButtonSubmit] = useState(false);
+const SearchBarInput = ({
+  id,
+  data = [],
+  submitted = "",
+  setSubmitted,
+}) => {
+  const inputRef = useRef(null);
+  const buttonTimerRef = useRef(null);
 
-  const filteredData = useMemo(() => 
-    searchValue ? data?.filter(key => key?.includes(searchValue?.trim()?.toUpperCase())) : data
-  , [data, searchValue])
+  const [searchValue, setSearchValue] = useState(
+    submitted ?? ""
+  );
+  const [isFocused, setIsFocused] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const [isButtonSubmitted, setIsButtonSubmitted] =
+    useState(false);
+
+  const inputId = id
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-");
+
+  const resultsId = `${inputId}-results`;
+
+  const options = useMemo(() => {
+    return [
+      ...new Set(
+        data
+          .filter((value) => value !== null && value !== undefined)
+          .map((value) => String(value))
+      ),
+    ];
+  }, [data]);
+
+  const filteredData = useMemo(() => {
+    const query = searchValue.trim().toLowerCase();
+
+    if (!query) return options;
+
+    return options.filter((option) =>
+      option.toLowerCase().includes(query)
+    );
+  }, [options, searchValue]);
 
   useEffect(() => {
-    setQueriedIndex(-1);
-  }, [filteredData, focused])
+    setSearchValue(submitted ?? "");
+  }, [submitted]);
 
-  useEffect(() => { 
-    if (mouseHover) {
-      setQueriedIndex(filteredData.findIndex(data => mouseHover === data));
+  useEffect(() => {
+    setActiveIndex(-1);
+  }, [searchValue]);
+
+  useEffect(() => {
+    return () => {
+      if (buttonTimerRef.current) {
+        clearTimeout(buttonTimerRef.current);
+      }
+    };
+  }, []);
+
+  const animateButton = useCallback(() => {
+    setIsButtonSubmitted(true);
+
+    if (buttonTimerRef.current) {
+      clearTimeout(buttonTimerRef.current);
     }
-  }, [filteredData, mouseHover])
-  
-  const inputRef = useRef(null);
 
-  const handleKeyDown = useCallback((event) => {
+    buttonTimerRef.current = setTimeout(() => {
+      setIsButtonSubmitted(false);
+    }, 150);
+  }, []);
+
+  const selectValue = useCallback(
+    (value) => {
+      setSearchValue(value);
+      setSubmitted?.(value);
+      setActiveIndex(-1);
+      setIsFocused(false);
+    },
+    [setSubmitted]
+  );
+
+  const submitValue = useCallback(() => {
+    const selectedValue =
+      activeIndex >= 0 &&
+      activeIndex < filteredData.length
+        ? filteredData[activeIndex]
+        : searchValue.trim();
+
+    setSearchValue(selectedValue);
+    setSubmitted?.(selectedValue);
+    setActiveIndex(-1);
+    setIsFocused(false);
+
+    animateButton();
+    inputRef.current?.blur();
+  }, [
+    activeIndex,
+    animateButton,
+    filteredData,
+    searchValue,
+    setSubmitted,
+  ]);
+
+  const handleInputChange = (event) => {
+    const value = event.target.value;
+
+    setSearchValue(value);
+    setActiveIndex(-1);
+    setIsFocused(true);
+
+    if (!value.trim()) {
+      setSubmitted?.("");
+    }
+  };
+
+  const handleKeyDown = (event) => {
     switch (event.key) {
-      case 'ArrowDown':
-        setQueriedIndex(prev => {
-          const next = 
-            prev >= filteredData.length - 1
-              ? 0
-              : prev + 1;
-          setTempSearchValue(filteredData?.[next])
-          return next;
-        });
-        return;
-      case 'ArrowUp':
-        setQueriedIndex(prev => {
-          const next = 
-            prev <= 0
-            ? filteredData?.length - 1
-            : prev - 1
-          setTempSearchValue(filteredData?.[next]);
-          return next;
-        });
-        return;
-      case 'Escape':
-        setFocused(false);
-        return;
-      case 'Backspace':
-        if (!tempSearchValue && !searchValue) return setSubmitted('');
-        if (!tempSearchValue) return;
-        setTempSearchValue(
-          tempSearchValue?.length > 0 && tempSearchValue?.slice(0, tempSearchValue?.length - 1)
+      case "ArrowDown": {
+        event.preventDefault();
+
+        if (!filteredData.length) return;
+
+        setIsFocused(true);
+
+        setActiveIndex((currentIndex) =>
+          currentIndex >= filteredData.length - 1
+            ? 0
+            : currentIndex + 1
         );
-        setSearchValue(tempSearchValue);
-        return;
-      case 'Enter':
-        setSubmitted(
-          filteredData
-          ? queriedIndex >= 0 && queriedIndex < filteredData?.length
-            ? filteredData[queriedIndex]
-            : searchValue
-          : searchValue 
-        )
-        setFocused(false);
-        inputRef.current.blur();
-        setButtonSubmit(true);
-        setTimeout(() => setButtonSubmit(false), 200);
-        return;
+
+        break;
+      }
+
+      case "ArrowUp": {
+        event.preventDefault();
+
+        if (!filteredData.length) return;
+
+        setIsFocused(true);
+
+        setActiveIndex((currentIndex) =>
+          currentIndex <= 0
+            ? filteredData.length - 1
+            : currentIndex - 1
+        );
+
+        break;
+      }
+
+      case "Enter": {
+        event.preventDefault();
+        submitValue();
+        break;
+      }
+
+      case "Escape": {
+        setIsFocused(false);
+        setActiveIndex(-1);
+        inputRef.current?.blur();
+        break;
+      }
+
       default:
         break;
     }
-  }, [filteredData, queriedIndex, searchValue, tempSearchValue, setSubmitted])
+  };
 
+  const handleWrapperBlur = (event) => {
+    const nextElement = event.relatedTarget;
 
-  const handleInput = (event) => {
-    setSearchValue(event.target.value);
-  }
-  
-  const handleResults = useCallback((selected) => {
-    setSearchValue(selected);
-    setSubmitted(selected);
-    setFocused(false);
-  }, [setSubmitted])
+    if (
+      nextElement &&
+      event.currentTarget.contains(nextElement)
+    ) {
+      return;
+    }
 
-  const handleButton = useCallback(() => {
-    setSubmitted(searchValue);
-    setButtonSubmit(true);
-    setTimeout(() => setButtonSubmit(false), 150);
-  }, [searchValue, setSubmitted]); 
+    setIsFocused(false);
+    setActiveIndex(-1);
+  };
 
   return (
-    <div className={styles.searchBarWrapper}>
-      <input 
-        id={id}
-        type='text' 
-        value={tempSearchValue || searchValue}
-        onChange={handleInput}
-        onKeyDown={handleKeyDown}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
+    <div
+      className={styles.searchBarWrapper}
+      onBlur={handleWrapperBlur}
+    >
+      <input
         ref={inputRef}
+        id={inputId}
+        type="text"
+        value={searchValue}
         placeholder={`Enter ${firstCharUppercase(id)}`}
-      />
-      {focused &&
-        <div
-          className={styles.searchResults}
-        >
-          {filteredData.map((key, index) => (
-            <span 
-              id={key}
-              key={key}
-              onMouseDown={() => handleResults(key)}
-              onMouseEnter={(e) => setMouseHover(e.target.id)}
-              onMouseLeave={() => setMouseHover(null)}
-              style={(!mouseHover && index === queriedIndex) || mouseHover === key
-                ? { background: 'var(--color-dark-2)' } 
-                : undefined}
-            >
-              {key}
-            </span>
-          ))}
-        </div>      
-      }
-      <div
-        onClick={handleButton} 
-        className={styles.icon}
-        style={buttonSubmit
-          ? { background: 'var(--color-2)'}
-          : undefined
+        autoComplete="off"
+        role="combobox"
+        aria-label={`Search by ${id}`}
+        aria-expanded={isFocused}
+        aria-controls={resultsId}
+        aria-autocomplete="list"
+        aria-activedescendant={
+          activeIndex >= 0
+            ? `${inputId}-option-${activeIndex}`
+            : undefined
         }
-      >
-        <SearchIcon style={buttonSubmit
-          ? { transform: 'scale(0.8)'}
-          : undefined}/>
-      </div>
-    </div>
-  )
-}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
+        onFocus={() => setIsFocused(true)}
+      />
 
-export default SearchBarInput
+      <button
+        type="button"
+        className={`${styles.icon} ${
+          isButtonSubmitted ? styles.iconClicked : ""
+        }`}
+        aria-label={`Submit ${id}`}
+        onClick={submitValue}
+      >
+        <SearchIcon aria-hidden="true" />
+      </button>
+
+      {isFocused && (
+        <div
+          id={resultsId}
+          className={styles.searchResults}
+          role="listbox"
+        >
+          {filteredData.length > 0 ? (
+            filteredData.map((value, index) => (
+              <button
+                id={`${inputId}-option-${index}`}
+                key={value}
+                type="button"
+                role="option"
+                aria-selected={activeIndex === index}
+                className={`${styles.resultOption} ${
+                  activeIndex === index
+                    ? styles.resultOptionActive
+                    : ""
+                }`}
+                onMouseEnter={() => setActiveIndex(index)}
+                onMouseDown={(event) => {
+                  event.preventDefault();
+                }}
+                onClick={() => selectValue(value)}
+              >
+                {value}
+              </button>
+            ))
+          ) : (
+            <p className={styles.noResults}>
+              No matching results
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default SearchBarInput;

@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import styles from "./navSub.module.css";
 
-import StockSearch from "./stockSearch/stockSearch";
+import StockSearch from "@components/ui/stockSearch/stockSearch";
 import {
   QuickActionList,
   RedirectList,

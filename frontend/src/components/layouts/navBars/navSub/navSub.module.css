@@ -176,7 +176,8 @@
 
 .showDrop,
 .hideDrop {
-  min-width: min(24rem, calc(100vw - 2rem));
+  width: min(40rem, calc(100vw - 2rem));
+  min-width: 0;
   max-width: calc(100vw - 2rem);
 
   position: absolute;
@@ -207,6 +208,12 @@
 /* ===== Mobile ===== */
 
 @media (max-width: 767px) {
+  .navSub,
+  .navItem,
+  .menuSwitcher {
+    overflow: visible;
+  }
+
   .navSub {
     width: 100%;
     height: var(--height-botNav);
@@ -236,7 +243,7 @@
     justify-content: flex-start;
 
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: visible;
 
     scrollbar-width: none;
   }
@@ -327,8 +334,10 @@
     width: 100%;
     min-width: 0;
     max-width: none;
+
+    min-height: 14rem;
     max-height: min(
-      65dvh,
+      70dvh,
       calc(100dvh - var(--height-botNav) - 1rem)
     );
 
