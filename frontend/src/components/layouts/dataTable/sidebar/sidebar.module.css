@@ -1,16 +1,167 @@
 .sidebar {
-  height            : 100%;
-  background        : none;
-  width             : var(--width-sidebar);
-  max-width         : fit-content;
+  --sidebar-open-width: clamp(
+    15rem,
+    var(--width-sidebar, 22vw),
+    20rem
+  );
 
-  position          : relative;
+  --sidebar-closed-width:
+    var(--sidebar-collapsed-width, 3.25rem);
 
-  anchor-name       : --sidebar;
+  box-sizing: border-box;
+
+  width: var(--sidebar-open-width);
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+
+  flex: 0 0 var(--sidebar-open-width);
+
+  position: relative;
+  z-index: 20;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background: var(--color-dark-3);
+  border-right: 1px solid rgb(0 0 0 / 20%);
+
+  transition:
+    width 200ms ease,
+    flex-basis 200ms ease,
+    transform 200ms ease;
 }
 
-.sidebar>div {
-  height            : 100%;
-  max-height        : 80vh;
-  margin            : 0 auto;
+.open {
+  width: var(--sidebar-open-width);
+  flex-basis: var(--sidebar-open-width);
+}
+
+.closed {
+  width: var(--sidebar-closed-width);
+  flex-basis: var(--sidebar-closed-width);
+}
+
+/* Filter container */
+
+.sidebarContent {
+  box-sizing: border-box;
+
+  /*
+    Keep the content at the full open width while the
+    sidebar closes. The sidebar clips it during animation.
+  */
+  width: var(--sidebar-open-width);
+  height: 100%;
+  min-height: 0;
+  padding:
+    4.5rem
+    1rem
+    1rem;
+
+  flex: 1 1 auto;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+
+  opacity: 1;
+  visibility: visible;
+
+  transition:
+    opacity 150ms ease,
+    visibility 150ms ease;
+}
+
+.sidebarContent > * {
+  width: 100%;
+  min-width: 0;
+}
+
+.closed .sidebarContent {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Toggle */
+
+.toggle {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+
+  position: absolute;
+  top: 1rem;
+  right: 0.375rem;
+  z-index: 2;
+
+  border: 0;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--color-1);
+  background: var(--color-dark-1);
+
+  box-shadow:
+    0 2px 4px rgb(0 0 0 / 35%),
+    0 5px 10px rgb(0 0 0 / 20%);
+
+  cursor: pointer;
+}
+
+.toggle:hover {
+  background: var(--color-dark-2);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--color-1);
+  outline-offset: 2px;
+}
+
+.toggle > span {
+  font-size: 2rem;
+  line-height: 1;
+
+  transform: translateY(-0.1rem);
+}
+
+.backdrop {
+  display: none;
+}
+
+/* Mobile drawer */
+
+@media (max-width: 767px) {
+  .backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 90;
+
+    display: block;
+
+    padding: 0;
+    border: 0;
+    background: rgb(0 0 0 / 45%);
+  }
+
+  .sidebar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    z-index: 100;
+  }
+
+  .toggle {
+    z-index: 110;
+  }
 }

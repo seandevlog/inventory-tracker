@@ -138,11 +138,7 @@ const DataTable = ({ id, data, headers, FeaturePlaceholder, selections, inputs, 
     }}>
       <main className={styles.dataTable}>
         <div className={styles.workspace}>
-          {data?.length > 0 && (
-            <aside className={styles.sidebarSlot}>
-              <Sidebar />
-            </aside>
-          )}
+          {data?.length > 0 && <Sidebar />}
 
           <section className={styles.content}>
             {filteredData?.length > 0 ? (
