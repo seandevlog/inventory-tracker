@@ -16,7 +16,6 @@ import {
 } from './forms/';
 
 import Lock from '@assets/lock.svg'
-import { ArrowDownThick } from '@assets/arrows';
 import EmptyBox from '@assets/empty-box.svg';
 import Plus from '@assets/plus.svg';
 import CloseBtn from '@assets/closeButton.svg'
@@ -118,6 +117,18 @@ const DataTable = ({ id, data, headers, FeaturePlaceholder, selections, inputs, 
     filter(data, filterOptions)
   ,[data, filterOptions]);
 
+  const hasData = (data?.length ?? 0) > 0;
+  const hasResults = filteredData.length > 0;
+  const hasActiveFilters =
+    Object.keys(filterOptions).length > 0;
+
+  const pluralLabel = firstCharUppercase(id);
+  const singularLabel = removeLastS(pluralLabel);
+
+  const openCreateModal = () => {
+    dispatch({ type: "create" });
+  };
+
   const singleData = useMemo(() =>
     filter(filteredData, { _id: state.param })
   , [filteredData, state.param])
@@ -148,15 +159,21 @@ const DataTable = ({ id, data, headers, FeaturePlaceholder, selections, inputs, 
       dispatchModal: dispatch 
     }}>
       <main className={styles.dataTable}>
-        <div className={styles.workspace}>
-          {data?.length > 0 && <Sidebar />}
+        <div
+          className={`${styles.workspace} ${
+            hasData
+              ? styles.workspaceWithSidebar
+              : styles.workspaceWithoutSidebar
+          }`}
+        >
+          {hasData && <Sidebar />}
 
           <section className={styles.content}>
-            {filteredData?.length > 0 ? (
+            {hasResults ? (
               <div
                 className={styles.tableWrapper}
                 role="region"
-                aria-label={`${firstCharUppercase(id)} table`}
+                aria-label={`${pluralLabel} table`}
                 tabIndex={0}
               >
                 <Table
@@ -165,27 +182,25 @@ const DataTable = ({ id, data, headers, FeaturePlaceholder, selections, inputs, 
                 />
               </div>
             ) : (
-              <div className={styles.noData}>
-                <span>No entries yet. Press the “+” button.</span>
-
-                {allowed && (
-                  <ArrowDownThick
-                    className={styles.emptyArrow}
-                  />
-                )}
-
-                <EmptyBox className={styles.emptyBox} />
-              </div>
+              <EmptyState
+                isFiltered={hasData && hasActiveFilters}
+                allowed={allowed}
+                pluralLabel={pluralLabel}
+                singularLabel={singularLabel}
+                onClearFilters={() => setFilterOptions({})}
+                onCreate={openCreateModal}
+                styles={styles}
+              />
             )}
           </section>
 
-          {allowed && (
+          {allowed && hasResults && (
             <CreateButton
-              onClick={() => dispatch({ type: "create" })}
+              onClick={openCreateModal}
               styles={styles}
-              label={`Create new ${removeLastS(firstCharUppercase(id))}`}
+              label={`Create new ${singularLabel}`}
             >
-              {`New ${firstCharUppercase(id)}`}
+              {`New ${singularLabel}`}
             </CreateButton>
           )}
 
@@ -201,6 +216,73 @@ const DataTable = ({ id, data, headers, FeaturePlaceholder, selections, inputs, 
     </main>
   )
 }
+
+const EmptyState = ({
+  isFiltered,
+  allowed,
+  pluralLabel,
+  singularLabel,
+  onClearFilters,
+  onCreate,
+  styles,
+}) => {
+  const title = isFiltered
+    ? `No matching ${pluralLabel.toLowerCase()}`
+    : `No ${pluralLabel.toLowerCase()} yet`;
+
+  const description = isFiltered
+    ? "Try clearing your filters or changing the selected options."
+    : allowed
+      ? `Create your first ${singularLabel.toLowerCase()} to get started.`
+      : "There are currently no entries available.";
+
+  return (
+    <div
+      className={styles.noData}
+      role="status"
+      aria-live="polite"
+    >
+      <div className={styles.emptyCard}>
+        <div className={styles.emptyIllustration}>
+          <EmptyBox className={styles.emptyBox} />
+        </div>
+
+        <div className={styles.emptyCopy}>
+          <h2>{title}</h2>
+          <p>{description}</p>
+        </div>
+
+        {(isFiltered || allowed) && (
+          <div className={styles.emptyActions}>
+            {isFiltered && (
+              <button
+                type="button"
+                className={styles.emptySecondaryButton}
+                onClick={onClearFilters}
+              >
+                Clear filters
+              </button>
+            )}
+
+            {allowed && (
+              <button
+                type="button"
+                className={styles.emptyPrimaryButton}
+                onClick={onCreate}
+              >
+                <Plus aria-hidden="true" />
+
+                <span>
+                  Create {singularLabel}
+                </span>
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const CreateButton = ({
   children,
