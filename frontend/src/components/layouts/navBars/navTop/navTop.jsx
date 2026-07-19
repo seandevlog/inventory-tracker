@@ -27,8 +27,6 @@ const NavTop = () => {
     bumpTokenRefresh
   } = useContext(AppContext); 
 
-  const { givenName } = profile ?? {};
-
   const [isMobileNavExpand, setIsMobileNavExpand] = useState(false);
   
   const handleLogout = () => {
@@ -40,12 +38,24 @@ const NavTop = () => {
   }
 
   useEffect(() => {
-    if (fetcher.state === 'idle' && fetcher.data?.success ) {
+    if (
+      fetcher.state === "idle" &&
+      fetcher.data?.success
+    ) {
       bumpTokenRefresh();
       bumpProfileRefresh();
-      navigate(0, { replace : true })
+
+      navigate(path.auth.absolute, {
+        replace: true,
+      });
     }
-  }, [fetcher, navigate])
+  }, [
+    fetcher.state,
+    fetcher.data,
+    bumpTokenRefresh,
+    bumpProfileRefresh,
+    navigate,
+  ]);
 
   const isManage = useMemo(() =>
     getTopLevelRoute(pathname) === path.manage.relative

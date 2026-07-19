@@ -1,182 +1,668 @@
+/* =========================
+   Authentication layout
+========================= */
+
 .wrapper {
+  box-sizing: border-box;
+
+  width: 100%;
   height: 100%;
+  min-width: 0;
+  min-height: 0;
+
   position: relative;
+
+  overflow: hidden;
+
+  background: var(--color-dark-1);
 }
 
-.auth {
-  width: 50%;
+/* =========================
+   Authentication panel
+========================= */
+
+.authPanel {
+  box-sizing: border-box;
+
+  width: min(100%, max(48%, 26rem));
   height: 100%;
+  min-width: 0;
+  min-height: 0;
+
+  position: relative;
+  z-index: 2;
+
+  /*
+    The outer panel controls the rounded shape.
+    The scrollbar is placed inside this boundary.
+  */
+  overflow: hidden;
+
+  border-radius: 0 1.5rem 1.5rem 0;
 
   background: white;
+
+  box-shadow:
+    3px 0 10px rgb(0 0 0 / 25%),
+    15px 0 40px rgb(0 0 0 / 30%);
+}
+
+/* =========================
+   Scroll container
+========================= */
+
+.authScroll {
+  box-sizing: border-box;
+
+  /*
+    Keep the scrollbar slightly away from the
+    rounded right edge of the panel.
+  */
+  width: calc(100% - 0.5rem);
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin-right: 0.5rem;
+
+  padding:
+    calc(
+      var(--navTop-height) +
+      clamp(1.75rem, 4vw, 3rem)
+    )
+    clamp(1.5rem, 5vw, 4rem)
+    clamp(2rem, 5vw, 4rem);
+
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
 
-  border-radius: 0 20px 20px 0;
-
-  position: absolute;
-  z-index: 101;
-
-  box-shadow: 2px 0 3px black, 5px 0 10px black;
-
-  direction: rtl;
+  overflow-x: hidden;
   overflow-y: auto;
+
+  overscroll-behavior-y: contain;
+  scrollbar-gutter: stable;
+  scroll-padding-top: calc(
+    var(--navTop-height) + 1rem
+  );
+
+  -webkit-overflow-scrolling: touch;
 }
 
-.auth > * {
-  direction: ltr;
+/* Firefox scrollbar */
+
+.authScroll {
+  scrollbar-width: thin;
+  scrollbar-color:
+    rgb(0 0 0 / 30%)
+    transparent;
 }
+
+/* Chromium/Safari scrollbar */
+
+.authScroll::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.authScroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.authScroll::-webkit-scrollbar-thumb {
+  border: 0.125rem solid transparent;
+  border-radius: 999px;
+
+  background:
+    rgb(0 0 0 / 30%);
+  background-clip: padding-box;
+}
+
+.authScroll::-webkit-scrollbar-thumb:hover {
+  background:
+    rgb(0 0 0 / 45%);
+  background-clip: padding-box;
+}
+
+/* =========================
+   Login/register content
+========================= */
+
+.authContent {
+  box-sizing: border-box;
+
+  width: min(100%, 30rem);
+  min-width: 0;
+  margin-inline: auto;
+
+  /*
+    Short forms are vertically centered.
+    Auto margins collapse to zero when the
+    register form is taller than the viewport.
+  */
+  margin-top: auto;
+  margin-bottom: auto;
+
+  flex: 0 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* =========================
+   Background image
+========================= */
 
 .backgroundImage {
-  height: 100%;
-  width: 60%;
   position: absolute;
+  inset: 0;
+  z-index: 1;
 
-  right: 0;
+  overflow: hidden;
 
-  z-index: 100;
+  background: var(--color-dark-1);
+}
+
+.backgroundImage::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgb(0 0 0 / 28%),
+      rgb(0 0 0 / 8%)
+    );
 }
 
 .backgroundImage > img {
-  height: 100%;
   width: 100%;
+  height: 100%;
 
-  object-fit: fill;
+  display: block;
 
-  filter: brightness(0.75) blur(2px);
+  object-fit: cover;
+  object-position: center;
+
+  filter:
+    brightness(0.72)
+    saturate(0.85);
+
+  transform: scale(1.02);
 }
 
-.auth > span:first-of-type > p {
-  color: var(--color-dark-1);
-}
+/* =========================
+   Headings
+========================= */
 
-.auth > h1 {
-  color: var(--color-dark-1);
+.heading {
   margin: 0;
+
+  color: var(--color-dark-1);
+
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 750;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+
+  overflow-wrap: anywhere;
 }
 
-.auth > h6 {
-  color: hsl(0, 4%, 5%);
-  margin: 1em 0;
+.subtitle {
+  margin:
+    0.65rem
+    0
+    clamp(1.5rem, 4vw, 2.25rem);
+
+  color: rgb(0 0 0 / 62%);
+
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
 }
 
-.auth > form {
-  margin: 0 auto;
-  width: 80%;
-  height: fit-content;
-  padding: 1em 0;
+/* =========================
+   Form
+========================= */
+
+.form {
+  box-sizing: border-box;
+
+  width: 100%;
+  min-width: 0;
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 0.25rem;
 }
 
-/* Button + link */
-
-.auth button,
-.auth > a {
-  border-radius: 32px;
-
-  font-weight: 700;
-  font-size: 1em;
-  padding: 0.5em 1em;
-
-  /* box-shadow: 0 2px 3px black, 0 5px 10px black; */
-}
-
-.auth button {
-  width: 100%;
-  margin: 0.75em auto 0;
-
-  background-color: var(--color-dark-1);
-  color: var(--color-1);
-}
-
-.auth button:hover {
-  background: var(--color-dark-3);
-  cursor: pointer;
-}
-
-.auth button:active {
-  transform: translateY(-10%);
-}
-
-.auth > a {
-  width: 80%;
-  text-align: center;
-  color: var(--color-2);
-  border: 2px solid var(--color-2);
-}
-
-.auth > a:hover {
-  cursor: pointer;
-  background: var(--color-dark-4);
-}
-
-/* Floating placeholder inputs */
+/* =========================
+   Floating-label inputs
+========================= */
 
 .inputWrapper {
-  position: relative;
-  margin: 0 auto 1rem auto;
+  box-sizing: border-box;
+
   width: 100%;
+  min-width: 0;
+  margin-bottom: 0.35rem;
 }
 
-.inputWrapper > input {
-  background: none;
-  border: 1px solid black;
-  border-radius: 8px;
-  outline: none;
+/*
+  Only the input and label belong inside this
+  wrapper. The error message stays outside it.
+*/
+.inputControl {
+  box-sizing: border-box;
+
+  width: 100%;
+  min-width: 0;
+
+  position: relative;
+}
+
+.inputControl > input {
+  box-sizing: border-box;
+
+  width: 100%;
+  min-width: 0;
+  height: 3rem;
+  padding:
+    0
+    0.9rem;
+
   appearance: none;
 
-  font-size: 1rem;
-  padding: 0.5em 0.7em;
+  border: 1px solid rgb(0 0 0 / 45%);
+  border-radius: 0.65rem;
+  outline: none;
+
   color: black;
-  font-weight: 500;
-
-  height: auto;
-  width: 100%;
-}
-
-.inputWrapper > label {
-  position: absolute;
-  left: 0.7em;
-  top: 0.5em;
-
-  font-size: 1rem;
-  color: gray;
-  font-weight: 500;
-
-  transition: all 150ms ease;
-  pointer-events: none;
-}
-
-.active > label {
-  top: -0.9em;
-  transform: none;
-
-  font-size: 0.85rem;
-  padding: 0 0.35em;
-
   background: white;
+
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: normal;
+
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.inputControl > input:hover {
+  border-color: rgb(0 0 0 / 75%);
+}
+
+.inputControl > input:focus {
+  border-color: var(--color-dark-1);
+
+  box-shadow:
+    0 0 0 3px rgb(0 0 0 / 10%);
+}
+
+.inputControl > input[aria-invalid="true"] {
+  border-color: #c62828;
+}
+
+.inputControl > input[aria-invalid="true"]:focus {
+  box-shadow:
+    0 0 0 3px rgb(198 40 40 / 15%);
+}
+
+/*
+  The label is centered relative to .inputControl,
+  not the input plus validation-message area.
+*/
+.inputControl > label {
+  box-sizing: border-box;
+
+  max-width: calc(100% - 1.4rem);
+  padding-inline: 0.3rem;
+
+  position: absolute;
+  top: 50%;
+  left: 0.6rem;
+
+  color: rgb(0 0 0 / 55%);
+  background: white;
+
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
+
+  transform: translateY(-50%);
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  pointer-events: none;
+  user-select: none;
+
+  transition:
+    top 150ms ease,
+    color 150ms ease,
+    font-size 150ms ease,
+    transform 150ms ease;
+}
+
+/* Floating label */
+
+.inputControl > input:focus + label,
+.inputControl > input:not(:placeholder-shown) + label,
+.inputControl > input:-webkit-autofill + label {
+  top: 0;
+
   color: black;
+
+  font-size: 0.8rem;
+
+  transform: translateY(-50%);
 }
 
-.inputWrapper > span {
+/* Validation message */
+
+.inputError {
+  box-sizing: border-box;
+
   display: block;
-  height: 1rem;
-  font-size: 0.875rem;
-  color: red;
-  padding-left: 0.7em;
+
+  min-height: 1.35rem;
+  padding:
+    0.25rem
+    0.4rem
+    0;
+
+  color: #c62828;
+
+  font-size: 0.8rem;
+  line-height: 1.3;
+
+  overflow-wrap: anywhere;
 }
 
-@media (max-width: 570px) {
+/* =========================
+   Server error
+========================= */
+
+.formError {
+  width: 100%;
+  min-width: 0;
+  margin-block: 0.5rem;
+}
+
+.formError > * {
+  max-width: 100%;
+}
+
+/* =========================
+   Buttons
+========================= */
+
+.buttonStack {
+  width: 100%;
+
+  display: grid;
+  gap: 0.75rem;
+
+  margin-top: 0.25rem;
+}
+
+.primaryButton,
+.secondaryButton {
+  box-sizing: border-box;
+
+  width: 100%;
+  min-height: 3rem;
+  padding:
+    0.75rem
+    1.25rem;
+
+  border-radius: 999px;
+
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 750;
+
+  cursor: pointer;
+
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease,
+    transform 100ms ease,
+    opacity 150ms ease;
+}
+
+.primaryButton {
+  border: 1px solid var(--color-dark-1);
+
+  color: var(--color-1);
+  background: var(--color-dark-1);
+
+  box-shadow:
+    0 2px 4px rgb(0 0 0 / 18%),
+    0 7px 16px rgb(0 0 0 / 18%);
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: var(--color-dark-3);
+}
+
+.secondaryButton {
+  border: 1px solid rgb(0 0 0 / 25%);
+
+  color: var(--color-dark-1);
+  background: white;
+}
+
+.secondaryButton:hover:not(:disabled) {
+  border-color: var(--color-dark-1);
+  background: rgb(0 0 0 / 4%);
+}
+
+.primaryButton:active:not(:disabled),
+.secondaryButton:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.primaryButton:focus-visible,
+.secondaryButton:focus-visible {
+  outline: 3px solid var(--color-1);
+  outline-offset: 2px;
+}
+
+.primaryButton:disabled,
+.secondaryButton:disabled {
+  opacity: 0.55;
+
+  cursor: not-allowed;
+}
+
+/* =========================
+   Login/register switch link
+========================= */
+
+.switchLink {
+  width: 100%;
+  margin-top: 1rem;
+
+  text-align: center;
+}
+
+.switchLink a {
+  box-sizing: border-box;
+
+  width: 100%;
+  min-height: 3rem;
+  padding:
+    0.75rem
+    1.25rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid var(--color-dark-1);
+  border-radius: 999px;
+
+  color: var(--color-dark-1);
+  background: transparent;
+
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+
+  transition:
+    color 150ms ease,
+    background 150ms ease,
+    transform 100ms ease;
+}
+
+.switchLink a:hover {
+  color: var(--color-1);
+  background: var(--color-dark-1);
+}
+
+.switchLink a:active {
+  transform: translateY(1px);
+}
+
+.switchLink a:focus-visible {
+  outline: 3px solid var(--color-1);
+  outline-offset: 2px;
+}
+
+/* =========================
+   Tablet
+========================= */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .authPanel {
+    width: min(100%, max(58%, 24rem));
+
+    border-radius:
+      0
+      1.25rem
+      1.25rem
+      0;
+  }
+
+  .authScroll {
+    padding:
+      calc(
+        var(--navTop-height) +
+        1.75rem
+      )
+      clamp(1.5rem, 4vw, 3rem)
+      2.5rem;
+  }
+}
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 767px) {
+  .wrapper {
+    background: white;
+  }
+
   .backgroundImage {
     display: none;
   }
 
-  .auth {
-    border-radius: 0;
+  .authPanel {
     width: 100%;
+    height: 100%;
+
+    border-radius: 0;
+
+    box-shadow: none;
+  }
+
+  .authScroll {
+    width: 100%;
+    margin-right: 0;
+
+    padding:
+      calc(
+        var(--navTop-height-mobile) +
+        1.5rem
+      )
+      1.25rem
+      max(
+        2rem,
+        env(safe-area-inset-bottom, 0px)
+      );
+
+    scrollbar-gutter: auto;
+  }
+
+  .authContent {
+    width: min(100%, 30rem);
+  }
+
+  .heading {
+    font-size: clamp(2rem, 10vw, 2.65rem);
+  }
+}
+
+/* =========================
+   Small phones
+========================= */
+
+@media (max-width: 420px) {
+  .authScroll {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  .inputControl > input {
+    height: 2.875rem;
+
+    font-size: 0.95rem;
+  }
+
+  .inputControl > label {
+    font-size: 0.95rem;
+  }
+
+  .inputControl > input:focus + label,
+  .inputControl > input:not(:placeholder-shown) + label,
+  .inputControl > input:-webkit-autofill + label {
+    font-size: 0.78rem;
+  }
+
+  .primaryButton,
+  .secondaryButton,
+  .switchLink a {
+    min-height: 2.875rem;
+  }
+}
+
+/* =========================
+   Short desktop/tablet screens
+========================= */
+
+@media (max-height: 650px) and (min-width: 768px) {
+  .authContent {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+/* =========================
+   Reduced motion
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .inputControl > input,
+  .inputControl > label,
+  .primaryButton,
+  .secondaryButton,
+  .switchLink a {
+    transition: none;
   }
 }

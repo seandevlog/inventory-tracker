@@ -1,6 +1,17 @@
-import { useReducer, useState } from "react";
-import { Form, useActionData, useOutletContext } from "react-router-dom";
-import { userSchema } from "@my-org/shared/validators";
+import {
+  useMemo,
+  useReducer,
+} from "react";
+import {
+  Form,
+  useActionData,
+  useNavigation,
+  useOutletContext,
+} from "react-router-dom";
+
+import {
+  userSchema,
+} from "@my-org/shared/validators";
 
 import ErrorBox from "@components/ui/errorBox/errorBox";
 import RedirectLink from "@components/ui/redirect/redirect";
@@ -8,109 +19,313 @@ import RedirectLink from "@components/ui/redirect/redirect";
 import userInputs from "@features/manage/users/inputs";
 
 import config from "@config";
+
 const { path } = config;
 
-const inputReducer = {};
-const filteredInputs = userInputs.filter(
-  ({ id }) =>
-    id !== "isActive" &&
-    id !== "role" &&
-    id !== "createdAt" &&
-    id !== "updatedAt"
-);
+const excludedInputIds =
+  new Set([
+    "_id",
+    "isActive",
+    "role",
+    "createdBy",
+    "createdAt",
+    "updatedAt",
+  ]);
 
-const reducer = (state, action) => {
-  const { error } = state.schema.validate(action.value);
-  if (typeof error !== "undefined")
-    return {
-      ...state,
-      input: action.value,
-      errorMessage: error?.message,
-    };
-  return {
-    ...state,
-    input: action.value,
-    errorMessage: "",
-  };
+const filteredInputs =
+  userInputs.filter(
+    ({ id }) =>
+      !excludedInputIds.has(id)
+  );
+
+const createInitialState = () =>
+  Object.fromEntries(
+    filteredInputs.map(
+      ({ id }) => [
+        id,
+        {
+          value: "",
+          errorMessage: "",
+        },
+      ]
+    )
+  );
+
+const formatLabel = (
+  value
+) =>
+  String(value)
+    .replace(
+      /([a-z])([A-Z])/g,
+      "$1 $2"
+    )
+    .replace(
+      /^./,
+      (character) =>
+        character.toUpperCase()
+    );
+
+const getValidationMessage = (
+  schema,
+  value
+) => {
+  const { error } =
+    schema.validate(value);
+
+  return error?.message ?? "";
+};
+
+const reducer = (
+  state,
+  action
+) => {
+  switch (action.type) {
+    case "CHANGE_INPUT": {
+      const {
+        id,
+        value,
+        schema,
+      } = action;
+
+      return {
+        ...state,
+        [id]: {
+          value,
+          errorMessage:
+            getValidationMessage(
+              schema,
+              value
+            ),
+        },
+      };
+    }
+
+    case "VALIDATE_ALL": {
+      return Object.fromEntries(
+        Object.entries(state).map(
+          ([id, field]) => [
+            id,
+            {
+              ...field,
+              errorMessage:
+                getValidationMessage(
+                  action.schemas[id],
+                  field.value
+                ),
+            },
+          ]
+        )
+      );
+    }
+
+    default:
+      return state;
+  }
 };
 
 const Register = () => {
-  const { classes } = useOutletContext();
+  const { classes } =
+    useOutletContext();
 
-  const actionData = useActionData();
-  const { error: submitError } = actionData ?? {};
+  const actionData =
+    useActionData();
 
-  const [focused, setFocused] = useState(null);
+  const navigation =
+    useNavigation();
 
-  filteredInputs.map(
-    ({ id }) =>
-      (inputReducer[id] = useReducer(reducer, {
-        errorMessage: "",
-        input: "",
-        schema: userSchema.extract(id),
-      }))
+  const [formState, dispatch] =
+    useReducer(
+      reducer,
+      undefined,
+      createInitialState
+    );
+
+  const schemas = useMemo(
+    () =>
+      Object.fromEntries(
+        filteredInputs.map(
+          ({ id }) => [
+            id,
+            userSchema.extract(id),
+          ]
+        )
+      ),
+    []
   );
 
-  const handleInput = (event, dispatch) => {
-    dispatch({ value: event.target.value });
+  const submitError =
+    actionData?.error;
+
+  const isSubmitting =
+    navigation.state ===
+    "submitting";
+
+  const handleChange = (
+    id,
+    value
+  ) => {
+    dispatch({
+      type: "CHANGE_INPUT",
+      id,
+      value,
+      schema: schemas[id],
+    });
   };
 
-  const handleClick = () => {
-    filteredInputs.map(({ id }) => {
-      if (!inputReducer[id][0].input && !inputReducer[id][0].errorMessage) {
-        inputReducer[id][1]({ value: inputReducer[id][0].input });
-      }
+  const handleSubmit = (
+    event
+  ) => {
+    const hasErrors =
+      Object.entries(
+        formState
+      ).some(([id, field]) =>
+        Boolean(
+          schemas[id].validate(
+            field.value
+          ).error
+        )
+      );
+
+    dispatch({
+      type: "VALIDATE_ALL",
+      schemas,
     });
-    return;
+
+    if (hasErrors) {
+      event.preventDefault();
+    }
   };
 
   return (
     <>
-      <h1>Who are you?</h1>
-      <h6>Please enter your details</h6>
+      <h1
+        className={
+          classes.heading
+        }
+      >
+        Create an account
+      </h1>
 
-      <Form method="post">
-        {filteredInputs.map(({ id, type, autoComplete, label }) => {
-          const state = inputReducer[id][0];
-          const dispatch = inputReducer[id][1];
-          const isActive = focused === id || !!state?.input;
+      <p
+        className={
+          classes.subtitle
+        }
+      >
+        Enter your details to
+        start managing your
+        inventory.
+      </p>
 
-          return (
-            <div
-              key={id}
-              className={`${classes.inputWrapper} ${
-                isActive ? classes.active : ""
-              }`}
-            >
-              <input
-                id={id}
-                name={id}
-                type={type}
-                autoComplete={autoComplete}
-                value={state?.input ?? ""}
-                onChange={(e) => handleInput(e, dispatch)}
-                onFocus={() => setFocused(id)}
-                onBlur={() => setFocused(null)}
-                required
-              />
+      <Form
+        method="post"
+        onSubmit={handleSubmit}
+        className={classes.form}
+        noValidate
+      >
+        {filteredInputs.map(
+          ({
+            id,
+            type = "text",
+            autoComplete,
+            label,
+          }) => {
+            const field =
+              formState[id];
 
-              <label htmlFor={id}>Enter {label}</label>
+            const displayLabel =
+              label ??
+              formatLabel(id);
 
-              <span>{state?.errorMessage}</span>
-            </div>
-          );
-        })}
+            const errorId =
+              `${id}-error`;
 
-        {submitError ? <ErrorBox>{submitError}</ErrorBox> : null}
+            return (
+              <div className={classes.inputWrapper}>
+                <div className={classes.inputControl}>
+                  <input
+                    id={id}
+                    name={id}
+                    type={type}
+                    autoComplete={autoComplete}
+                    value={field.value}
+                    placeholder=" "
+                    onChange={(event) =>
+                      handleChange(id, event.target.value)
+                    }
+                    aria-invalid={Boolean(
+                      field.errorMessage
+                    )}
+                    aria-describedby={errorId}
+                  />
 
-        <button type="submit" onClick={handleClick}>
-          Register
-        </button>
+                  <label htmlFor={id}>
+                    {label}
+                  </label>
+                </div>
+
+                <span
+                  id={errorId}
+                  className={classes.inputError}
+                  role={
+                    field.errorMessage
+                      ? "alert"
+                      : undefined
+                  }
+                >
+                  {field.errorMessage}
+                </span>
+              </div>
+            );
+          }
+        )}
+
+        {submitError && (
+          <div
+            className={
+              classes.formError
+            }
+          >
+            <ErrorBox>
+              {submitError}
+            </ErrorBox>
+          </div>
+        )}
+
+        <div
+          className={
+            classes.buttonStack
+          }
+        >
+          <button
+            type="submit"
+            className={
+              classes.primaryButton
+            }
+            disabled={
+              isSubmitting
+            }
+          >
+            {isSubmitting
+              ? "Creating account..."
+              : "Register"}
+          </button>
+        </div>
       </Form>
 
-      <RedirectLink url={path.auth.absolute}>
-        I already have an account
-      </RedirectLink>
+      <div
+        className={
+          classes.switchLink
+        }
+      >
+        <RedirectLink
+          url={
+            path.auth.absolute
+          }
+        >
+          I already have an
+          account
+        </RedirectLink>
+      </div>
     </>
   );
 };
