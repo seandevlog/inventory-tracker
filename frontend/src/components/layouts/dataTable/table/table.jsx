@@ -2,7 +2,6 @@ import {
   useContext,
   useState,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { sortBy, orderBy } from 'lodash';
 import styles from './table.module.css';
 import HeaderSort from './headerSort/headerSort';
@@ -12,8 +11,6 @@ import sortOptions from './headerSort/headerSort.config';
 import DataTableContext from '@contexts/dataTable.context';
 
 const Table = ({ data, headers }) => {
-
-  const navigate = useNavigate();
 
   const { dispatchModal } = useContext(DataTableContext);
 

@@ -1,27 +1,53 @@
-const Modal = ({ isVisible, setVisibility, children, styles }) => {
-  const handleWrapper = (event) => {
-    if (event.currentTarget === event.target) return setVisibility(false);
-  }
+import { useEffect } from "react";
+
+const Modal = ({
+  isVisible,
+  onClose,
+  children,
+  styles,
+}) => {
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        onClose?.();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener(
+        "keydown",
+        handleKeyDown
+      );
+    };
+  }, [isVisible, onClose]);
+
+  if (!isVisible) return null;
+
+  const handleBackdropClick = (event) => {
+    if (event.target === event.currentTarget) {
+      onClose?.();
+    }
+  };
 
   return (
-    <div 
+    <div
       className={styles.wrapper}
-      style={isVisible
-        ? undefined
-        : { display: 'none' }
-      }
-      onClick={handleWrapper}
+      onClick={handleBackdropClick}
     >
-      <div 
-        className={isVisible
-          ? styles.modal
-          : styles.hide
-        }
+      <div
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Data entry modal"
       >
         {children}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Modal;

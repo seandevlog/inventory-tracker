@@ -284,92 +284,149 @@
 .wrapper {
   box-sizing: border-box;
 
-  position: fixed;
+  position: absolute;
   inset: 0;
-  z-index: var(--z-modal);
+  z-index: 1000;
 
-  padding: clamp(1rem, 4vw, 3rem);
+  padding: clamp(1rem, 4vw, 2rem);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  overflow: hidden;
 
-  background: rgb(0 0 0 / 50%);
+  background: rgb(0 0 0 / 55%);
+  backdrop-filter: blur(2px);
 }
 
-/* ===== Modal ===== */
+/* ===== Modal container ===== */
 
 .modal {
   box-sizing: border-box;
 
   width: min(100%, 64rem);
-  max-height: min(90dvh, 56rem);
-  padding:
-    clamp(4rem, 8vw, 4.5rem)
-    clamp(1rem, 4vw, 2rem)
-    clamp(1rem, 4vw, 2rem);
+  max-width: 100%;
+  max-height: 100%;
+  min-width: 0;
+  min-height: 0;
 
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 
   position: relative;
 
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  overflow: hidden;
 
   background: white;
   border-radius: 1rem;
 
   box-shadow:
-    0 4px 6px rgb(0 0 0 / 40%),
-    0 10px 20px rgb(0 0 0 / 50%);
+    0 4px 8px rgb(0 0 0 / 35%),
+    0 16px 40px rgb(0 0 0 / 45%);
 }
 
 /* ===== Modal header ===== */
 
 .header {
+  box-sizing: border-box;
+
   width: 100%;
+  min-height: 4.5rem;
+  padding:
+    1rem
+    4.5rem
+    1rem
+    1.5rem;
+
+  flex: 0 0 auto;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  border-bottom: 1px solid rgb(0 0 0 / 12%);
+
+  background: white;
+
+  font-size: clamp(1.15rem, 3vw, 1.5rem);
   font-weight: 600;
+  line-height: 1.3;
   text-align: center;
+}
+
+.header > header {
+  max-width: 100%;
+  margin: 0;
+
+  overflow-wrap: anywhere;
+}
+
+/* ===== Scrollable modal body ===== */
+
+.modalBody {
+  box-sizing: border-box;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding:
+    clamp(1rem, 3vw, 2rem)
+    clamp(1rem, 4vw, 2rem)
+    clamp(1.25rem, 4vw, 2rem);
+
+  flex: 1 1 auto;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modalBody > * {
+  box-sizing: border-box;
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 /* ===== Close button ===== */
 
 .close {
+  box-sizing: border-box;
+
   width: 2.5rem;
   height: 2.5rem;
-  padding: 0.5rem;
+  padding: 0;
 
   position: absolute;
   top: 1rem;
   right: 1rem;
-  z-index: 2;
+  z-index: 5;
 
   border: 0;
   border-radius: 50%;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  place-items: center;
 
   background: transparent;
-
   cursor: pointer;
+
+  transition:
+    background 150ms ease,
+    transform 150ms ease;
 }
 
 .close:hover {
   background: var(--color-dark-1);
+}
+
+.close:active {
+  transform: scale(0.95);
 }
 
 .close:focus-visible {
@@ -378,29 +435,47 @@
 }
 
 .close svg {
+  display: block;
+
   width: 1.25rem;
   height: 1.25rem;
 
-  fill: var(--color-dark-1);
+  fill: none;
+  stroke: var(--color-dark-1);
+  stroke-width: 2;
+}
+
+.close svg path {
+  fill: none;
+  stroke: inherit;
 }
 
 .close:hover svg {
-  fill: var(--color-1);
+  stroke: var(--color-1);
 }
 
 /* ===== Tablet ===== */
 
 @media (max-width: 1024px) {
+  .wrapper {
+    padding: 1.25rem;
+  }
+
   .modal {
     width: min(100%, 48rem);
   }
 
-  .modal > form {
+  .modalBody > form {
+    box-sizing: border-box;
+
+    width: 100%;
+    min-width: 0;
+
     flex-direction: column;
     align-items: stretch;
   }
 
-  .modal > form > div:has(button) {
+  .modalBody > form > div:has(button) {
     width: 100%;
     max-width: 24rem;
     margin-inline: auto;
@@ -469,50 +544,123 @@
 
   .wrapper {
     padding:
-      1rem
-      1rem
-      calc(
-        1rem +
-        env(safe-area-inset-bottom, 0px)
-      );
+      0.75rem
+      0.75rem
+      0;
 
-    align-items: center;
+    justify-content: center;
+    align-items: flex-end;
   }
 
   .modal {
     width: 100%;
-    max-height: calc(
-      100dvh -
-      2rem -
-      env(safe-area-inset-bottom, 0px)
-    );
+    max-width: none;
 
+    /*
+      Leaves clickable backdrop visible above
+      and around the modal.
+    */
+    max-height: calc(100% - 1.5rem);
+
+    border-radius: 1rem 1rem 0 0;
+  }
+
+  .header {
+    min-height: 4rem;
     padding:
+      0.875rem
       4rem
-      1rem
+      0.875rem
       1rem;
 
-    border-radius: 0.75rem;
+    font-size: clamp(1.1rem, 5vw, 1.3rem);
+  }
+
+  .close {
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+
+  .modalBody {
+    padding: 1rem;
+
+    scrollbar-gutter: auto;
+  }
+
+  .modalBody > form {
+    box-sizing: border-box;
+
+    width: 100%;
+    min-width: 0;
+  }
+
+  .modalBody input,
+  .modalBody select,
+  .modalBody textarea,
+  .modalBody button {
+    box-sizing: border-box;
+
+    max-width: 100%;
   }
 }
 
-/* ===== Very small screens ===== */
+/* ===== Small phones ===== */
 
 @media (max-width: 380px) {
-  .noData > span {
-    font-size: 0.95rem;
-  }
-
-  .emptyBox {
-    width: 4rem;
-  }
-
-  .emptyArrow {
-    display: none;
+  .wrapper {
+    padding:
+      0.5rem
+      0.5rem
+      0;
   }
 
   .modal {
-    padding-inline: 0.75rem;
+    max-height: calc(100% - 1rem);
+  }
+
+  .header {
+    padding-left: 0.75rem;
+    padding-right: 3.75rem;
+
+    font-size: 1.05rem;
+  }
+
+  .modalBody {
+    padding: 0.75rem;
+  }
+
+  .close {
+    right: 0.5rem;
+  }
+}
+
+/* ===== Landscape phones ===== */
+
+@media (max-width: 767px) and (orientation: landscape) {
+  .wrapper {
+    padding:
+      0.5rem
+      0.75rem
+      0;
+  }
+
+  .modal {
+    max-height: calc(100% - 0.75rem);
+
+    border-radius: 0.75rem 0.75rem 0 0;
+  }
+
+  .header {
+    min-height: 3.5rem;
+    padding-block: 0.65rem;
+  }
+
+  .close {
+    top: 0.5rem;
+  }
+
+  .modalBody {
+    padding-top: 0.75rem;
   }
 }
 
@@ -525,6 +673,11 @@
 
   .create > button,
   .create > div {
+    transition: none;
+  }
+
+  .close,
+  .close svg {
     transition: none;
   }
 }

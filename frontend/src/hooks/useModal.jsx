@@ -1,26 +1,28 @@
-import { useState, useMemo } from "react"
+import { useState } from "react";
 
 import Modal from "@components/ui/modal/modal";
 
-const useModal = (styles) => {
-  const [isVisible, setVisibility] = useState(false);
+const useModal = ({
+  styles,
+  isVisible,
+  onClose,
+}) => {
   const [content, setContent] = useState(null);
-  
-  const Component = useMemo(() => {
-    return () => {
-      return (
-        <Modal
-          setVisibility={setVisibility}
-          isVisible={isVisible}
-          styles={styles}
-        >
-          {content}
-        </Modal>
-      )
-    }
-  }, [isVisible, content, styles])
 
-  return { setContent, setVisibility, Component }
-}
+  const modal = (
+    <Modal
+      isVisible={isVisible}
+      onClose={onClose}
+      styles={styles}
+    >
+      {content}
+    </Modal>
+  );
+
+  return {
+    setContent,
+    modal,
+  };
+};
 
 export default useModal;

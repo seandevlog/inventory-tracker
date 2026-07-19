@@ -68,40 +68,51 @@ const DataTable = ({ id, data, headers, FeaturePlaceholder, selections, inputs, 
   const { profile } = useContext(AppContext);
   const { role } = profile || {};
 
+  const [state, dispatch] = useReducer(reducer, {
+    id,
+    show: false,
+    title: null,
+    Form: null,
+  });
+
+  const closeModal = () => {
+    dispatch({ type: "close" });
+  };
+
   const {
     setContent,
-    Component: Modal,
-    setVisibility
-  } = useModal(styles)
+    modal,
+  } = useModal({
+    styles,
+    isVisible: state.show,
+    onClose: closeModal,
+  });
 
   const [filterOptions, setFilterOptions] = useState({});
 
-  const [state, dispatch] = useReducer(reducer, {
-    id, show: false, title: null, Form: null 
-  })
-
   useEffect(() => {
-    setContent(() =>
+    setContent(
       <>
-        <CloseButton 
-          onClick={() => setVisibility(false)}
+        <CloseButton
+          onClick={closeModal}
           styles={styles}
         />
+
         <ModalHeader
           title={state.title}
           styles={styles}
         />
-        {state.Form !== null 
-          ? <state.Form/> 
-          : null
-        }
+
+        <div className={styles.modalBody}>
+          {state.Form ? <state.Form /> : null}
+        </div>
       </>
     );
-  }, [setContent, state.Form, state.title, setVisibility, styles]);
-
-  useEffect(() => {
-    setVisibility(state.show)
-  }, [state, setVisibility])
+  }, [
+    setContent,
+    state.Form,
+    state.title,
+  ]);
 
   const filteredData = useMemo(() =>
     filter(data, filterOptions)
@@ -178,7 +189,7 @@ const DataTable = ({ id, data, headers, FeaturePlaceholder, selections, inputs, 
             </CreateButton>
           )}
 
-          <Modal />
+          {modal}
         </div>
       </main>
     </DataTableContext.Provider>
