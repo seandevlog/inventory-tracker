@@ -1,104 +1,159 @@
-import { useRef, useEffect, useState, useContext, useMemo } from "react";
+import {
+  useContext,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useParams } from "react-router-dom";
-import { filter } from "lodash";
 
 import styles from "./imageUpload.module.css";
+
 import ErrorBox from "@components/ui/errorBox/errorBox";
 import DataTableContext from "@contexts/dataTable.context";
 
-const ALLOWED_TYPES = new Set(["image/png", "image/jpg", "image/jpeg"]);
+const ALLOWED_TYPES = new Set([
+  "image/png",
+  "image/jpeg",
+]);
 
 const ImageUpload = ({
-  disabled = false, ImagePlaceholder, defaultUrl, mode = "edit", // "create" | "edit" | "view"
+  disabled = false,
+  ImagePlaceholder,
+  defaultUrl = "",
+  defaultPublicId = "",
+  mode = "edit",
 }) => {
+  const inputId = useId();
+  const fileInputRef = useRef(null);
+
   const params = useParams();
-  const paramId = params ? Object.values(params)?.[0] : "";
+  const paramId = Object.values(params ?? {})[0] ?? "";
 
   const { groupData } = useContext(DataTableContext);
 
-  const matched = useMemo(() => {
-    if (!groupData?.length || !paramId) return [];
-    return filter(groupData, { _id: paramId });
-  }, [groupData, paramId]);
+  const matchedRow = useMemo(
+    () =>
+      (groupData ?? []).find(
+        (entry) => entry?._id === paramId
+      ),
+    [groupData, paramId]
+  );
 
   const existingUrl =
-    defaultUrl ??
-    matched?.[0]?.feature?.url ??
+    defaultUrl ||
+    matchedRow?.feature?.url ||
     "";
 
   const existingPublicId =
-    matched?.[0]?.feature?.public_id ?? "";
+    defaultPublicId ||
+    matchedRow?.feature?.public_id ||
+    "";
 
-  const [previewUrl, setPreviewUrl] = useState("");
-  const [errorBox, setErrorBox] = useState(false);
+  const [previewUrl, setPreviewUrl] =
+    useState("");
+  const [error, setError] = useState("");
 
-  const fileInputRef = useRef(null);
-
-  const isReadOnly = mode === "view" || disabled;
+  const isReadOnly =
+    mode === "view" || disabled;
 
   const shownUrl = previewUrl || existingUrl;
 
   const handleFeature = (event) => {
     const file = event.target.files?.[0];
+
     if (!file) return;
 
     if (!ALLOWED_TYPES.has(file.type)) {
-      setErrorBox(true);
-      if (fileInputRef.current) fileInputRef.current.value = "";
+      setError(
+        "Only PNG, JPG, and JPEG files are accepted."
+      );
+
+      event.target.value = "";
       return;
     }
 
-    setErrorBox(false);
-
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
-
-    const nextPreview = URL.createObjectURL(file);
-    setPreviewUrl(nextPreview);
+    setError("");
+    setPreviewUrl(URL.createObjectURL(file));
   };
 
   useEffect(() => {
-    if (previewUrl) {
-      URL.revokeObjectURL(previewUrl);
-      setPreviewUrl("");
+    setPreviewUrl("");
+    setError("");
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
-    setErrorBox(false);
-    if (fileInputRef.current) fileInputRef.current.value = "";
   }, [existingUrl]);
 
   useEffect(() => {
     return () => {
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
     };
   }, [previewUrl]);
 
   return (
     <fieldset className={styles.feature}>
-      <legend></legend>
+      <legend className={styles.srOnly}>
+        Feature image
+      </legend>
 
-      {shownUrl ? <img src={shownUrl} alt="Feature" /> : <ImagePlaceholder />}
+      <div className={styles.preview}>
+        {shownUrl ? (
+          <img
+            src={shownUrl}
+            alt="Feature preview"
+          />
+        ) : ImagePlaceholder ? (
+          <ImagePlaceholder />
+        ) : (
+          <span className={styles.emptyPreview}>
+            No image
+          </span>
+        )}
+      </div>
 
       {!isReadOnly && (
         <div className={styles.fileInput}>
-          <label htmlFor="feature">Upload File</label>
+          <button
+            type="button"
+            className={styles.uploadButton}
+            onClick={() =>
+              fileInputRef.current?.click()
+            }
+          >
+            {shownUrl
+              ? "Change image"
+              : "Upload image"}
+          </button>
+
           <input
-            id="feature"
+            id={inputId}
             type="file"
             name="feature"
-            accept="image/png,image/jpeg,image/jpg"
+            accept=".png,.jpg,.jpeg,image/png,image/jpeg"
             onChange={handleFeature}
             ref={fileInputRef}
           />
         </div>
       )}
 
-      <input
-        type="hidden"
-        name="public_id"
-        value={existingPublicId}
-        disabled={!existingPublicId}
-      />
+      {existingPublicId && (
+        <input
+          type="hidden"
+          name="public_id"
+          value={existingPublicId}
+        />
+      )}
 
-      {errorBox && <ErrorBox>Only accepts PNG, JPG, JPEG</ErrorBox>}
+      {error && (
+        <div className={styles.uploadError}>
+          <ErrorBox>{error}</ErrorBox>
+        </div>
+      )}
     </fieldset>
   );
 };

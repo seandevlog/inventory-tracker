@@ -1,401 +1,583 @@
 .formRoot {
+  box-sizing: border-box;
+
   width: 100%;
-  position: relative;
+  min-width: 0;
 }
 
 .layout {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
   width: 100%;
+  min-width: 0;
+
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2rem);
 }
 
 .main {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 1.5rem;
   width: 100%;
+  min-width: 0;
+
+  display: grid;
+  grid-template-columns:
+    minmax(14rem, 18rem)
+    minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(1.25rem, 3vw, 2rem);
 }
 
 .feature {
-  flex: 1;
-  display: flex;
-  justify-content: center;
+  width: 100%;
+  min-width: 0;
 }
 
 .fields {
-  flex: 3;
+  box-sizing: border-box;
+
   width: 100%;
-  border: 0;
-  padding: 0;
+  min-width: 0;
   margin: 0;
+  padding: 0;
+
+  position: relative;
+
+  border: 0;
 }
 
-.form > div {
-  height: fit-content;
+.fieldsWithNavigate {
+  padding-top: 3.25rem;
+}
+
+.fieldsContent {
   width: 100%;
+  min-width: 0;
+}
+
+.textInputs {
+  width: 100%;
+  min-width: 0;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.25rem;
 }
 
 /* ===== Text inputs ===== */
+
 .input {
-  position: relative;
-  margin: 1em 0;
+  width: 100%;
+  min-width: 0;
+
+  display: grid;
+  gap: 0.4rem;
+
+  margin-bottom: 0.5rem;
+}
+
+.input > label,
+.selectLabel,
+.viewLabel {
+  min-width: 0;
+
+  color: black;
+
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.3;
+
+  overflow-wrap: anywhere;
 }
 
 .input > input {
-  background: none;
-  border: 1px solid black;
+  box-sizing: border-box;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: 0.65rem 0.75rem;
+
+  border: 1px solid rgb(0 0 0 / 55%);
   border-radius: 8px;
   outline: none;
+
   appearance: none;
 
-  font-size: 1rem;
-  padding: 0.7em;
   color: black;
-  font-weight: 500;
-
-  height: 2em;
-  width: 100%;
-
-  anchor-name: --input;
-}
-
-/* Create mode placeholder  */
-.placeholder {
-  position-anchor: --input;
-
-  position: absolute;
-  left: calc(anchor(left) + 0.7rem);
-  top: anchor(50%);
-  transform: translate(0, -50%);
-  font-weight: 500;
-
-  transition: all 150ms ease;
-}
-
-/* Edit mode labels & Create mode floating placeholder */
-.input > label,
-.floatPlaceholder {
-  position: absolute;
-  left: 0.9em;
-  top: -0.9em;
-
-  font-size: 0.85rem;
-  padding: 0 0.35em;
-
   background: white;
-  color: black;
-  font-weight: 500;
 
-  user-select: none;
+  font: inherit;
+  font-size: 1rem;
 
-  transition: all 150ms ease;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
 }
 
-/* Validation */
+.input > input:hover {
+  border-color: black;
+}
+
+.input > input:focus {
+  border-color: var(--color-dark-1);
+
+  box-shadow:
+    0 0 0 3px rgb(0 0 0 / 10%);
+}
+
+.input > input[aria-invalid="true"] {
+  border-color: #c62828;
+}
+
+/* ===== Validation ===== */
+
 .validationError {
   display: block;
-  height: 1rem;
-  font-size: 0.875rem;
-  color: red;
-  padding-left: 0.7em;
+
+  min-height: 1.1rem;
+  padding-inline: 0.25rem;
+
+  color: #c62828;
+
+  font-size: 0.8rem;
+  line-height: 1.3;
+
+  overflow-wrap: anywhere;
 }
 
 /* ===== Select inputs ===== */
+
+.option {
+  width: 100%;
+  min-width: 0;
+
+  display: grid;
+  grid-template-columns: repeat(
+    2,
+    minmax(0, 1fr)
+  );
+  gap: 1rem;
+}
+
 .selectInput {
+  width: 100%;
+  min-width: 0;
+
+  display: grid;
+  gap: 0.4rem;
+}
+
+.selectControl {
+  width: 100%;
+  min-width: 0;
+
   position: relative;
 }
 
-.selectInput > select {
-  appearance: none;
-  border: none;
-  border-bottom: 1px solid black;
+.selectControl > select {
+  box-sizing: border-box;
 
-  padding: 0 2em 0 0.3em;
   width: 100%;
-  text-overflow: ellipsis;
-  line-height: 2em;
-  font-size: 1rem;
-  background: transparent;
-}
+  min-width: 0;
+  min-height: 2.75rem;
+  padding:
+    0.65rem
+    2.75rem
+    0.65rem
+    0.75rem;
 
-.selectInput > span > svg {
-  width: 1em;
-  height: 1em;
-}
-
-.selectInput > span:first-of-type {
-  position: absolute;
-  right: 1em;
-  top: 0;
-  transform: translateY(50%);
-}
-
-.selectInput > select:hover,
-.selectInput > span:hover {
-  cursor: pointer;
-}
-
-/* Options row container */
-.option {
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5em;
-
-  height: fit-content;
-}
-
-.option > div {
-  display: block;
-  height: inherit;
-  margin-top: 0.5em;
-  flex: 0 0 calc(50% - 0.5em);
-}
-
-/* ===== Info rows + CreatedBy ===== */
-.info > span > p,
-.createdBy > span > p {
-  margin: 0;
-}
-
-.info,
-.createdBy {
-  display: flex;
-  gap: 0.8em;
-  justify-content: flex-start;
-
-  padding-top: 1em;
-  user-select: none;
-}
-
-.info > span:first-of-type,
-.createdBy > span {
-  font-weight: 500;
-}
-
-/* createdBy input */
-.createdBy > input {
-  border: 0;
   appearance: none;
+
+  border: 1px solid rgb(0 0 0 / 55%);
+  border-radius: 8px;
   outline: none;
-  user-select: none;
-  background: transparent;
+
+  color: black;
+  background: white;
+
+  font: inherit;
+  font-size: 1rem;
+
+  cursor: pointer;
+
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
 }
 
-/* =========================
-   Navigate button
-========================= */
+.selectControl > select:hover {
+  border-color: black;
+}
+
+.selectControl > select:focus {
+  border-color: var(--color-dark-1);
+
+  box-shadow:
+    0 0 0 3px rgb(0 0 0 / 10%);
+}
+
+.selectControl > select[aria-invalid="true"] {
+  border-color: #c62828;
+}
+
+.selectArrow {
+  width: 1.25rem;
+  height: 1.25rem;
+
+  position: absolute;
+  top: 50%;
+  right: 0.85rem;
+
+  display: grid;
+  place-items: center;
+
+  transform: translateY(-50%);
+
+  pointer-events: none;
+}
+
+.selectArrow svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== Navigate button ===== */
+
 .navigateButton {
+  box-sizing: border-box;
+
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+
   position: absolute;
   top: 0;
   right: 0;
-  transform: translateY(-100%);
-  background: none;
-  border: none;
-  border-radius: 16px;
+
+  border: 0;
+  border-radius: 50%;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--color-dark-1);
+  background: transparent;
+
+  cursor: pointer;
+
+  transition:
+    background 150ms ease,
+    transform 150ms ease;
 }
 
 .navigateButton:hover {
   background: var(--color-dark-1);
-  cursor: pointer;
+}
+
+.navigateButton:active {
+  transform: scale(0.95);
+}
+
+.navigateButton:focus-visible {
+  outline: 2px solid var(--color-1);
+  outline-offset: 2px;
 }
 
 .navigateButton > svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0;
+
   fill: var(--color-dark-1);
-  margin: 1rem;
 }
 
 .navigateButton:hover > svg {
   fill: var(--color-1);
 }
 
-/* =========================
-   View mode rows
-========================= */
+/* ===== View mode ===== */
+
+.viewGrid {
+  width: 100%;
+  min-width: 0;
+
+  display: grid;
+  grid-template-columns: repeat(
+    2,
+    minmax(0, 1fr)
+  );
+  gap: 1rem;
+
+  margin-bottom: 1rem;
+}
+
 .viewInput,
 .viewSelect {
-  position: relative;
-  margin: 1em 0 2em 0;
+  min-width: 0;
+
+  display: grid;
+  gap: 0.4rem;
 }
 
-/* label positioned like floating label */
-.viewLabel {
-  position: absolute;
-  left: 0.9em;
-  top: -0.9em;
-
-  font-size: 0.85rem;
-  padding: 0 0.35em;
-
-  display: inline-block;
-  max-width: calc(100% - 0.9em);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  background: white;
-  color: black;
-  font-weight: 500;
-  user-select: none;
-}
-
-/* value box matches input styling */
 .viewValue {
-  border: 1px solid black;
+  box-sizing: border-box;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: 0.65rem 0.75rem;
+
+  display: flex;
+  align-items: center;
+
+  border: 1px solid rgb(0 0 0 / 40%);
   border-radius: 8px;
+
+  color: black;
+  background: rgb(0 0 0 / 2%);
 
   font-size: 1rem;
   font-weight: 500;
-  color: black;
+  line-height: 1.4;
 
-  display: flex;
-  align-items: center;
-
-  padding: 0 0.7em;
-
-  height: 2em;
-  width: 100%;
-
-  min-width: 0;              
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
-.viewSelect .viewValue {
-  border: none;
-  border-bottom: 1px solid black;
-  border-radius: 0;
-
-  padding: 0 2em 0 0.3em;
-  line-height: 2em;
-  height: 2em;
-}
-
-/* empty state */
 .viewEmpty {
-  color: gray;
+  color: #777;
   font-style: italic;
+  font-weight: 400;
 }
 
-/* =========================
-   Footer (Error + Buttons)
-========================= */
+/* ===== Metadata ===== */
+
+.metaSection {
+  width: 100%;
+  min-width: 0;
+  margin-top: 1rem;
+  padding-top: 1rem;
+
+  display: grid;
+  gap: 0.75rem;
+
+  border-top: 1px solid rgb(0 0 0 / 12%);
+}
+
+.metaRow {
+  width: 100%;
+  min-width: 0;
+
+  display: grid;
+  grid-template-columns:
+    minmax(7rem, 0.35fr)
+    minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.metaLabel {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.metaValue {
+  min-width: 0;
+
+  font-size: 0.875rem;
+  line-height: 1.45;
+
+  overflow-wrap: anywhere;
+}
+
+/* ===== Footer ===== */
 
 .footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
   width: 100%;
+  min-width: 0;
+  padding-top: 1rem;
+
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+
+  border-top: 1px solid rgb(0 0 0 / 12%);
 }
 
 .errorBox {
-  display: flex;
-  justify-content: center;
-  width: min(520px, 100%);
+  width: min(100%, 32.5rem);
+  min-width: 0;
 }
 
 .actions {
+  width: min(100%, 32.5rem);
+  min-width: 0;
+
   display: flex;
+  justify-content: flex-end;
   gap: 1rem;
-  width: min(520px, 100%);
 }
 
-/* Primary button (Save) */
-.primaryBtn {
-  flex: 1;
+.primaryBtn,
+.dangerBtn {
+  box-sizing: border-box;
 
+  min-width: 8rem;
+  min-height: 2.75rem;
+  padding: 0.75rem 1.25rem;
+
+  border: 0;
   border-radius: 8px;
-  background-color: var(--color-dark-1);
-  color: var(--color-1);
 
-  font-weight: 700;
+  font: inherit;
   font-size: 0.875rem;
-  padding: 1em;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 150ms ease,
+    transform 100ms ease,
+    opacity 150ms ease;
+}
+
+.primaryBtn {
+  color: var(--color-1);
+  background: var(--color-dark-1);
 
   box-shadow:
-    0 2px 3px rgba(0,0,0,0.3),
-    0 5px 10px rgba(0,0,0,0.4);
-
-  transition: background 150ms ease, transform 100ms ease;
+    0 2px 3px rgb(0 0 0 / 30%),
+    0 5px 10px rgb(0 0 0 / 25%);
 }
 
-.primaryBtn:hover {
+.primaryBtn:hover:not(:disabled) {
   background: var(--color-dark-3);
-  cursor: pointer;
 }
 
-.primaryBtn:active {
+.dangerBtn {
+  color: #a51d1d;
+  background: white;
+
+  border: 1px solid rgb(165 29 29 / 35%);
+
+  box-shadow:
+    0 2px 3px rgb(0 0 0 / 15%),
+    0 5px 10px rgb(0 0 0 / 15%);
+}
+
+.dangerBtn:hover:not(:disabled) {
+  background: #fff1f1;
+}
+
+.primaryBtn:active:not(:disabled),
+.dangerBtn:active:not(:disabled) {
   transform: translateY(2px);
 }
 
-.primaryBtn:disabled {
-  opacity: 0.6;
+.primaryBtn:focus-visible,
+.dangerBtn:focus-visible {
+  outline: 3px solid var(--color-1);
+  outline-offset: 2px;
+}
+
+.primaryBtn:disabled,
+.dangerBtn:disabled {
+  opacity: 0.55;
   cursor: not-allowed;
 }
 
-/* Secondary / Delete button */
-.dangerBtn {
-  flex: 1;
+.permissionMessage {
+  width: 100%;
+  padding: 2rem 1rem;
 
-  border-radius: 8px;
-  background: white;
-  color: gray;
-
-  font-weight: 700;
-  font-size: 0.875rem;
-  padding: 1em;
-
-  box-shadow:
-    0 2px 3px rgba(0,0,0,0.2),
-    0 5px 10px rgba(0,0,0,0.3);
-
-  transition: background 150ms ease, transform 100ms ease;
+  text-align: center;
+  line-height: 1.5;
 }
 
-.dangerBtn:hover {
-  background: #f5f5f5;
-  cursor: pointer;
+/* ===== Accessibility ===== */
+
+.srOnly {
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+
+  position: absolute;
+
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+
+  border: 0;
 }
 
-.dangerBtn:active {
-  transform: translateY(2px);
-}
+/* ===== Tablet ===== */
 
 @media (max-width: 1024px) {
   .main {
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .feature,
+  .feature {
+    width: min(100%, 20rem);
+    margin-inline: auto;
+  }
+
   .fields {
-    flex: unset;
-    width: 80%;
-  }
-
-  .option {
-    height: auto;
-  }
-
-  .option > div {
     width: 100%;
-    margin: 0.8em 0;
+  }
+}
+
+/* ===== Mobile ===== */
+
+@media (max-width: 767px) {
+  .layout {
+    gap: 1.25rem;
   }
 
-  .option > div > span > p {
-    text-align: center;
+  .main {
+    gap: 1.25rem;
   }
 
-  .viewInput,
-  .viewSelect {
-    width: 100%;
+  .feature {
+    width: min(100%, 16rem);
+  }
+
+  .fieldsWithNavigate {
+    padding-top: 3rem;
+  }
+
+  .option,
+  .viewGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .metaRow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem;
   }
 
   .actions {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .primaryBtn,
+  .dangerBtn {
+    width: 100%;
+  }
+}
+
+/* ===== Very small screens ===== */
+
+@media (max-width: 380px) {
+  .input > input,
+  .selectControl > select,
+  .viewValue {
+    font-size: 0.925rem;
+  }
+
+  .primaryBtn,
+  .dangerBtn {
+    min-height: 2.625rem;
+    padding-inline: 0.75rem;
   }
 }

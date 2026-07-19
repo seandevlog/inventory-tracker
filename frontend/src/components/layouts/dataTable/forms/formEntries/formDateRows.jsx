@@ -1,29 +1,55 @@
-const FormDateRows = ({ inputs, data, styles }) => {
+const FormDateRows = ({
+  inputs,
+  data,
+  styles,
+}) => {
   return (
     <>
-      {inputs?.map(({ id, type, label }) => {
-        if (type !== "date") return null;
+      {(inputs ?? []).map(
+        ({ id, type, label }) => {
+          if (type !== "date") return null;
 
-        const value = data?.[id];
+          const rawValue = data?.[id];
+          const date = rawValue
+            ? new Date(rawValue)
+            : null;
 
-        const display = value
-          ? new Date(value).toLocaleDateString(undefined, {
-              weekday: "long",
-              month: "long",
-              day: "2-digit",
-              year: "numeric",
-              minute: "2-digit",
-              hour: "2-digit",
-            })
-          : "Empty";
+          const isValid =
+            date && !Number.isNaN(date.getTime());
 
-        return (
-          <div key={id} className={styles.info}>
-            <span><p>{label}</p></span>
-            <span id={id}><p>{display}</p></span>
-          </div>
-        );
-      })}
+          const display = isValid
+            ? date.toLocaleString(undefined, {
+                weekday: "long",
+                month: "long",
+                day: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            : "Empty";
+
+          return (
+            <div
+              key={id}
+              className={styles.metaRow}
+            >
+              <span className={styles.metaLabel}>
+                {label}
+              </span>
+
+              <span className={styles.metaValue}>
+                {isValid ? (
+                  <time dateTime={date.toISOString()}>
+                    {display}
+                  </time>
+                ) : (
+                  display
+                )}
+              </span>
+            </div>
+          );
+        }
+      )}
     </>
   );
 };

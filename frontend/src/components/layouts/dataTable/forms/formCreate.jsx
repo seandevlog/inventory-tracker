@@ -1,5 +1,10 @@
-import { useContext, useEffect, useMemo } from "react";
+import {
+  useContext,
+  useEffect,
+  useMemo,
+} from "react";
 import { useFetcher } from "react-router-dom";
+
 import styles from "./form.module.css";
 
 import ImageUpload from "./imageUpload/imageUpload";
@@ -15,6 +20,7 @@ import DataTableContext from "@contexts/dataTable.context";
 import useFormFields from "@hooks/useFormFields";
 
 import config from "@config";
+
 const { path } = config;
 
 const FormCreate = () => {
@@ -29,10 +35,17 @@ const FormCreate = () => {
     inputs,
     schema,
     onSubmitted,
-    dispatchModal
+    dispatchModal,
   } = useContext(DataTableContext);
 
-  const filtered = useMemo(() => inputs.filter((i) => !i.disabled), [inputs]);
+  const safeInputs = useMemo(() =>
+    inputs ?? []
+  ,[inputs]);
+
+  const filtered = useMemo(
+    () => safeInputs.filter((input) => !input.disabled),
+    [safeInputs]
+  );
 
   const {
     filteredInputs,
@@ -40,31 +53,64 @@ const FormCreate = () => {
     errors,
     onChange,
     touchEmptyRequired,
-    hasErrors
-  } = useFormFields({ inputs: filtered, schema, mode: "create" });
+    hasErrors,
+  } = useFormFields({
+    inputs: filtered,
+    schema,
+    mode: "create",
+  });
+
+  const isSubmitting = fetcher.state !== "idle";
 
   useEffect(() => {
-    if (fetcher.state === "idle" && fetcher.data?.success) {
-      onSubmitted();
+    if (
+      fetcher.state === "idle" &&
+      fetcher.data?.success
+    ) {
+      onSubmitted?.();
       dispatchModal({ type: "close" });
     }
-  }, [dispatchModal, fetcher.state, fetcher.data, onSubmitted]);
+  }, [
+    dispatchModal,
+    fetcher.state,
+    fetcher.data,
+    onSubmitted,
+  ]);
+
+  const restrictedForStaff = useMemo(
+    () =>
+      new Set(
+        [
+          path.items?.relative,
+          path.locations?.relative,
+          path.suppliers?.relative,
+        ].filter(Boolean)
+      ),
+    []
+  );
 
   const allowed =
-    role &&
-    ((role === "staff" &&
-      manageId !== "item" &&
-      manageId !== "location" &&
-      manageId !== "supplier") ||
-      role !== "staff");
+    !!role &&
+    !(
+      role === "staff" &&
+      restrictedForStaff.has(manageId)
+    );
 
   const url = useMemo(() => {
-    if (!manageId || !path[manageId]?.absolute) return null;
+    if (!manageId || !path[manageId]?.absolute) {
+      return null;
+    }
+
     return `${path[manageId].absolute}/create`;
   }, [manageId]);
 
-  if (!allowed)
-    return <div>This action needs a manager (or someone who looks important)</div>;
+  if (!allowed) {
+    return (
+      <div className={styles.permissionMessage}>
+        This action requires a manager or administrator.
+      </div>
+    );
+  }
 
   return (
     <fetcher.Form
@@ -76,11 +122,18 @@ const FormCreate = () => {
       <div className={styles.layout}>
         <div className={styles.main}>
           <div className={styles.feature}>
-            <ImageUpload ImagePlaceholder={FeaturePlaceholder} mode="create" />
+            <ImageUpload
+              ImagePlaceholder={FeaturePlaceholder}
+              mode="create"
+            />
           </div>
 
           <fieldset className={styles.fields}>
-            <div>
+            <legend className={styles.srOnly}>
+              Create entry
+            </legend>
+
+            <div className={styles.fieldsContent}>
               <FormTextInputs
                 inputs={filteredInputs}
                 values={values}
@@ -99,27 +152,33 @@ const FormCreate = () => {
                 styles={styles}
               />
 
-              <FormCreatedBy value={username} styles={styles} mode="create" />
+              <FormCreatedBy
+                value={username}
+                mode="create"
+                styles={styles}
+              />
             </div>
           </fieldset>
         </div>
 
-        <div className={styles.footer}>
+        <footer className={styles.footer}>
           <div className={styles.errorBox}>
-            <ErrorBox>{fetcher.data?.error}</ErrorBox>
+            <ErrorBox>
+              {fetcher.data?.error}
+            </ErrorBox>
           </div>
 
           <div className={styles.actions}>
             <button
               type="submit"
-              disabled={hasErrors}
+              disabled={hasErrors || isSubmitting}
               onClick={touchEmptyRequired}
               className={styles.primaryBtn}
             >
-              Save
+              {isSubmitting ? "Saving..." : "Save"}
             </button>
           </div>
-        </div>
+        </footer>
       </div>
     </fetcher.Form>
   );

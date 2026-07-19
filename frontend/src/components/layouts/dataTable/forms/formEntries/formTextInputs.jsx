@@ -1,67 +1,83 @@
-import { useState } from "react";
-
 const FormTextInputs = ({
-  inputs, values, errors, onChange, mode, singleData, styles
+  inputs,
+  values,
+  errors,
+  onChange,
+  mode,
+  singleData,
+  styles,
 }) => {
+  const textInputs = (inputs ?? []).filter(
+    ({ id, type, options }) =>
+      !options?.length &&
+      id !== "createdBy" &&
+      type !== "date" &&
+      !(mode !== "create" && type === "password")
+  );
+
   return (
-    <>
-      {inputs.map(({ id, type, autoComplete, label, options }) => {
-        if (options) return null;
-        if (id === 'createdBy') return null;
-        if (type === 'date') return null;
-        if (mode !== 'create' && type === 'password') return null;
+    <div className={styles.textInputs}>
+      {textInputs.map(
+        ({
+          id,
+          type,
+          autoComplete,
+          label,
+        }) => {
+          const value =
+            values?.[id] ??
+            (mode === "edit"
+              ? singleData?.[id] ?? ""
+              : "");
 
-        const value = values?.[id] ?? '';
-        const placeholder = mode === 'edit' ? (singleData?.[id] ?? '') : undefined;
+          const errorId = `${id}-error`;
 
-        return (
-          <div key={id} className={styles.input}>
-            {mode === 'edit' && <label htmlFor={id}>{label}</label>}
-            <FormTextInput
-              id={id}
-              name={id}
-              type={type}
-              autoComplete={autoComplete}
-              value={value}
-              placeholder={placeholder}
-              onChange={(e) => onChange(id, e.target.value)}
-              label={label}
-              styles={styles}
-              mode={mode}
-            />
-            <span className={styles.validationError}>{errors?.[id]}</span>
-          </div>
-        )
-      })}
-    </>
-  )
-}
+          return (
+            <div
+              key={id}
+              className={styles.input}
+            >
+              <label htmlFor={id}>
+                {label}
+              </label>
 
-const FormTextInput = ({
-  id, type, autoComplete, value, placeholder, onChange, mode, label, styles
-}) => {
-  const [isFocus, setIsFocus] = useState(false);
-  
-  return (
-    <>
-      <input
-        id={id}
-        name={id}
-        type={type}
-        autoComplete={autoComplete}
-        value={value}
-        placeholder={placeholder}
-        onChange={onChange}
-        onFocus={() => setIsFocus(true)}
-        onBlur={() => setIsFocus(false)}
-      />
-      {mode === 'create' && (
-        <span className={value || isFocus ? styles.floatPlaceholder : styles.placeholder}>
-          {`Enter ${label}`}
-        </span>
+              <input
+                id={id}
+                name={id}
+                type={type}
+                autoComplete={autoComplete}
+                value={value}
+                placeholder={
+                  mode === "create"
+                    ? `Enter ${label}`
+                    : undefined
+                }
+                onChange={(event) =>
+                  onChange(id, event.target.value)
+                }
+                aria-invalid={!!errors?.[id]}
+                aria-describedby={
+                  errors?.[id]
+                    ? errorId
+                    : undefined
+                }
+              />
+
+              <span
+                id={errorId}
+                className={styles.validationError}
+                role={
+                  errors?.[id] ? "alert" : undefined
+                }
+              >
+                {errors?.[id] ?? ""}
+              </span>
+            </div>
+          );
+        }
       )}
-    </>
-  )
-}
+    </div>
+  );
+};
 
 export default FormTextInputs;

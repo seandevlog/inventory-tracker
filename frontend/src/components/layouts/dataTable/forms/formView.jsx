@@ -1,5 +1,5 @@
 import { useContext, useMemo } from "react";
-import { Form } from "react-router-dom";
+
 import styles from "./form.module.css";
 
 import ImageUpload from "./imageUpload/imageUpload";
@@ -11,30 +11,56 @@ import DataTableContext from "@contexts/dataTable.context";
 
 import Pencil from "@assets/pencil.svg";
 
-import firstCharUppercase from '@utils/firstCharUppercase';
+import firstCharUppercase from "@utils/firstCharUppercase";
 
 const FormView = () => {
   const { profile } = useContext(AppContext);
   const { role } = profile || {};
 
-  const { FeaturePlaceholder, inputs, singleData, dispatchModal } =
-    useContext(DataTableContext);
+  const {
+    FeaturePlaceholder,
+    inputs,
+    singleData,
+    dispatchModal,
+  } = useContext(DataTableContext);
 
   const row = singleData?.[0] ?? {};
+  const safeInputs = useMemo(() => 
+    inputs ?? []
+  ,[inputs]);
 
-  const allowed = !!role;
-
-  const hasOptions = useMemo(
-    () => inputs?.some((i) => i.options?.length),
-    [inputs]
+  const textInputs = useMemo(
+    () =>
+      safeInputs.filter(
+        ({ id, type, options, disabled }) =>
+          !disabled &&
+          !options?.length &&
+          id !== "createdBy" &&
+          type !== "date" &&
+          type !== "password"
+      ),
+    [safeInputs]
   );
 
-  const handleNavigate = () => dispatchModal({ type: "edit" });
+  const selectInputs = useMemo(
+    () =>
+      safeInputs.filter(
+        ({ options, disabled }) =>
+          !disabled && options?.length
+      ),
+    [safeInputs]
+  );
 
-  if (!allowed) return <div>Not allowed</div>;
+  if (!role) {
+    return (
+      <div className={styles.permissionMessage}>
+        You are not allowed to view this entry.
+      </div>
+    );
+  }
 
   return (
-    <Form method="post" encType="multipart/form-data" className={styles.formRoot}>
+    <div className={styles.formRoot}>
       <div className={styles.layout}>
         <div className={styles.main}>
           <div className={styles.feature}>
@@ -42,61 +68,112 @@ const FormView = () => {
               ImagePlaceholder={FeaturePlaceholder}
               mode="view"
               defaultUrl={row?.feature?.url}
+              defaultPublicId={row?.feature?.public_id}
             />
           </div>
 
-          <fieldset className={styles.fields}>
+          <fieldset
+            className={`${styles.fields} ${styles.fieldsWithNavigate}`}
+          >
+            <legend className={styles.srOnly}>
+              Entry information
+            </legend>
+
             {(role === "admin" || role === "manager") && (
               <button
                 type="button"
-                onClick={handleNavigate}
+                onClick={() =>
+                  dispatchModal({ type: "edit" })
+                }
                 className={styles.navigateButton}
-                aria-label="Edit"
+                aria-label="Edit entry"
               >
                 <Pencil />
               </button>
             )}
-            <div>
-              <div>
-                {inputs?.map(
-                  ({ id, type, label, defaultValue, options, disabled }) => {
-                    if (disabled) return null;
-                    if (options) return null;
-                    if (id === "createdBy") return null;
-                    if (type === "date" || type === "password") return null;
 
-                    const value = defaultValue ?? row?.[id];
-                    const display = value || value === 0 ? value : "";
+            <div className={styles.fieldsContent}>
+              {textInputs.length > 0 && (
+                <div className={styles.viewGrid}>
+                  {textInputs.map(
+                    ({ id, label, defaultValue }) => {
+                      const value =
+                        defaultValue ?? row?.[id];
 
-                    return (
-                      <div key={id} className={styles.viewInput}>
-                        <span className={styles.viewLabel}>{label}</span>
-                        <span className={styles.viewValue}>
-                          {display || (
-                            <span className={styles.viewEmpty}>Empty</span>
-                          )}
-                        </span>
-                      </div>
-                    );
-                  }
-                )}
-              </div>
+                      const hasValue =
+                        value !== undefined &&
+                        value !== null &&
+                        value !== "";
 
-              {hasOptions && (
-                <div className={styles.option}>
-                  {inputs?.map(({ id, label, options, disabled }) => {
-                    if (disabled) return null;
-                    if (!options?.length) return null;
+                      return (
+                        <div
+                          key={id}
+                          className={styles.viewInput}
+                        >
+                          <span
+                            className={styles.viewLabel}
+                          >
+                            {label}
+                          </span>
 
+                          <span
+                            className={styles.viewValue}
+                          >
+                            {hasValue ? (
+                              String(value)
+                            ) : (
+                              <span
+                                className={
+                                  styles.viewEmpty
+                                }
+                              >
+                                Empty
+                              </span>
+                            )}
+                          </span>
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
+              )}
+
+              {selectInputs.length > 0 && (
+                <div className={styles.viewGrid}>
+                  {selectInputs.map(({ id, label }) => {
                     const value = row?.[id];
-                    const display = value || value === 0 ? firstCharUppercase(value) : "";
+
+                    const hasValue =
+                      value !== undefined &&
+                      value !== null &&
+                      value !== "";
 
                     return (
-                      <div key={id} className={styles.viewSelect}>
-                        <span className={styles.viewLabel}>{label}</span>
-                        <span className={styles.viewValue}>
-                          {display || (
-                            <span className={styles.viewEmpty}>Empty</span>
+                      <div
+                        key={id}
+                        className={styles.viewSelect}
+                      >
+                        <span
+                          className={styles.viewLabel}
+                        >
+                          {label}
+                        </span>
+
+                        <span
+                          className={styles.viewValue}
+                        >
+                          {hasValue ? (
+                            firstCharUppercase(
+                              String(value)
+                            )
+                          ) : (
+                            <span
+                              className={
+                                styles.viewEmpty
+                              }
+                            >
+                              Empty
+                            </span>
                           )}
                         </span>
                       </div>
@@ -105,17 +182,28 @@ const FormView = () => {
                 </div>
               )}
 
-              <FormCreatedBy
-                value={row?.createdByUsername ?? row?.createdBy ?? 'The universe, probably'}
-                styles={styles}
-              />
+              <div className={styles.metaSection}>
+                <FormCreatedBy
+                  value={
+                    row?.createdByUsername ??
+                    row?.createdBy
+                  }
+                  placeholder="Unknown"
+                  mode="view"
+                  styles={styles}
+                />
 
-              <FormDateRows inputs={inputs} data={row} styles={styles} />
+                <FormDateRows
+                  inputs={safeInputs}
+                  data={row}
+                  styles={styles}
+                />
+              </div>
             </div>
           </fieldset>
         </div>
       </div>
-    </Form>
+    </div>
   );
 };
 

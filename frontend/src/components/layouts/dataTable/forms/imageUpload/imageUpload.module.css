@@ -1,60 +1,132 @@
 .feature {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  box-sizing: border-box;
 
-  position: relative;
   width: 100%;
-  height: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
 
-  max-width: fit-content;
-  margin-left: auto;
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
 
-  border: 0px;
+  border: 0;
 }
 
-.feature img,
-.feature svg {
-  width: 300px;
-  height: 300px;
-  padding: 2em;
+.preview {
+  box-sizing: border-box;
+
+  width: min(100%, 18rem);
+  aspect-ratio: 1;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  border: 1px solid rgb(0 0 0 / 12%);
+  border-radius: 1rem;
+
+  background: rgb(0 0 0 / 3%);
+}
+
+.preview img,
+.preview svg {
+  box-sizing: border-box;
+
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+
+  padding: clamp(0.75rem, 3vw, 1.5rem);
+
+  object-fit: contain;
+}
+
+.emptyPreview {
+  color: #777;
+
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+.fileInput {
+  width: 100%;
+
+  display: grid;
+  justify-items: center;
 }
 
 .fileInput > input {
   display: none;
 }
 
-.fileInput {
-  display           : flex;
-  justify-content   : center;
+.uploadButton {
+  min-height: 2.5rem;
+  padding: 0.55rem 1rem;
+
+  border: 0;
+  border-radius: 999px;
+
+  color: var(--color-1);
+  background: var(--color-dark-1);
+
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+
+  box-shadow:
+    0 2px 3px rgb(0 0 0 / 25%),
+    0 5px 10px rgb(0 0 0 / 20%);
+
+  cursor: pointer;
+
+  transition:
+    background 150ms ease,
+    transform 150ms ease;
 }
 
-.fileInput > label {
-  width             : fit-content;
-  padding           : 0.5em 1em;
-  border-radius     : 16px;
-  
-  font-size         : 0.875rem;
-  font-weight       : 700;
-  background-color  : var(--color-dark-1);
-  color             : var(--color-1);
-  box-shadow        : 
-    0 2px 3px black,
-    0 5px 10px black;
+.uploadButton:hover {
+  background: var(--color-dark-3);
 }
 
-.fileInput > label:hover {
-  background        : var(--color-dark-3);
-  cursor            : pointer;
+.uploadButton:active {
+  transform: translateY(1px);
 }
 
-.fileInput > label:active {
-  transform         : translateY(-10%);
-  transition        : all 150ms ease;
+.uploadButton:focus-visible {
+  outline: 3px solid var(--color-1);
+  outline-offset: 2px;
+}
+
+.uploadError {
+  width: 100%;
+  min-width: 0;
+}
+
+.srOnly {
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+
+  position: absolute;
+
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+
+  border: 0;
 }
 
 @media (max-width: 1024px) {
-  .feature {
-    margin: 0;
+  .preview {
+    width: min(100%, 16rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .preview {
+    width: min(100%, 13rem);
   }
 }

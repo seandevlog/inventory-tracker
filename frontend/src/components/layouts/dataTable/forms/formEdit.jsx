@@ -1,6 +1,10 @@
-// FormEdit.jsx
-import { useContext, useEffect, useMemo } from "react";
+import {
+  useContext,
+  useEffect,
+  useMemo,
+} from "react";
 import { useFetcher } from "react-router-dom";
+
 import styles from "./form.module.css";
 
 import ImageUpload from "./imageUpload/imageUpload";
@@ -19,6 +23,7 @@ import useFormFields from "@hooks/useFormFields";
 import Eye from "@assets/eye.svg";
 
 import config from "@config";
+
 const { path } = config;
 
 const FormEdit = () => {
@@ -34,12 +39,18 @@ const FormEdit = () => {
     schema,
     singleData,
     onSubmitted,
-    dispatchModal
+    dispatchModal,
   } = useContext(DataTableContext);
 
   const row = singleData?.[0] ?? {};
+  const safeInputs = useMemo(() => 
+    inputs ?? []
+  ,[inputs]);
 
-  const filtered = useMemo(() => inputs.filter((i) => !i.disabled), [inputs]);
+  const filtered = useMemo(
+    () => safeInputs.filter((input) => !input.disabled),
+    [safeInputs]
+  );
 
   const {
     filteredInputs,
@@ -47,30 +58,51 @@ const FormEdit = () => {
     errors,
     onChange,
     touchEmptyRequired,
-    hasErrors
+    hasErrors,
   } = useFormFields({
     inputs: filtered,
     schema,
     mode: "edit",
-    singleData: row
+    singleData: row,
   });
 
+  const isSubmitting = fetcher.state !== "idle";
+
   useEffect(() => {
-    if (fetcher.state === "idle" && fetcher.data?.success) {
-      onSubmitted();
+    if (
+      fetcher.state === "idle" &&
+      fetcher.data?.success
+    ) {
+      onSubmitted?.();
       dispatchModal({ type: "close" });
     }
-  }, [dispatchModal, fetcher.state, fetcher.data, onSubmitted]);
+  }, [
+    dispatchModal,
+    fetcher.state,
+    fetcher.data,
+    onSubmitted,
+  ]);
 
   const url = useMemo(() => {
-    if (!manageId || !path[manageId]?.absolute) return null;
-    if (!singleData?.[0]?._id) return null;
-    return `${path[manageId].absolute}/${singleData[0]._id}/edit`;
-  }, [manageId, singleData]);
+    if (!manageId || !path[manageId]?.absolute) {
+      return null;
+    }
 
-  const allowed = role && (role === "admin" || role === "manager");
-  if (!allowed)
-    return <div>This action needs a manager (or someone who looks important)</div>;
+    if (!row?._id) return null;
+
+    return `${path[manageId].absolute}/${row._id}/edit`;
+  }, [manageId, row._id]);
+
+  const allowed =
+    role === "admin" || role === "manager";
+
+  if (!allowed) {
+    return (
+      <div className={styles.permissionMessage}>
+        This action requires a manager or administrator.
+      </div>
+    );
+  }
 
   return (
     <fetcher.Form
@@ -86,34 +118,40 @@ const FormEdit = () => {
               ImagePlaceholder={FeaturePlaceholder}
               mode="edit"
               defaultUrl={row?.feature?.url}
+              defaultPublicId={row?.feature?.public_id}
             />
           </div>
 
-          <fieldset className={styles.fields}>
+          <fieldset
+            className={`${styles.fields} ${styles.fieldsWithNavigate}`}
+          >
+            <legend className={styles.srOnly}>
+              Edit entry
+            </legend>
+
             <button
               type="button"
-              onClick={() => dispatchModal({ type: "view" })}
+              onClick={() =>
+                dispatchModal({ type: "view" })
+              }
               className={styles.navigateButton}
-              aria-label="View"
+              aria-label="Return to entry view"
             >
               <Eye />
             </button>
 
-            <div>
-              <div>
-                {inputs.map(({ id, label }) =>
-                  id === "_id" ? (
-                    <div key={id} className={styles.info}>
-                      <span>
-                        <p>{label}</p>
-                      </span>
-                      <span id={id}>
-                        <p>{row?.[id]}</p>
-                      </span>
-                    </div>
-                  ) : null
-                )}
-              </div>
+            <div className={styles.fieldsContent}>
+              {row?._id && (
+                <div className={styles.metaRow}>
+                  <span className={styles.metaLabel}>
+                    ID
+                  </span>
+
+                  <span className={styles.metaValue}>
+                    {row._id}
+                  </span>
+                </div>
+              )}
 
               <FormTextInputs
                 inputs={filteredInputs}
@@ -135,21 +173,32 @@ const FormEdit = () => {
                 styles={styles}
               />
 
-              <FormCreatedBy
-                placeholder={row?.createdBy ?? "The universe, probably"}
-                styles={styles}
-              />
+              <div className={styles.metaSection}>
+                <FormCreatedBy
+                  value={
+                    row?.createdByUsername ??
+                    row?.createdBy
+                  }
+                  placeholder="Unknown"
+                  mode="edit"
+                  styles={styles}
+                />
 
-              <div className={styles.date}>
-                <FormDateRows inputs={inputs} data={row} styles={styles} />
+                <FormDateRows
+                  inputs={safeInputs}
+                  data={row}
+                  styles={styles}
+                />
               </div>
             </div>
           </fieldset>
         </div>
 
-        <div className={styles.footer}>
+        <footer className={styles.footer}>
           <div className={styles.errorBox}>
-            <ErrorBox>{fetcher.data?.error}</ErrorBox>
+            <ErrorBox>
+              {fetcher.data?.error}
+            </ErrorBox>
           </div>
 
           <div className={styles.actions}>
@@ -157,23 +206,24 @@ const FormEdit = () => {
               type="submit"
               name="intent"
               value="update"
-              disabled={hasErrors}
+              disabled={hasErrors || isSubmitting}
               onClick={touchEmptyRequired}
               className={styles.primaryBtn}
             >
-              Save
+              {isSubmitting ? "Saving..." : "Save"}
             </button>
 
             <button
               type="submit"
               name="intent"
               value="delete"
+              disabled={isSubmitting}
               className={styles.dangerBtn}
             >
               Delete
             </button>
           </div>
-        </div>
+        </footer>
       </div>
     </fetcher.Form>
   );

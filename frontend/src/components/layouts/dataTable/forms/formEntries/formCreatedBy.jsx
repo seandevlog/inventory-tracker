@@ -1,22 +1,42 @@
-const FormCreatedBy = ({ value, placeholder, styles, mode }) => {
-  if (mode === 'create') return (
-    <div>
-      <span><p></p></span>
-      {value &&
-        <input id='createdBy' name='createdBy' value={value ?? ''} type='hidden'/>
-      }
-    </div>
-  )
+const FormCreatedBy = ({
+  value,
+  placeholder = "Unknown",
+  styles,
+  mode = "view",
+}) => {
+  if (mode === "create") {
+    return value ? (
+      <input
+        type="hidden"
+        id="createdBy"
+        name="createdBy"
+        value={value}
+      />
+    ) : null;
+  }
+
+  const displayValue = value || placeholder;
 
   return (
-    <div className={styles?.createdBy}>
-      <span><p>Created By</p></span>
-      {value ?
-        <input id='createdBy' name='createdBy' value={value} placeholder={placeholder} readOnly/> :
-        <input id='createdBy' placeholder={placeholder} readOnly/>
-      }
+    <div className={styles.metaRow}>
+      <span className={styles.metaLabel}>
+        Created by
+      </span>
+
+      <span className={styles.metaValue}>
+        {displayValue}
+      </span>
+
+      {mode === "edit" && value && (
+        <input
+          type="hidden"
+          id="createdBy"
+          name="createdBy"
+          value={value}
+        />
+      )}
     </div>
-  )
-}
+  );
+};
 
 export default FormCreatedBy;
