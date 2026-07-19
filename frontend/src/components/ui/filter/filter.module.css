@@ -79,16 +79,28 @@
   border-radius: 6px;
 
   cursor: pointer;
+  user-select: none;
 
-  transition: background 150ms ease;
+  transition:
+    background 150ms ease,
+    color 150ms ease;
 }
 
 .option:hover {
   background: rgb(255 255 255 / 10%);
 }
 
-.option:has(input:checked) {
-  background: rgb(255 255 255 / 12%);
+.optionSelected {
+  background: rgb(255 255 255 / 14%);
+}
+
+.optionSelected:hover {
+  background: rgb(255 255 255 / 18%);
+}
+
+.option:focus-within {
+  outline: 2px solid var(--color-1);
+  outline-offset: 2px;
 }
 
 .option > input {
@@ -101,12 +113,7 @@
   cursor: pointer;
 }
 
-.option > input:focus-visible {
-  outline: 2px solid var(--color-1);
-  outline-offset: 2px;
-}
-
-.option > label {
+.option > span {
   min-width: 0;
 
   font-size: 0.825rem;
@@ -150,7 +157,7 @@
     height: 1.1rem;
   }
 
-  .option > label {
+  .option > span {
     font-size: 0.875rem;
   }
 }

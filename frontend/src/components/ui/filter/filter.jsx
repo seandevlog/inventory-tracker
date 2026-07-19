@@ -85,32 +85,34 @@ const FilterGroup = ({
 
       <div className={styles.options}>
         {values.map((value) => {
-          const inputId = createInputId(
-            objKey,
-            String(value)
-          );
+          const stringValue = String(value);
+          const inputId = createInputId(objKey, stringValue);
 
           return (
-            <div
-              key={value}
-              className={styles.option}
+            <label
+              key={stringValue}
+              htmlFor={inputId}
+              className={`${styles.option} ${
+                selectedValue === stringValue
+                  ? styles.optionSelected
+                  : ""
+              }`}
             >
               <input
                 type="checkbox"
                 id={inputId}
                 name={objKey}
-                value={value}
-                checked={selectedValue === value}
+                value={stringValue}
+                checked={selectedValue === stringValue}
                 onChange={handleSelect}
               />
 
-              <label htmlFor={inputId}>
-                {formatLabel(String(value))}
-              </label>
-            </div>
+              <span>{formatLabel(stringValue)}</span>
+            </label>
           );
         })}
       </div>
+      
     </fieldset>
   );
 };
