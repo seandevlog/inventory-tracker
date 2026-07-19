@@ -1,59 +1,136 @@
 .table {
-  table-layout    : auto;
-  width           : 100%;
-  margin-top      : 0;
-  align-self      : center;
-  border-collapse : collapse;
-  position        : relative;
+  width: max(100%, 48rem);
+  min-width: 100%;
+
+  margin: 0;
+
+  table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+
+  position: relative;
 }
 
-.table th, 
+.table th,
 .table td {
-  margin          : 0 1em;
-  text-align      : center;
-  padding         : 1em 0;
-  user-select     : none;
+  box-sizing: border-box;
+
+  min-width: 7rem;
+  padding:
+    clamp(0.75rem, 2vw, 1rem)
+    clamp(0.75rem, 2vw, 1.25rem);
+
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  user-select: none;
 }
 
 .thead > tr {
-  height: 4em;
+  height: 4rem;
 }
 
 .thead > tr > th {
-  position          : sticky;
-  top               : 0;
-  justify-items     : center;
-  box-shadow        : inset var(--color-dark-1) 0 -1px;
-  backdrop-filter   : blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-th);
 
-  z-index           : var(--z-th);
+  background: rgb(255 255 255 / 90%);
+
+  box-shadow:
+    inset 0 -1px 0 var(--color-dark-1);
+
+  backdrop-filter: blur(8px);
 }
 
 .thead > tr > th > div {
-  height          : 2em;
-  width           : max-content;
-  padding-inline  : 1em;
-  background      : inherit;
-  align-content   : center;
-  border-radius   : 10px;
-  color           : black;
-  user-select     : none;
+  width: max-content;
+  min-height: 2rem;
+  margin-inline: auto;
+  padding-inline: 0.75rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 10px;
+
+  color: black;
+  background: inherit;
+
+  user-select: none;
 }
 
 .table > tbody img {
-  width           : 3em
+  display: block;
+
+  width: 3rem;
+  height: 3rem;
+  margin-inline: auto;
+
+  border-radius: 6px;
+
+  object-fit: cover;
 }
 
 .table > tbody tr td svg {
-  width           : 40px;
-  height          : 40px;
+  width: 2.5rem;
+  height: 2.5rem;
 }
 
 .table > tbody tr td svg circle {
-  fill            : var(--color-dark-2);
-  fill-opacity    : 1;
+  fill: var(--color-dark-2);
+  fill-opacity: 1;
 }
 
-div:has(> .noData) {
-  flex: 1;
+/* Keep shorter tables visually useful */
+.table > tbody tr {
+  min-height: 3.5rem;
+}
+
+@media (max-width: 767px) {
+  .table {
+    width: max(100%, 42rem);
+  }
+
+  .table th,
+  .table td {
+    min-width: 6.5rem;
+    padding: 0.75rem;
+
+    font-size: 0.85rem;
+  }
+
+  .thead > tr {
+    height: 3.5rem;
+  }
+
+  .thead > tr > th > div {
+    padding-inline: 0.5rem;
+  }
+
+  .table > tbody img {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .table > tbody tr td svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .table {
+    width: max(100%, 38rem);
+  }
+
+  .table th,
+  .table td {
+    min-width: 6rem;
+    padding: 0.65rem;
+
+    font-size: 0.8rem;
+  }
 }

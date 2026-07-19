@@ -10,14 +10,27 @@ const Row = ({ id, className, onClick, sort, data: row }) => {
     <tr
       id={id}
       className={styles[className]}
-      onClick={onClick ? () => onClick(id) : null}
+      onClick={onClick ? () => onClick(id) : undefined}
+      onKeyDown={(event) => {
+        if (
+          onClick &&
+          (event.key === "Enter" || event.key === " ")
+        ) {
+          event.preventDefault();
+          onClick(id);
+        }
+      }}
+      tabIndex={onClick ? 0 : undefined}
     >
       {sort && sort?.map(attr => {
         if (attr === 'feature') {
           return (
             <td key={attr}>
               {row?.feature?.url
-              ? <img src={row?.feature.url}></img>
+              ? <img
+                  src={row.feature.url}
+                  alt={`${row?.name ?? "Item"} feature`}
+                />
               : <FeaturePlaceholder/>}
             </td>
           )
@@ -35,9 +48,15 @@ const Row = ({ id, className, onClick, sort, data: row }) => {
           )
         }
 
-        return (<td key={attr}>{
-          attr && row?.[attr] && splitUppercase(row?.[attr])
-        }</td>)
+        const value = row?.[attr];
+
+        return (
+          <td key={attr}>
+            {value === null || value === undefined
+              ? ""
+              : splitUppercase(String(value))}
+          </td>
+        );
       })}
     </tr>
   )

@@ -1,12 +1,51 @@
-.tableHeaderSort > div > svg {
-  width           : 0.8em;
-  margin-left     : 0.5em;
-  padding         : 0.25em 0.15em 0 0;
-  fill            : var(--color-dark-1);
-  transform       : scale(1.2);
+.tableHeaderSort > button {
+  width: max-content;
+  min-height: 2rem;
+  margin-inline: auto;
+  padding: 0.35rem 0.75rem;
+
+  border: 0;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+
+  background: transparent;
+  color: inherit;
+
+  font: inherit;
+  font-weight: inherit;
+
+  cursor: pointer;
 }
 
-.tableHeaderSort > div:hover {
-  background      : none;
-  cursor          : pointer;
+.tableHeaderSort > button:hover {
+  background: rgb(0 0 0 / 6%);
+}
+
+.tableHeaderSort > button:focus-visible {
+  outline: 2px solid var(--color-1);
+  outline-offset: 2px;
+}
+
+.tableHeaderSort > button > svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  flex-shrink: 0;
+
+  fill: var(--color-dark-1);
+}
+
+@media (max-width: 767px) {
+  .tableHeaderSort > button {
+    padding-inline: 0.4rem;
+    gap: 0.25rem;
+  }
+
+  .tableHeaderSort > button > svg {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
 }

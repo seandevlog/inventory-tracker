@@ -1,270 +1,370 @@
+.dataTable,
+.disabled {
+  box-sizing: border-box;
+
+  position: absolute;
+  inset:
+    var(--navSub-height)
+    0
+    0;
+
+  min-width: 0;
+  min-height: 0;
+
+  overflow: hidden;
+}
+
 .dataTable {
-  height          : calc(100% - var(--navSub-height));
-  width           : 100%;
-
-  position        : absolute;
-  top             : calc(var(--navSub-height));
-  z-index         : var(--z-dataTable);
+  z-index: var(--z-dataTable);
 }
 
-.dataTable > div {
-  height          : 100%;
-  width           : 100%;
-  margin          : 0;
-  position        : relative;
+.workspace {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+
+  display: flex;
+  align-items: stretch;
+
+  position: relative;
+
+  overflow: hidden;
 }
+
+.sidebarSlot {
+  min-width: 0;
+  height: 100%;
+
+  flex: 0 0 auto;
+
+  position: relative;
+  z-index: 2;
+}
+
+.content {
+  min-width: 0;
+  min-height: 0;
+
+  flex: 1 1 auto;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+/* ===== Disabled page ===== */
 
 .disabled {
-  background      : var(--color-dark-3);
-  color           : white;
+  background: var(--color-dark-3);
+  color: white;
 
-  display         : flex;
-  flex-direction  : column;
-  justify-content : center;
-  align-items     : center;
-  
-  height          : 100%;
-}
-
-.disabled > span > svg {
-  width           : 10vw;
-  
-  fill            : white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .disabled > span {
-  font-size       : 1.5em;
-  text-align      : center;
-  padding         : 0 4em;
+  width: min(90%, 40rem);
+  padding: clamp(1rem, 5vw, 4rem);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  line-height: 1.5;
+  text-align: center;
 }
 
-.noData {
-  inset: 0;
+.disabled > span > svg {
+  width: clamp(4rem, 12vw, 8rem);
+  height: auto;
 
-  display         : flex;
-  flex-direction  : column;
-  align-items     : center;
+  fill: white;
+}
+
+.disabled > span > p {
+  margin: 0;
+}
+
+/* ===== Table container ===== */
+
+.tableWrapper {
+  box-sizing: border-box;
+
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+
+  overflow: auto;
+  overscroll-behavior: contain;
+
+  scrollbar-gutter: stable;
+
+  position: relative;
+}
+
+/* ===== Empty state ===== */
+
+.noData {
+  box-sizing: border-box;
+
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding:
+    clamp(2rem, 6vw, 5rem)
+    clamp(1rem, 4vw, 3rem)
+    7rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+
+  position: relative;
+
+  text-align: center;
 }
 
 .noData > span {
-  width: fit-content;
+  width: min(100%, 32rem);
 
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  justify-content: center;
-  text-align: center;
-
-  font-size: 1.5em;
+  font-size: clamp(1rem, 3vw, 1.5rem);
   font-weight: 500;
-
-  position: absolute;
-  anchor-name: --message;
-
-  padding-top: 1em;
-
-  left: 50%;
-  top: 40%;
-  transform: translate(-50%, -60%);
+  line-height: 1.4;
 }
 
-.dataTable > div > div:has(button) {
-  anchor-name: --button;
+.emptyBox {
+  width: clamp(4rem, 10vw, 6rem);
+  height: auto;
+}
+
+.emptyBox path {
+  stroke: var(--color-dark-1);
 }
 
 @keyframes bounce {
-  0% { transform: translate(0) }
-  50% { transform: translate(0, -2em)}
-  100% { transform: translate(0) }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-1rem);
+  }
 }
 
-.noData > svg:first-of-type {
-  width: 3em;
-  height: 3em;
-  fill: var(--color-1);
+.emptyArrow {
+  width: 2.5rem;
+  height: 2.5rem;
 
-  position-anchor: --button;
   position: absolute;
-  left: calc(anchor(left) + 15px);
-  bottom: calc(anchor(top) + 5px);
+  right: 3rem;
+  bottom: 7rem;
+
+  fill: var(--color-1);
 
   animation: bounce 2s ease-in-out infinite;
 }
 
-.noData > svg > path {
-  stroke: var(--color-dark-1);
-}
-
-.noData > svg:last-of-type {
-  height: 5em;
-  width: 5em;
-
-  position-anchor: --message;
-  position: absolute;
-  bottom: anchor(top);
-}
-
-.tableWrapper {
-  flex            : 1;
-  height          : calc(100vh - var(--navSub-height) - var(--navTop-height));
-
-  overflow        : auto;
-
-  position        : absolute;
-  inset           : 0;
-  
-  position-anchor : --sidebar;
-  left            : anchor(right);
-}
+/* ===== Create button ===== */
 
 .create {
-  position        : absolute;
-  width           : fit-content;
-  height          : fit-content;
-  right           : 4em;
-  bottom          : 4em;
-  z-index         : var(--z-create-button);
+  width: clamp(3.75rem, 6vw, 4.75rem);
+  height: clamp(3.75rem, 6vw, 4.75rem);
+
+  position: absolute;
+  right: clamp(1.5rem, 4vw, 4rem);
+  bottom: clamp(1.5rem, 4vw, 4rem);
+  z-index: var(--z-create-button);
 
   display: flex;
-  flex-wrap: nowrap;
+  justify-content: center;
   align-items: center;
-
-  width           : 5em;
-  height          : 5em;
-}
-
-.create > button svg path {
-  fill            : var(--color-1);
-}
-
-.create > button svg {
-  transform       : scale(3);
-
-  user-select     : none;
 }
 
 .create > button {
-  background      : var(--color-dark-1);
-  border          : none;
-  border-radius   : 4em;
-  backdrop-filter : blur(8px);
+  width: 100%;
+  height: 100%;
+  padding: 0;
 
-  width           : 6em;
-  height          : 6em;
+  border: 0;
+  border-radius: 50%;
 
-  border-radius   : 40px;
-  box-shadow      : 
-      0 2px 3px black,
-      0 5px 10px black;      
-  
-  position        : absolute;
-  inset           : 0;
-  z-index         : calc(var(--z-create-button) + 2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  anchor-name     : --create-button;
+  background: var(--color-dark-1);
 
-  transition      : all 200ms ease-in-out;
-}
+  box-shadow:
+    0 2px 3px rgb(0 0 0 / 45%),
+    0 5px 10px rgb(0 0 0 / 35%);
 
-.create > div {
-  background      : var(--color-dark-2);
-  border-radius   : 8vw 16vw 16vw 8vw;
-  color           : rgb(196, 196, 196);
-  font-size       : 0.1em;
-  font-weight     : 700;
-  height          : fit-content;
-  width           : fit-content;
-  white-space     : nowrap;
+  cursor: pointer;
 
-  user-select     : none;
-
-  align-content   : center;
-
-  position        : absolute;
-  z-index         : calc(var(--z-create-button) + 1);
-
-  position-anchor : --create-button;
-
-  transition      : none;
+  transition:
+    background 150ms ease,
+    transform 150ms ease;
 }
 
 .create > button:hover {
-  background      : var(--color-dark-2);
-  cursor          : pointer;
-}
-
-.create > button:hover + div {
-  font-size       : 1em;
-  height          : 2em;
-  padding         : 0 1em;
-
-  position-anchor : --create-button;
-  right           : anchor(left);
-
-  margin-right    : 0.5em;
-
-  transition      : all 150ms ease;
+  background: var(--color-dark-2);
 }
 
 .create > button:active {
   background: black;
+  transform: scale(0.95);
 }
 
-/* Overlay */
-.wrapper {
+.create > button:focus-visible {
+  outline: 3px solid var(--color-1);
+  outline-offset: 3px;
+}
+
+.create > button svg {
+  width: 1.5rem;
+  height: 1.5rem;
+
+  transform: none;
+
+  user-select: none;
+}
+
+.create > button svg path {
+  fill: var(--color-1);
+}
+
+/* Create button tooltip */
+
+.create > div {
+  width: max-content;
+  max-width: 12rem;
+  padding: 0.5rem 0.8rem;
+
   position: absolute;
+  right: calc(100% + 0.75rem);
+
+  border-radius: 8px;
+
+  color: rgb(220 220 220);
+  background: var(--color-dark-2);
+
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(0.5rem);
+
+  pointer-events: none;
+
+  transition:
+    opacity 150ms ease,
+    visibility 150ms ease,
+    transform 150ms ease;
+}
+
+.create > button:hover + div,
+.create > button:focus-visible + div {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+/* ===== Modal overlay ===== */
+
+.wrapper {
+  box-sizing: border-box;
+
+  position: fixed;
   inset: 0;
+  z-index: var(--z-modal);
+
+  padding: clamp(1rem, 4vw, 3rem);
+
   display: flex;
   justify-content: center;
   align-items: center;
 
-  background: rgba(0, 0, 0, 0.45);
-  z-index: var(--z-modal);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  background: rgb(0 0 0 / 50%);
 }
 
-/* Modal container */
+/* ===== Modal ===== */
+
 .modal {
+  box-sizing: border-box;
+
+  width: min(100%, 64rem);
+  max-height: min(90dvh, 56rem);
+  padding:
+    clamp(4rem, 8vw, 4.5rem)
+    clamp(1rem, 4vw, 2rem)
+    clamp(1rem, 4vw, 2rem);
+
   display: flex;
   flex-direction: column;
   gap: 1rem;
 
-  background: white;
-  width: min(80vw, 1024px);
-  max-height: 80vh;
+  position: relative;
 
-  border-radius: 1em;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  background: white;
+  border-radius: 1rem;
 
   box-shadow:
-    0 4px 6px rgba(0,0,0,0.4),
-    0 10px 20px rgba(0,0,0,0.5);
-
-  position: relative;
-  padding: 4.5rem 2rem 2rem;
+    0 4px 6px rgb(0 0 0 / 40%),
+    0 10px 20px rgb(0 0 0 / 50%);
 }
 
-/* Header */
-.header {
-  font-size: 1.5rem;
-  font-weight: 600;
+/* ===== Modal header ===== */
 
+.header {
   width: 100%;
 
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  font-weight: 600;
+  text-align: center;
 }
 
-/* Close button */
+/* ===== Close button ===== */
+
 .close {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.5rem;
+
   position: absolute;
   top: 1rem;
   right: 1rem;
+  z-index: 2;
 
-  background: none;
-  border: none;
-  border-radius: 32px;
-  padding: 0.3rem;
+  border: 0;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: transparent;
 
   cursor: pointer;
 }
@@ -273,9 +373,15 @@
   background: var(--color-dark-1);
 }
 
+.close:focus-visible {
+  outline: 2px solid var(--color-1);
+  outline-offset: 2px;
+}
+
 .close svg {
   width: 1.25rem;
   height: 1.25rem;
+
   fill: var(--color-dark-1);
 }
 
@@ -283,29 +389,143 @@
   fill: var(--color-1);
 }
 
+/* ===== Tablet ===== */
+
 @media (max-width: 1024px) {
   .modal {
-    width: 92vw;
-    padding: 4.5rem 1rem 1rem;
+    width: min(100%, 48rem);
   }
 
   .modal > form {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
   }
 
   .modal > form > div:has(button) {
-    bottom: -5%;
-    width: 60%;
+    width: 100%;
+    max-width: 24rem;
+    margin-inline: auto;
+
+    position: static;
   }
 }
 
-@media (max-width: 570px) {
+/* ===== Mobile ===== */
+
+@media (max-width: 767px) {
   .dataTable,
   .disabled {
-    position          : absolute;
-    top               : 0;
-    height            : calc(100% - var(--height-botNav));
-    z-index           : 0;
+    inset:
+      0
+      0
+      calc(
+        var(--height-botNav) +
+        env(safe-area-inset-bottom, 0px)
+      );
+  }
+
+  .workspace {
+    min-height: 0;
+  }
+
+  .sidebarSlot {
+    max-width: min(80vw, 20rem);
+  }
+
+  .tableWrapper {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .noData {
+    padding:
+      2rem
+      1rem
+      6rem;
+  }
+
+  .emptyArrow {
+    width: 2rem;
+    height: 2rem;
+
+    right: 1.75rem;
+    bottom: 5.75rem;
+  }
+
+  .create {
+    width: 3.75rem;
+    height: 3.75rem;
+
+    position: fixed;
+    right: 1rem;
+    bottom: calc(
+      var(--height-botNav) +
+      1rem +
+      env(safe-area-inset-bottom, 0px)
+    );
+  }
+
+  .create > div {
+    display: none;
+  }
+
+  .wrapper {
+    padding:
+      1rem
+      1rem
+      calc(
+        1rem +
+        env(safe-area-inset-bottom, 0px)
+      );
+
+    align-items: center;
+  }
+
+  .modal {
+    width: 100%;
+    max-height: calc(
+      100dvh -
+      2rem -
+      env(safe-area-inset-bottom, 0px)
+    );
+
+    padding:
+      4rem
+      1rem
+      1rem;
+
+    border-radius: 0.75rem;
+  }
+}
+
+/* ===== Very small screens ===== */
+
+@media (max-width: 380px) {
+  .noData > span {
+    font-size: 0.95rem;
+  }
+
+  .emptyBox {
+    width: 4rem;
+  }
+
+  .emptyArrow {
+    display: none;
+  }
+
+  .modal {
+    padding-inline: 0.75rem;
+  }
+}
+
+/* ===== Reduced motion ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .emptyArrow {
+    animation: none;
+  }
+
+  .create > button,
+  .create > div {
+    transition: none;
   }
 }

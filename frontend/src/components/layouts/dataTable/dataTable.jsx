@@ -137,29 +137,52 @@ const DataTable = ({ id, data, headers, FeaturePlaceholder, selections, inputs, 
       dispatchModal: dispatch 
     }}>
       <main className={styles.dataTable}>
-        <div>
-          {data && data.length > 0 &&
-            <Sidebar/>
-          }
-          {allowed &&
+        <div className={styles.workspace}>
+          {data?.length > 0 && (
+            <aside className={styles.sidebarSlot}>
+              <Sidebar />
+            </aside>
+          )}
+
+          <section className={styles.content}>
+            {filteredData?.length > 0 ? (
+              <div
+                className={styles.tableWrapper}
+                role="region"
+                aria-label={`${firstCharUppercase(id)} table`}
+                tabIndex={0}
+              >
+                <Table
+                  headers={headers}
+                  data={filteredData}
+                />
+              </div>
+            ) : (
+              <div className={styles.noData}>
+                <span>No entries yet. Press the “+” button.</span>
+
+                {allowed && (
+                  <ArrowDownThick
+                    className={styles.emptyArrow}
+                  />
+                )}
+
+                <EmptyBox className={styles.emptyBox} />
+              </div>
+            )}
+          </section>
+
+          {allowed && (
             <CreateButton
-              onClick={() => dispatch({ type: 'create' })}
+              onClick={() => dispatch({ type: "create" })}
               styles={styles}
+              label={`Create new ${removeLastS(firstCharUppercase(id))}`}
             >
-              {`New ${id && firstCharUppercase(id)}`}
+              {`New ${firstCharUppercase(id)}`}
             </CreateButton>
-          }
-          {filteredData && filteredData.length > 0
-            ? <div className={styles.tableWrapper}>
-                <Table headers={headers} data={filteredData}/>
-              </div>
-            : <div className={styles.noData}>
-                <span>No entries yet. Press the '+' button.</span>
-                <ArrowDownThick/>
-                <EmptyBox/>
-              </div>
-          }
-          <Modal/>
+          )}
+
+          <Modal />
         </div>
       </main>
     </DataTableContext.Provider>
@@ -172,33 +195,39 @@ const DataTable = ({ id, data, headers, FeaturePlaceholder, selections, inputs, 
   )
 }
 
-const CreateButton = ({ children, onClick, styles }) => {
+const CreateButton = ({
+  children,
+  onClick,
+  styles,
+  label,
+}) => {
   return (
-    <div 
-      className={styles.create}
-    >
+    <div className={styles.create}>
       <button
+        type="button"
         onClick={onClick}
+        aria-label={label}
       >
-        <Plus/>
+        <Plus />
       </button>
-      <div>
-        {children}
-      </div>
+
+      <div>{children}</div>
     </div>
-  )
-}
+  );
+};
 
 const CloseButton = ({ onClick, styles }) => {
   return (
-    <button 
+    <button
+      type="button"
       className={styles.close}
-      onClick={onClick}  
+      onClick={onClick}
+      aria-label="Close modal"
     >
-      <CloseBtn/>
+      <CloseBtn />
     </button>
-  )
-}
+  );
+};
 
 const ModalHeader = ({ title, styles }) => (
   <div className={styles.header}>

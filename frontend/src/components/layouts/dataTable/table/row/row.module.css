@@ -1,14 +1,38 @@
-.filled {
-    transition: all 200ms ease;
+.filled > td {
+  transition:
+    background 150ms ease,
+    color 150ms ease,
+    box-shadow 150ms ease;
 }
 
-.filled:hover{
-    background      : white;
-    border-radius   : 5px;
-    cursor          : pointer;
-    color           : rgb(50, 49, 44);
-    transform       : translateY(-3px);
-    box-shadow      : 
-        0 4px 6px var(--color-dark-1),
-        0 10px 20px var(--color-dark-1) ;
+.filled:focus-visible {
+  outline: 2px solid var(--color-1);
+  outline-offset: -2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .filled:hover {
+    cursor: pointer;
+  }
+
+  .filled:hover > td {
+    color: rgb(50, 49, 44);
+    background: white;
+
+    box-shadow:
+      inset 0 1px 0 rgb(0 0 0 / 10%),
+      inset 0 -1px 0 rgb(0 0 0 / 10%);
+  }
+}
+
+@media (max-width: 767px) {
+  .filled:active > td {
+    background: var(--color-dark-4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filled > td {
+    transition: none;
+  }
 }
