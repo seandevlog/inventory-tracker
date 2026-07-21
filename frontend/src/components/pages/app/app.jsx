@@ -27,7 +27,7 @@ const App = () => {
   const { profile } = useProfile({ refreshKey: profileRefreshKey, token });
 
   useEffect(() => {
-    document.title = 'Inventory Tracker'
+    document.title = 'DataTable'
   }, []);
 
   const [itemRefreshKey, setItemRefreshKey] = useState(0);

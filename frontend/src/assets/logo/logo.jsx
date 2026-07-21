@@ -1,14 +1,22 @@
-import styles from './logo.module.css';
+import styles from "./logo.module.css";
 
-const Logo = ({ classes }) => {
+const Logo = ({
+  classes = "",
+  alt = "DataTable",
+}) => {
   return (
-    <span 
-      id="logo" 
-      className={`${classes} ${styles.logo}`}
+    <span
+      id="logo"
+      className={`${styles.logo} ${classes}`}
     >
-      <p>Inventory Tracker</p>
+      <span className={styles.logoCrop}>
+        <img
+          src="/logo_big.png"
+          alt={alt}
+        />
+      </span>
     </span>
-  )
-}
+  );
+};
 
 export default Logo;

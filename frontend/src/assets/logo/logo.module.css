@@ -1,8 +1,45 @@
-.logo > p {
-  font-weight     : 400;
-  font-family     : 'Pacifico', cursive;
-  margin          : 0;
-  text-decoration : none;
-  user-select     : none;
+.logo {
+  box-sizing: border-box;
+
+  min-width: 0;
+  height: 100%;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  user-select: none;
 }
 
+.logoCrop {
+  /*
+    Controls the visible width of the wordmark.
+    Each navbar breakpoint sets --logo-width.
+  */
+  width: var(--logo-width, 8rem);
+  max-width: 100%;
+  aspect-ratio: 1766 / 424;
+
+  position: relative;
+
+  overflow: hidden;
+
+  flex: 0 0 auto;
+}
+
+.logoCrop > img {
+  width: 111.6%;
+  height: auto;
+  max-width: none;
+
+  position: absolute;
+  top: 50%;
+  left: -6.35%;
+
+  display: block;
+
+  transform: translateY(-46.8%);
+
+  pointer-events: none;
+  user-select: none;
+}

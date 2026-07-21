@@ -6,7 +6,7 @@
 
   width: 100%;
   height: var(--navTop-height);
-  padding: 0 clamp(1rem, 3vw, 3rem);
+  padding-inline: clamp(1rem, 3vw, 3rem);
 
   display: flex;
   align-items: center;
@@ -19,18 +19,19 @@
   top: 0;
   left: 0;
   z-index: var(--z-navTop);
+
+  background: #2c2c2c;
 }
 
 .homeNav {
   position: relative;
 
   border-bottom: 1px solid var(--color-dark-4);
+
   background: white;
 }
 
-.manageNav {
-  background: #2c2c2c;
-}
+/* ======= Authentication Navigation ========== */
 
 .authNav {
   box-sizing: border-box;
@@ -45,8 +46,8 @@
   z-index: var(--z-navTop);
 
   display: flex;
-  justify-content: flex-start;
   align-items: center;
+  justify-content: flex-start;
 
   background: transparent;
 
@@ -55,6 +56,53 @@
 
 .authNav > * {
   pointer-events: auto;
+}
+
+/* ======= Logo Links ========== */
+
+.homeNav a:has(.homeLogo),
+.manageNav a:has(.manageLogo),
+.authNav a:has(.authLogo) {
+  box-sizing: border-box;
+
+  height: 100%;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 auto;
+
+  text-decoration: none;
+}
+
+/* ======= Nav Logos ========== */
+
+.homeLogo,
+.manageLogo,
+.authLogo {
+  box-sizing: border-box;
+
+  width: auto;
+  height: 100%;
+  min-width: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+/* Desktop logo sizes */
+
+.homeLogo,
+.manageLogo {
+  --logo-width: clamp(7.25rem, 9vw, 8.25rem);
+}
+
+.authLogo {
+  --logo-width: clamp(7.75rem, 11vw, 9rem);
 }
 
 /* ======= Nav Links ========== */
@@ -73,51 +121,15 @@
   list-style: none;
 }
 
-.homeLinks li,
-.manageLinks li {
+.homeLinks > li,
+.manageLinks > li {
   margin: 0;
   padding: 0;
+
   list-style: none;
 }
 
-/* ======= Nav Logo ========== */
-
-.homeLogo,
-.manageLogo,
-.authLogo {
-  flex-shrink: 0;
-}
-
-.homeLogo > p,
-.manageLogo > p,
-.authLogo > p {
-  margin: 0;
-
-  display: inline-flex;
-  align-items: center;
-
-  font-size: clamp(1rem, 2vw, 1.225rem);
-  line-height: 1;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.homeLogo:hover,
-.manageLogo:hover,
-.authLogo:hover {
-  cursor: pointer;
-}
-
-.homeLogo > p,
-.authLogo > p {
-  color: var(--color-dark-1);
-}
-
-.manageLogo > p {
-  color: var(--color-1);
-}
-
-/* ======= Nav Texts ========== */
+/* ======= Nav Text ========== */
 
 .manageText,
 .homeText,
@@ -127,6 +139,7 @@
   line-height: 1.2;
   text-decoration: none;
   white-space: nowrap;
+
   user-select: none;
 }
 
@@ -145,52 +158,69 @@
   color: var(--color-dark-1);
 }
 
+/* ======= Tablet ========== */
+
 @media (min-width: 768px) and (max-width: 1024px) {
   .authNav {
     width: min(100%, max(58%, 24rem));
-
     padding-inline: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .homeLogo,
+  .manageLogo {
+    --logo-width: clamp(6.75rem, 13vw, 7.75rem);
+  }
+
+  .authLogo {
+    --logo-width: clamp(7.25rem, 16vw, 8.25rem);
   }
 }
 
 /* ======= Mobile Navigation ========== */
 
 @media (max-width: 767px) {
+  /* Authentication navbar */
+
   .authNav {
     width: 100%;
     height: var(--navTop-height-mobile);
     padding-inline: 1rem;
-
-    position: absolute;
 
     justify-content: center;
 
     border-bottom: 1px solid rgb(0 0 0 / 10%);
 
     background: rgb(255 255 255 / 94%);
+
     backdrop-filter: blur(10px);
   }
 
-  .authLogo > p {
-    font-size: 1.1rem;
+  .authLogo {
+    --logo-width: min(
+      7.5rem,
+      calc(100vw - 2rem)
+    );
   }
+
+  /* Home/manage navbar container */
 
   .mobileNavShow,
   .mobileNavHide {
+    box-sizing: border-box;
+
+    width: 100%;
+    padding: 0;
+
     position: fixed;
     top: 0;
     right: 0;
     left: 0;
     z-index: calc(var(--z-navTop) + 2);
 
-    width: 100%;
-    height: auto;
-    padding: 0;
-
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: stretch;
+    justify-content: flex-start;
     gap: 0;
 
     overflow: hidden;
@@ -202,30 +232,64 @@
       box-shadow 250ms ease;
   }
 
+  .mobileNavHide {
+    height: var(--navTop-height-mobile);
+    max-height: var(--navTop-height-mobile);
+  }
+
   .mobileNavShow {
-    max-height: min(100dvh, 32rem);
+    height: auto;
+    max-height: 100dvh;
 
     box-shadow:
       0 4px 8px rgb(0 0 0 / 20%),
       0 10px 24px rgb(0 0 0 / 16%);
-
-    overflow-y: auto;
   }
 
-  .mobileNavHide {
-    max-height: var(--navTop-height-mobile);
+  /*
+    The link—not the nested logo span—is the
+    direct flex child of the mobile navbar.
+  */
+
+  .homeNav a:has(.homeLogo),
+  .manageNav a:has(.manageLogo) {
+    order: 0;
+
+    width: 100%;
+    height: var(--navTop-height-mobile);
+    padding-inline: 3.5rem;
+
+    flex: 0 0 var(--navTop-height-mobile);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+
+  .homeLogo,
+  .manageLogo {
+    --logo-width: min(
+      7.25rem,
+      calc(100vw - 7rem)
+    );
+
+    width: auto;
+    height: 100%;
+    padding: 0;
+  }
+
+  /* Hamburger and close button */
 
   .navTopIcon {
+    width: 2rem;
+    height: 2rem;
+    margin: 0;
+
     position: absolute;
     top: calc(var(--navTop-height-mobile) / 2);
     left: 1rem;
     z-index: 2;
 
-    width: 2rem;
-    height: 2rem;
-
-    margin: 0;
     transform: translateY(-50%);
 
     cursor: pointer;
@@ -241,6 +305,8 @@
     fill: var(--color-1);
   }
 
+  /* Backdrop */
+
   .mobileNavBackground {
     position: fixed;
     inset: 0;
@@ -249,44 +315,17 @@
     background: rgb(0 0 0 / 50%);
   }
 
-  /* Keep logo in the permanent top bar */
-
-  .homeLogo,
-  .manageLogo {
-    order: 0;
-
-    width: 100%;
-    height: var(--navTop-height-mobile);
-    padding-inline: 3.5rem;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    flex-shrink: 0;
-  }
-
-  .homeLogo > p,
-  .manageLogo > p {
-    height: 100%;
-    margin: 0;
-
-    display: flex;
-    align-items: center;
-
-    font-size: 1.15rem;
-    text-align: center;
-  }
-
-  /* Menu links */
+  /* Collapsible menu */
 
   .homeLinks,
   .manageLinks {
     order: 1;
 
+    box-sizing: border-box;
+
     width: 100%;
+    min-width: 0;
     margin: 0;
-    padding: 1.5rem 1rem 2rem;
 
     display: flex;
     flex-direction: column;
@@ -294,13 +333,60 @@
     justify-content: flex-start;
     gap: 0;
 
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    list-style: none;
+
+    transition:
+      max-height 250ms ease,
+      padding 250ms ease,
+      opacity 150ms ease,
+      border-color 150ms ease;
+  }
+
+  .mobileNavHide .homeLinks,
+  .mobileNavHide .manageLinks {
+    max-height: 0;
+    padding: 0;
+
+    border-top: 0 solid transparent;
+
+    visibility: hidden;
+    opacity: 0;
+
+    pointer-events: none;
+  }
+
+  .mobileNavShow .homeLinks,
+  .mobileNavShow .manageLinks {
+    max-height: calc(
+      100dvh -
+      var(--navTop-height-mobile)
+    );
+
+    padding:
+      1.25rem
+      1rem
+      1.75rem;
+
     border-top: 1px solid var(--color-dark-2);
+
+    visibility: visible;
+    opacity: 1;
+
+    pointer-events: auto;
+
+    transition:
+      max-height 250ms ease,
+      padding 250ms ease,
+      opacity 150ms ease 80ms,
+      border-color 150ms ease;
   }
 
   .homeLinks > li,
   .manageLinks > li {
     width: 100%;
-    padding: 0;
   }
 
   .homeLinks > li > a,
@@ -314,29 +400,19 @@
     display: flex;
     align-items: center;
 
+    border-radius: 0.5rem;
+
     font-size: 1rem;
     font-weight: 500;
     white-space: normal;
   }
 
-  .homeLinks > li > a:hover,
-  .manageLinks > li > a:hover {
+  .homeLinks > li > a:hover {
     background: rgb(0 0 0 / 6%);
   }
 
-  .mobileNavHide .homeLinks,
-  .mobileNavHide .manageLinks {
-    visibility: hidden;
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .mobileNavShow .homeLinks,
-  .mobileNavShow .manageLinks {
-    visibility: visible;
-    opacity: 1;
-
-    transition: opacity 150ms ease 80ms;
+  .manageLinks > li > a:hover {
+    background: rgb(255 255 255 / 8%);
   }
 }
 
@@ -360,8 +436,8 @@
 @media (prefers-reduced-motion: reduce) {
   .mobileNavShow,
   .mobileNavHide,
-  .mobileNavShow .homeLinks,
-  .mobileNavShow .manageLinks {
+  .homeLinks,
+  .manageLinks {
     transition: none;
   }
 }
